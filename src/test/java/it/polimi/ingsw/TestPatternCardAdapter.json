@@ -1,0 +1,46 @@
+[
+  {
+    "front": {
+      "name": "Virtus",
+      "difficulty": 5,
+      "rules": [
+        [4, null, 2, 5, "GREEN"],
+        [null, null, 6,"GREEN", 2],
+        [null, 3, "GREEN", 4, null],
+        [5, "GREEN", 1, null, null]
+      ]
+    },
+    "back": {
+      "name": "Symphony of Light",
+      "difficulty": 6,
+      "rules":[
+        [2, null, 5, null, 1],
+        ["YELLOW", 6, "PURPLE", 2, "RED"],
+        [null, "BLUE", 4, "GREEN", null],
+        [null, 3, null, 5, null]
+      ]
+    }
+  },
+  {
+    "front": {
+      "name": "Gravitas",
+      "difficulty": 5,
+      "rules": [
+        [1, null, 3, "BLUE", null],
+        [null, 2, "BLUE", null, null],
+        [6, "BLUE", null, 5, null],
+        ["BLUE", 5, 2, null, 1]
+      ]
+    },
+    "back": {
+      "name": "Water of Life",
+      "difficulty": 6,
+      "rules": [
+        [6, "BLUE", null, null, 1],
+        [null, 5, "BLUE", null, null],
+        [4, "RED", 2, "BLUE", null],
+        ["GREEN", 6, "YELLOW", 3, "PURPLE"]
+      ]
+    }
+  }
+]
