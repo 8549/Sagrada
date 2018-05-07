@@ -26,9 +26,7 @@ public class Die {
 
     public void roll() {
         Random random = new Random();
-        this.number = random.nextInt(MAX);
-        ;
-
+        this.number = random.nextInt(MAX + 1 - MIN) + MIN;
     }
 
     public void setNumber(int value) {
