@@ -2,22 +2,29 @@ package it.polimi.ingsw;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.Arrays;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class DieTest {
 
     @Test
-    void getNumber() {
-
-    }
-
-    @Test
-    void getColor() {
-    }
-
-    @Test
     void roll() {
-
+        double[] histogram = {0, 0, 0, 0, 0, 0};
+        Die die = new Die(SagradaColor.GREEN.getColor());
+        int n;
+        int tries = 100000;
+        double epsilon = 0.001;
+        for (int i = 0; i < tries; i++) {
+            n = die.getNumber();
+            histogram[n - 1]++;
+            assertTrue(die.checkValue(n));
+            die.roll();
+        }
+        Arrays.stream(histogram)
+                .map(h -> h / tries)
+                .forEach(h -> assertEquals(h, Die.MIN / (double) Die.MAX, epsilon));
     }
 
     @Test
