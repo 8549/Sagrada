@@ -1,7 +1,5 @@
 package it.polimi.ingsw;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -10,7 +8,7 @@ public class WindowPattern {
     public static final int COLUMNS = 5;
     private int difficulty;
     private String name;
-    private PatternConstraint[][] patternConstraints = new PatternConstraint[ROWS][COLUMNS];
+    private PatternConstraint[][] patternConstraints;
 
     public WindowPattern(int difficulty, String name, PatternConstraint[][] patternConstraints) {
         this.difficulty = difficulty;
@@ -32,11 +30,21 @@ public class WindowPattern {
 
     @Override
     public String toString() {
-        return "WindowPattern{" +
-                "difficulty=" + difficulty +
-                ", name='" + name + '\'' +
-                ", patternConstraints=" + Arrays.toString(patternConstraints) +
-                '}';
+        StringBuilder builder = new StringBuilder();
+        builder.append("WindowPattern{");
+        builder.append("\ndifficulty=").append(difficulty);
+        builder.append(",\nname='").append(name);
+        builder.append(",\npatternConstraints= [");
+        for (PatternConstraint[] patternConstraintRow : patternConstraints) {
+            builder.append("\n[");
+            for (PatternConstraint patternConstraint : patternConstraintRow) {
+                builder.append(patternConstraint.toString()).append(", ");
+            }
+            builder.append("]\n");
+        }
+        builder.append("]\n");
+        builder.append('}');
+        return builder.toString();
     }
 
     @Override

@@ -2,6 +2,8 @@ package it.polimi.ingsw;
 
 import javafx.scene.paint.Color;
 
+import java.util.Objects;
+
 public class ColorConstraint implements PatternConstraint {
     private Color color;
 
@@ -17,7 +19,24 @@ public class ColorConstraint implements PatternConstraint {
 
     @Override
     public String toString() {
-        return "R: " + color.getRed() + " G: " + color.getGreen() + " B: " + color.getBlue();
+        return String.format("#%02X%02X%02X",
+                (int) (color.getRed() * 255),
+                (int) (color.getGreen() * 255),
+                (int) (color.getBlue() * 255));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ColorConstraint that = (ColorConstraint) o;
+        return Objects.equals(color, that.color);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(color);
     }
 }
 

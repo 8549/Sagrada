@@ -7,8 +7,8 @@ import java.util.Random;
 public class Die {
     private int number;
     private Color color;
-    private static final int MAX = 6;
-    private static final int MIN = 1;
+    public static final int MAX = 6;
+    public static final int MIN = 1;
 
     public Die(Color color) {
         this.color = color;
@@ -34,8 +34,6 @@ public class Die {
     public void setNumber(int value) {
         this.number = value;
     }
-
-    // flip die
 
     /**
      * Flip the face of the die

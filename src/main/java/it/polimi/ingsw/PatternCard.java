@@ -25,8 +25,8 @@ public class PatternCard {
     @Override
     public String toString() {
         return "PatternCard{" +
-                "front=" + front +
-                ", back=" + back +
+                "\nfront=" + front +
+                ",\nback=" + back +
                 '}';
     }
 

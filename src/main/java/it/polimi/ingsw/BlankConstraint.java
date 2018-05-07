@@ -11,4 +11,8 @@ public class BlankConstraint implements PatternConstraint {
         return "BLANK";
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return (obj instanceof BlankConstraint);
+    }
 }
