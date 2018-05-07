@@ -28,7 +28,13 @@
       "rules": [
         [1, null, 3, "BLUE", null],
         [null, 2, "BLUE", null, null],
-        [6, "BLUE", null, 5, null],
+        [
+          6,
+          "BLUE",
+          null,
+          4,
+          null
+        ],
         ["BLUE", 5, 2, null, 1]
       ]
     },
