@@ -3,7 +3,12 @@ package it.polimi.ingsw;
 public class RoundTrack {
     private static RoundTrack instance;
     private Die[] die;
-    private int roundCounter = 0;
+    private int roundCounter;
+
+    private RoundTrack() {
+        roundCounter = 0;
+        die = new Die[GameManager.ROUNDS];
+    }
 
     public static RoundTrack getInstance() {
         if (instance == null) {
@@ -24,7 +29,7 @@ public class RoundTrack {
     }
 
     public Die getDieAtRound(int turn) {
-        return die[turn];
+        return die[turn - 1];
     }
 
 

@@ -2,7 +2,7 @@ package it.polimi.ingsw;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class RoundTrackTest {
 
@@ -18,7 +18,7 @@ class RoundTrackTest {
     @Test
     void addRound() {
         Die die = new Die(SagradaColor.BLUE.getColor());
-        RoundTrack instance = new RoundTrack();
+        RoundTrack instance = RoundTrack.getInstance();
         instance.addRound(die);
         assertEquals(instance.getRoundCounter(), 1);
         assertEquals(instance.getDieAtRound(instance.getRoundCounter()),die);
