@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Comunication;
+package it.polimi.ingsw.network;
 
 import java.rmi.Naming;
 
