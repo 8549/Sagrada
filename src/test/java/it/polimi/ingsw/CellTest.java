@@ -10,7 +10,7 @@ class CellTest {
     void isEmpty() {
         Cell cell = new Cell();
         assertTrue(cell.isEmpty());
-        Die die = new Die(SagradaColor.BLUE.getColor());
+        Die die = new Die(SagradaColor.BLUE);
         cell.setDie(die);
         assertFalse(cell.isEmpty());
     }
@@ -18,7 +18,7 @@ class CellTest {
 
     @Test
     void setDie() {
-        Die die = new Die(SagradaColor.BLUE.getColor());
+        Die die = new Die(SagradaColor.BLUE);
         Cell cell = new Cell();
 
         if (cell.isEmpty()) {
@@ -37,7 +37,7 @@ class CellTest {
     void getDie() {
         Cell cell = new Cell();
         assertNull(cell.getDie());
-        Die die = new Die(SagradaColor.RED.getColor());
+        Die die = new Die(SagradaColor.RED);
         assertTrue(cell.setDie(die));
         assertNotNull(cell.getDie());
         assertEquals(die, cell.getDie());
@@ -46,7 +46,7 @@ class CellTest {
     @Test
     void removeDie() {
         Cell cell1 = new Cell();
-        Die die = new Die(SagradaColor.BLUE.getColor());
+        Die die = new Die(SagradaColor.BLUE);
         assertFalse(cell1.removeDie());
         cell1.setDie(die);
         assertTrue(cell1.removeDie());

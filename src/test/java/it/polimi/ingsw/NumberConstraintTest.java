@@ -1,6 +1,5 @@
 package it.polimi.ingsw;
 
-import javafx.scene.paint.Color;
 import org.junit.jupiter.api.Test;
 
 import java.util.Random;
@@ -15,7 +14,7 @@ class NumberConstraintTest {
         for (int i = Die.MIN; i <= Die.MAX; i++) {
             Random rnd = new Random();
             int colorIndex = rnd.nextInt(SagradaColor.values().length - 1);
-            Color color = SagradaColor.values()[colorIndex].getColor();
+            SagradaColor color = SagradaColor.values()[colorIndex];
             Die die = new Die(color);
             NumberConstraint constraint = new NumberConstraint(i);
             if (die.getNumber() == i) {

@@ -11,7 +11,7 @@ class BlankConstraintTest {
         BlankConstraint constraint = new BlankConstraint();
         for (SagradaColor sagradaColor : SagradaColor.values()) {
             for (int i = Die.MIN; i <= Die.MAX; i++) {
-                assertTrue(constraint.checkConstraint(new Die(sagradaColor.getColor())));
+                assertTrue(constraint.checkConstraint(new Die(sagradaColor)));
             }
         }
     }

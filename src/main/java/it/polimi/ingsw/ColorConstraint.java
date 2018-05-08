@@ -1,14 +1,12 @@
 package it.polimi.ingsw;
 
-import javafx.scene.paint.Color;
-
 import java.util.Objects;
 
 public class ColorConstraint implements PatternConstraint {
-    private Color color;
+    private SagradaColor color;
 
 
-    public ColorConstraint(Color color) {
+    public ColorConstraint(SagradaColor color) {
         this.color = color;
     }
 
@@ -19,10 +17,7 @@ public class ColorConstraint implements PatternConstraint {
 
     @Override
     public String toString() {
-        return String.format("#%02X%02X%02X",
-                (int) (color.getRed() * 255),
-                (int) (color.getGreen() * 255),
-                (int) (color.getBlue() * 255));
+        return color.name();
     }
 
     @Override

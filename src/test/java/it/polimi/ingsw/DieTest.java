@@ -11,14 +11,14 @@ class DieTest {
     @Test
     void roll() {
         double[] histogram = {0, 0, 0, 0, 0, 0};
-        Die die = new Die(SagradaColor.GREEN.getColor());
+        Die die = new Die(SagradaColor.GREEN);
         int n;
         int tries = 1000000;
         double epsilon = 0.001;
         for (int i = 0; i < tries; i++) {
             n = die.getNumber();
             histogram[n - 1]++;
-            assertTrue(die.checkValue(n));
+            assertTrue(die.checkValue());
             die.roll();
         }
         Arrays.stream(histogram)
@@ -28,7 +28,7 @@ class DieTest {
 
     @Test
     void setNumber() {
-        Die die = new Die(SagradaColor.BLUE.getColor());
+        Die die = new Die(SagradaColor.BLUE);
         int number = 2;
         die.setNumber(number);
         assertEquals(die.getNumber(), number);
@@ -37,17 +37,17 @@ class DieTest {
 
     @Test
     void flip() {
-        Die die1 = new Die(SagradaColor.BLUE.getColor());
+        Die die1 = new Die(SagradaColor.BLUE);
         die1.setNumber(1);
-        Die die2 = new Die(SagradaColor.BLUE.getColor());
+        Die die2 = new Die(SagradaColor.BLUE);
         die2.setNumber(2);
-        Die die3 = new Die(SagradaColor.BLUE.getColor());
+        Die die3 = new Die(SagradaColor.BLUE);
         die3.setNumber(3);
-        Die die4 = new Die(SagradaColor.BLUE.getColor());
+        Die die4 = new Die(SagradaColor.BLUE);
         die4.setNumber(4);
-        Die die5 = new Die(SagradaColor.BLUE.getColor());
+        Die die5 = new Die(SagradaColor.BLUE);
         die5.setNumber(5);
-        Die die6 = new Die(SagradaColor.BLUE.getColor());
+        Die die6 = new Die(SagradaColor.BLUE);
         die6.setNumber(6);
         die1.flip();
         die2.flip();
@@ -66,17 +66,17 @@ class DieTest {
 
     @Test
     void increase() {
-        Die die1 = new Die(SagradaColor.BLUE.getColor());
+        Die die1 = new Die(SagradaColor.BLUE);
         die1.setNumber(1);
-        Die die2 = new Die(SagradaColor.BLUE.getColor());
+        Die die2 = new Die(SagradaColor.BLUE);
         die2.setNumber(2);
-        Die die3 = new Die(SagradaColor.BLUE.getColor());
+        Die die3 = new Die(SagradaColor.BLUE);
         die3.setNumber(3);
-        Die die4 = new Die(SagradaColor.BLUE.getColor());
+        Die die4 = new Die(SagradaColor.BLUE);
         die4.setNumber(4);
-        Die die5 = new Die(SagradaColor.BLUE.getColor());
+        Die die5 = new Die(SagradaColor.BLUE);
         die5.setNumber(5);
-        Die die6 = new Die(SagradaColor.BLUE.getColor());
+        Die die6 = new Die(SagradaColor.BLUE);
         die6.setNumber(6);
         die1.increase();
         die2.increase();
@@ -95,17 +95,17 @@ class DieTest {
 
     @Test
     void decrease() {
-        Die die1 = new Die(SagradaColor.BLUE.getColor());
+        Die die1 = new Die(SagradaColor.BLUE);
         die1.setNumber(1);
-        Die die2 = new Die(SagradaColor.BLUE.getColor());
+        Die die2 = new Die(SagradaColor.BLUE);
         die2.setNumber(2);
-        Die die3 = new Die(SagradaColor.BLUE.getColor());
+        Die die3 = new Die(SagradaColor.BLUE);
         die3.setNumber(3);
-        Die die4 = new Die(SagradaColor.BLUE.getColor());
+        Die die4 = new Die(SagradaColor.BLUE);
         die4.setNumber(4);
-        Die die5 = new Die(SagradaColor.BLUE.getColor());
+        Die die5 = new Die(SagradaColor.BLUE);
         die5.setNumber(5);
-        Die die6 = new Die(SagradaColor.BLUE.getColor());
+        Die die6 = new Die(SagradaColor.BLUE);
         die6.setNumber(6);
         die1.decrease();
         die2.decrease();

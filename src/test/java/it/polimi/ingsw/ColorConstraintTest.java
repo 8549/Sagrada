@@ -1,9 +1,7 @@
 package it.polimi.ingsw;
 
-import javafx.scene.paint.Color;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ColorConstraintTest {
@@ -14,9 +12,9 @@ class ColorConstraintTest {
     @Test
     void checkConstraint() {
         for (SagradaColor sagradaColor : SagradaColor.values()) {
-            ColorConstraint constraint = new ColorConstraint(sagradaColor.getColor());
-            assertTrue(constraint.checkConstraint(new Die(sagradaColor.getColor())));
-            assertFalse(constraint.checkConstraint(new Die(Color.BLACK)));
+            ColorConstraint constraint = new ColorConstraint(sagradaColor);
+            assertTrue(constraint.checkConstraint(new Die(sagradaColor)));
+            //assertFalse(constraint.checkConstraint(new Die(Color.BLACK)));
         }
     }
 }

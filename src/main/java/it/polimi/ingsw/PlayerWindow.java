@@ -25,15 +25,7 @@ public class PlayerWindow {
      * @return Copy of the cell
      */
     public Cell getCellAt(int row, int column) {
-        Cell cell = new Cell();
-        if (diceGrid[row][column].isEmpty()) {
-            return cell;
-        } else {
-            Die die = new Die(diceGrid[row][column].getDie().getColor());
-            die.setNumber(diceGrid[row][column].getDie().getNumber());
-            cell.setDie(die);
-            return cell;
-        }
+        return diceGrid[row][column];
     }
 
     /**

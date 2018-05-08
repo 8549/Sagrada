@@ -1,17 +1,15 @@
 package it.polimi.ingsw;
 
-import javafx.scene.paint.Color;
-
 import java.util.Objects;
 import java.util.Random;
 
 public class Die {
     private int number;
-    private Color color;
+    private SagradaColor color;
     public static final int MAX = 6;
     public static final int MIN = 1;
 
-    public Die(Color color) {
+    public Die(SagradaColor color) {
         this.color = color;
         roll();
     }
@@ -20,7 +18,7 @@ public class Die {
         return number;
     }
 
-    public Color getColor() {
+    public SagradaColor getColor() {
         return color;
     }
 

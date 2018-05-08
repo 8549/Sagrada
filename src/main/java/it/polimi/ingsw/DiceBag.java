@@ -11,7 +11,7 @@ public class DiceBag {
         dice = new ArrayList<Die>();
         for (SagradaColor color : SagradaColor.values()) {
             for (int i = 0; i < 18; i++) {
-                dice.add(new Die(color.getColor()));
+                dice.add(new Die(color));
             }
         }
     }

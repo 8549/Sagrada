@@ -17,7 +17,7 @@ class RoundTrackTest {
 
     @Test
     void addRound() {
-        Die die = new Die(SagradaColor.BLUE.getColor());
+        Die die = new Die(SagradaColor.BLUE);
         RoundTrack instance = RoundTrack.getInstance();
         instance.addRound(die);
         assertEquals(instance.getRoundCounter(), 1);

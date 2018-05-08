@@ -12,17 +12,17 @@ class PlayerWindowTest {
 
     @Test
     void addDie() {
-        Die die1 = new Die(SagradaColor.GREEN.getColor());
+        Die die1 = new Die(SagradaColor.GREEN);
         PlayerWindow playerWindow = new PlayerWindow();
         assertTrue(playerWindow.addDie(die1, 1, 2));
-        Die die2 = new Die(SagradaColor.BLUE.getColor());
+        Die die2 = new Die(SagradaColor.BLUE);
         assertFalse(playerWindow.addDie(die2, 1, 2));
     }
 
     @Test
     void moveDie() {
         PlayerWindow playerWindow = new PlayerWindow();
-        Die die = new Die(SagradaColor.BLUE.getColor());
+        Die die = new Die(SagradaColor.BLUE);
         assertEquals(playerWindow.dieCount(), 0);
         assertTrue(playerWindow.getCellAt(1, 2).isEmpty());
         assertTrue(playerWindow.addDie(die, 1, 2));
@@ -39,9 +39,9 @@ class PlayerWindowTest {
         assertTrue(playerWindow.getCellAt(3, 3).isEmpty());
         assertEquals(die, playerWindow.getCellAt(0, 0).getDie());
 
-        assertTrue(playerWindow.addDie(new Die(SagradaColor.RED.getColor()), 3, 4));
+        assertTrue(playerWindow.addDie(new Die(SagradaColor.RED), 3, 4));
         assertFalse(playerWindow.moveDie(0, 0, 3, 4));
-        assertFalse(playerWindow.addDie(new Die(SagradaColor.GREEN.getColor()), 3, 4));
+        assertFalse(playerWindow.addDie(new Die(SagradaColor.GREEN), 3, 4));
     }
 
     @Test
