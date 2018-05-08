@@ -23,11 +23,25 @@ class PlayerWindowTest {
     void moveDie() {
         PlayerWindow playerWindow = new PlayerWindow();
         Die die = new Die(SagradaColor.BLUE.getColor());
-        playerWindow.addDie(die, 1, 2);
-        assertTrue(playerWindow.moveDie(1, 2, 3, 2));
-        assertFalse(playerWindow.moveDie(3,1, 2, 3));
+        assertEquals(playerWindow.dieCount(), 0);
+        assertTrue(playerWindow.getCellAt(1, 2).isEmpty());
+        assertTrue(playerWindow.addDie(die, 1, 2));
+        assertEquals(playerWindow.dieCount(), 1);
+        assertEquals(die, playerWindow.getCellAt(1, 2).getDie());
 
+        assertTrue(playerWindow.moveDie(1, 2, 3, 3));
+        assertEquals(playerWindow.dieCount(), 1);
+        assertTrue(playerWindow.getCellAt(1, 2).isEmpty());
+        assertEquals(die, playerWindow.getCellAt(3, 3).getDie());
 
+        assertTrue(playerWindow.moveDie(3, 3, 0, 0));
+        assertEquals(playerWindow.dieCount(), 1);
+        assertTrue(playerWindow.getCellAt(3, 3).isEmpty());
+        assertEquals(die, playerWindow.getCellAt(0, 0).getDie());
+
+        assertTrue(playerWindow.addDie(new Die(SagradaColor.RED.getColor()), 3, 4));
+        assertFalse(playerWindow.moveDie(0, 0, 3, 4));
+        assertFalse(playerWindow.addDie(new Die(SagradaColor.GREEN.getColor()), 3, 4));
     }
 
     @Test

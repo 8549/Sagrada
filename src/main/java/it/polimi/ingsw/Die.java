@@ -2,6 +2,7 @@ package it.polimi.ingsw;
 
 import javafx.scene.paint.Color;
 
+import java.util.Objects;
 import java.util.Random;
 
 public class Die {
@@ -60,6 +61,28 @@ public class Die {
         }
     }
 
+    @Override
+    public String toString() {
+        return "Die{" +
+                "number=" + number +
+                ", color=" + color.toString() +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Die die = (Die) o;
+        return number == die.number &&
+                Objects.equals(color, die.color);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(number, color);
+    }
 
     public boolean checkValue(int n) {
         return (n >= MIN && n <= MAX);

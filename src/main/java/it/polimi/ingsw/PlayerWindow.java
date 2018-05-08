@@ -1,6 +1,6 @@
 package it.polimi.ingsw;
 
-import java.util.List;
+import java.util.Arrays;
 
 public class PlayerWindow {
 
@@ -45,7 +45,7 @@ public class PlayerWindow {
      * @return True if the die was added, false if the cell wasn't empty
      */
     public boolean addDie(Die die, int row, int column) {
-        if (!diceGrid[row][column].isEmpty()) {
+        if (diceGrid[row][column].isEmpty()) {
             return diceGrid[row][column].setDie(die);
         } else {
             return false;
@@ -82,5 +82,12 @@ public class PlayerWindow {
         if (column < 0 || column >= WindowPattern.COLUMNS)
             return false;
         return windowPattern.getContraints()[row][column].checkConstraint(die);
+    }
+
+    public int dieCount() {
+        return (int) Arrays.stream(diceGrid)
+                .flatMap(Arrays::stream)
+                .filter(cell -> !cell.isEmpty())
+                .count();
     }
 }
