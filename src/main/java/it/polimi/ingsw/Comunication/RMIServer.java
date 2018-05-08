@@ -14,17 +14,14 @@ public class RMIServer extends UnicastRemoteObject implements ServerInterface {
     }
 
     @Override
-    public void startGame() {
-        System.out.println("Hello");
+    public void startGame() throws RemoteException {
     }
 
     @Override
-    public void acceptConnection() {
-        System.out.println("Hello");
+    public void acceptConnection() throws RemoteException{
     }
 
     @Override
-    public void notifyClients() {
-        System.out.println("Hello");
+    public void notifyClients() throws RemoteException {
     }
 }

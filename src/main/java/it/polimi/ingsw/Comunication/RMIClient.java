@@ -8,17 +8,17 @@ public class RMIClient extends UnicastRemoteObject implements ClientInterface {
     }
 
     @Override
-    public void connect() {
+    public void connect() throws RemoteException{
 
     }
 
     @Override
-    public void pushData() {
+    public void pushData() throws RemoteException{
 
     }
 
     @Override
-    public void updatePlayersInfo() {
+    public void updatePlayersInfo() throws RemoteException{
 
     }
 }
