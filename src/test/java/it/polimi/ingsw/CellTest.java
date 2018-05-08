@@ -2,8 +2,6 @@ package it.polimi.ingsw;
 
 import org.junit.jupiter.api.Test;
 
-import javax.swing.*;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class CellTest {
@@ -37,7 +35,12 @@ class CellTest {
 
     @Test
     void getDie() {
-
+        Cell cell = new Cell();
+        assertNull(cell.getDie());
+        Die die = new Die(SagradaColor.RED.getColor());
+        assertTrue(cell.setDie(die));
+        assertNotNull(cell.getDie());
+        assertEquals(die, cell.getDie());
     }
 
     @Test

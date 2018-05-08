@@ -4,8 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class DieTest {
 
@@ -14,7 +13,7 @@ class DieTest {
         double[] histogram = {0, 0, 0, 0, 0, 0};
         Die die = new Die(SagradaColor.GREEN.getColor());
         int n;
-        int tries = 100000;
+        int tries = 1000000;
         double epsilon = 0.001;
         for (int i = 0; i < tries; i++) {
             n = die.getNumber();
@@ -85,14 +84,13 @@ class DieTest {
         die4.increase();
         die5.increase();
         die6.increase();
-        assertEquals(die1.getNumber(), 1+1);
-        assertEquals(die2.getNumber(), 2+1);
-        assertEquals(die3.getNumber(), 3+1);
-        assertEquals(die4.getNumber(), 4+1);
-        assertEquals(die5.getNumber(), 5+1);
+        assertEquals(die1.getNumber(), 1 + 1);
+        assertEquals(die2.getNumber(), 2 + 1);
+        assertEquals(die3.getNumber(), 3 + 1);
+        assertEquals(die4.getNumber(), 4 + 1);
+        assertEquals(die5.getNumber(), 5 + 1);
         assertEquals(die6.getNumber(), 6);
     }
-
 
 
     @Test
@@ -116,16 +114,23 @@ class DieTest {
         die5.decrease();
         die6.decrease();
         assertEquals(die1.getNumber(), 1);
-        assertEquals(die2.getNumber(), 2-1);
-        assertEquals(die3.getNumber(), 3-1);
-        assertEquals(die4.getNumber(), 4-1);
-        assertEquals(die5.getNumber(), 5-1);
-        assertEquals(die6.getNumber(), 6-1);
+        assertEquals(die2.getNumber(), 2 - 1);
+        assertEquals(die3.getNumber(), 3 - 1);
+        assertEquals(die4.getNumber(), 4 - 1);
+        assertEquals(die5.getNumber(), 5 - 1);
+        assertEquals(die6.getNumber(), 6 - 1);
 
     }
 
 
-@Test
-    void checkValue(){
+    @Test
+    void checkValue() {
+        for (int i = -1000; i <= +1000; i++) {
+            if (i < Die.MIN || i > Die.MAX) {
+                assertFalse(Die.checkValue(i));
+            } else {
+                assertTrue(Die.checkValue(i));
             }
-            }
+        }
+    }
+}
