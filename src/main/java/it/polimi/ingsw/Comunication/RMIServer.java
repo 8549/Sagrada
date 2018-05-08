@@ -1,4 +1,6 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.Comunication;
+
+import it.polimi.ingsw.Player;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
@@ -9,21 +11,20 @@ public class RMIServer extends UnicastRemoteObject implements ServerInterface {
     List<ClientInterface> active;
 
     protected RMIServer() throws RemoteException {
-        startGame();
     }
 
     @Override
     public void startGame() {
-
+        System.out.println("Hello");
     }
 
     @Override
     public void acceptConnection() {
-
+        System.out.println("Hello");
     }
 
     @Override
     public void notifyClients() {
-
+        System.out.println("Hello");
     }
 }
