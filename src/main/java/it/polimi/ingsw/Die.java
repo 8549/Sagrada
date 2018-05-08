@@ -84,7 +84,11 @@ public class Die {
         return Objects.hash(number, color);
     }
 
-    public boolean checkValue(int n) {
+    public static boolean checkValue(int n) {
         return (n >= MIN && n <= MAX);
+    }
+
+    public boolean checkValue() {
+        return checkValue(number);
     }
 }
