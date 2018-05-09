@@ -13,8 +13,87 @@ public class PatternCardAdapter extends TypeAdapter {
 
     //dall'oggetto java convertiamo in json
     @Override
-    public void write(JsonWriter jsonWriter, Object o) throws IOException {
+    public void write(JsonWriter out, Object o) throws IOException {
+        out.setSerializeNulls(true);
+        List<PatternCard> patternCards = (List<PatternCard>) o;
+        out.beginArray();
+        for (PatternCard patternCard : patternCards) {
+            out.beginObject();
+            // front
+            WindowPattern front = patternCard.getFront();
+            out.name("front").beginObject();
+            out.value(front.getName());
+            out.value(front.getDifficulty());
+            out.name("rules").beginArray();
+            for (PatternConstraint[] constraintsRows : front.getContraints()) {
+                out.beginArray();
+                for (PatternConstraint constraint : constraintsRows) {
+                    if (constraint instanceof BlankConstraint) {
+                        out.nullValue();
+                    }
+                    if (constraint instanceof NumberConstraint) {
+                        Die die = new Die(SagradaColor.BLUE);
+                        for (int i = Die.MIN; i <= Die.MAX; i++) {
+                            die.setNumber(i);
+                            if (constraint.checkConstraint(die)) {
+                                out.value(i);
+                            }
+                        }
+                    }
+                    if (constraint instanceof ColorConstraint) {
+                        Die die;
+                        for (SagradaColor c : SagradaColor.values()) {
+                            die = new Die(c);
+                            if (constraint.checkConstraint(die)) {
+                                out.value(c.name().toLowerCase());
+                            }
+                        }
+                    }
+                }
+                out.endArray();
+            }
+            out.endArray();
+            out.endObject();
 
+            //back
+            WindowPattern back = patternCard.getBack();
+            out.name("back").beginObject();
+            out.value(back.getName());
+            out.value(back.getDifficulty());
+            out.name("rules").beginArray();
+            for (PatternConstraint[] constraintsRows : back.getContraints()) {
+                out.beginArray();
+                for (PatternConstraint constraint : constraintsRows) {
+                    if (constraint instanceof BlankConstraint) {
+                        out.nullValue();
+                    }
+                    if (constraint instanceof NumberConstraint) {
+                        Die die = new Die(SagradaColor.BLUE);
+                        for (int i = Die.MIN; i <= Die.MAX; i++) {
+                            die.setNumber(i);
+                            if (constraint.checkConstraint(die)) {
+                                out.value(i);
+                            }
+                        }
+                    }
+                    if (constraint instanceof ColorConstraint) {
+                        Die die;
+                        for (SagradaColor c : SagradaColor.values()) {
+                            die = new Die(c);
+                            if (constraint.checkConstraint(die)) {
+                                out.value(c.name().toLowerCase());
+                            }
+                        }
+                    }
+                }
+                out.endArray();
+            }
+            out.endArray();
+            out.endObject();
+
+            out.endObject();
+        }
+        out.endArray();
     }
 
     // da json convertiamo in oggetto java
@@ -70,7 +149,7 @@ public class PatternCardAdapter extends TypeAdapter {
                                                 patternConstraints[i][j] = new NumberConstraint(in.nextInt());
                                                 break;
                                             case STRING:
-                                                patternConstraints[i][j] = new ColorConstraint(SagradaColor.valueOf(in.nextString()).getColor());
+                                                patternConstraints[i][j] = new ColorConstraint(SagradaColor.valueOf(in.nextString().toUpperCase()));
                                                 break;
                                             case NULL:
                                                 patternConstraints[i][j] = new BlankConstraint();
