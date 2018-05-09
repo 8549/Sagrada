@@ -1,8 +1,6 @@
 package it.polimi.ingsw;
 
 
-import java.util.Objects;
-
 public class PatternCard {
     private final WindowPattern front;
     private final WindowPattern back;
@@ -35,14 +33,7 @@ public class PatternCard {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         PatternCard that = (PatternCard) o;
-        return Objects.equals(front, that.front) &&
-                Objects.equals(back, that.back);
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(front, back);
+        return front.equals(that.front) &&
+                back.equals(that.back);
     }
 }
-

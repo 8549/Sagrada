@@ -1,8 +1,5 @@
 package it.polimi.ingsw;
 
-import java.util.Arrays;
-import java.util.Objects;
-
 public class WindowPattern {
     public static final int ROWS = 4;
     public static final int COLUMNS = 5;
@@ -51,17 +48,9 @@ public class WindowPattern {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        WindowPattern that = (WindowPattern) o;
-        return difficulty == that.difficulty &&
-                Objects.equals(name, that.name) &&
-                Arrays.equals(patternConstraints, that.patternConstraints);
-    }
-
-    @Override
-    public int hashCode() {
-
-        int result = Objects.hash(difficulty, name);
-        result = 31 * result + Arrays.hashCode(patternConstraints);
-        return result;
+        WindowPattern pattern = (WindowPattern) o;
+        return difficulty == pattern.difficulty &&
+                name.equals(pattern.name) &&
+                PatternConstraint.equals(patternConstraints, pattern.patternConstraints);
     }
 }

@@ -1,0 +1,142 @@
+[
+  {
+    "front": {
+      "difficulty": 5,
+      "name": "Virtus",
+      "patternConstraints": [
+        [
+          "yellow",
+          "blue",
+          null,
+          null,
+          1
+        ],
+        [
+          "green",
+          null,
+          5,
+          null,
+          4
+        ],
+        [
+          3,
+          null,
+          "red",
+          null,
+          "green"
+        ],
+        [
+          2,
+          null,
+          null,
+          "blue",
+          "yellow"
+        ]
+      ]
+    },
+    "back": {
+      "difficulty": 6,
+      "name": "Symphony of Light",
+      "patternConstraints": [
+        [
+          "yellow",
+          "blue",
+          null,
+          null,
+          1
+        ],
+        [
+          "green",
+          null,
+          5,
+          null,
+          4
+        ],
+        [
+          3,
+          null,
+          "red",
+          null,
+          "green"
+        ],
+        [
+          2,
+          null,
+          null,
+          "blue",
+          "yellow"
+        ]
+      ]
+    }
+  },
+  {
+    "front": {
+      "difficulty": 5,
+      "name": "Firmitas",
+      "patternConstraints": [
+        [
+          "yellow",
+          "blue",
+          null,
+          null,
+          1
+        ],
+        [
+          "green",
+          null,
+          5,
+          null,
+          4
+        ],
+        [
+          3,
+          null,
+          "red",
+          null,
+          "green"
+        ],
+        [
+          2,
+          null,
+          null,
+          "blue",
+          "yellow"
+        ]
+      ]
+    },
+    "back": {
+      "difficulty": 4,
+      "name": "Kaleidoscopic Dream",
+      "patternConstraints": [
+        [
+          "yellow",
+          "blue",
+          null,
+          null,
+          1
+        ],
+        [
+          "green",
+          null,
+          5,
+          null,
+          4
+        ],
+        [
+          3,
+          null,
+          "red",
+          null,
+          "green"
+        ],
+        [
+          2,
+          null,
+          null,
+          "blue",
+          "yellow"
+        ]
+      ]
+    }
+  }
+]
