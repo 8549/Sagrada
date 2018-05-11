@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.controller.IntroController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,6 +23,8 @@ public class IntroLoader extends Application {
         Parent root = loader.load();
         primaryStage.setTitle("Sagrada - Connection");
         primaryStage.setScene(new Scene(root));
+        IntroController controller = loader.getController();
+        controller.bindUI();
         primaryStage.show();
     }
 }
