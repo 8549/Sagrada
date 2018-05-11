@@ -13,6 +13,7 @@ public class RunClient {
         try {
             client = new RMIClient();
             server = (ServerInterface) Naming.lookup("rmi://"  + ip + "/sagrada");
+            server.acceptConnection();
         }catch (Exception e ){
             e.printStackTrace();
         }
