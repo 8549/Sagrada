@@ -15,9 +15,4 @@ public class NumberConstraint implements PatternConstraint {
     public int getNumber() {
         return number;
     }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
 }

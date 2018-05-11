@@ -53,4 +53,9 @@ public class WindowPattern {
                 name.equals(pattern.name) &&
                 PatternConstraint.equals(patternConstraints, pattern.patternConstraints);
     }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

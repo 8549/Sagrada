@@ -32,7 +32,8 @@
                                         <ToggleGroup fx:id="toggleGroup"/>
                                     </toggleGroup>
                                 </RadioButton>
-                                <RadioButton mnemonicParsing="false" text="Socket" toggleGroup="$toggleGroup"/>
+                                <RadioButton fx:id="socketToggle" mnemonicParsing="false" text="Socket"
+                                             toggleGroup="$toggleGroup"/>
                             </children>
                             <HBox.margin>
                                 <Insets right="20.0"/>

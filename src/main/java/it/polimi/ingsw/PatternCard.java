@@ -36,4 +36,9 @@ public class PatternCard {
         return front.equals(that.front) &&
                 back.equals(that.back);
     }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }
