@@ -15,4 +15,9 @@ public class BlankConstraint implements PatternConstraint {
     public boolean equals(Object obj) {
         return (obj instanceof BlankConstraint);
     }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

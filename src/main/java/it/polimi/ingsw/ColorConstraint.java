@@ -15,5 +15,10 @@ public class ColorConstraint implements PatternConstraint {
     public SagradaColor getColor() {
         return color;
     }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }
 

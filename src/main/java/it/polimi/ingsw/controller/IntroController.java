@@ -3,11 +3,7 @@ package it.polimi.ingsw.controller;
 import javafx.beans.property.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
-import javafx.stage.StageStyle;
+import javafx.scene.control.*;
 import javafx.util.converter.NumberStringConverter;
 
 public class IntroController {
@@ -29,13 +25,15 @@ public class IntroController {
     private TextField nameField;
 
     @FXML
+    private Toggle socketToggle;
+
+    @FXML
     private Button connectBtn;
 
     @FXML
     void handleConnect(ActionEvent event) {
         //TODO check fields are not empty
-        //if (hostField.getText().length() == 0 || nameField.getText().length() == 0) {
-        if (false) {
+        /*if (hostField.getText().length() == 0 || nameField.getText().length() == 0) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.initStyle(StageStyle.UTILITY);
             alert.setTitle("Invalid server hostname");
@@ -43,7 +41,7 @@ public class IntroController {
             alert.setContentText("Please enter a valid server hostname");
             alert.showAndWait();
             return;
-        }
+        }*/
 
         //TODO sample code; add login code here
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -57,7 +55,7 @@ public class IntroController {
         nameField.textProperty().bindBidirectional(username);
         hostField.textProperty().bindBidirectional(hostName);
         portField.textProperty().bindBidirectional(port, new NumberStringConverter());
-        socket.bindBidirectional(toggleGroup.getToggles().get(1).selectedProperty());
+        socket.bindBidirectional(socketToggle.selectedProperty());
     }
 
 }
