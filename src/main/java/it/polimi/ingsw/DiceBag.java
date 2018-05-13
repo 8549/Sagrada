@@ -29,4 +29,22 @@ public class DiceBag {
 
         }
     }
+
+    public int getSizeDice(){
+        return dice.size();
+    }
+
+    /**
+     * Add die if the bag isn't full
+     * @param die
+     * @return true if the bag wasn't full and the die was added, false otherwise
+     */
+    public boolean addDie(Die die) {
+        if (dice.size() < 89) {
+            dice.add(die);
+            return true;
+        }
+        else
+            return false;
+    }
 }
