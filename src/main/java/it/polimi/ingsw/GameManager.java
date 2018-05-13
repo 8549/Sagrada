@@ -3,6 +3,7 @@ package it.polimi.ingsw;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.Vector;
 
 public class GameManager {
     private static final int CARDS_PER_PLAYER = 2;
@@ -19,6 +20,7 @@ public class GameManager {
 
     public GameManager() {
         super();
+        players= new ArrayList<Player>();
     }
 
     /**
@@ -104,4 +106,16 @@ public class GameManager {
     }
 
 
+    public void addPlayer(Player player) {
+        for   (Player p : players){
+            if (p.getName().equals(player.getName())){
+                System.err.println("Players already in the game! ");
+                return;
+            }
+        }
+
+        players.add(player);
+        System.out.println("Player : " + player.getName() + " entered the game");
+        System.out.println("Now the players are " + players.toString());
+    }
 }

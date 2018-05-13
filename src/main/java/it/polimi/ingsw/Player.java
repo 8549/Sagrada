@@ -46,4 +46,9 @@ public class Player {
     public void setInitialTokens() {
         this.tokens = playerWindow.getWindowPattern().getDifficulty();
     }
+
+    @Override
+    public String toString() {
+        return name + " ";
+    }
 }

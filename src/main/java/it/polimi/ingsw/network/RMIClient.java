@@ -5,7 +5,7 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class RMIClient extends UnicastRemoteObject implements ClientInterface {
     public String Name;
-    protected RMIClient() throws RemoteException {
+    public RMIClient() throws RemoteException {
     }
 
     @Override

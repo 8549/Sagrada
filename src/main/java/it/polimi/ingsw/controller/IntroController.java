@@ -1,10 +1,15 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.network.ClientInterface;
+import it.polimi.ingsw.network.RMIClient;
+import it.polimi.ingsw.network.ServerInterface;
 import javafx.beans.property.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.util.converter.NumberStringConverter;
+
+import java.rmi.Naming;
 
 public class IntroController {
     private StringProperty hostName = new SimpleStringProperty();
@@ -43,12 +48,22 @@ public class IntroController {
             return;
         }*/
 
-        //TODO sample code; add login code here
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        ClientInterface client ;
+        ServerInterface server;
+
+        try {
+            //client = new RMIClient();
+            server = (ServerInterface) Naming.lookup("rmi://"  + hostName.get() + "/sagrada");
+            server.login(username.get());
+        }catch (Exception e ){
+            e.printStackTrace();
+        }
+
+        /*Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Info");
         alert.setHeaderText(null);
         alert.setContentText(String.format("Connecting on %s:%s as %s via socket? %s", hostName.get(), port.get(), username.get(), socket.get()));
-        alert.showAndWait();
+        alert.showAndWait();*/
     }
 
     public void bindUI() {
