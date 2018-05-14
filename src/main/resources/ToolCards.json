@@ -44,7 +44,7 @@
     ]
   },
   {
-    "name": "Flux Brush", // solo prima del turno
+    "name": "Flux Brush",
     "id": 6,
     "features": [
       "chooseDieFromDraftPool",
@@ -54,7 +54,7 @@
     ]
   },
   {
-    "name": "Glazing Hammer", // solo prima del turno
+    "name": "Glazing Hammer",
     "id": 7,
     "features": [
       "checkIsSecondTurn",
@@ -64,7 +64,7 @@
     ]
   },
   {
-    "name": "Running Pliers", //solo dopo il tuo turno
+    "name": "Running Pliers",
     "id": 8,
     "features": [
       "chooseDieFromDraftPool",
@@ -73,7 +73,7 @@
     ]
   },
   {
-    "name": "Cork-backed Straightedge",  //solo prima del turno
+    "name": "Cork-backed Straightedge",
     "id": 9,
     "features": [
       "chooseDieFromDraftPool",
@@ -89,7 +89,7 @@
     ]
   },
   {
-    "name": "Flux Remover", //solo prima del turno
+    "name": "Flux Remover", 
     "id": 11,
     "features": [
       "chooseDieFromDraftPool",
