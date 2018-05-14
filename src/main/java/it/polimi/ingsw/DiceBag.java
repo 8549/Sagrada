@@ -40,7 +40,7 @@ public class DiceBag {
      * @return true if the bag wasn't full and the die was added, false otherwise
      */
     public boolean addDie(Die die) {
-        if (dice.size() < 89) {
+        if (dice.size() < 90) {
             dice.add(die);
             return true;
         }
