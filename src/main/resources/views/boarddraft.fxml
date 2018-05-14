@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.BorderPane?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity" xmlns="http://javafx.com/javafx/9.0.1"
+            fx:controller="it.polimi.ingsw.controller.BoardDraftController">
+    <left>
+        <Button mnemonicParsing="false" onAction="#sendMove" text="Send move" BorderPane.alignment="CENTER"/>
+    </left>
+    <right>
+        <Button mnemonicParsing="false" onAction="#endTurn" text="End turn" BorderPane.alignment="CENTER"/>
+    </right>
+    <top>
+        <ListView fx:id="playersListView" BorderPane.alignment="CENTER"/>
+    </top>
+</BorderPane>

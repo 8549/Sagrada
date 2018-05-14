@@ -2,14 +2,14 @@ package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.GameManager;
 import it.polimi.ingsw.Player;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.ObservableList;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.ArrayList;
-import java.util.List;
 
 public class RMIServer extends UnicastRemoteObject implements ServerInterface {
-    List<Player> users= new ArrayList<Player>();
+    ObservableList<Player> users = new SimpleListProperty<>();
     GameManager gm ;
 
     protected RMIServer() throws RemoteException {
@@ -17,11 +17,11 @@ public class RMIServer extends UnicastRemoteObject implements ServerInterface {
     }
 
     @Override
-    public void startGame() throws RemoteException {
+    public void startGame() {
     }
 
     @Override
-    public void login(String name) throws RemoteException{
+    public void login(String name) {
         Player player = new Player(name);
         if(!users.isEmpty() && users.contains(player)){
             System.err.println("Users already logged in");
@@ -33,6 +33,6 @@ public class RMIServer extends UnicastRemoteObject implements ServerInterface {
     }
 
     @Override
-    public void notifyClients() throws RemoteException {
+    public void notifyClients() {
     }
 }
