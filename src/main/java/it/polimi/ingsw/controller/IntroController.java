@@ -56,18 +56,17 @@ public class IntroController {
             return;
         }*/
 
-        ClientInterface client ;
+        ClientInterface client;
         ServerInterface server;
 
         try {
             //client = new RMIClient();
             server = (ServerInterface) Naming.lookup("rmi://"  + hostName.get() + "/sagrada");
             server.login(username.get());
-            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("boarddraft.fxml"));
+            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("views/boarddraft.fxml"));
             Stage boardStage = new Stage();
             boardStage.setTitle("Board stage");
             boardStage.setScene(new Scene(root));
-            boardStage.initOwner(selfStage);
             boardStage.show();
             selfStage.hide();
         }catch (Exception e ){
