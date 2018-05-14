@@ -24,6 +24,7 @@ public class IntroLoader extends Application {
         primaryStage.setTitle("Sagrada - Connection");
         primaryStage.setScene(new Scene(root));
         IntroController controller = loader.getController();
+        controller.setSelfStage(primaryStage);
         controller.bindUI();
         primaryStage.show();
     }
