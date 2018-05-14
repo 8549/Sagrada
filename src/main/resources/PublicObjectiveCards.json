@@ -1,0 +1,130 @@
+[
+  {
+    "name": "Row Color Variety",
+    "type": "color",
+    "where": "rows",
+    "rules": "noRepeated",
+    "prize": {
+      "type": "fixed",
+      "value": 6
+    }
+  },
+  {
+    "name": "Column Color Variety",
+    "type": "color",
+    "where": "columns",
+    "rules": "noRepeated",
+    "prize": {
+      "type": "fixed",
+      "value": 5
+    }
+  },
+  {
+    "name": "Row Shade Variety",
+    "type": "number",
+    "where": "rows",
+    "rules": "noRepeated",
+    "prize": {
+      "type": "fixed",
+      "value": 5
+    }
+  },
+  {
+    "name": "Column Shade Variety",
+    "type": "number",
+    "where": "columns",
+    "rules": "noRepeated",
+    "prize": {
+      "type": "fixed",
+      "value": 4
+    }
+  },
+  {
+    "name": "Light Shades",
+    "type": "number",
+    "where": "everywhere",
+    "rules": [
+      1,
+      2
+    ],
+    "prize": {
+      "type": "fixed",
+      "value": 2
+    }
+  },
+  {
+    "name": "Medium Shades",
+    "type": "number",
+    "where": "everywhere",
+    "rules": [
+      3,
+      4
+    ],
+    "prize": {
+      "type": "fixed",
+      "value": 2
+    }
+  },
+  {
+    "name": "Deep Shades",
+    "type": "number",
+    "where": "everywhere",
+    "rules": [
+      5,
+      6
+    ],
+    "prize": {
+      "type": "fixed",
+      "value": 2
+    }
+  },
+  {
+    "name": "Shade Variety",
+    "type": "numbers",
+    "where": "everywhere",
+    "rules": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "prize": {
+      "type": "fixed",
+      "value": 5
+    }
+  },
+  {
+    "name": "Color Diagonals",
+    "type": "color",
+    "where": "diagonals",
+    "rules": [
+      "yellow",
+      "red",
+      "blue",
+      "green",
+      "purple"
+    ],
+    "prize": {
+      "type": "sum",
+      "value": "number"
+    }
+  },
+  {
+    "name": "Color Variety",
+    "type": "color",
+    "where": "everywhere",
+    "rules": [
+      "yellow",
+      "red",
+      "blue",
+      "green",
+      "purple"
+    ],
+    "prize": {
+      "type": "fixed",
+      "value": 4
+    }
+  }
+]

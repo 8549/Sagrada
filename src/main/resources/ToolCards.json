@@ -1,0 +1,114 @@
+[
+  {
+    "name": "Grozing Pliers",
+    "id": 1,
+    "features": [
+      "chooseDieFromDraftPool",
+      "increaseValueDie",
+      "decreaseValueDie"
+    ]
+  },
+  {
+    "name": "Eglomise Brush",
+    "id": 2,
+    "features": [
+      "chooseDieFromWindowPattern",
+      "moveDieWithoutColorConstraint"
+    ]
+  },
+  {
+    "name": "Copper Foil Burnisher",
+    "id": 3,
+    "features": [
+      "chooseDieFromWindowPattern",
+      "moveDieWithoutNumberConstraint"
+    ]
+  },
+  {
+    "name": "Lathekin",
+    "id": 4,
+    "features": [
+      "chooseDieFromWindowPattern",
+      "moveDie",
+      "chooseDieFromWindowPattern",
+      "moveDie"
+    ]
+  },
+  {
+    "name": "Lens Cutter",
+    "id": 5,
+    "features": [
+      "chooseDieFromDraftPool",
+      "getDieFromRoundTrack",
+      "addDieToRoundTrack"
+    ]
+  },
+  {
+    "name": "Flux Brush",
+    "id": 6,
+    "features": [
+      "chooseDieFromDraftPool",
+      "rollDie",
+      "placeDie",
+      "skipTurn"
+    ]
+  },
+  {
+    "name": "Glazing Hammer",
+    "id": 7,
+    "features": [
+      "checkIsSecondTurn",
+      "rollAllDice",
+      "chooseDie",
+      "placeDie"
+    ]
+  },
+  {
+    "name": "Running Pliers",
+    "id": 8,
+    "features": [
+      "chooseDieFromDraftPool",
+      "placeDie",
+      "changeTurnOrder"
+    ]
+  },
+  {
+    "name": "Cork-backed Straightedge",
+    "id": 9,
+    "features": [
+      "chooseDieFromDraftPool",
+      "placeDieWithoutAdjacentConstraint"
+    ]
+  },
+  {
+    "name": "Grinding Stone",
+    "id": 10,
+    "features": [
+      "chooseDieFromDraftPool",
+      "flipDie"
+    ]
+  },
+  {
+    "name": "Flux Remover", 
+    "id": 11,
+    "features": [
+      "chooseDieFromDraftPool",
+      "addDieToDicePool",
+      "getDieFromDicePool",
+      "chooseDieValue",
+      "placeDie"
+    ]
+  },
+  {
+    "name": "Tap Wheel",
+    "id": 12,
+    "features": [
+      "chooseDieFromWindowPattern",
+      "getColorFromDieOfRoundTrack",
+      "moveDieWithSameColor",
+      "chooseDieFromWindowPattern",
+      "getColorFromDieOfRoundTrack",
+      "moveDieWithSameColor"
+    ]
+  }
+]

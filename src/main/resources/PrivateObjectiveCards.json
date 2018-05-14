@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Shades of Red",
+    "type": "color",
+    "where": "everywhere",
+    "rules": [
+      "red"
+    ],
+    "prize": {
+      "type": "sum",
+      "value": "number"
+    }
+  },
+  {
+    "name": "Shades of Yellow",
+    "type": "color",
+    "where": "everywhere",
+    "rules": [
+      "yellow"
+    ],
+    "prize": {
+      "type": "sum",
+      "value": "number"
+    }
+  },
+  {
+    "name": "Shades of Green",
+    "type": "color",
+    "where": "everywhere",
+    "rules": [
+      "green"
+    ],
+    "prize": {
+      "type": "sum",
+      "value": "number"
+    }
+  },
+  {
+    "name": "Shades of Blue",
+    "type": "color",
+    "where": "everywhere",
+    "rules": [
+      "blue"
+    ],
+    "prize": {
+      "type": "sum",
+      "value": "number"
+    }
+  },
+  {
+    "name": "Shades of Purple",
+    "type": "color",
+    "where": "everywhere",
+    "rules": [
+      "purple"
+    ],
+    "prize": {
+      "type": "sum",
+      "value": "number"
+    }
+  }
+]
