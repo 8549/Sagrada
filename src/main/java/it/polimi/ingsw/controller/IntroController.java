@@ -62,13 +62,17 @@ public class IntroController {
         try {
             //client = new RMIClient();
             server = (ServerInterface) Naming.lookup("rmi://"  + hostName.get() + "/sagrada");
-            server.login(username.get());
-            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("views/boarddraft.fxml"));
-            Stage boardStage = new Stage();
-            boardStage.setTitle("Board stage");
-            boardStage.setScene(new Scene(root));
-            boardStage.show();
-            selfStage.hide();
+            if(server.login(username.get())){
+                System.out.println("Login accepted");
+                Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("views/boarddraft.fxml"));
+                Stage boardStage = new Stage();
+                boardStage.setTitle("Board stage");
+                boardStage.setScene(new Scene(root));
+                boardStage.show();
+                selfStage.hide();
+            } else {
+                System.err.println("Login failed");
+            }
         }catch (Exception e ){
             e.printStackTrace();
         }
