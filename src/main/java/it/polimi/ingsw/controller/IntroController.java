@@ -1,17 +1,25 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.network.ClientInterface;
-import it.polimi.ingsw.network.RMIClient;
 import it.polimi.ingsw.network.ServerInterface;
 import javafx.beans.property.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Toggle;
+import javafx.scene.control.ToggleGroup;
+import javafx.stage.Stage;
 import javafx.util.converter.NumberStringConverter;
 
 import java.rmi.Naming;
 
 public class IntroController {
+    private Stage selfStage;
+
     private StringProperty hostName = new SimpleStringProperty();
     private IntegerProperty port = new SimpleIntegerProperty();
     private BooleanProperty socket = new SimpleBooleanProperty();
@@ -55,6 +63,13 @@ public class IntroController {
             //client = new RMIClient();
             server = (ServerInterface) Naming.lookup("rmi://"  + hostName.get() + "/sagrada");
             server.login(username.get());
+            Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("boarddraft.fxml"));
+            Stage boardStage = new Stage();
+            boardStage.setTitle("Board stage");
+            boardStage.setScene(new Scene(root));
+            boardStage.initOwner(selfStage);
+            boardStage.show();
+            selfStage.hide();
         }catch (Exception e ){
             e.printStackTrace();
         }
@@ -73,4 +88,7 @@ public class IntroController {
         socket.bindBidirectional(socketToggle.selectedProperty());
     }
 
+    public void setSelfStage(Stage selfStage) {
+        this.selfStage = selfStage;
+    }
 }
