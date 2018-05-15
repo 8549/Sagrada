@@ -2,7 +2,7 @@ package it.polimi.ingsw;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PublicObjectiveCardTest {
 
@@ -60,10 +60,10 @@ class PublicObjectiveCardTest {
             }
         }
 
-        assertEquals(3,publicObjectiveCard.setOfShades(0, 0, grid)); // shades variety test
-        assertEquals(3,  publicObjectiveCard.setOfShades(1,2, grid)); // light shades test
+        assertEquals(3, publicObjectiveCard.setOfShades(0, 0, grid)); // shades variety test
+        assertEquals(3, publicObjectiveCard.setOfShades(1, 2, grid)); // light shades test
         assertEquals(3, publicObjectiveCard.setOfShades(3, 4, grid)); // medium shades test
-        assertEquals(3, publicObjectiveCard.setOfShades(5,6,grid)); // deep shades test
+        assertEquals(3, publicObjectiveCard.setOfShades(5, 6, grid)); // deep shades test
 
 
     }
@@ -122,10 +122,10 @@ class PublicObjectiveCardTest {
             }
         }
 
-        assertEquals( 3, publicObjectiveCard.setOfColors(grid)); // two colors with the same numbers  of repetitions
+        assertEquals(3, publicObjectiveCard.setOfColors(grid)); // two colors with the same numbers  of repetitions
         Die die = new Die(SagradaColor.YELLOW);
         grid[2][3].setDie(die);
-        assertEquals( 3, publicObjectiveCard.setOfColors(grid)); // just one color has the minor number of repetitions
+        assertEquals(3, publicObjectiveCard.setOfColors(grid)); // just one color has the minor number of repetitions
 
     }
 
@@ -191,7 +191,7 @@ class PublicObjectiveCardTest {
             }
         }
 
-        assertEquals( 3, publicObjectiveCard.rowNumberVariety(grid));
+        assertEquals(2, publicObjectiveCard.rowNumberVariety(grid));
     }
 
     @Test
@@ -249,7 +249,7 @@ class PublicObjectiveCardTest {
             }
         }
 
-        assertEquals( 3, publicObjectiveCard.columnNumberVariety(grid));
+        assertEquals(3, publicObjectiveCard.columnNumberVariety(grid));
     }
 
     @Test
@@ -283,7 +283,7 @@ class PublicObjectiveCardTest {
         dice[11].setNumber(2);
         dice[12] = new Die(SagradaColor.PURPLE);
         dice[12].setNumber(4);
-        dice[13] = new Die(SagradaColor.YELLOW);                       // second type of grid
+        dice[13] = new Die(SagradaColor.YELLOW);
         dice[13].setNumber(1);
         dice[14] = new Die(SagradaColor.GREEN);
         dice[14].setNumber(5);

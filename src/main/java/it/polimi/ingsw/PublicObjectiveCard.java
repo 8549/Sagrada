@@ -1,11 +1,8 @@
 package it.polimi.ingsw;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
 
 
 public class PublicObjectiveCard extends ObjCard {
@@ -80,22 +77,23 @@ public class PublicObjectiveCard extends ObjCard {
     private boolean hasEmptyCells(Cell[] row) {
         for (Cell c : row) {
             if (c.isEmpty()) {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     public int columnNumberVariety(Cell[][] grid) {
         int repetitions = 0;
-
+        Cell[] col;
         for (int i = 0; i < WindowPattern.COLUMNS; i++) {
-            Cell[] col = new Cell[WindowPattern.ROWS];
+            col = new Cell[WindowPattern.ROWS];
             for (int j = 0; j < WindowPattern.ROWS; j++) {
                 col[j] = grid[j][i];
             }
             if (!hasEmptyCells(col)) {
                 if (WindowPattern.ROWS == Arrays.stream(col)
+                        .mapToInt(v -> v.getDie().getNumber())
                         .distinct()
                         .count()) {
                     repetitions++;
@@ -114,28 +112,33 @@ public class PublicObjectiveCard extends ObjCard {
                 element = false;
             }
         }
-        for (int i = 0; i < (WindowPattern.ROWS - 1); i++) {
+        for (int i = 0; i < WindowPattern.ROWS; i++) {
             for (int j = 0; j < WindowPattern.COLUMNS; j++) {
-                try {
-                    Cell thisCell = grid[i][j];
-                    Cell downLeft = grid[i + 1][j - 1];
-                    Cell downRight = grid[i + 1][j + 1];
-                    if (!thisCell.isEmpty()) {
-                        if (!downLeft.isEmpty()) {
-                            if (thisCell.getDie().getColor().equals(downLeft.getDie().getColor())) {
+                Cell thisCell = grid[i][j];
+                int nextRow = i + 1;
+                int downLeft = j - 1;
+                int downRight = j + 1;
+                if (!thisCell.isEmpty()) {
+                    try {
+                        if (!grid[nextRow][downLeft].isEmpty()) {
+                            if (thisCell.getDie().getColor().equals(grid[nextRow][downLeft].getDie().getColor())) {
                                 diagonals[i][j] = true;
-                                diagonals[i + 1][j - 1] = true;
+                                diagonals[nextRow][downLeft] = true;
                             }
                         }
-                        if (!downRight.isEmpty()) {
-                            if (thisCell.getDie().getColor().equals(downRight.getDie().getColor())) {
-                                diagonals[i][j] = true;
-                                diagonals[i + 1][j + 1] = true;
-                            }
-                        }
+                    } catch (IndexOutOfBoundsException e) {
+                        System.out.println(String.format("%s (grid[%d][%d])", e.toString(), nextRow, downLeft));
                     }
-                } catch (IndexOutOfBoundsException e) {
-                    System.out.println("Trying to access diagonals out of bounds");
+                    try {
+                        if (!grid[nextRow][downRight].isEmpty()) {
+                            if (thisCell.getDie().getColor().equals(grid[nextRow][downRight].getDie().getColor())) {
+                                diagonals[i][j] = true;
+                                diagonals[nextRow][downRight] = true;
+                            }
+                        }
+                    } catch (IndexOutOfBoundsException e) {
+                        System.out.println(String.format("%s (grid[%d][%d])", e.toString(), nextRow, downLeft));
+                    }
                 }
             }
         }
