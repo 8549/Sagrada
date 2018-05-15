@@ -56,7 +56,6 @@ public class PlayerWindow {
      */
     public boolean moveDie(int oldRow, int oldColumn, int newRow, int newColumn) {
         if (diceGrid[newRow][newColumn].setDie(diceGrid[oldRow][oldColumn].getDie())) {
-            //provo ad aggiungerlo se tutto bene dico true e rimuovo quello vecchio
             return diceGrid[oldRow][oldColumn].removeDie();
         } else {
             return false;
