@@ -4,7 +4,7 @@
 The messages are simple strings with the folllowing format: 
 ```
 
-<SENDER><>blank<RECIPIENT><blank<TYPE><blank><HEADERr><blank><DATA><blank><END>
+<SENDER><blank><RECIPIENT><blank<TYPE><blank><HEADERr><blank><DATA><blank><END>
 
 ````
 Where the parameters have these meanings:
