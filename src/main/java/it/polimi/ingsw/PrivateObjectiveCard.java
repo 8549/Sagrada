@@ -8,15 +8,17 @@ public class PrivateObjectiveCard extends ObjCard {
         int sum = 0;
         for (int i = 0; i < WindowPattern.ROWS; i++) {
             for (int j = 0; j < WindowPattern.COLUMNS; j++) {
-                if (grid[i][j].getDie().getColor() == color)
-                    sum = sum + grid[i][j].getDie().getNumber();
+                if (!grid[i][j].isEmpty()) {
+                    if (grid[i][j].getDie().getColor() == color)
+                        sum = sum + grid[i][j].getDie().getNumber();
+                }
             }
         }
         return sum;
     }
 
     //TODO
-    public int checkObjective( Cell[][] grid) {
+    public int checkObjective(Cell[][] grid) {
         // read from file
         return 0;
     }
