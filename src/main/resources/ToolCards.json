@@ -89,7 +89,7 @@
     ]
   },
   {
-    "name": "Flux Remover", 
+    "name": "Flux Remover",
     "id": 11,
     "features": [
       "chooseDieFromDraftPool",
