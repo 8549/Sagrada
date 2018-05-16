@@ -64,8 +64,16 @@ class PrivateObjectiveCardTest {
         assertEquals(8, privateObjectiveCard.sumColors(grid, SagradaColor.YELLOW) );
         assertEquals(14, privateObjectiveCard.sumColors(grid, SagradaColor.PURPLE));
         assertEquals(14, privateObjectiveCard.sumColors(grid, SagradaColor.BLUE));
-
-
+        grid[1][3].removeDie();
+        grid[1][4].removeDie();
+        grid[2][1].removeDie();
+        grid[3][3].removeDie();
+        grid[3][4].removeDie();
+        assertEquals(13, privateObjectiveCard.sumColors(grid, SagradaColor.RED) );
+        assertEquals(12, privateObjectiveCard.sumColors(grid, SagradaColor.GREEN));
+        assertEquals(6, privateObjectiveCard.sumColors(grid, SagradaColor.YELLOW) );
+        assertEquals(12, privateObjectiveCard.sumColors(grid, SagradaColor.PURPLE));
+        assertEquals(8, privateObjectiveCard.sumColors(grid, SagradaColor.BLUE));
     }
 
     @Test

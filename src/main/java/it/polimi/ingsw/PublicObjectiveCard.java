@@ -59,6 +59,15 @@ public class PublicObjectiveCard extends ObjCard {
 
     }
 
+    private boolean hasEmptyCells(Cell[] row) {
+        for (Cell c : row) {
+            if (c.isEmpty()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public int rowNumberVariety(Cell[][] grid) {
         int repetitions = 0;
         for (Cell[] row : grid) {
@@ -74,14 +83,7 @@ public class PublicObjectiveCard extends ObjCard {
         return repetitions;
     }
 
-    private boolean hasEmptyCells(Cell[] row) {
-        for (Cell c : row) {
-            if (c.isEmpty()) {
-                return true;
-            }
-        }
-        return false;
-    }
+
 
     public int columnNumberVariety(Cell[][] grid) {
         int repetitions = 0;
@@ -103,6 +105,40 @@ public class PublicObjectiveCard extends ObjCard {
         return repetitions;
     }
 
+    public int rowColorVariety(Cell[][] grid) {
+        int repetitions = 0;
+        for (Cell[] row : grid) {
+            if (!hasEmptyCells(row)) {
+                if (WindowPattern.COLUMNS == Arrays.stream(row)
+                        .mapToInt(v -> v.getDie().getColor().getEscape())
+                        .distinct()
+                        .count()) {
+                    repetitions++;
+                }
+            }
+        }
+        return repetitions;
+    }
+
+    public int columnColorVariety(Cell[][] grid) {
+        int repetitions = 0;
+        Cell[] col;
+        for (int i = 0; i < WindowPattern.COLUMNS; i++) {
+            col = new Cell[WindowPattern.ROWS];
+            for (int j = 0; j < WindowPattern.ROWS; j++) {
+                col[j] = grid[j][i];
+            }
+            if (!hasEmptyCells(col)) {
+                if (WindowPattern.ROWS == Arrays.stream(col)
+                        .mapToInt(v -> v.getDie().getColor().getEscape())
+                        .distinct()
+                        .count()) {
+                    repetitions++;
+                }
+            }
+        }
+        return repetitions;
+    }
 
     public int diagonalsVariety(Cell[][] grid) {
         int repetitions = 0;
