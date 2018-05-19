@@ -1,6 +1,8 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.network.ClientInterface;
+import javafx.collections.ListChangeListener;
+import javafx.collections.WeakListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
@@ -25,7 +27,18 @@ public class BoardDraftController {
 
     public void bindUI() {
         try {
-            playersListView.itemsProperty().bind(client.getClients());
+            client.getClients().addListener(new WeakListChangeListener<>(new ListChangeListener<ClientInterface>() {
+                @Override
+                public void onChanged(Change<? extends ClientInterface> c) {
+                    while (c.next()) {
+                        try {
+                            playersListView.setItems(client.getClients());
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }));
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -33,5 +46,10 @@ public class BoardDraftController {
 
     public void init(ClientInterface client) {
         this.client = client;
+        try {
+            playersListView.setItems(client.getClients());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 }
