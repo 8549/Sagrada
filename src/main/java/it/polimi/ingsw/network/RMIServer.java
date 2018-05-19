@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network;
 
+import com.sun.deploy.util.SessionState;
 import it.polimi.ingsw.GameManager;
 import it.polimi.ingsw.Player;
 import javafx.beans.property.SimpleListProperty;
@@ -12,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RMIServer extends UnicastRemoteObject implements ServerInterface {
-    ObservableList<Player> users = FXCollections.observableArrayList();
-    List<Player> lobby = new ArrayList<Player>();
+    ObservableList<ClientInterface> users = FXCollections.observableArrayList();
+    ObservableList<ClientInterface> lobby = FXCollections.observableArrayList();
 
     GameManager gm ;
 
@@ -25,17 +26,20 @@ public class RMIServer extends UnicastRemoteObject implements ServerInterface {
     }
 
     @Override
-    public synchronized boolean login(String name) {
-        Player player = new Player(name);
-        if(!users.isEmpty() && users.contains(player)){
+    public synchronized boolean login(ClientInterface client) {
+        if(!users.isEmpty() && users.contains(client)){
             System.err.println("Users already logged in");
             return false;
         } else {
-            users.add(player);
-            lobby.add(player);
+            users.add(client);
+            //lobby.add(client);
             System.out.println("Current Players ");
-            for (Player p : lobby){
-                System.out.println("Player : " + p.getName());
+            for (ClientInterface c : lobby){
+                try {
+                    System.out.println("Player : " + c.getName());
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
             }
             checkRoom();
             return true;
@@ -45,6 +49,11 @@ public class RMIServer extends UnicastRemoteObject implements ServerInterface {
     @Override
     public synchronized void checkRoom() {
 
+    }
+
+    @Override
+    public ObservableList<ClientInterface> getClientsConnected() throws RemoteException {
+        return users;
     }
 
     @Override

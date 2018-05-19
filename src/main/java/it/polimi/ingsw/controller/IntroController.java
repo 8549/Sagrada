@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller;
 
 import it.polimi.ingsw.network.ClientInterface;
+import it.polimi.ingsw.network.RMIClient;
 import it.polimi.ingsw.network.ServerInterface;
 import javafx.beans.property.*;
 import javafx.event.ActionEvent;
@@ -60,9 +61,11 @@ public class IntroController {
         ServerInterface server;
 
         try {
-            //client = new RMIClient();
+
             server = (ServerInterface) Naming.lookup("rmi://"  + hostName.get() + "/sagrada");
-            if(server.login(username.get())){
+            client = new RMIClient(username.get());
+
+            if(server.login(client)){
                 System.out.println("Login accepted");
                 Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("views/boarddraft.fxml"));
                 Stage boardStage = new Stage();
