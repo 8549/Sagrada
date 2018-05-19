@@ -1,15 +1,14 @@
 package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.Player;
-import javafx.beans.property.ListProperty;
+import javafx.collections.ObservableList;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.List;
 
 public class RMIClient extends UnicastRemoteObject implements ClientInterface {
     public Player player;
-    ListProperty<Player> players;
+    ObservableList<ClientInterface> clients;
 
     public RMIClient(String name) throws RemoteException {
         player= new Player(name);
@@ -31,12 +30,14 @@ public class RMIClient extends UnicastRemoteObject implements ClientInterface {
     }
 
     @Override
-    public void updatePlayersInfo() throws RemoteException{
+    public void updatePlayersInfo(ClientInterface c) throws RemoteException{
+        clients.add(c);
 
     }
 
-    public ListProperty getPlayers() {
-        return players;
+    @Override
+    public ObservableList<ClientInterface> getClients() {
+        return clients;
 
     }
 }
