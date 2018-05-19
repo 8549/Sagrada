@@ -1,13 +1,17 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.network.ClientInterface;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 
+import java.rmi.RemoteException;
+
 public class BoardDraftController {
+    private ClientInterface client;
 
     @FXML
-    private ListView<?> playersListView;
+    private ListView<ClientInterface> playersListView;
 
     @FXML
     void endTurn(ActionEvent event) {
@@ -19,4 +23,15 @@ public class BoardDraftController {
 
     }
 
+    public void bindUI() {
+        try {
+            playersListView.itemsProperty().bind(client.getClients());
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void init(ClientInterface client) {
+        this.client = client;
+    }
 }

@@ -67,7 +67,11 @@ public class IntroController {
 
             if(server.login(client)){
                 System.out.println("Login accepted");
-                Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("views/boarddraft.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("views/boarddraft.fxml"));
+                Parent root = loader.load();
+                BoardDraftController boardController = loader.getController();
+                boardController.init(client);
+                boardController.bindUI();
                 Stage boardStage = new Stage();
                 boardStage.setTitle("Board stage");
                 boardStage.setScene(new Scene(root));
