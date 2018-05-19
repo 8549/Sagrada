@@ -5,7 +5,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.WeakListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
 
 import java.rmi.RemoteException;
 
@@ -13,7 +13,7 @@ public class BoardDraftController {
     private ClientInterface client;
 
     @FXML
-    private ListView<ClientInterface> playersListView;
+    private TextArea txtArea;
 
     @FXML
     void endTurn(ActionEvent event) {
@@ -31,10 +31,22 @@ public class BoardDraftController {
                 @Override
                 public void onChanged(Change<? extends ClientInterface> c) {
                     while (c.next()) {
-                        try {
-                            playersListView.setItems(client.getClients());
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
+                        if (c.wasAdded()) {
+                            for (ClientInterface client : c.getAddedSubList()) {
+                                try {
+                                    txtArea.appendText(client.getName() + " logged in\n");
+                                } catch (RemoteException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        } else if (c.wasRemoved()) {
+                            for (ClientInterface client : c.getRemoved()) {
+                                try {
+                                    txtArea.appendText(client.getName() + " logged out\n");
+                                } catch (RemoteException e) {
+                                    e.printStackTrace();
+                                }
+                            }
                         }
                     }
                 }
@@ -42,12 +54,15 @@ public class BoardDraftController {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+
     }
 
     public void init(ClientInterface client) {
         this.client = client;
         try {
-            playersListView.setItems(client.getClients());
+            for (ClientInterface c : client.getClients()) {
+                txtArea.appendText(c.getName() + "\n");
+            }
         } catch (RemoteException e) {
             e.printStackTrace();
         }

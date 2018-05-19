@@ -1,8 +1,6 @@
 package it.polimi.ingsw.network;
 
 import it.polimi.ingsw.Player;
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -46,7 +44,7 @@ public class RMIClient extends UnicastRemoteObject implements ClientInterface {
     }
 
     @Override
-    public void setCurrentLogged(List<ClientInterface> c) throws RemoteException {
+    public void setCurrentLogged(List<ClientInterface> c) {
         clients.addAll(c);
 
     }

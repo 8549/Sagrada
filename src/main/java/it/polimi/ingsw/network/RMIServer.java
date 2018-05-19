@@ -1,16 +1,12 @@
 package it.polimi.ingsw.network;
 
-import com.sun.deploy.util.SessionState;
 import it.polimi.ingsw.GameManager;
-import it.polimi.ingsw.Player;
-import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
-import java.util.List;
 
 public class RMIServer extends UnicastRemoteObject implements ServerInterface {
     ObservableList<ClientInterface> users = FXCollections.observableArrayList();
@@ -26,7 +22,7 @@ public class RMIServer extends UnicastRemoteObject implements ServerInterface {
     }
 
     @Override
-    public synchronized boolean login(ClientInterface client) throws RemoteException {
+    public synchronized boolean login(ClientInterface client) {
         if(!users.isEmpty() && users.contains(client)){
             System.err.println("Users already logged in");
             return false;
@@ -34,6 +30,7 @@ public class RMIServer extends UnicastRemoteObject implements ServerInterface {
             users.add(client);
             lobby.add(client);
             System.out.println("Current Players ");
+            //TODO: users are not shown
             try {
                 client.setCurrentLogged(new ArrayList(users));
                 for (ClientInterface c : lobby){
@@ -58,7 +55,7 @@ public class RMIServer extends UnicastRemoteObject implements ServerInterface {
     }
 
     @Override
-    public ObservableList<ClientInterface> getClientsConnected() throws RemoteException {
+    public ObservableList<ClientInterface> getClientsConnected() {
         return users;
     }
 
