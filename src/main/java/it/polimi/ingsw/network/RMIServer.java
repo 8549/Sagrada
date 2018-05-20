@@ -24,18 +24,17 @@ public class RMIServer extends UnicastRemoteObject implements ServerInterface {
     @Override
     public synchronized boolean login(ClientInterface client) {
         if(!users.isEmpty() && users.contains(client)){
-            System.err.println("Users already logged in");
+            System.err.println("User already logged in");
             return false;
         } else {
             users.add(client);
             lobby.add(client);
-            System.out.println("Current Players ");
-            //TODO: users are not shown
+            System.out.println("Current Players");
             try {
                 client.setCurrentLogged(new ArrayList(users));
                 for (ClientInterface c : lobby){
+                    System.out.println("Player: " + c.getName());
                     if (!c.equals(client)) {
-                        System.out.println("Player : " + c.getName());
                         c.updatePlayersInfo(client);
                     }
                 }
