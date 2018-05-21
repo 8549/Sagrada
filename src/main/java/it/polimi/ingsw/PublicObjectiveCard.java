@@ -148,7 +148,7 @@ public class PublicObjectiveCard extends ObjCard {
                 element = false;
             }
         }
-        for (int i = 0; i < WindowPattern.ROWS; i++) {
+        for (int i = 0; i < WindowPattern.ROWS - 1; i++) {
             for (int j = 0; j < WindowPattern.COLUMNS; j++) {
                 Cell thisCell = grid[i][j];
                 int nextRow = i + 1;
@@ -173,7 +173,7 @@ public class PublicObjectiveCard extends ObjCard {
                             }
                         }
                     } catch (IndexOutOfBoundsException e) {
-                        System.out.println(String.format("%s (grid[%d][%d])", e.toString(), nextRow, downLeft));
+                        System.out.println(String.format("%s (grid[%d][%d])", e.toString(), nextRow, downRight));
                     }
                 }
             }
@@ -186,6 +186,7 @@ public class PublicObjectiveCard extends ObjCard {
                 }
             }
         }
+
         return repetitions;
     }
 
