@@ -25,7 +25,7 @@ public class IntroLoader extends Application {
         primaryStage.setScene(new Scene(root));
         IntroController controller = loader.getController();
         controller.setSelfStage(primaryStage);
-        controller.bindUI();
+        controller.initUI();
         primaryStage.show();
     }
 }

@@ -81,14 +81,20 @@
         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
     </padding>
     <bottom>
-        <ButtonBar BorderPane.alignment="CENTER">
-            <buttons>
-                <Button fx:id="connectBtn" defaultButton="true" mnemonicParsing="false" onAction="#handleConnect"
-                        text="Connect"/>
-            </buttons>
-            <BorderPane.margin>
-                <Insets top="10.0"/>
-            </BorderPane.margin>
-        </ButtonBar>
+        <VBox BorderPane.alignment="CENTER">
+            <children>
+                <ButtonBar>
+                    <buttons>
+                        <Button fx:id="connectBtn" defaultButton="true" mnemonicParsing="false"
+                                onAction="#handleConnect" text="Connect"/>
+                    </buttons>
+                </ButtonBar>
+                <Label fx:id="status">
+                    <padding>
+                        <Insets top="10.0"/>
+                    </padding>
+                </Label>
+            </children>
+        </VBox>
     </bottom>
 </BorderPane>

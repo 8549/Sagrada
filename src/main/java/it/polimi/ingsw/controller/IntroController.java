@@ -3,28 +3,26 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.network.ClientInterface;
 import it.polimi.ingsw.network.RMIClient;
 import it.polimi.ingsw.network.ServerInterface;
-import javafx.beans.property.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Toggle;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
-import javafx.util.converter.NumberStringConverter;
 
+import java.io.IOException;
 import java.rmi.Naming;
 
 public class IntroController {
     private Stage selfStage;
+    private int port;
+    private String userName;
+    private String hostName;
+    private boolean socket;
 
-    private StringProperty hostName = new SimpleStringProperty();
-    private IntegerProperty port = new SimpleIntegerProperty();
-    private BooleanProperty socket = new SimpleBooleanProperty();
-    private StringProperty username = new SimpleStringProperty();
+    @FXML
+    private Label status;
 
     @FXML
     private ToggleGroup toggleGroup;
@@ -46,59 +44,82 @@ public class IntroController {
 
     @FXML
     void handleConnect(ActionEvent event) {
-        //TODO check fields are not empty
-        /*if (hostField.getText().length() == 0 || nameField.getText().length() == 0) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.initStyle(StageStyle.UTILITY);
-            alert.setTitle("Invalid server hostname");
-            alert.setHeaderText(null);
-            alert.setContentText("Please enter a valid server hostname");
-            alert.showAndWait();
+
+        // Fields validation
+        userName = nameField.getText();
+        if (userName.equals("")) {
+            status.setText("Please enter a username");
             return;
-        }*/
+        }
+        hostName = hostField.getText();
+        if (hostName.equals("")) {
+            status.setText("Please enter a hostname/IP address");
+            return;
+        }
+        if (toggleGroup.getSelectedToggle() == null) {
+            status.setText("Please choose a connection type");
+            return;
+        }
+        try {
+            port = Integer.valueOf(portField.getText());
+        } catch (NumberFormatException e) {
+            status.setText("Invalid port number");
+            return;
+        }
+        socket = socketToggle.isSelected();
 
         ClientInterface client;
         ServerInterface server;
 
-        try {
+        if (socket) {
+            //connect with socket
+        } else {
+            try {
 
-            server = (ServerInterface) Naming.lookup("rmi://"  + hostName.get() + "/sagrada");
-            client = new RMIClient(username.get());
+                server = (ServerInterface) Naming.lookup("rmi://" + hostName + ":" + port + "/sagrada");
+                client = new RMIClient(userName);
 
-            if(server.login(client)){
-                System.out.println("Login accepted");
-                FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("views/boarddraft.fxml"));
-                Parent root = loader.load();
-                BoardDraftController boardController = loader.getController();
-                boardController.init(client);
-                boardController.bindUI();
-                Stage boardStage = new Stage();
-                boardStage.setTitle("Board stage");
-                boardStage.setScene(new Scene(root));
-                boardStage.show();
-                selfStage.hide();
-            } else {
-                System.err.println("Login failed");
+                if (server.login(client)) {
+                    System.out.println("Login accepted");
+                    launchBoard(client);
+                } else {
+                    System.err.println("Login failed");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        }catch (Exception e ){
-            e.printStackTrace();
         }
-
-        /*Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Info");
-        alert.setHeaderText(null);
-        alert.setContentText(String.format("Connecting on %s:%s as %s via socket? %s", hostName.get(), port.get(), username.get(), socket.get()));
-        alert.showAndWait();*/
     }
 
-    public void bindUI() {
-        nameField.textProperty().bindBidirectional(username);
-        hostField.textProperty().bindBidirectional(hostName);
-        portField.textProperty().bindBidirectional(port, new NumberStringConverter());
-        socket.bindBidirectional(socketToggle.selectedProperty());
+    public void initUI() {
+        //TODO load settings from file or from cli options
+
     }
 
     public void setSelfStage(Stage selfStage) {
         this.selfStage = selfStage;
+        //selfStage.setOnCloseRequest(e -> Platform.exit());
+    }
+
+    private void launchBoard(ClientInterface client) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("views/boarddraft.fxml"));
+            Parent root = loader.load();
+            BoardDraftController boardController = loader.getController();
+            boardController.init(client);
+            boardController.bindUI();
+            selfStage.setScene(new Scene(root));
+            selfStage.sizeToScene();
+            /*Stage boardStage = new Stage();
+            boardStage.setTitle("Board stage");
+            boardStage.setScene(new Scene(root));
+            boardStage.show();
+            selfStage.hide();*/
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("GUI Error");
+            alert.setContentText("Couldn't load GUI");
+            alert.showAndWait();
+        }
     }
 }
