@@ -1,6 +1,6 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.ui;
 
-import it.polimi.ingsw.controller.IntroController;
+import it.polimi.ingsw.ui.controller.IntroController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,11 +10,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 
-public class IntroLoader extends Application {
-
-    public static void main(String[] args) {
-        launch(args);
-    }
+public class GUILauncher extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
@@ -25,7 +21,7 @@ public class IntroLoader extends Application {
         primaryStage.setScene(new Scene(root));
         IntroController controller = loader.getController();
         controller.setSelfStage(primaryStage);
-        controller.initUI();
+        controller.initUI(getParameters().getRaw());
         primaryStage.show();
     }
 }

@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" xmlns="http://javafx.com/javafx/9.0.1"
-            fx:controller="it.polimi.ingsw.controller.IntroController">
+            fx:controller="it.polimi.ingsw.ui.controller.IntroController">
     <left>
         <VBox BorderPane.alignment="CENTER">
             <children>
@@ -24,7 +24,7 @@
                                         <Insets bottom="10.0"/>
                                     </VBox.margin>
                                 </Label>
-                                <RadioButton mnemonicParsing="false" text="RMI">
+                                <RadioButton fx:id="rmiToggle" mnemonicParsing="false" text="RMI">
                                     <VBox.margin>
                                         <Insets bottom="5.0"/>
                                     </VBox.margin>

@@ -1,8 +1,9 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.ui.controller;
 
 import it.polimi.ingsw.network.ClientInterface;
 import it.polimi.ingsw.network.RMIClient;
 import it.polimi.ingsw.network.ServerInterface;
+import it.polimi.ingsw.ui.GameProperties;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +14,8 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.rmi.Naming;
+import java.util.List;
+import java.util.Properties;
 
 public class IntroController {
     private Stage selfStage;
@@ -38,6 +41,9 @@ public class IntroController {
 
     @FXML
     private Toggle socketToggle;
+
+    @FXML
+    private Toggle rmiToggle;
 
     @FXML
     private Button connectBtn;
@@ -91,9 +97,29 @@ public class IntroController {
         }
     }
 
-    public void initUI() {
-        //TODO load settings from file or from cli options
+    public void initUI(List<String> parameters) {
+        Properties props = GameProperties.getFromFileOrCli(parameters);
+        if (props.containsKey(GameProperties.USERNAME_KEY)) {
+            nameField.setText(props.getProperty(GameProperties.USERNAME_KEY));
+        }
+        if (props.containsKey(GameProperties.HOSTNAME_KEY)) {
+            hostField.setText(props.getProperty(GameProperties.HOSTNAME_KEY));
+        }
+        if (props.containsKey(GameProperties.PORT_KEY)) {
+            portField.setText(props.getProperty(GameProperties.PORT_KEY));
+        }
+        if (props.containsKey(GameProperties.CONNECTION_KEY)) {
+            if (props.getProperty(GameProperties.CONNECTION_KEY).equalsIgnoreCase("socket")) {
+                socketToggle.setSelected(true);
+            } else if (props.getProperty(GameProperties.CONNECTION_KEY).equalsIgnoreCase("rmi")) {
+                rmiToggle.setSelected(true);
+            }
+        }
 
+        toggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+            boolean portDisabled = !newValue.equals(socketToggle);
+            portField.setDisable(portDisabled);
+        });
     }
 
     public void setSelfStage(Stage selfStage) {
@@ -110,11 +136,6 @@ public class IntroController {
             boardController.bindUI();
             selfStage.setScene(new Scene(root));
             selfStage.sizeToScene();
-            /*Stage boardStage = new Stage();
-            boardStage.setTitle("Board stage");
-            boardStage.setScene(new Scene(root));
-            boardStage.show();
-            selfStage.hide();*/
         } catch (IOException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("GUI Error");

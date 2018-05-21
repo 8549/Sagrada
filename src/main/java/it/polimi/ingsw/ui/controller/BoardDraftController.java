@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.ui.controller;
 
 import it.polimi.ingsw.network.ClientInterface;
 import javafx.collections.ListChangeListener;

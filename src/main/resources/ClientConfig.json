@@ -1,0 +1,8 @@
+{
+  "username": "default_username",
+  "hostname": "0.0.0.0",
+  "port": 9999,
+  "timeout": 9999,
+  "connection": "rmi",
+  "ui": "gui"
+}
