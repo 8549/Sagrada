@@ -4,12 +4,10 @@
 The messages are simple strings with the folllowing format: 
 ```
 
-<SENDER><blank><RECIPIENT><blank<TYPE><blank><HEADERr><blank><DATA><blank><END>
+<TYPE><blank><HEADERr><blank><DATA><blank><END>
 
 ````
 Where the parameters have these meanings:
-* SENDER --> who is sending the message
-* RECIPENT --> who must process the message
 * TYPE --> this could be *request*, *answer* *update*
 * HEADER --> the purpose of the message and can be *login*, *init*, *move*, *tool*, *update*, *end*
 * DATA --> the content of the message
