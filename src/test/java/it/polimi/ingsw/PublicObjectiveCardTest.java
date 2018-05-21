@@ -451,6 +451,12 @@ class PublicObjectiveCardTest {
         }
 
         assertEquals(16, publicObjectiveCard.diagonalsVariety(grid));
+        grid[1][3].removeDie();
+        grid[1][4].removeDie();
+        grid[2][1].removeDie();
+        grid[3][3].removeDie();
+        grid[3][4].removeDie();
+        assertEquals(10, publicObjectiveCard.diagonalsVariety(grid));
     }
 
     @Test
