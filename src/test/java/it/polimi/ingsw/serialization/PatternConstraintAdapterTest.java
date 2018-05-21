@@ -1,7 +1,6 @@
 package it.polimi.ingsw.serialization;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.*;
@@ -20,11 +19,7 @@ class PatternConstraintAdapterTest {
 
     @BeforeEach
     void setUp() {
-        gson = new GsonBuilder()
-                .registerTypeAdapter(PatternConstraint.class, new PatternConstraintAdapter())
-                .setPrettyPrinting()
-                .serializeNulls()
-                .create();
+        gson = GsonSingleton.getInstance();
     }
 
     @Test
