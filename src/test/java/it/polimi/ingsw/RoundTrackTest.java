@@ -20,11 +20,12 @@ class RoundTrackTest {
 
     @Test
     void addRound() {
+
         Die die = new Die(SagradaColor.BLUE);
         RoundTrack instance = RoundTrack.getInstance();
         instance.addRound(die);
         assertEquals(instance.getRoundCounter(), 1);
-        assertEquals(instance.getDieAtRound(instance.getRoundCounter()),die);
+        assertEquals(instance.getColorOfDieAtRound(instance.getRoundCounter()),die.getColor());
     }
 
     @Test
