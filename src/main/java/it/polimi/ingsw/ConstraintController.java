@@ -27,23 +27,22 @@ public class ConstraintController {
      * Controls if in the adjacent cells there are dice with the same number or color
      *
      * @param grid
-     * @param die
      * @param row
      * @param column
      * @return true if there isn't a dice with the same number and color nearby, false otherwise
      */
-    public boolean controlAdjacency(Cell grid[][], Die die, int row, int column) {
+    public boolean controlAdjacency(Cell grid[][], int row, int column) {
         try {
-            if (!controlCell(grid, row - 1, column, die)) {
+            if (!controlCell(grid, row - 1, column, grid[row][column].getDie())) {
                 return false;
             }
-            if (!controlCell(grid, row, column - 1, die)) {
+            if (!controlCell(grid, row, column - 1, grid[row][column].getDie())) {
                 return false;
             }
-            if (!controlCell(grid, row, column + 1, die)) {
+            if (!controlCell(grid, row, column + 1, grid[row][column].getDie())) {
                 return false;
             }
-            if (!controlCell(grid, row + 1, column, die)) {
+            if (!controlCell(grid, row + 1, column, grid[row][column].getDie())) {
                 return false;
             }
         } catch (IndexOutOfBoundsException e) {
