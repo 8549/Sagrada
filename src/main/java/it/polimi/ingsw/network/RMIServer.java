@@ -32,9 +32,9 @@ public class RMIServer extends UnicastRemoteObject implements ServerInterface {
 
         try {
             //System.setSecurityManager(new RMISecurityManager());
-            java.rmi.registry.LocateRegistry.createRegistry(port);
+            java.rmi.registry.LocateRegistry.createRegistry(DEFAULT_RMI_PORT);
 
-            Naming.rebind("rmi://127.0.0.1:" + port + "/sagrada", this);
+            Naming.rebind("rmi://127.0.0.1:" + DEFAULT_RMI_PORT + "/sagrada", this);
             return true;
         }catch (Exception e){
             System.out.println("[System] RMI Server failed: " + e);
