@@ -11,8 +11,6 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
-import static it.polimi.ingsw.network.runServer.DEFAULT_RMI_PORT;
-
 public class RMIClient extends UnicastRemoteObject implements ClientInterface {
     public Player player;
     ObservableList<ClientInterface> clients = FXCollections.observableArrayList();
@@ -21,7 +19,7 @@ public class RMIClient extends UnicastRemoteObject implements ClientInterface {
     public RMIClient(String name, String hostName) throws RemoteException {
         player = new Player(name);
         try {
-            server = (ServerInterface) Naming.lookup("rmi://" + hostName + ":" + DEFAULT_RMI_PORT + "/sagrada");
+            server = (ServerInterface) Naming.lookup("rmi://" + hostName + "/sagrada");
         } catch (NotBoundException e) {
             e.printStackTrace();
         } catch (MalformedURLException e) {
