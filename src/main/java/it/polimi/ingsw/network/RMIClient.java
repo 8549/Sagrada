@@ -23,7 +23,7 @@ public class RMIClient extends UnicastRemoteObject implements ClientInterface {
     public RMIClient(String name, String hostName) throws RemoteException {
         player = new Player(name);
         try {
-            System.out.println("Ip address : " + InetAddress.getLocalHost().getHostAddress());
+            System.out.println("Ip address : " + java.net.InetAddress.getLocalHost());
             System.setProperty("java.rmi.server.hostname", InetAddress.getLocalHost().getHostAddress());
             server = (ServerInterface) Naming.lookup("rmi://" + hostName + ":" + DEFAULT_RMI_PORT + "/sagrada");
         } catch (NotBoundException e) {
