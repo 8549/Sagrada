@@ -11,7 +11,7 @@ import java.net.Socket;
 import java.rmi.Naming;
 
 public class runServer {
-    public static final int DEFAULT_RMI_PORT = 3131;
+    public static final int DEFAULT_RMI_PORT = 1234;
     public static final int DEFAULT_SOCKET_PORT= 3130;
 
     public static void main(String[] args) {
