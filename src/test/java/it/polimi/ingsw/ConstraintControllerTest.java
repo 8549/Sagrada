@@ -60,9 +60,9 @@ class ConstraintControllerTest {
         dice[7] = new Die(SagradaColor.PURPLE);
         dice[7].setNumber(6);
         grid[3][4].setDie(dice[7]);
-        assertFalse(constraintController.controlAdjacency(grid, grid[2][4].getDie(), 2, 4));
-        assertFalse(constraintController.controlAdjacency(grid, grid[2][2].getDie(), 2, 2));
-        assertTrue(constraintController.controlAdjacency(grid, grid[1][3].getDie(), 1, 3));
+        assertFalse(constraintController.controlAdjacency(grid, 2, 4));
+        assertFalse(constraintController.controlAdjacency(grid, 2, 2));
+        assertTrue(constraintController.controlAdjacency(grid, 1, 3));
 
     }
 
