@@ -39,8 +39,7 @@
     "id": 5,
     "features": [
       "chooseDieFromDraftPool",
-      "getDieFromRoundTrack",
-      "addDieToRoundTrack"
+      "replaceDieOnRoundTrack"
     ]
   },
   {

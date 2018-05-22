@@ -4,12 +4,12 @@ import it.polimi.ingsw.GameManager;
 
 public class RoundTrack {
     private static RoundTrack instance;
-    private Die[] die;
+    private Die[] dice;
     private int roundCounter;
 
     private RoundTrack() {
         roundCounter = 0;
-        die = new Die[GameManager.ROUNDS];
+        dice = new Die[GameManager.ROUNDS];
     }
 
     public static RoundTrack getInstance() {
@@ -26,13 +26,20 @@ public class RoundTrack {
 
 
     public void addRound(Die die) {
-        this.die[roundCounter] = die;
+        this.dice[roundCounter] = die;
         roundCounter++;
     }
 
-    public Die getDieAtRound(int turn) {
-        return die[turn - 1];
+    public SagradaColor getColorOfDieAtRound(int turn) {
+        return dice[turn - 1].getColor();
     }
 
-
+    public Die replaceDie(Die die, int turn) {
+        if (turn <= roundCounter) {
+            Die oldDie = dice[turn - 1];
+            dice[turn - 1] = die;
+            return oldDie;
+        }
+        return null;
+    }
 }

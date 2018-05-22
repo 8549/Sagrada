@@ -4,7 +4,7 @@ import it.polimi.ingsw.model.Cell;
 import it.polimi.ingsw.model.Die;
 import it.polimi.ingsw.model.WindowPattern;
 
-public class ConstraintController {
+public class AdjacencyConstraint {
 
     /**
      * Check if it's possible to place the first die at the given coordinates, they must be on the edge of the grid
@@ -13,7 +13,7 @@ public class ConstraintController {
      * @param column
      * @return true if the coordinates are on the edge of the grid, false otherwise
      */
-    public boolean controlAdjacencyFirstDie(int row, int column) {
+    public boolean checkAdjacencyFirstDie(int row, int column) {
         if (row == WindowPattern.ROWS - 1 || row == 0) {
             return true;
         }
@@ -31,7 +31,7 @@ public class ConstraintController {
      * @param column
      * @return true if there isn't a dice with the same number and color nearby, false otherwise
      */
-    public boolean controlAdjacency(Cell grid[][], int row, int column) {
+    public boolean checkAdjacency(Cell grid[][], int row, int column) {
         try {
             if (!controlCell(grid, row - 1, column, grid[row][column].getDie())) {
                 return false;
@@ -85,7 +85,7 @@ public class ConstraintController {
      * @param column
      * @return true when is found a die nearby, false if there isn't any
      */
-    public boolean controlCellAdjacency(Cell grid[][], int row, int column) {
+    public boolean checkCellAdjacency(Cell grid[][], int row, int column) {
         try {
             for (int i = row - 1; i <= row + 1; i++) {
                 for (int j = column - 1; j <= column + 1; j++) {
@@ -109,7 +109,7 @@ public class ConstraintController {
      * @param column
      * @return true if it's empty, false otherwise
      */
-    public boolean controlEmptyCell(Cell grid[][], int row, int column) {
+    public boolean checkEmptyCell(Cell grid[][], int row, int column) {
         if (grid[row][column].isEmpty()) {
             return true;
         }

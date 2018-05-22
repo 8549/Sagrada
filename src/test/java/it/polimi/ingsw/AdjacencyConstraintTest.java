@@ -8,25 +8,25 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ConstraintControllerTest {
+class AdjacencyConstraintTest {
 
     @Test
-    void controlAdjacencyFirstDie() {
-        ConstraintController constraintController = new ConstraintController();
+    void checkAdjacencyFirstDie() {
+        AdjacencyConstraint adjacencyConstraint = new AdjacencyConstraint();
         for (int i = 0; i < WindowPattern.ROWS; i++) {
-            assertTrue(constraintController.controlAdjacencyFirstDie(i, 0));
-            assertTrue(constraintController.controlAdjacencyFirstDie(i, 4));
+            assertTrue(adjacencyConstraint.checkAdjacencyFirstDie(i, 0));
+            assertTrue(adjacencyConstraint.checkAdjacencyFirstDie(i, 4));
         }
         for (int i = 0; i < WindowPattern.COLUMNS; i++) {
-            assertTrue(constraintController.controlAdjacencyFirstDie(0, i));
-            assertTrue(constraintController.controlAdjacencyFirstDie(3, i));
+            assertTrue(adjacencyConstraint.checkAdjacencyFirstDie(0, i));
+            assertTrue(adjacencyConstraint.checkAdjacencyFirstDie(3, i));
         }
-        assertFalse(constraintController.controlAdjacencyFirstDie(2, 3));
+        assertFalse(adjacencyConstraint.checkAdjacencyFirstDie(2, 3));
     }
 
     @Test
-    void controlAdjacency() {
-        ConstraintController constraintController = new ConstraintController();
+    void checkAdjacency() {
+        AdjacencyConstraint adjacencyConstraint = new AdjacencyConstraint();
         Cell[][] grid = new Cell[WindowPattern.ROWS][WindowPattern.COLUMNS];
         int w = 0;
         for (int i = 0; i < WindowPattern.ROWS; i++) {
@@ -60,15 +60,15 @@ class ConstraintControllerTest {
         dice[7] = new Die(SagradaColor.PURPLE);
         dice[7].setNumber(6);
         grid[3][4].setDie(dice[7]);
-        assertFalse(constraintController.controlAdjacency(grid, 2, 4));
-        assertFalse(constraintController.controlAdjacency(grid, 2, 2));
-        assertTrue(constraintController.controlAdjacency(grid, 1, 3));
+        assertFalse(adjacencyConstraint.checkAdjacency(grid, 2, 4));
+        assertFalse(adjacencyConstraint.checkAdjacency(grid, 2, 2));
+        assertTrue(adjacencyConstraint.checkAdjacency(grid, 1, 3));
 
     }
 
     @Test
-    void controlCell() {
-        ConstraintController constraintController = new ConstraintController();
+    void checkCell() {
+        AdjacencyConstraint adjacencyConstraint = new AdjacencyConstraint();
         Cell[][] grid = new Cell[WindowPattern.ROWS][WindowPattern.COLUMNS];
         Die dieForGrid = new Die(SagradaColor.RED);
         dieForGrid.setNumber(5);
@@ -81,16 +81,16 @@ class ConstraintControllerTest {
         Die die2 = new Die(SagradaColor.GREEN);
         die2.setNumber(5);
         Die die3 = new Die(SagradaColor.RED);
-        assertFalse(constraintController.controlCell(grid, 3, 4, die1)); // same color
-        assertFalse(constraintController.controlCell(grid, 3, 4, die2)); // same number
-        assertFalse(constraintController.controlCell(grid, 3, 4, dieForGrid)); // same number and color
-        assertTrue(constraintController.controlCell(grid, 3, 4, die)); // different number and color
+        assertFalse(adjacencyConstraint.controlCell(grid, 3, 4, die1)); // same color
+        assertFalse(adjacencyConstraint.controlCell(grid, 3, 4, die2)); // same number
+        assertFalse(adjacencyConstraint.controlCell(grid, 3, 4, dieForGrid)); // same number and color
+        assertTrue(adjacencyConstraint.controlCell(grid, 3, 4, die)); // different number and color
 
     }
 
     @Test
-    void controlCellAdjacency() {
-        ConstraintController constraintController = new ConstraintController();
+    void checkCellAdjacency() {
+        AdjacencyConstraint adjacencyConstraint = new AdjacencyConstraint();
         Cell[][] grid = new Cell[WindowPattern.ROWS][WindowPattern.COLUMNS];
         int w = 0;
         for (int i = 0; i < WindowPattern.ROWS; i++) {
@@ -99,25 +99,25 @@ class ConstraintControllerTest {
                 w++;
             }
         }
-        assertFalse(constraintController.controlCellAdjacency(grid, 3, 4));
+        assertFalse(adjacencyConstraint.checkCellAdjacency(grid, 3, 4));
         Die die = new Die(SagradaColor.GREEN);
         grid[0][0].setDie(die);
-        assertTrue(constraintController.controlCellAdjacency(grid, 1, 1));
+        assertTrue(adjacencyConstraint.checkCellAdjacency(grid, 1, 1));
         grid[1][3].setDie(die);
-        assertTrue(constraintController.controlCellAdjacency(grid, 2, 3));
+        assertTrue(adjacencyConstraint.checkCellAdjacency(grid, 2, 3));
         grid[2][2].setDie(die);
         grid[3][1].setDie(die);
-        assertTrue(constraintController.controlCellAdjacency(grid, 3, 2));
+        assertTrue(adjacencyConstraint.checkCellAdjacency(grid, 3, 2));
     }
 
     @Test
-    void controlEmptyCell() {
-        ConstraintController constraintController = new ConstraintController();
+    void checkEmptyCell() {
+        AdjacencyConstraint adjacencyConstraint = new AdjacencyConstraint();
         Cell[][] grid = new Cell[WindowPattern.ROWS][WindowPattern.COLUMNS];
         grid[3][4] = new Cell();
-        assertTrue(constraintController.controlEmptyCell(grid, 3, 4));
+        assertTrue(adjacencyConstraint.checkEmptyCell(grid, 3, 4));
         Die die = new Die(SagradaColor.GREEN);
         grid[3][4].setDie(die);
-        assertFalse(constraintController.controlEmptyCell(grid, 3, 4));
+        assertFalse(adjacencyConstraint.checkEmptyCell(grid, 3, 4));
     }
 }
