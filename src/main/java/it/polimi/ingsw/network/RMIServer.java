@@ -14,8 +14,6 @@ import java.util.ArrayList;
 import static it.polimi.ingsw.network.runServer.DEFAULT_RMI_PORT;
 
 public class RMIServer extends UnicastRemoteObject implements ServerInterface {
-    ObservableList<ClientInterface> users = FXCollections.observableArrayList();
-    ObservableList<ClientInterface> lobby = FXCollections.observableArrayList();
 
     GameManager gm ;
 
@@ -49,10 +47,15 @@ public class RMIServer extends UnicastRemoteObject implements ServerInterface {
     }
 
     @Override
-    public synchronized boolean login(ClientInterface client) {
-        if(!users.isEmpty() && users.contains(client)){
-            System.err.println("User already logged in");
-            return false;
+    public synchronized boolean login(ClientInterface client) throws RemoteException {
+        if(!users.isEmpty() ){
+            for (ClientInterface c : users ){
+                if (c.getName().equals(client.getName())){
+                    System.err.println("User already logged in");
+                    return false;
+                }
+            }
+
         } else {
             users.add(client);
             lobby.add(client);
@@ -68,11 +71,9 @@ public class RMIServer extends UnicastRemoteObject implements ServerInterface {
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
-
-
-
             return true;
         }
+        return false;
     }
 
     @Override

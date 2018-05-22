@@ -18,8 +18,8 @@ import static it.polimi.ingsw.network.runServer.DEFAULT_SOCKET_PORT;
 public class SocketServer implements ServerInterface {
     public static final int COMMAND_LENGHT = 5;
     public static final String HOSTNAME = "127.0.0.1";
-    ObservableList<ClientInterface> users = FXCollections.observableArrayList();
-    ObservableList<ClientInterface> lobby = FXCollections.observableArrayList();
+    static ObservableList<ClientInterface> users = FXCollections.observableArrayList();
+    static ObservableList<ClientInterface> lobby = FXCollections.observableArrayList();
 
     @Override
     public boolean start(String[] args) throws IOException {
@@ -53,6 +53,7 @@ public class SocketServer implements ServerInterface {
                     System.out.println("Player: " + c.getName());
                     if (!c.equals(client)) {
                         //Socket updatePlayers
+                        //out.println("");
                     }
                 }
             } catch (RemoteException e) {
@@ -91,12 +92,12 @@ public class SocketServer implements ServerInterface {
         if (command[0].equals("request")){
             switch(command[1]){
                 case "login":
-                                ClientInterface client = new SocketClient(HOSTNAME, Integer.parseInt(command[3]), command[2]);
-                                login(client);
-                                return "login accepted";
+                            ClientInterface client = new SocketClient(HOSTNAME, Integer.parseInt(command[3]), command[2]);
+                            login(client);
+                            return "login accepted";
 
                 default:
-                                System.err.println("Command not recognized, please retry");
+                            System.err.println("Command not recognized, please retry");
                             break;
             }
         }
@@ -150,6 +151,7 @@ public class SocketServer implements ServerInterface {
                 // Get messages from the client, line by line;
                 while (true) {
                     String input = in.readLine();
+                    System.out.println("Client message: " + input);
                     outputLine = processInput(input);
                     out.println(outputLine);
                 }
