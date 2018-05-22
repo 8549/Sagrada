@@ -4,7 +4,9 @@ import it.polimi.ingsw.model.Player;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.net.InetAddress;
 import java.net.MalformedURLException;
+import java.net.UnknownHostException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -21,10 +23,14 @@ public class RMIClient extends UnicastRemoteObject implements ClientInterface {
     public RMIClient(String name, String hostName) throws RemoteException {
         player = new Player(name);
         try {
+            System.out.println("Ip address : " + InetAddress.getLocalHost().getHostAddress());
+            System.setProperty("java.rmi.server.hostname", InetAddress.getLocalHost().getHostAddress());
             server = (ServerInterface) Naming.lookup("rmi://" + hostName + ":" + DEFAULT_RMI_PORT + "/sagrada");
         } catch (NotBoundException e) {
             e.printStackTrace();
         } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (UnknownHostException e) {
             e.printStackTrace();
         }
 
