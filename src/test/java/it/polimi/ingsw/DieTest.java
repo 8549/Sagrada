@@ -1,5 +1,7 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.model.Die;
+import it.polimi.ingsw.model.SagradaColor;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;

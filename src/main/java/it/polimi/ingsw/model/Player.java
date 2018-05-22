@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.model;
 
 public class Player {
     private String name;
@@ -20,7 +20,7 @@ public class Player {
      * @param privateObjectiveCard
      * @return True if is set, otherwise false
      */
-    boolean setPrivateObjectiveCard(ObjCard privateObjectiveCard) {
+    public boolean setPrivateObjectiveCard(ObjCard privateObjectiveCard) {
         if (!privateObjectiveCardSet) {
             this.privateObjectiveCard = privateObjectiveCard;
             privateObjectiveCardSet = true;

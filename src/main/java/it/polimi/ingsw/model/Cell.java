@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.model;
 
 
 public class Cell {
@@ -15,7 +15,7 @@ public class Cell {
         return empty;
     }
 
-    boolean setDie(Die die) {
+    public boolean setDie(Die die) {
         if (empty) {
             this.die = die;
             empty = false;

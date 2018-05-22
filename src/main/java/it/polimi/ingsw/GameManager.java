@@ -1,9 +1,10 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.model.*;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Vector;
 
 public class GameManager {
     private static final int CARDS_PER_PLAYER = 2;

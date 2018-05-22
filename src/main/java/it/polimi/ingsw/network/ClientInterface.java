@@ -11,7 +11,7 @@ import java.util.List;
 public interface ClientInterface extends Remote {
     String getName() throws RemoteException;
 
-    void connect() throws RemoteException;
+    void login() throws RemoteException;
 
     void pushData() throws RemoteException;
 

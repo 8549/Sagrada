@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.model;
 
 public class NumberConstraint implements PatternConstraint {
     private int number;

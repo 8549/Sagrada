@@ -3,6 +3,7 @@ package it.polimi.ingsw.ui.controller;
 import it.polimi.ingsw.network.ClientInterface;
 import it.polimi.ingsw.network.RMIClient;
 import it.polimi.ingsw.network.ServerInterface;
+import it.polimi.ingsw.network.SocketClient;
 import it.polimi.ingsw.ui.GameProperties;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,6 +15,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.rmi.Naming;
+import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Properties;
 
@@ -23,6 +25,7 @@ public class IntroController {
     private String userName;
     private String hostName;
     private boolean socket;
+
 
     @FXML
     private Label status;
@@ -74,30 +77,44 @@ public class IntroController {
         }
         socket = socketToggle.isSelected();
 
-        ClientInterface client;
-        ServerInterface server;
+        ClientInterface client = null;
 
         if (socket) {
             //connect with socket
-        } else {
             try {
+                client = new SocketClient(hostName, port, userName);
 
-                server = (ServerInterface) Naming.lookup("rmi://" + hostName + ":" + port + "/sagrada");
-                client = new RMIClient(userName);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-                if (server.login(client)) {
-                    System.out.println("Login accepted");
-                    launchBoard(client);
-                } else {
-                    System.err.println("Login failed");
-                }
+        } else {
+            //Connect RMI
+            try {
+                //TODO: check all clients different ports
+                client = new RMIClient(userName, hostName);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+
+        //Login procedure
+        try {
+            client.login();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        launchBoard(client);
+
+
     }
 
     public void initUI(List<String> parameters) {
+        toggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+            boolean portDisabled = !newValue.equals(socketToggle);
+            portField.setDisable(portDisabled);
+        });
         Properties props = GameProperties.getFromFileOrCli(parameters);
         if (props.containsKey(GameProperties.USERNAME_KEY)) {
             nameField.setText(props.getProperty(GameProperties.USERNAME_KEY));
@@ -116,10 +133,6 @@ public class IntroController {
             }
         }
 
-        toggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
-            boolean portDisabled = !newValue.equals(socketToggle);
-            portField.setDisable(portDisabled);
-        });
     }
 
     public void setSelfStage(Stage selfStage) {

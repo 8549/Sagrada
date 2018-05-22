@@ -3,7 +3,7 @@ package it.polimi.ingsw.serialization;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import it.polimi.ingsw.*;
+import it.polimi.ingsw.model.*;
 
 import java.io.IOException;
 

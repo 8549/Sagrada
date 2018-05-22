@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.model;
 
 public interface PatternConstraint {
     static boolean equals(PatternConstraint[][] one, PatternConstraint[][] two) {

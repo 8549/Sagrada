@@ -63,6 +63,7 @@ public class BoardDraftController {
         this.client = client;
         try {
             if (client.getClients().size() > 0) {
+
                 log("Already logged in clients:");
             }
             for (ClientInterface c : client.getClients()) {

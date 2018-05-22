@@ -3,28 +3,57 @@ package it.polimi.ingsw.network;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.rmi.Naming;
 
 public class runServer {
-    private static final int DEFAULT_PORT = 3131;
+    public static final int DEFAULT_RMI_PORT = 3131;
+    public static final int DEFAULT_SOCKET_PORT= 3130;
 
     public static void main(String[] args) {
 
         try {
 
-            OptionParser parser = new OptionParser();
-            parser.accepts("p").withRequiredArg().ofType(Integer.class).defaultsTo(DEFAULT_PORT);
-            OptionSet set = parser.parse(args);
+            new Thread(){
+                public void run(){
+                    try {
+                        // RMI server
+                        RMIServer rmiServer = new RMIServer();
+                        rmiServer.start(args);
 
-            int port = (int) set.valueOf("p");
-            //System.setSecurityManager(new RMISecurityManager());
-            java.rmi.registry.LocateRegistry.createRegistry(port);
+                    }catch (Exception e){
 
-            ServerInterface server = new RMIServer();
-            Naming.rebind("rmi://127.0.0.1:" + port + "/sagrada", server);
-            System.out.println("[System] Server is ready on port " + port);
+                    }
+                }
+            }.start();
+
+            new Thread(){
+                public void run(){
+                    try {
+                        //Socket server
+                        SocketServer socketServer= new SocketServer();
+                        socketServer.start(args);
+
+                    }catch (Exception e){
+
+                    }
+                }
+            }.start();
+
+
+
+                System.out.println("[System] RMI Server is listening on port " + DEFAULT_RMI_PORT);
+                System.out.println("[System] Socket server is listening on port " + DEFAULT_SOCKET_PORT);
+
+
+
         }catch (Exception e) {
             System.out.println("Server failed: " + e);
         }
     }
+
 }
