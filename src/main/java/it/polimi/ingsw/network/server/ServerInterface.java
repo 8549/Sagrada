@@ -16,5 +16,6 @@ public interface ServerInterface extends Remote {
     public void showClients() throws  RemoteException;
     public ObservableList<ClientWrapper> getClientsConnected() throws RemoteException;
     public void removeClient(ClientWrapper c) throws RemoteException;
+    public boolean checkTimer() throws RemoteException;
 
 }

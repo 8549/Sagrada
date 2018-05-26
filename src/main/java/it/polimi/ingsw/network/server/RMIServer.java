@@ -129,6 +129,11 @@ public class RMIServer extends UnicastRemoteObject implements ServerInterface {
 
     }
 
+    @Override
+    public boolean checkTimer() throws RemoteException {
+        return false;
+    }
+
 
     @Override
     public synchronized void notifyClients() {

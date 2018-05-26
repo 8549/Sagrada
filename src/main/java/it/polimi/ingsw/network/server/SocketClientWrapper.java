@@ -7,11 +7,9 @@ import java.util.logging.SocketHandler;
 public class SocketClientWrapper extends ClientWrapper {
 
     SocketHandler socketHandler;
-    SocketServer server;
 
-    public SocketClientWrapper(String data, SocketServer s){
+    public SocketClientWrapper(String data){
         this.player = new Player(data);
-        this.server = server;
     }
 
     @Override
@@ -25,6 +23,5 @@ public class SocketClientWrapper extends ClientWrapper {
     @Override
     public void disconnect() {
         clients.remove(this);
-        server.showClients();
     }
 }

@@ -9,6 +9,9 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.rmi.RemoteException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static it.polimi.ingsw.network.runServer.DEFAULT_SOCKET_PORT;
 
@@ -17,6 +20,8 @@ public class SocketServer implements ServerInterface {
     ObservableList<ClientWrapper> users;
     ObservableList<ClientWrapper> lobby;
     ObservableList<SocketHandler> socketClients = FXCollections.observableArrayList();
+    Timer timer;
+    private boolean timerIsRunning=false;
 
     public SocketServer(ObservableList<ClientWrapper> users, ObservableList<ClientWrapper> lobby){
         this.users = users;
@@ -24,7 +29,7 @@ public class SocketServer implements ServerInterface {
     }
 
     @Override
-    public void start(String[] args) throws IOException {
+    public  void start(String[] args) throws IOException {
         ServerSocket listener = new ServerSocket(DEFAULT_SOCKET_PORT);
         System.out.println("[System] Socket server is listening on port " + DEFAULT_SOCKET_PORT);
 
@@ -48,7 +53,7 @@ public class SocketServer implements ServerInterface {
     }
 
     @Override
-    public void ping() {
+    public  void ping() {
         for (SocketHandler s : socketClients){
             try {
                 if(!s.ping()){
@@ -64,7 +69,7 @@ public class SocketServer implements ServerInterface {
     }
 
     @Override
-    public boolean login(ClientWrapper client){
+    public  boolean login(ClientWrapper client){
         for (ClientWrapper c : users ){
             if (c.getName().equals(client.getName())){
                 System.err.println("User already logged in");
@@ -72,30 +77,33 @@ public class SocketServer implements ServerInterface {
             }
         }
         users.add(client);
-        lobby.add(client);
+        if(lobby.size()<5){
+            lobby.add(client);
+
+        }
         client.setCurrentLogged(users);
-        for (ClientWrapper c : lobby){
+        for (ClientWrapper c : users){
             if (!c.equals(client)) {
                 c.updatePlayersInfo(client);
             }
         }
         showClients();
+        return checkTimer();
 
-        return true;
     }
 
     @Override
-    public boolean updateOtherServer()  {
+    public  boolean updateOtherServer()  {
         return false;
     }
 
     @Override
-    public void notifyClients()  {
+    public  void notifyClients()  {
 
     }
 
     @Override
-    public void showClients()  {
+    public  void showClients()  {
         System.out.println("Current Players");
         for (ClientWrapper c : users){
             System.out.println("Player: " + c.getName());
@@ -109,14 +117,59 @@ public class SocketServer implements ServerInterface {
     }
 
     @Override
-    public void removeClient(ClientWrapper c) {
+    public  void removeClient(ClientWrapper c) {
         users.remove(c);
     }
 
-    public String processInput(String header, String data, SocketHandler s) {
+    @Override
+    public  boolean checkTimer() {
+        if (users.size()<2){
+            System.out.println("Waiting for more players . . .");
+            if (timerIsRunning) {
+                timer.cancel();
+                timerIsRunning = false;
+                System.out.println("Timer stopped");
+            }
+        }else {
+            if (users.size()==2){
+                timerIsRunning = true;
+                timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        //TODO: Start game code here
+                        try {
+                            showClients();
+                            System.out.println("Time to join the game is out !");
+                            if (users.size() > 2) {
+                                System.out.println("Let the game begin !");
+                            }
+                        }catch (Exception e){
+                            System.out.println("Exception inside timer!!!!!!!!!!!!!!!!!!!!!!!");
+                            e.printStackTrace();
+                        }
+                    }
+                }, 80*1000);
+
+                System.out.println("Timer has started!!" );
+
+            }else if(users.size()==4){
+                //TODO: Start game code here
+                System.out.println("Let the game begin !");
+
+            } else if(users.size()>4){
+                System.out.println("Too many users !");
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+    public synchronized String processInput(String header, String data, SocketHandler s) {
 
         switch(header){
-            case "login":   ClientWrapper client = new SocketClientWrapper(data, this);
+            case "login":   ClientWrapper client = new SocketClientWrapper(data);
                             s.setClient(client);
                             boolean response = login(client);
                             return client.loginResponse(response);
@@ -177,8 +230,8 @@ public class SocketServer implements ServerInterface {
                 } catch (IOException e) {
                     log("Couldn't close a socket, what's going on?");
                 }
-                log("Connection with client closed");
-
+                log("Connection with " + client.getName() + " closed");
+                checkTimer();
 
             }
         }
