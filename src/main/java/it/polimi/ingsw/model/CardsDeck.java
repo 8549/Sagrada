@@ -1,19 +1,29 @@
 package it.polimi.ingsw.model;
 
 import com.google.gson.TypeAdapter;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+import it.polimi.ingsw.Utils;
+import it.polimi.ingsw.serialization.GsonSingleton;
 
+import java.io.IOError;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class CardsDeck {
 
-    private List<Card> cardsDeck; // card da fare
+    private List<? extends Card> cardsDeck; // card da fare
 
-    public CardsDeck(String directory, TypeAdapter adapter) {
-        //load from file
-        //populate list
-        cardsDeck = new ArrayList<Card>();
+    public CardsDeck(String file, Type type) {
+        try (JsonReader reader = new JsonReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream(file)))) {
+            cardsDeck = GsonSingleton.getInstance().fromJson(reader, type);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -23,16 +33,15 @@ public class CardsDeck {
      */
     public Card getRandomCard() {
         if (cardsDeck.size() > 0) {
-            Random rnd = new Random();
-            return cardsDeck.remove(rnd.nextInt(cardsDeck.size()));
+            return cardsDeck.remove(Utils.getRandom(0, cardsDeck.size()));
         } else {
-            //return empty tool card
-            //ToolCard emptyToolCard = new ToolCard
-            //return emptyToolCard.setEmpty;
-            return null; //TODO
+            return null;
         }
 
     }
 
 
+    public List<? extends Card> getAsList() {
+        return cardsDeck;
+    }
 }

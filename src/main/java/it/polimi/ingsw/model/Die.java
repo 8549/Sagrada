@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.Utils;
+
 import java.util.Objects;
 import java.util.Random;
 
@@ -25,7 +27,7 @@ public class Die {
 
     public void roll() {
         Random random = new Random();
-        this.number = random.nextInt(MAX + 1 - MIN) + MIN;
+        this.number = Utils.getRandom(MIN, MAX);
     }
 
     public void setNumber(int value) {

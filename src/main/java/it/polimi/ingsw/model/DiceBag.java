@@ -5,9 +5,10 @@ import java.util.List;
 import java.util.Random;
 
 public class DiceBag {
-    private List<Die> dice;
+    private static List<Die> dice;
+    private static DiceBag instance;
 
-    public DiceBag() {
+    private DiceBag() {
         dice = new ArrayList<Die>();
         for (SagradaColor color : SagradaColor.values()) {
             for (int i = 0; i < 18; i++) {
@@ -16,12 +17,19 @@ public class DiceBag {
         }
     }
 
+    public static DiceBag getInstance(){
+        if (instance == null){
+            instance = new DiceBag();
+        }
+        return instance;
+    }
+
     /**
      * Pulls out a die from the dice bag
      *
      * @return A die if there's any, otherwise null
      */
-    public Die draftDie() {
+    public static Die draftDie() {
         if (dice.isEmpty()) {
             return null;
         } else {
@@ -30,7 +38,7 @@ public class DiceBag {
         }
     }
 
-    public int getSizeDice(){
+    public static int getSize(){
         return dice.size();
     }
 
@@ -39,7 +47,7 @@ public class DiceBag {
      * @param die
      * @return true if the bag wasn't full and the die was added, false otherwise
      */
-    public boolean addDie(Die die) {
+    public static boolean addDie(Die die) {
         if (dice.size() < 90) {
             dice.add(die);
             return true;
