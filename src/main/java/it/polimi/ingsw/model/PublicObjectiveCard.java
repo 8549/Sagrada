@@ -196,9 +196,4 @@ public class PublicObjectiveCard extends ObjCard {
         return 0;
 
     }
-
-    //TODO
-    public int getPoints() {
-        return 0;
-    }
 }

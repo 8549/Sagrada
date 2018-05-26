@@ -2,8 +2,10 @@
   {
     "name": "Row Color Variety",
     "type": "color",
-    "where": "rows",
-    "rules": "noRepeated",
+    "where": "row",
+    "rules": [
+      "noRepeated"
+    ],
     "prize": {
       "type": "fixed",
       "value": 6
@@ -12,8 +14,10 @@
   {
     "name": "Column Color Variety",
     "type": "color",
-    "where": "columns",
-    "rules": "noRepeated",
+    "where": "column",
+    "rules": [
+      "noRepeated"
+    ],
     "prize": {
       "type": "fixed",
       "value": 5
@@ -22,8 +26,10 @@
   {
     "name": "Row Shade Variety",
     "type": "number",
-    "where": "rows",
-    "rules": "noRepeated",
+    "where": "row",
+    "rules": [
+      "noRepeated"
+    ],
     "prize": {
       "type": "fixed",
       "value": 5
@@ -32,8 +38,10 @@
   {
     "name": "Column Shade Variety",
     "type": "number",
-    "where": "columns",
-    "rules": "noRepeated",
+    "where": "column",
+    "rules": [
+      "noRepeated"
+    ],
     "prize": {
       "type": "fixed",
       "value": 4
@@ -107,8 +115,8 @@
       "purple"
     ],
     "prize": {
-      "type": "sum",
-      "value": "number"
+      "type": "count",
+      "value": 0
     }
   },
   {
