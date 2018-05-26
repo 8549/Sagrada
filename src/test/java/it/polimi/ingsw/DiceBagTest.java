@@ -11,11 +11,10 @@ class DiceBagTest {
 
     @Test
     void draftDie() {
-        DiceBag dicebag = new DiceBag();
         Die die2;
-        die2 = dicebag.draftDie();
+        die2 = DiceBag.draftDie();
 
-        assertEquals(dicebag.getSizeDice(), 89);
+        assertEquals(DiceBag.getSize(), 89);
 
     }
 
@@ -26,10 +25,9 @@ class DiceBagTest {
 
     @Test
     void addDie() {
-        DiceBag diceBag = new DiceBag();
         Die die = new Die(SagradaColor.BLUE);
-        assertFalse(diceBag.addDie(die));
-        Die die1 = diceBag.draftDie();
-        assertTrue(diceBag.addDie(die));
+        assertFalse(DiceBag.addDie(die));
+        Die die1 = DiceBag.draftDie();
+        assertTrue(DiceBag.addDie(die));
     }
 }
