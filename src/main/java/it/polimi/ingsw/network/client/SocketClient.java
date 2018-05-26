@@ -1,7 +1,6 @@
-package it.polimi.ingsw.network.client_side;
+package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.network.client_side.ClientInterface;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -10,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.rmi.RemoteException;
 import java.util.List;
 
 import static it.polimi.ingsw.network.runServer.DEFAULT_SOCKET_PORT;

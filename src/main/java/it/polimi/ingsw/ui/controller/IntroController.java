@@ -1,8 +1,8 @@
 package it.polimi.ingsw.ui.controller;
 
-import it.polimi.ingsw.network.client_side.ClientInterface;
-import it.polimi.ingsw.network.client_side.RMIClient;
-import it.polimi.ingsw.network.client_side.SocketClient;
+import it.polimi.ingsw.network.client.ClientInterface;
+import it.polimi.ingsw.network.client.RMIClient;
+import it.polimi.ingsw.network.client.SocketClient;
 import it.polimi.ingsw.ui.GameProperties;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.serverside;
+package it.polimi.ingsw.network.server;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,7 +9,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 
 import static it.polimi.ingsw.network.runServer.DEFAULT_SOCKET_PORT;
 

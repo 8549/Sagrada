@@ -1,12 +1,10 @@
-package it.polimi.ingsw.network.client_side;
+package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.network.client_side.ClientInterface;
-import it.polimi.ingsw.network.serverside.ServerInterface;
+import it.polimi.ingsw.network.server.ServerInterface;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.rmi.Naming;

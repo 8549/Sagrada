@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.client_side;
+package it.polimi.ingsw.network.client;
 
 import javafx.collections.ObservableList;
 

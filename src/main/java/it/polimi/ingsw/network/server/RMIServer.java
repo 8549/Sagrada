@@ -1,7 +1,7 @@
-package it.polimi.ingsw.network.serverside;
+package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.GameManager;
-import it.polimi.ingsw.network.client_side.ClientInterface;
+import it.polimi.ingsw.network.client.ClientInterface;
 import javafx.collections.ObservableList;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;

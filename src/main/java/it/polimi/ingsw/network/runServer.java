@@ -1,8 +1,8 @@
 package it.polimi.ingsw.network;
 
-import it.polimi.ingsw.network.serverside.ClientWrapper;
-import it.polimi.ingsw.network.serverside.RMIServer;
-import it.polimi.ingsw.network.serverside.SocketServer;
+import it.polimi.ingsw.network.server.ClientWrapper;
+import it.polimi.ingsw.network.server.RMIServer;
+import it.polimi.ingsw.network.server.SocketServer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
