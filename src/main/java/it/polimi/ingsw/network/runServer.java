@@ -1,58 +1,62 @@
 package it.polimi.ingsw.network;
 
-import joptsimple.OptionParser;
-import joptsimple.OptionSet;
+import it.polimi.ingsw.network.serverside.ClientWrapper;
+import it.polimi.ingsw.network.serverside.RMIServer;
+import it.polimi.ingsw.network.serverside.SocketServer;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.rmi.Naming;
+import java.io.IOException;
+import java.rmi.RemoteException;
+
 
 public class runServer {
     public static final int DEFAULT_RMI_PORT = 1234;
     public static final int DEFAULT_SOCKET_PORT= 3130;
+    static ObservableList<ClientWrapper> users = FXCollections.observableArrayList();
+    static ObservableList<ClientWrapper> lobby = FXCollections.observableArrayList();
+
 
     public static void main(String[] args) {
 
         try {
+            // RMI server
+            RMIServer rmiServer = new RMIServer(users, lobby);
+
+            //Socket server
+            SocketServer socketServer= new SocketServer(users, lobby);
 
             new Thread(){
                 public void run(){
                     try {
-                        // RMI server
-                        RMIServer rmiServer = new RMIServer();
-                        rmiServer.start(args);
 
-                    }catch (Exception e){
-
-                    }
-                }
-            }.start();
-
-            new Thread(){
-                public void run(){
-                    try {
-                        //Socket server
-                        SocketServer socketServer= new SocketServer();
                         socketServer.start(args);
 
-                    }catch (Exception e){
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
+                }
+            }.start();
 
+            new Thread(){
+                public void run(){
+                    try {
+
+                        rmiServer.start(args);
+
+                    }catch (RemoteException e){
+                        e.printStackTrace();
                     }
                 }
             }.start();
 
 
 
-                System.out.println("[System] RMI Server is listening on port " + DEFAULT_RMI_PORT);
-                System.out.println("[System] Socket server is listening on port " + DEFAULT_SOCKET_PORT);
+        }catch (RemoteException e) {
+            System.err.println("Server failed due to RMI problem: " + e);
+        }catch (IOException e){
+            System.err.println("Server failed due to Socket problem: " + e);
 
-
-
-        }catch (Exception e) {
-            System.out.println("Server failed: " + e);
         }
     }
 

@@ -1,9 +1,8 @@
 package it.polimi.ingsw.ui.controller;
 
-import it.polimi.ingsw.network.ClientInterface;
-import it.polimi.ingsw.network.RMIClient;
-import it.polimi.ingsw.network.ServerInterface;
-import it.polimi.ingsw.network.SocketClient;
+import it.polimi.ingsw.network.client_side.ClientInterface;
+import it.polimi.ingsw.network.client_side.RMIClient;
+import it.polimi.ingsw.network.client_side.SocketClient;
 import it.polimi.ingsw.ui.GameProperties;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,7 +13,6 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Properties;

@@ -1,6 +1,8 @@
-package it.polimi.ingsw.network;
+package it.polimi.ingsw.network.client_side;
 
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.network.client_side.ClientInterface;
+import it.polimi.ingsw.network.serverside.ServerInterface;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -24,7 +26,7 @@ public class RMIClient extends UnicastRemoteObject implements ClientInterface {
         player = new Player(name);
         try {
             System.out.println("Ip address : " + java.net.InetAddress.getLocalHost());
-            System.setProperty("java.rmi.server.hostname", InetAddress.getLocalHost().getHostAddress());
+            //System.setProperty("java.rmi.server.hostname", InetAddress.getLocalHost().getHostAddress());
             server = (ServerInterface) Naming.lookup("rmi://" + hostName + ":" + DEFAULT_RMI_PORT + "/sagrada");
         } catch (NotBoundException e) {
             e.printStackTrace();
@@ -43,7 +45,7 @@ public class RMIClient extends UnicastRemoteObject implements ClientInterface {
 
     @Override
     public void login() {
-        try {
+        /*try {
             if (server.login(this)) {
                 System.out.println("Login accepted");
             } else {
@@ -51,7 +53,7 @@ public class RMIClient extends UnicastRemoteObject implements ClientInterface {
             }
         } catch (RemoteException e) {
             e.printStackTrace();
-        }
+        }*/
 
     }
 

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.ui.controller;
 
-import it.polimi.ingsw.network.ClientInterface;
+import it.polimi.ingsw.network.client_side.ClientInterface;
 import javafx.collections.ListChangeListener;
 import javafx.collections.WeakListChangeListener;
 import javafx.event.ActionEvent;

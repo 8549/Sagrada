@@ -1,11 +1,9 @@
-package it.polimi.ingsw.network;
+package it.polimi.ingsw.network.client_side;
 
-import javafx.beans.property.ListProperty;
 import javafx.collections.ObservableList;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.rmi.server.RemoteObject;
 import java.util.List;
 
 public interface ClientInterface extends Remote {

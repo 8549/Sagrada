@@ -1,6 +1,7 @@
-package it.polimi.ingsw.network;
+package it.polimi.ingsw.network.client_side;
 
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.network.client_side.ClientInterface;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -14,7 +15,7 @@ import java.util.List;
 
 import static it.polimi.ingsw.network.runServer.DEFAULT_SOCKET_PORT;
 
-public class SocketClient implements ClientInterface{
+public class SocketClient implements ClientInterface {
     private Player player;
     ObservableList<ClientInterface> clients = FXCollections.observableArrayList();
     private BufferedReader in;
@@ -31,28 +32,19 @@ public class SocketClient implements ClientInterface{
                 new InputStreamReader(socket.getInputStream()));
         out = new PrintWriter(socket.getOutputStream(), true);
 
-            String response;
-            try {
-                response = in.readLine();
-                if (response == null || response.equals("")) {
-                    System.exit(0);
-                }else{
-                    System.out.println("Response from server: " + response);
-                }
-            } catch (IOException ex) {
-                response = "Error: " + ex;
-            }
+        String response = waitResponse();
 
+        System.out.println("Response from server: " + response);
 
 
     }
     @Override
-    public String getName() throws RemoteException {
+    public String getName() {
         return player.getName();
     }
 
     @Override
-    public void login() throws RemoteException {
+    public void login()  {
         out.println("request-login-" + player.getName() + "-" + port + "-end" );
         updatePlayersInfo(this);
         try {
@@ -66,22 +58,35 @@ public class SocketClient implements ClientInterface{
     }
 
     @Override
-    public void pushData() throws RemoteException {
+    public void pushData() {
 
     }
 
     @Override
-    public void updatePlayersInfo(ClientInterface c) throws RemoteException {
+    public void updatePlayersInfo(ClientInterface c)  {
         clients.add(c);
     }
 
     @Override
-    public ObservableList<ClientInterface> getClients() throws RemoteException {
+    public ObservableList<ClientInterface> getClients() {
         return clients;
     }
 
     @Override
-    public void setCurrentLogged(List<ClientInterface> clients) throws RemoteException {
+    public void setCurrentLogged(List<ClientInterface> clients) {
         clients.addAll(clients);
+    }
+
+    public String waitResponse(){
+        String response="";
+        while (response == null || response.equals("")){
+            try {
+                response= in.readLine();
+            } catch (IOException e) {
+                System.err.println("Socket problem occured");
+                e.printStackTrace();
+            }
+        }
+        return response;
     }
 }
