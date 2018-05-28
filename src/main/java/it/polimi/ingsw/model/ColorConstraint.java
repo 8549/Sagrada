@@ -1,5 +1,8 @@
 package it.polimi.ingsw.model;
 
+import javafx.scene.Node;
+import javafx.scene.shape.Rectangle;
+
 public class ColorConstraint implements PatternConstraint {
     private SagradaColor color;
 
@@ -10,6 +13,15 @@ public class ColorConstraint implements PatternConstraint {
     @Override
     public boolean checkConstraint(Die die) {
         return color.equals(die.getColor());
+    }
+
+    @Override
+    public Node getAsGraphic(double size) {
+        Rectangle rect = new Rectangle();
+        rect.setWidth(size);
+        rect.setHeight(size);
+        rect.setFill(color.getColor());
+        return rect;
     }
 
     public SagradaColor getColor() {

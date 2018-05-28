@@ -1,9 +1,22 @@
 package it.polimi.ingsw.model;
 
+import javafx.scene.Node;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+
 public class BlankConstraint implements PatternConstraint {
 
     public boolean checkConstraint(Die die) {
         return true;
+    }
+
+    @Override
+    public Node getAsGraphic(double size) {
+        Rectangle rect = new Rectangle();
+        rect.setWidth(size);
+        rect.setHeight(size);
+        rect.setFill(Color.TRANSPARENT);
+        return rect;
     }
 
     @Override

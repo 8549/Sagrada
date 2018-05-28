@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import javafx.scene.Node;
+
 public interface PatternConstraint {
     static boolean equals(PatternConstraint[][] one, PatternConstraint[][] two) {
         if (one.length != two.length) {
@@ -28,5 +30,8 @@ public interface PatternConstraint {
         }
         return false;
     }
+
     boolean checkConstraint(Die die);
+
+    Node getAsGraphic(double size);
 }
