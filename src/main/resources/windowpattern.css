@@ -1,0 +1,36 @@
+
+.patternCardBase {
+  -fx-background-image: url(images/pattern/card.png);
+  -fx-background-repeat: no-repeat;
+  -fx-background-size: stretch;
+}
+.patternCardGrid {
+  -fx-border-width: 5;
+  -fx-border-color: black;
+}
+.patternCardContainer {
+  -fx-border-color: transparent;
+  -fx-border-width: 3;
+  -fx-background-color: black;
+}
+.patternCardName {
+  -fx-text-fill: white;
+}
+.patternCardCell {
+  -fx-border-color: black;
+  -fx-border-width: 5;
+  /*-fx-graphic-text-gap: 0;
+  -fx-background-radius: 0;
+  -fx-content-display: graphic-only;*/
+  -fx-pref-width: 70;
+  -fx-max-width: 70;
+  -fx-pref-height: 70;
+  -fx-max-width: 70;
+}
+.token {
+  -fx-fill: white;
+  -fx-effect: innershadow(gaussian, rgba(175,175,200,0.9), 3, 0.2, -1, -2);
+}
+.chosen {
+  -fx-border-color: gold;
+}

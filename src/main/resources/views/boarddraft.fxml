@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" xmlns="http://javafx.com/javafx/9.0.1"
-            fx:controller="it.polimi.ingsw.ui.controller.BoardDraftController">
-    <left>
-        <Button mnemonicParsing="false" onAction="#sendMove" text="Send move" BorderPane.alignment="CENTER"/>
-    </left>
-    <right>
-        <Button mnemonicParsing="false" onAction="#endTurn" text="End turn" BorderPane.alignment="CENTER"/>
-    </right>
-    <top>
+            fx:controller="it.polimi.ingsw.ui.controller.BoardController">
+    <center>
         <TextArea fx:id="txtArea" BorderPane.alignment="CENTER"/>
+    </center>
+    <top>
+        <HBox alignment="CENTER" BorderPane.alignment="CENTER">
+            <children>
+                <Label alignment="CENTER" text="Game will start in "/>
+                <Label text="00"/>
+                <Label text=" seconds"/>
+            </children>
+        </HBox>
     </top>
 </BorderPane>

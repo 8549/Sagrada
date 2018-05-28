@@ -1,5 +1,8 @@
 package it.polimi.ingsw.ui.controller;
 
+import com.google.gson.reflect.TypeToken;
+import it.polimi.ingsw.model.CardsDeck;
+import it.polimi.ingsw.model.PatternCard;
 import it.polimi.ingsw.network.client.ClientInterface;
 import it.polimi.ingsw.network.client.RMIClient;
 import it.polimi.ingsw.network.client.SocketClient;
@@ -98,14 +101,14 @@ public class IntroController {
             }
         }
 
-      /*  //Login procedure
+        //Login procedure
         try {
-            System.out.println("Trying to do login");
             client.login();
+            connectBtn.setDisable(true);
+            launchBoard(client);
         } catch (RemoteException e) {
             e.printStackTrace();
-        }*/
-        launchBoard(client);
+        }
 
 
     }
@@ -137,18 +140,23 @@ public class IntroController {
 
     public void setSelfStage(Stage selfStage) {
         this.selfStage = selfStage;
-        //selfStage.setOnCloseRequest(e -> Platform.exit());
     }
 
     private void launchBoard(ClientInterface client) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("views/boarddraft.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("views/main.fxml"));
             Parent root = loader.load();
-            BoardDraftController boardController = loader.getController();
-            boardController.init(client);
-            boardController.bindUI();
-            selfStage.setScene(new Scene(root));
+            BoardController boardController = loader.getController();
+            //boardController.init(client);
+            // boardController.bindUI();
+            Scene scene = new Scene(root);
+            scene.getStylesheets().add("board.css");
+            selfStage.setTitle("Sagrada");
+            selfStage.setScene(scene);
             selfStage.sizeToScene();
+            CardsDeck deck = new CardsDeck("SamplePatternCards.json", new TypeToken<List<PatternCard>>() {
+            }.getType());
+            boardController.showPatternCardChooser(deck.getAsList());
         } catch (IOException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("GUI Error");
