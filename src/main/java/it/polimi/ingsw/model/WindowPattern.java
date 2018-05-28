@@ -17,7 +17,7 @@ public class WindowPattern {
         return difficulty;
     }
 
-    public PatternConstraint[][] getContraints() {
+    public PatternConstraint[][] getConstraints() {
         return patternConstraints;
     }
 
