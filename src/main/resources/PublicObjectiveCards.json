@@ -3,7 +3,7 @@
     "name": "Row Color Variety",
     "type": "color",
     "where": "row",
-    "rules": [
+    "patternConstraints": [
       "noRepeated"
     ],
     "prize": {
@@ -15,7 +15,7 @@
     "name": "Column Color Variety",
     "type": "color",
     "where": "column",
-    "rules": [
+    "patternConstraints": [
       "noRepeated"
     ],
     "prize": {
@@ -27,7 +27,7 @@
     "name": "Row Shade Variety",
     "type": "number",
     "where": "row",
-    "rules": [
+    "patternConstraints": [
       "noRepeated"
     ],
     "prize": {
@@ -39,7 +39,7 @@
     "name": "Column Shade Variety",
     "type": "number",
     "where": "column",
-    "rules": [
+    "patternConstraints": [
       "noRepeated"
     ],
     "prize": {
@@ -51,7 +51,7 @@
     "name": "Light Shades",
     "type": "number",
     "where": "everywhere",
-    "rules": [
+    "patternConstraints": [
       1,
       2
     ],
@@ -64,7 +64,7 @@
     "name": "Medium Shades",
     "type": "number",
     "where": "everywhere",
-    "rules": [
+    "patternConstraints": [
       3,
       4
     ],
@@ -77,7 +77,7 @@
     "name": "Deep Shades",
     "type": "number",
     "where": "everywhere",
-    "rules": [
+    "patternConstraints": [
       5,
       6
     ],
@@ -90,7 +90,7 @@
     "name": "Shade Variety",
     "type": "numbers",
     "where": "everywhere",
-    "rules": [
+    "patternConstraints": [
       1,
       2,
       3,
@@ -107,7 +107,7 @@
     "name": "Color Diagonals",
     "type": "color",
     "where": "diagonals",
-    "rules": [
+    "patternConstraints": [
       "yellow",
       "red",
       "blue",
@@ -123,7 +123,7 @@
     "name": "Color Variety",
     "type": "color",
     "where": "everywhere",
-    "rules": [
+    "patternConstraints": [
       "yellow",
       "red",
       "blue",
