@@ -3,7 +3,10 @@ package it.polimi.ingsw;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.server.ServerInterface;
+import it.polimi.ingsw.network.server.SocketServer;
+import javafx.collections.ObservableList;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,7 +15,7 @@ import java.util.Random;
 public class GameManager {
     private static final int PATTERN_CARDS_PER_PLAYER = 2;
     private ServerInterface server;
-    private List<Player> players;
+    private ObservableList<Player> players;
     private RoundTrack roundTrack;
     private ScoreTrack scoreTrack;
     private ObjCard[] publicObjectiveCards;
@@ -25,9 +28,10 @@ public class GameManager {
     private int currentRound;
     public static final int ROUNDS = 10;
 
-    public GameManager(ServerInterface server, List<Player> players) {
+    public GameManager(ServerInterface server, ObservableList<Player> players) {
         this.server = server;
         this. players = players;
+        System.out.println("Game is started with " + players.toString());
     }
 
     /**
@@ -36,7 +40,7 @@ public class GameManager {
      */
     private void gameSetup() {
 
-        //place roud track
+        //place round track
         roundTrack = RoundTrack.getInstance();
         roundTrack.getRoundCounter();
 
@@ -72,7 +76,11 @@ public class GameManager {
 
         //create deck, extract one time only and immediately delete cards
         CardsDeck patternCardsDeck = new CardsDeck("PatternCards.json", new TypeToken<List<PatternCard>>(){}.getType());
-
+        try {
+            server.sendPlayers(players);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
         for (Player player : players) {
 
             //obj priv
@@ -83,6 +91,7 @@ public class GameManager {
             for (int i = 0; i < PATTERN_CARDS_PER_PLAYER; i++) {
                 choices.add((PatternCard) patternCardsDeck.getRandomCard());
             }
+
 
             // set pattern card da player;
             //TODO WAIT FOR PLAYER CHOICE

@@ -15,7 +15,7 @@ public class SocketClientWrapper extends ClientWrapper {
     @Override
     public String loginResponse(boolean response) {
         if (response){
-            return "Login Acceppted !";
+            return "Login Accepted !";
         }
         return "Login Failed !";
     }

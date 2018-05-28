@@ -16,7 +16,6 @@ import static it.polimi.ingsw.network.runServer.DEFAULT_RMI_PORT;
 public class RMIServer extends UnicastRemoteObject implements ServerInterface {
     ObservableList<ClientWrapper> users ;
     ObservableList<ClientWrapper> lobby ;
-    GameManager gm ;
 
     public RMIServer(ObservableList<ClientWrapper> users, ObservableList<ClientWrapper> lobby) throws RemoteException {
         this.users = users;

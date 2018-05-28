@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.server;
 
+import it.polimi.ingsw.model.Player;
 import javafx.collections.ObservableList;
 
 import java.io.IOException;
@@ -17,5 +18,6 @@ public interface ServerInterface extends Remote {
     public ObservableList<ClientWrapper> getClientsConnected() throws RemoteException;
     public void removeClient(ClientWrapper c) throws RemoteException;
     public boolean checkTimer() throws RemoteException;
+    public void sendPlayers(ObservableList<Player> players) throws RemoteException;
 
 }

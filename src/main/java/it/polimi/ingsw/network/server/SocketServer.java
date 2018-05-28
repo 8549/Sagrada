@@ -1,6 +1,10 @@
 package it.polimi.ingsw.network.server;
 
+import it.polimi.ingsw.GameManager;
+import it.polimi.ingsw.model.PatternCard;
+import it.polimi.ingsw.model.Player;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableArrayBase;
 import javafx.collections.ObservableList;
 
 import java.io.BufferedReader;
@@ -22,6 +26,7 @@ public class SocketServer implements ServerInterface {
     ObservableList<SocketHandler> socketClients = FXCollections.observableArrayList();
     Timer timer;
     private boolean timerIsRunning=false;
+    private boolean isGameStarted = false;
 
     public SocketServer(ObservableList<ClientWrapper> users, ObservableList<ClientWrapper> lobby){
         this.users = users;
@@ -137,12 +142,13 @@ public class SocketServer implements ServerInterface {
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        //TODO: Start game code here
                         try {
                             showClients();
                             System.out.println("Time to join the game is out !");
                             if (users.size() > 2) {
                                 System.out.println("Let the game begin !");
+                                timerIsRunning = false;
+                                initGame(getPlayersFromClients(users));
                             }
                         }catch (Exception e){
                             System.out.println("Exception inside timer!!!!!!!!!!!!!!!!!!!!!!!");
@@ -154,8 +160,14 @@ public class SocketServer implements ServerInterface {
                 System.out.println("Timer has started!!" );
 
             }else if(users.size()==4){
-                //TODO: Start game code here
+                if (timerIsRunning) {
+                    timer.cancel();
+                    timerIsRunning = false;
+                    System.out.println("Timer stopped");
+                }
                 System.out.println("Let the game begin !");
+                initGame(getPlayersFromClients(users));
+
 
             } else if(users.size()>4){
                 System.out.println("Too many users !");
@@ -166,20 +178,71 @@ public class SocketServer implements ServerInterface {
 
     }
 
-    public synchronized String processInput(String header, String data, SocketHandler s) {
+    public synchronized String processInput(String type, String header, String data, SocketHandler s) {
+    if (type.equals("request")){
+        switch(header) {
+            case "login":
+                if (!isGameStarted) {
+                    ClientWrapper client = new SocketClientWrapper(data);
+                    s.setClient(client);
+                    boolean response = login(client);
+                    return  client.loginResponse(response);
+                } else {
+                    return "Game is already begin, sorry try later";
+                }
 
-        switch(header){
-            case "login":   ClientWrapper client = new SocketClientWrapper(data);
-                            s.setClient(client);
-                            boolean response = login(client);
-                            return client.loginResponse(response);
-
-            default : System.out.println("Wrong message!");
+            default:
+                System.out.println("Wrong message!");
         }
+    }else{
+        System.out.println("Nothing for this command till now");
+    }
 
         return null;
     }
 
+    private ObservableList<Player> getPlayersFromClients(ObservableList<ClientWrapper> clients){
+        ObservableList<Player> players = FXCollections.observableArrayList();
+        for (ClientWrapper c : clients){
+            players.add(c.getPlayer());
+        }
+        return players;
+    }
+
+    public synchronized void initGame(ObservableList<Player> players){
+        isGameStarted = true;
+        GameManager gm= new GameManager(this, players);
+
+    }
+
+    public void choosePatternCard(ObservableList<PatternCard> choices, Player player){
+        String data= "" ;
+        String type ="request";
+        for(PatternCard c : choices){
+            data = data + "/" + c.getBack().getName() + "/" + c.getFront().getName() ;
+        }
+
+        for(SocketHandler s : socketClients){
+            if (s.getClient().getName().equals(player.getName())){
+                s.send(type,"initPattern",data);
+                break;
+            }
+        }
+
+    }
+
+    @Override
+    public void sendPlayers(ObservableList<Player> players){
+        for(SocketHandler s : socketClients){
+            String data="";
+            for (Player p: players){
+                if(!p.getName().equals(s.getClient().getName())){
+                    data= data + "/" + p.getName();
+                }
+            }
+            s.send("update", "users",data);
+        }
+    }
 
 
     /**
@@ -217,9 +280,12 @@ public class SocketServer implements ServerInterface {
                     String input = in.readLine();
                     System.out.println("Client message: " + input);
                     socketParser.parseInput(input);
-                    outputLine = processInput(socketParser.getHeader(), socketParser.getData(), this);
-
-                    out.println(outputLine);
+                    outputLine = processInput(socketParser.getType(), socketParser.getHeader(), socketParser.getData(), this);
+                    /*String type ;
+                    if(socketParser.getType().equals("request")){
+                        type="response";
+                    }*/
+                    send("response", socketParser.getHeader(), outputLine);
                 }
             } catch (IOException e) {
                 log("Error handling client");
@@ -243,8 +309,8 @@ public class SocketServer implements ServerInterface {
             System.out.println(message);
         }
 
-        public synchronized boolean sendResponse(String s){
-            out.println(s);
+        public synchronized boolean send(String type, String header, String s){
+            out.println(type + "-" + header + "-" + s + "-end");
             return true;
         }
 

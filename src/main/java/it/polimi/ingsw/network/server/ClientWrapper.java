@@ -37,4 +37,8 @@ public abstract class ClientWrapper {
         return player.getName();
     }
 
+    public Player getPlayer(){
+        return this.player;
+    }
+
 }

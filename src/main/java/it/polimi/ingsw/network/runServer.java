@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network;
 
+import it.polimi.ingsw.GameManager;
 import it.polimi.ingsw.network.server.ClientWrapper;
 import it.polimi.ingsw.network.server.RMIServer;
 import it.polimi.ingsw.network.server.SocketServer;
@@ -15,6 +16,8 @@ public class runServer {
     public static final int DEFAULT_SOCKET_PORT= 3130;
     static ObservableList<ClientWrapper> users = FXCollections.observableArrayList();
     static ObservableList<ClientWrapper> lobby = FXCollections.observableArrayList();
+
+    GameManager gm;
 
 
     public static void main(String[] args) {
@@ -50,14 +53,15 @@ public class runServer {
                 }
             }.start();
 
-
-
-        }catch (RemoteException e) {
+        } catch (RemoteException e) {
             System.err.println("Server failed due to RMI problem: " + e);
-        }catch (IOException e){
+        } catch (IOException e){
             System.err.println("Server failed due to Socket problem: " + e);
 
         }
+
+        while (users.size()<4 ) {}
+        System.out.println("Users----- > " + users.toString());
     }
 
 }

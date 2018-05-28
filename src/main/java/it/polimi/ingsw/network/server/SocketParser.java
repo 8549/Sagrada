@@ -1,13 +1,16 @@
 package it.polimi.ingsw.network.server;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.util.StringTokenizer;
 
 public class SocketParser {
     String[] message;
-    public static final int TYPE = 0;
-    public static final int HEADER = 1;
-    public static final int DATA = 2;
-    public static final int END = 3;
+    private static final int TYPE = 0;
+    private static final int HEADER = 1;
+    private static final int DATA = 2;
+    private static final int END = 3;
 
     public void parseInput(String input){
         int len= input.length();
@@ -18,6 +21,16 @@ public class SocketParser {
             message[i] = (tokens.nextToken());
             i++;
         }
+    }
+    public ObservableList<String> parseData(String data){
+        ObservableList<String> d= FXCollections.observableArrayList();
+        StringTokenizer tokens = new StringTokenizer(data, "/", false);
+        int i = 0;
+        while (tokens.hasMoreTokens()) {
+            d.add(tokens.nextToken());
+
+        }
+        return d;
     }
 
     public String getType(){

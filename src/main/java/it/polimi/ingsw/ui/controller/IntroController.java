@@ -80,7 +80,8 @@ public class IntroController {
         if (socket) {
             //connect with socket
             try {
-                client = new SocketClient(hostName, port, userName);
+                client = new SocketClient();
+                client.connect(hostName, port, userName);
 
             } catch (IOException e) {
                 e.printStackTrace();
