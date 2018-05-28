@@ -72,7 +72,7 @@ public class PlayerWindow {
             return false;
         if (column < 0 || column >= WindowPattern.COLUMNS)
             return false;
-        return windowPattern.getContraints()[row][column].checkConstraint(die);
+        return windowPattern.getConstraints()[row][column].checkConstraint(die);
     }
 
     public int dieCount() {
