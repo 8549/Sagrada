@@ -14,6 +14,7 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.rmi.RemoteException;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -148,14 +149,17 @@ public class SocketServer implements ServerInterface {
                             if (users.size() > 2) {
                                 System.out.println("Let the game begin !");
                                 timerIsRunning = false;
-                                initGame(getPlayersFromClients(users));
+                                if(!isGameStarted) {
+                                    initGame(getPlayersFromClients(users));
+                                    isGameStarted = true;
+                                }
                             }
                         }catch (Exception e){
                             System.out.println("Exception inside timer!!!!!!!!!!!!!!!!!!!!!!!");
                             e.printStackTrace();
                         }
                     }
-                }, 80*1000);
+                }, 200*1000);
 
                 System.out.println("Timer has started!!" );
 
@@ -166,7 +170,10 @@ public class SocketServer implements ServerInterface {
                     System.out.println("Timer stopped");
                 }
                 System.out.println("Let the game begin !");
-                initGame(getPlayersFromClients(users));
+                if(!isGameStarted) {
+                    initGame(getPlayersFromClients(users));
+                    isGameStarted = true;
+                }
 
 
             } else if(users.size()>4){
@@ -212,10 +219,14 @@ public class SocketServer implements ServerInterface {
     public synchronized void initGame(ObservableList<Player> players){
         isGameStarted = true;
         GameManager gm= new GameManager(this, players);
+        for(SocketHandler s: socketClients){
+            s.send("update", "start", "Game started!");
+        }
 
     }
 
-    public void choosePatternCard(ObservableList<PatternCard> choices, Player player){
+    @Override
+    public void choosePatternCard(List<PatternCard> choices, Player player){
         String data= "" ;
         String type ="request";
         for(PatternCard c : choices){
@@ -274,7 +285,6 @@ public class SocketServer implements ServerInterface {
                 out.println("Hello from server");
 
                 String outputLine;
-
                 // Get messages from the client, line by line;
                 while (true) {
                     String input = in.readLine();

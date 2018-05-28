@@ -98,12 +98,13 @@ public class IntroController {
             }
         }
 
-        //Login procedure
+      /*  //Login procedure
         try {
+            System.out.println("Trying to do login");
             client.login();
         } catch (RemoteException e) {
             e.printStackTrace();
-        }
+        }*/
         launchBoard(client);
 
 

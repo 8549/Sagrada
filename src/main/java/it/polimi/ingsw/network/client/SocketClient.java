@@ -49,12 +49,6 @@ public class SocketClient implements ClientInterface {
     @Override
     public void login()  {
         out.println("request-login-" + player.getName() + "-" + port + "-end" );
-        try {
-            listen();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
 
     }
 
@@ -82,63 +76,71 @@ public class SocketClient implements ClientInterface {
         if (type.equals("response")){
             switch(header) {
                 case "login":
-                    try {
-                    String response = in.readLine();
-                    System.out.println(response);
-                    if(response.equals("Login Accepted !")){
+                    String response=data;
+                    if(data.equals("Login Accepted !")){
                         System.out.println("Login successful!");
                         updatePlayersInfo(this);
-                        //waiting for data
-                        listen();
                     } else {
                         System.out.println("Try with a different username, or maybe the game is already began so... :(");
                     }
 
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
                     break;
                 default:
                     System.out.println("Wrong message!");
             }
         }else if(type.equals("update")){
                 switch(header){
+                    case "start": System.out.println(data);
+                        break;
                     case "users": ObservableList<String> names = socketParser.parseData(data);
+                        System.out.println("You are playing against");
                         for (String s : names) {
+                            System.out.println(s);
                             ClientInterface client = new SocketClient();
                             ((SocketClient) client).setPlayer(s);
                             updatePlayersInfo(client);
                         }
                         break;
-                    case "initPattern":
-                        ObservableList<String> patternNames = socketParser.parseData(data);
-                        CardsDeck deck = new CardsDeck("PatternCards.json", new TypeToken<List<PatternCard>>() {
-                        }.getType());
-                        List<PatternCard> list = new ArrayList<>();
-                        list.add((PatternCard) deck.getByName(patternNames.get(0)+patternNames.get(1)));
-                        list.add((PatternCard) deck.getByName(patternNames.get(2)+patternNames.get(3)));
-                        patternCards.addAll(list);
-                        break;
+
                     default: break;
 
                 }
+            }else if(type.equals("request")){
+                        switch(header){
+                            case "initPattern":
+                                ObservableList<String> patternNames = socketParser.parseData(data);
+                                CardsDeck deck = new CardsDeck("PatternCards.json", new TypeToken<List<PatternCard>>() {
+                                }.getType());
+                                List<PatternCard> list = new ArrayList<>();
+                                list.add((PatternCard) deck.getByName(patternNames.get(0)+patternNames.get(1)));
+                                list.add((PatternCard) deck.getByName(patternNames.get(2)+patternNames.get(3)));
+                                System.out.println("Choose your pattern card between : " + patternNames.get(0)+ ", " + patternNames.get(1) + ", " + patternNames.get(2) + ", " + patternNames.get(3));
+                                patternCards.addAll(list);
+                                break;
+                            default: break;
+
             }
+        }
 
         return null;
     }
     public void listen() throws IOException {
         // Get messages from the server, line by line;
+        System.out.println("client is listening");
         boolean end= false;
         while (true) {
             String input = in.readLine();
-            System.out.println("Server message: " + input);
-            if(input.equals("Hello from server")){
-                System.out.println("Connection with server established");
-                end=true;
-            }else {
-                socketParser.parseInput(input);
-                String out = processInput(socketParser.getType(), socketParser.getHeader(), socketParser.getData());
-                end=true;
+            if(input !=null){
+                if(input.equals("Hello from server")){
+                    System.out.println("Connection with server established");
+                    login();
+                    end=true;
+                }else {
+                    socketParser.parseInput(input);
+                    System.out.println("Processing "+socketParser.getType()+ socketParser.getHeader()+ socketParser.getData());
+                    String out = processInput(socketParser.getType(), socketParser.getHeader(), socketParser.getData());
+                    end=true;
+                }
             }
         }
 

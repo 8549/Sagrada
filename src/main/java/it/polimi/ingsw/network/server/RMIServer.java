@@ -1,6 +1,8 @@
 package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.GameManager;
+import it.polimi.ingsw.model.PatternCard;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.network.client.ClientInterface;
 import javafx.collections.ObservableList;
 import joptsimple.OptionParser;
@@ -10,6 +12,7 @@ import java.net.InetAddress;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.List;
 
 import static it.polimi.ingsw.network.runServer.DEFAULT_RMI_PORT;
 
@@ -131,6 +134,16 @@ public class RMIServer extends UnicastRemoteObject implements ServerInterface {
     @Override
     public boolean checkTimer() throws RemoteException {
         return false;
+    }
+
+    @Override
+    public void sendPlayers(ObservableList<Player> players) throws RemoteException {
+
+    }
+
+    @Override
+    public void choosePatternCard(List<PatternCard> choices, Player player) throws RemoteException {
+
     }
 
 

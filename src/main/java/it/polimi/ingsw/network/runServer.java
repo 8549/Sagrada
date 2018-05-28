@@ -59,9 +59,6 @@ public class runServer {
             System.err.println("Server failed due to Socket problem: " + e);
 
         }
-
-        while (users.size()<4 ) {}
-        System.out.println("Users----- > " + users.toString());
     }
 
 }

@@ -5,6 +5,7 @@ import it.polimi.ingsw.network.server.ServerInterface;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.rmi.Naming;
@@ -75,6 +76,11 @@ public class RMIClient extends UnicastRemoteObject implements ClientInterface {
     @Override
     public void setCurrentLogged(List<ClientInterface> c) {
         clients.addAll(c);
+
+    }
+
+    @Override
+    public void connect(String serverAddress, int portNumber, String userName) throws RemoteException, IOException {
 
     }
 }

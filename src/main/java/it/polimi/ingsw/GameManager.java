@@ -32,6 +32,8 @@ public class GameManager {
         this.server = server;
         this. players = players;
         System.out.println("Game is started with " + players.toString());
+        gameSetup();
+        playerSetup();
     }
 
     /**
@@ -76,6 +78,7 @@ public class GameManager {
 
         //create deck, extract one time only and immediately delete cards
         CardsDeck patternCardsDeck = new CardsDeck("PatternCards.json", new TypeToken<List<PatternCard>>(){}.getType());
+
         try {
             server.sendPlayers(players);
         } catch (RemoteException e) {
@@ -94,6 +97,12 @@ public class GameManager {
 
 
             // set pattern card da player;
+            System.out.println("Game manager ask for Pattern");
+            try {
+                server.choosePatternCard(choices,player );
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
             //TODO WAIT FOR PLAYER CHOICE
 
             //token
