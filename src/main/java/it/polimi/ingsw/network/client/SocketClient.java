@@ -111,11 +111,12 @@ public class SocketClient implements ClientInterface {
                         }
                         break;
                     case "initPattern":
+                        ObservableList<String> patternNames = socketParser.parseData(data);
                         CardsDeck deck = new CardsDeck("PatternCards.json", new TypeToken<List<PatternCard>>() {
                         }.getType());
                         List<PatternCard> list = new ArrayList<>();
-                        list.add((PatternCard) deck.getByName("NAME 1"));
-                        list.add((PatternCard) deck.getByName("NAME 2"));
+                        list.add((PatternCard) deck.getByName(patternNames.get(0)+patternNames.get(1)));
+                        list.add((PatternCard) deck.getByName(patternNames.get(2)+patternNames.get(3)));
                         patternCards.addAll(list);
                         break;
                     default: break;
