@@ -33,5 +33,11 @@ public interface PatternConstraint {
 
     boolean checkConstraint(Die die);
 
+    /**
+     * Get the appropriate graphic JavaFX Node for the constraint
+     *
+     * @param size
+     * @return a JavaFX Node representing the constraint
+     */
     Node getAsGraphic(double size);
 }
