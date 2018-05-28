@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 
-public class PatternCard {
+public class PatternCard implements Card {
     private final WindowPattern front;
     private final WindowPattern back;
 

@@ -1,0 +1,841 @@
+[
+  {
+    "front": {
+      "name": "Virtus",
+      "difficulty": 5,
+      "patternConstraints": [
+        [
+          "yellow",
+          "blue",
+          null,
+          null,
+          1
+        ],
+        [
+          "green",
+          null,
+          5,
+          null,
+          4
+        ],
+        [
+          3,
+          null,
+          "red",
+          null,
+          "green"
+        ],
+        [
+          2,
+          null,
+          null,
+          "blue",
+          "yellow"
+        ]
+      ]
+    },
+    "back": {
+      "name": "Symphony of Light",
+      "difficulty": 6,
+      "patternConstraints": [
+        [
+          "yellow",
+          "blue",
+          null,
+          null,
+          1
+        ],
+        [
+          "green",
+          null,
+          5,
+          null,
+          4
+        ],
+        [
+          3,
+          null,
+          "red",
+          null,
+          "green"
+        ],
+        [
+          2,
+          null,
+          null,
+          "blue",
+          "yellow"
+        ]
+      ]
+    }
+  },
+  {
+    "front": {
+      "name": "Firmitas",
+      "difficulty": 5,
+      "patternConstraints": [
+        [
+          "yellow",
+          "blue",
+          null,
+          null,
+          1
+        ],
+        [
+          "green",
+          null,
+          5,
+          null,
+          4
+        ],
+        [
+          3,
+          null,
+          "red",
+          null,
+          "green"
+        ],
+        [
+          2,
+          null,
+          null,
+          "blue",
+          "yellow"
+        ]
+      ]
+    },
+    "back": {
+      "name": "Kaleidoscopic Dream",
+      "difficulty": 4,
+      "patternConstraints": [
+        [
+          "yellow",
+          "blue",
+          null,
+          null,
+          1
+        ],
+        [
+          "green",
+          null,
+          5,
+          null,
+          4
+        ],
+        [
+          3,
+          null,
+          "red",
+          null,
+          "green"
+        ],
+        [
+          2,
+          null,
+          null,
+          "blue",
+          "yellow"
+        ]
+      ]
+    }
+  },
+  {
+    "front": {
+      "name": "Gravitas",
+      "difficulty": 5,
+      "patternConstraints": [
+        [
+          1,
+          null,
+          3,
+          "BLUE",
+          null
+        ],
+        [
+          null,
+          2,
+          "BLUE",
+          null,
+          null
+        ],
+        [
+          6,
+          "BLUE",
+          null,
+          5,
+          null
+        ],
+        [
+          "BLUE",
+          5,
+          2,
+          null,
+          1
+        ]
+      ]
+    },
+    "back": {
+      "name": "Water of Life",
+      "difficulty": 6,
+      "patternConstraints": [
+        [
+          6,
+          "BLUE",
+          null,
+          null,
+          1
+        ],
+        [
+          null,
+          5,
+          "BLUE",
+          null,
+          null
+        ],
+        [
+          4,
+          "RED",
+          2,
+          "BLUE",
+          null
+        ],
+        [
+          "GREEN",
+          6,
+          "YELLOW",
+          3,
+          "PURPLE"
+        ]
+      ]
+    }
+  },
+  {
+    "front": {
+      "name": "Fratal Drops",
+      "difficulty": 3,
+      "patternConstraints": [
+        [
+          null,
+          4,
+          null,
+          "YELLOW",
+          6
+        ],
+        [
+          "RED",
+          null,
+          2,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          "RED",
+          "PURPLE"
+        ],
+        [
+          "BLUE",
+          "YELLOW",
+          null,
+          null,
+          null
+        ]
+      ]
+    },
+    "back": {
+      "name": "Ripples of Light",
+      "difficulty": 5,
+      "patternConstraints": [
+        [
+          null,
+          null,
+          null,
+          "RED",
+          5
+        ],
+        [
+          null,
+          null,
+          "PURPLE",
+          4,
+          "BLUE"
+        ],
+        [
+          null,
+          "BLUE",
+          3,
+          "YELLOW",
+          6
+        ],
+        [
+          "YELLOW",
+          2,
+          "GREEN",
+          1,
+          "RED"
+        ]
+      ]
+    }
+  },
+  {
+    "front": {
+      "name": "Lux Mundi",
+      "difficulty": 6,
+      "patternConstraints": [
+        [
+          null,
+          null,
+          1,
+          null,
+          null
+        ],
+        [
+          1,
+          "GREEN",
+          3,
+          "BLUE",
+          2
+        ],
+        [
+          "BLUE",
+          5,
+          4,
+          6,
+          "GREEN"
+        ],
+        [
+          null,
+          "BLUE",
+          5,
+          "GREEN",
+          null
+        ]
+      ]
+    },
+    "back": {
+      "name": "Lux Astram",
+      "difficulty": 5,
+      "patternConstraints": [
+        [
+          null,
+          1,
+          "GREEN",
+          "PURPLE",
+          4
+        ],
+        [
+          6,
+          "PURPLE",
+          2,
+          4,
+          "GREEN"
+        ],
+        [
+          1,
+          "GREEN",
+          5,
+          3,
+          "PURPLE"
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null
+        ]
+      ]
+    }
+  },
+  {
+    "front": {
+      "name": "Sun Catcher",
+      "difficulty": 3,
+      "patternConstraints": [
+        [
+          null,
+          "BLUE",
+          2,
+          null,
+          "YELLOW"
+        ],
+        [
+          null,
+          4,
+          null,
+          "RED",
+          null
+        ],
+        [
+          null,
+          null,
+          5,
+          "YELLOW",
+          null
+        ],
+        [
+          "GREEN",
+          3,
+          null,
+          null,
+          "PURPLE"
+        ]
+      ]
+    },
+    "back": {
+      "name": "Shadow Thief",
+      "difficulty": 5,
+      "patternConstraints": [
+        [
+          6,
+          "PURPLE",
+          null,
+          null,
+          5
+        ],
+        [
+          5,
+          null,
+          "PURPLE",
+          null,
+          null
+        ],
+        [
+          "RED",
+          6
+          null,
+          "PURPLE",
+          null
+        ],
+        [
+          "YELLOW",
+          "RED",
+          5,
+          4,
+          3
+        ]
+      ]
+    }
+  },
+  {
+    "front": {
+      "name": "Aurorae Magnificus",
+      "difficulty": 5,
+      "patternConstraints": [
+        [
+          5,
+          "GREEN",
+          "BLUE",
+          "PURPLE",
+          2
+        ],
+        [
+          "PURPLE",
+          null,
+          null,
+          null,
+          "YELLOW"
+        ],
+        [
+          "YELLOW",
+          null,
+          6,
+          null,
+          "PURPLE"
+        ],
+        [
+          1,
+          null,
+          null,
+          "GREEN",
+          4
+        ]
+      ]
+    },
+    "back": {
+      "name": "Aurora Sagradis",
+      "difficulty": 4,
+      "patternConstraints": [
+        [
+          "RED",
+          null,
+          "BLUE",
+          null,
+          "YELLOW"
+        ],
+        [
+          4,
+          "PURPLE",
+          3,
+          "GREEN",
+          2
+        ],
+        [
+          null,
+          1,
+          null,
+          5,
+          null
+        ],
+        [
+          null,
+          null,
+          6,
+          null,
+          null
+        ]
+      ]
+    }
+  },
+  {
+    "front": {
+      "name": "Firelight",
+      "difficulty": 5,
+      "patternConstraints": [
+        [
+          3,
+          4,
+          1,
+          5,
+          null
+        ],
+        [
+          null,
+          6,
+          2,
+          null,
+          "YELLOW"
+        ],
+        [
+          null,
+          null,
+          null,
+          "YELLOW",
+          "RED"
+        ],
+        [
+          5,
+          null,
+          "YELLOW",
+          "RED",
+          6
+        ]
+      ]
+    },
+    "back": {
+      "name": "Sun's Glory",
+      "difficulty": 6,
+      "patternConstraints": [
+        [
+          1,
+          "PURPLE",
+          "YELLOW",
+          null,
+          4
+        ],
+        [
+          "PURPLE",
+          "YELLOW",
+          null,
+          null,
+          6
+        ],
+        [
+          "YELLOW",
+          null,
+          null,
+          5,
+          3
+        ],
+        [
+          null,
+          5,
+          4,
+          2,
+          1
+        ]
+      ]
+    }
+  },
+  {
+    "front": {
+      "name": "Batllo",
+      "difficulty": 5,
+      "patternConstraints": [
+        [
+          null,
+          null,
+          6,
+          null,
+          null
+        ],
+        [
+          null,
+          5,
+          "BLUE",
+          4,
+          null
+        ],
+        [
+          3,
+          "GREEN",
+          "YELLOW",
+          "PURPLE",
+          2
+        ],
+        [
+          1,
+          4,
+          "RED",
+          5,
+          3
+        ]
+      ]
+    },
+    "back": {
+      "name": "Bellesguard",
+      "difficulty": 3,
+      "patternConstraints": [
+        [
+          "BLUE",
+          6,
+          null,
+          null,
+          "YELLOW"
+        ],
+        [
+          null,
+          3,
+          "BLUE",
+          null,
+          null
+        ],
+        [
+          null,
+          5,
+          6,
+          2,
+          null
+        ],
+        [
+          null,
+          4,
+          null,
+          1,
+          "GREEN"
+        ]
+      ]
+    }
+  },
+  {
+    "front": {
+      "name": "Fulgor del Cielo",
+      "difficulty": 5,
+      "patternConstraints": [
+        [
+          null,
+          "BLUE",
+          "RED",
+          null,
+          null
+        ],
+        [
+          null,
+          4,
+          5,
+          null,
+          "BLUE"
+        ],
+        [
+          "BLUE",
+          2,
+          null,
+          "RED",
+          5
+        ],
+        [
+          6,
+          "RED",
+          3,
+          1,
+          null
+        ]
+      ]
+    },
+    "back": {
+      "name": "Luz Celestial",
+      "difficulty": 3,
+      "patternConstraints": [
+        [
+          null,
+          null,
+          "RED",
+          5,
+          null
+        ],
+        [
+          "PURPLE",
+          4,
+          null,
+          "GREEN",
+          3
+        ],
+        [
+          6,
+          null,
+          null,
+          "BLUE",
+          null
+        ],
+        [
+          null,
+          "YELLOW",
+          2,
+          null,
+          null
+        ]
+      ]
+    }
+  },
+  {
+    "front": {
+      "name": "Chromatic Splendor",
+      "difficulty": 4,
+      "patternConstraints": [
+        [
+          null,
+          null,
+          "GREEN",
+          null,
+          null
+        ],
+        [
+          2,
+          "YELLOW",
+          5,
+          "BLUE",
+          1
+        ],
+        [
+          null,
+          "RED",
+          3,
+          "PURPLE",
+          null
+        ],
+        [
+          1,
+          null,
+          6,
+          null,
+          4
+        ]
+      ]
+    },
+    "back": {
+      "name": "Comitas",
+      "difficulty": 5,
+      "patternConstraints": [
+        [
+          "YELLOW",
+          null,
+          2,
+          null,
+          6
+        ],
+        [
+          null,
+          4,
+          null,
+          5,
+          "YELLOW"
+        ],
+        [
+          null,
+          null,
+          null,
+          "YELLOW",
+          5
+        ],
+        [
+          1,
+          2,
+          "YELLOW",
+          3,
+          null
+        ]
+      ]
+    }
+  },
+  {
+    "front": {
+      "name": "Via Lux",
+      "difficulty": 4,
+      "patternConstraints": [
+        [
+          "YELLOW",
+          null,
+          6,
+          null,
+          null
+        ],
+        [
+          null,
+          1,
+          5,
+          null,
+          2
+        ],
+        [
+          3,
+          "YELLOW",
+          "RED",
+          "PURPLE",
+          null
+        ],
+        [
+          null,
+          null,
+          4,
+          3,
+          "RED"
+        ]
+      ]
+    },
+    "back": {
+      "name": "Industria",
+      "difficulty": 5,
+      "patternConstraints": [
+        [
+          1,
+          "RED",
+          3,
+          null,
+          6
+        ],
+        [
+          5,
+          4,
+          "RED",
+          2,
+          null
+        ],
+        [
+          null,
+          null,
+          5,
+          "RED",
+          1
+        ],
+        [
+          null,
+          null,
+          null,
+          3,
+          "RED"
+        ]
+      ]
+    }
+  }
+]
