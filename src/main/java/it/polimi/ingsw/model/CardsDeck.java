@@ -1,18 +1,13 @@
 package it.polimi.ingsw.model;
 
-import com.google.gson.TypeAdapter;
-import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.Utils;
 import it.polimi.ingsw.serialization.GsonSingleton;
 
-import java.io.IOError;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class CardsDeck {
 
@@ -40,6 +35,14 @@ public class CardsDeck {
 
     }
 
+    public Card getByName(String name) {
+        for (Card c : cardsDeck) {
+            if (c.getName().equalsIgnoreCase(name)) {
+                return c;
+            }
+        }
+        return null;
+    }
 
     public List<? extends Card> getAsList() {
         return cardsDeck;

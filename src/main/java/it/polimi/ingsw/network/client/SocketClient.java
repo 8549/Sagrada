@@ -1,9 +1,9 @@
 package it.polimi.ingsw.network.client;
 
+import com.google.gson.reflect.TypeToken;
+import it.polimi.ingsw.model.CardsDeck;
 import it.polimi.ingsw.model.PatternCard;
 import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.network.server.ClientWrapper;
-import it.polimi.ingsw.network.server.SocketClientWrapper;
 import it.polimi.ingsw.network.server.SocketParser;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.List;
 
 import static it.polimi.ingsw.network.runServer.DEFAULT_SOCKET_PORT;
@@ -25,7 +26,7 @@ public class SocketClient implements ClientInterface {
     Socket socket;
     int port;
     SocketParser socketParser;
-    List<PatternCard> patternCards;
+    ObservableList<PatternCard> patternCards = FXCollections.observableArrayList();
 
     @Override
     public void connect(String serverAddress, int portNumber, String userName) throws IOException {
@@ -103,13 +104,20 @@ public class SocketClient implements ClientInterface {
         }else if(type.equals("update")){
                 switch(header){
                     case "users": ObservableList<String> names = socketParser.parseData(data);
-                                    for(String s : names){
-                                        ClientInterface client= new SocketClient();
-                                        ((SocketClient) client).setPlayer(s);
-                                        updatePlayersInfo(client);
-                                    }
-                                    break;
-                    case "initPattern": //TODO:Load pattern from name
+                        for (String s : names) {
+                            ClientInterface client = new SocketClient();
+                            ((SocketClient) client).setPlayer(s);
+                            updatePlayersInfo(client);
+                        }
+                        break;
+                    case "initPattern":
+                        CardsDeck deck = new CardsDeck("PatternCards.json", new TypeToken<List<PatternCard>>() {
+                        }.getType());
+                        List<PatternCard> list = new ArrayList<>();
+                        list.add((PatternCard) deck.getByName("NAME 1"));
+                        list.add((PatternCard) deck.getByName("NAME 2"));
+                        patternCards.addAll(list);
+                        break;
                     default: break;
 
                 }

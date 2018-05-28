@@ -41,4 +41,9 @@ public class PatternCard implements Card {
     public int hashCode() {
         return super.hashCode();
     }
+
+    @Override
+    public String getName() {
+        return front.getName() + "/" + back.getName();
+    }
 }
