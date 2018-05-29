@@ -24,4 +24,11 @@ public class SocketClientWrapper extends ClientWrapper {
     public void disconnect() {
         clients.remove(this);
     }
+
+    @Override
+    public void updatePlayersInfo(ClientWrapper c) {
+        clients.add(c);
+
+
+    }
 }

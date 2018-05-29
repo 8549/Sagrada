@@ -16,10 +16,7 @@ public abstract class ClientWrapper {
     public abstract String loginResponse(boolean response);
     public abstract void disconnect();
 
-    public void updatePlayersInfo(ClientWrapper c) {
-        clients.add(c);
-
-    }
+    public abstract void updatePlayersInfo(ClientWrapper c) ;
 
 
     public ObservableList<ClientWrapper> getClients() {

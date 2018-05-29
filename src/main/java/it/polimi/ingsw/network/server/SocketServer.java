@@ -91,6 +91,7 @@ public class SocketServer implements ServerInterface {
         for (ClientWrapper c : users){
             if (!c.equals(client)) {
                 c.updatePlayersInfo(client);
+                updateLoggedPlayers(client);
             }
         }
         showClients();
@@ -226,20 +227,30 @@ public class SocketServer implements ServerInterface {
     }
 
     @Override
-    public void choosePatternCard(List<PatternCard> choices, Player player){
-        String data= "" ;
-        String type ="request";
-        for(PatternCard c : choices){
-            data = data + "/" + c.getBack().getName() + "/" + c.getFront().getName() ;
+    public void choosePatternCard(List<PatternCard> choices, Player player) {
+        String data = "";
+        String type = "request";
+        for (PatternCard c : choices) {
+            data = data + "/" + c.getBack().getName() + "/" + c.getFront().getName();
         }
 
-        for(SocketHandler s : socketClients){
-            if (s.getClient().getName().equals(player.getName())){
-                s.send(type,"initPattern",data);
+        for (SocketHandler s : socketClients) {
+            if (s.getClient().getName().equals(player.getName())) {
+                s.send(type, "initPattern", data);
             }
 
         }
 
+    }
+
+    public void updateLoggedPlayers(ClientWrapper c){
+        String data = c.getName();
+
+        for(SocketHandler s : socketClients){
+            if(!s.getClient().getName().equals(c.getName())){
+                s.send("update", "userLogged",data);
+            }
+        }
     }
 
     @Override

@@ -5,6 +5,8 @@ import it.polimi.ingsw.model.CardsDeck;
 import it.polimi.ingsw.model.PatternCard;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.network.server.SocketParser;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -26,6 +28,8 @@ public class SocketClient implements ClientInterface {
     SocketParser socketParserClient = new SocketParser();
     ObservableList<PatternCard> patternCards = FXCollections.observableArrayList();
     SocketHandlerClient socketHandlerClient;
+    StringProperty gameStatus = new SimpleStringProperty("WAITING_LOGIN");
+
     @Override
     public void connect(String serverAddress, int portNumber, String userName) throws IOException {
         player = new Player(userName);
@@ -75,10 +79,11 @@ public class SocketClient implements ClientInterface {
                     if(data.equals("Login Accepted !")){
                         System.out.println("Login successful!");
                         updatePlayersInfo(this);
+                        gameStatus.set("WAITING_PLAYERS");
+
                     } else {
                         System.out.println("Try with a different username, or maybe the game is already began so... :(");
                     }
-
                     break;
                 default:
                     System.out.println("Wrong message!");
@@ -86,6 +91,7 @@ public class SocketClient implements ClientInterface {
         }else if(type.equals("update")){
                 switch(header){
                     case "start": System.out.println(data);
+                                gameStatus.set("STARTED");
                         break;
                     case "users": ObservableList<String> names = socketParserClient.parseData(data);
                         System.out.println("You are playing against");
@@ -97,12 +103,21 @@ public class SocketClient implements ClientInterface {
                         }
                         break;
 
+                    case "userLogged": String name = data;
+                        System.out.println("user " + name + "logged in");
+                        ClientInterface client = new SocketClient();
+                        ((SocketClient) client).setPlayer(name);
+                        updatePlayersInfo(client);
+
+                        break;
+
                     default: break;
 
                 }
         }else if(type.equals("request")){
                 switch(header){
                     case "initPattern":
+                        gameStatus.set("WAITING_PATTERNCARD");
                         ObservableList<String> patternNames = socketParserClient.parseData(data);
                         CardsDeck deck = new CardsDeck("PatternCards.json", new TypeToken<List<PatternCard>>() {
                         }.getType());
@@ -111,6 +126,7 @@ public class SocketClient implements ClientInterface {
                         list.add((PatternCard) deck.getByName(patternNames.get(2)+patternNames.get(3)));
                         System.out.println("Choose your pattern card between : " + patternNames.get(0)+ ", " + patternNames.get(1) + ", " + patternNames.get(2) + ", " + patternNames.get(3));
                         patternCards.addAll(list);
+
                         break;
                     default: break;
 
@@ -132,7 +148,6 @@ public class SocketClient implements ClientInterface {
         SocketClient client;
         Socket socket;
         SocketParser socketParser;
-        boolean available=false;
 
         private SocketHandlerClient(SocketClient client, Socket socket){
             this.client = client;
