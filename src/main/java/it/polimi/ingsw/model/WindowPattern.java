@@ -25,6 +25,10 @@ public class WindowPattern {
         return name;
     }
 
+    public PatternConstraint getConstraint(int row, int column){
+        return patternConstraints[row][column];
+    }
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

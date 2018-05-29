@@ -24,9 +24,9 @@ public class GameManager {
     private DiceBag diceBag;
     private Player firstPlayer;
     private Player currentPlayer;
-    private int currentTurn;
-    private int currentRound;
     public static final int ROUNDS = 10;
+    public static final int FIRSTROUND = 1;
+    public static final int SECONDROUND = 2;
 
     public GameManager(ServerInterface server, ObservableList<Player> players) {
         this.server = server;
@@ -111,37 +111,17 @@ public class GameManager {
 
     }
 
+
     public Player getFirstPlayer() {
 
         return firstPlayer;
     }
 
-    public int getCurrentTurn() {
-        return currentTurn;
-    }
-
-    public int getCurrentRound() {
-
-        return currentRound;
-    }
-
-
-    public void setNextTurn() {
-        if (currentTurn == 1) {
-        } else {
-            setNextRound();
-        }
-    }
-
-    public void setNextRound() {
-        if (currentRound == 10) {
-            endGame();
-        } else {
-        }
-    }
 
     public void endGame() {
-
+        //check points private objective cards
+        // check Points public objective cards
+        // send points and winner
     }
 
     public Player getCurrentPlayer() {
@@ -152,5 +132,38 @@ public class GameManager {
         return players;
     }
 
+    public void gameLoop() {
+        for (int i = 1; i <= ROUNDS; i++) {
+            Round round = new Round(players, i);
+            round.playRound();
+            players.add(players.get(0));
+            players.remove(players.get(0));
+        }
+        endGame();
+    }
 
+    public void disconnectPlayer(Player player, Round round) {
+        players.remove(player);
+        int num = round.getCurrentTurn();
+        round.removeTurn(player, round.getTurns().get(num).getNumber());
+    }
+
+    public void reconnectPlayer(Player player, Round round) {
+        if (players.size() < 4) {
+            int numb = round.getTurns().get(round.getCurrentTurn()).getNumber();
+            Turn turn = new Turn(player, numb);
+            players.add(player);
+            if (numb == FIRSTROUND) {
+                int num = round.getTurns().size() / 2;
+                round.getTurns().add(num - 1, turn);
+                round.getTurns().add(num, turn);
+            } else {
+                round.getTurns().add(turn);
+            }
+        }
+    }
+
+    public boolean checkContraints(WindowPattern windowPattern, int row, int column, Die die){
+        return windowPattern.getConstraint(row, column).checkConstraint(die);
+    }
 }
