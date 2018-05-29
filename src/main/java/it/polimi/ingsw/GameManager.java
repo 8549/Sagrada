@@ -117,7 +117,6 @@ public class GameManager {
         return firstPlayer;
     }
 
-
     public void endGame() {
         //check points private objective cards
         // check Points public objective cards

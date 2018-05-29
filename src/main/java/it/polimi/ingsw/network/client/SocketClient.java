@@ -4,6 +4,7 @@ import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.CardsDeck;
 import it.polimi.ingsw.model.PatternCard;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.WindowPattern;
 import it.polimi.ingsw.network.server.SocketParser;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -110,6 +111,10 @@ public class SocketClient implements ClientInterface {
                         updatePlayersInfo(client);
 
                         break;
+                    case "patterncard": ObservableList<String> tokens = socketParserClient.parseData(data);
+                                    System.out.println("Player " + tokens.get(1) + " choose pattern card" + tokens.get(0));
+
+                        break;
 
                     default: break;
 
@@ -139,6 +144,12 @@ public class SocketClient implements ClientInterface {
 
     public void setPlayer(String name){
         this.player = new Player(name);
+
+    }
+
+    public void validatePatternCard(WindowPattern windowPattern) {
+        socketHandlerClient.send("request-patterncard-" + windowPattern.getName() + "-end");
+
 
     }
 

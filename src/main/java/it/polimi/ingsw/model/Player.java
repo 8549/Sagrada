@@ -11,7 +11,9 @@ public class Player {
         this.name = name;
         this.playerWindow = new PlayerWindow();
         this.privateObjectiveCardSet = false;
+        
     }
+
 
 
     /**

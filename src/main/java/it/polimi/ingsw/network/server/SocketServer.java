@@ -1,8 +1,8 @@
 package it.polimi.ingsw.network.server;
 
+import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.GameManager;
-import it.polimi.ingsw.model.PatternCard;
-import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableArrayBase;
 import javafx.collections.ObservableList;
@@ -199,6 +199,31 @@ public class SocketServer implements ServerInterface {
                     return "Game is already begin, sorry try later";
                 }
 
+            case "patterncard":
+                CardsDeck cardsDeck = new CardsDeck("PatternCards.json", new TypeToken<List<PatternCard>>(){}.getType());
+                WindowPattern windowPattern=null;
+                for(Card c :cardsDeck.getAsList()){
+                    if(data.equals(((PatternCard) c).getFront().getName())){
+                        windowPattern = ((PatternCard) c).getFront();
+                        s.getClient().getPlayer().getPlayerWindow().setWindowPattern(windowPattern);
+
+                    }
+                    if(data.equals(((PatternCard) c).getBack().getName())){
+                        windowPattern = ((PatternCard) c).getBack();
+                        s.getClient().getPlayer().getPlayerWindow().setWindowPattern(windowPattern);
+                    }
+                }
+
+                if(windowPattern!=null) {
+                    for (SocketHandler client : socketClients) {
+                        client.send("update", "patterncard",s.getClient().getPlayer().getName() + "/" + windowPattern.getName() );
+
+                    }
+                }else{
+                    System.out.println("Wrong window pattern");
+                }
+
+                break;
             default:
                 System.out.println("Wrong message!");
         }

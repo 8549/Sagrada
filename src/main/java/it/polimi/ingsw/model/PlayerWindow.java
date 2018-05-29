@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import java.awt.*;
 import java.util.Arrays;
 
 public class PlayerWindow {
@@ -80,5 +81,9 @@ public class PlayerWindow {
                 .flatMap(Arrays::stream)
                 .filter(cell -> !cell.isEmpty())
                 .count();
+    }
+
+    public void setWindowPattern(WindowPattern windowPattern){
+        this.windowPattern= windowPattern;
     }
 }
