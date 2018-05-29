@@ -67,6 +67,18 @@ public class SocketClient implements ClientInterface {
         return clients;
     }
 
+    public String getGameStatus() {
+        return gameStatus.get();
+    }
+
+    public StringProperty gameStatusProperty() {
+        return gameStatus;
+    }
+
+    public ObservableList<PatternCard> getPatternCards() {
+        return patternCards;
+    }
+
     @Override
     public void setCurrentLogged(List<ClientInterface> clients) {
         clients.addAll(clients);

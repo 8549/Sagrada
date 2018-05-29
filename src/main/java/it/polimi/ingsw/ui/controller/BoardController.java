@@ -4,6 +4,12 @@ import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.PatternCard;
 import it.polimi.ingsw.model.WindowPattern;
 import it.polimi.ingsw.network.client.ClientInterface;
+import it.polimi.ingsw.network.client.SocketClient;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.beans.value.WeakChangeListener;
+import javafx.collections.ListChangeListener;
+import javafx.collections.WeakListChangeListener;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -25,8 +31,9 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 public class BoardController {
-    private ClientInterface client;
+    private SocketClient client;
     private WindowPattern chosenWindowPattern;
+    private Stage currentDialog;
 
     public void showPatternCardChooser(List<? extends Card> cards) {
 
@@ -90,50 +97,16 @@ public class BoardController {
         btn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                //TODO SEND CHOSEN WINDOW PATTERN
-                root.hide();
+                client.validatePatternCard(chosenWindowPattern);
             }
         });
         bPane.setBottom(btn);
 
+        currentDialog = root;
         root.showAndWait();
     }
 
-    /*public void bindUI() {
-        try {
-            client.getClients().addListener(new WeakListChangeListener<>(new ListChangeListener<ClientInterface>() {
-                @Override
-                public void onChanged(Change<? extends ClientInterface> c) {
-                    while (c.next()) {
-                        if (c.wasAdded()) {
-                            for (ClientInterface client : c.getAddedSubList()) {
-                                try {
-                                    log(client.getName() + " logged in");
-                                } catch (RemoteException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        } else if (c.wasRemoved()) {
-                            for (ClientInterface client : c.getRemoved()) {
-                                try {
-                                    log(client.getName() + " logged out");
-                                } catch (RemoteException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-                    }
-                }
-            }));
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-
-    }*/
-
-    public void init(ClientInterface client) {
-        this.client = client;
-
+    private void showPlayersDialog() {
         BorderPane bPane = new BorderPane();
         bPane.setPadding(new Insets(10, 10, 10, 10));
 
@@ -144,7 +117,7 @@ public class BoardController {
         try {
             if (client.getClients().size() > 0) {
                 for (ClientInterface c : client.getClients()) {
-                    txtArea.appendText(c.getName());
+                    txtArea.appendText(c.getName() + "\n");
                 }
             }
         } catch (RemoteException e) {
@@ -153,12 +126,58 @@ public class BoardController {
         bPane.setCenter(txtArea);
 
         Scene scene = new Scene(bPane);
-        Stage clientDialog = new Stage(StageStyle.UNDECORATED);
-        clientDialog.initModality(Modality.APPLICATION_MODAL);
-        clientDialog.setScene(scene);
+        Stage clientsDialog = new Stage(StageStyle.UNDECORATED);
+        clientsDialog.initModality(Modality.APPLICATION_MODAL);
+        clientsDialog.setScene(scene);
 
-        //client.getStatus().addListener;
+        client.getClients().addListener(new WeakListChangeListener<>(new ListChangeListener<ClientInterface>() {
+            @Override
+            public void onChanged(Change<? extends ClientInterface> c) {
+                while (c.next()) {
+                    txtArea.setText("");
+                    for (ClientInterface cl : c.getList()) {
+                        try {
+                            txtArea.appendText(cl.getName() + "\n");
+                        } catch (RemoteException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }));
 
-        clientDialog.showAndWait();
+        currentDialog = clientsDialog;
+        clientsDialog.showAndWait();
+    }
+
+    private void hideCurrentDialog() {
+        if (currentDialog != null) {
+            currentDialog.hide();
+        }
+    }
+
+    public void init(SocketClient client) {
+        this.client = client;
+
+        client.gameStatusProperty().addListener(new WeakChangeListener<>(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                switch (newValue) {
+                    case "WAITING_PLAYERS":
+                        hideCurrentDialog();
+                        showPlayersDialog();
+                        break;
+                    case "STARTED":
+                        hideCurrentDialog();
+                        break;
+                    case "WAITING_PATTERNCARD":
+                        hideCurrentDialog();
+                        showPatternCardChooser(client.getPatternCards());
+                        break;
+                    default:
+                        System.err.println("unrecognized GameStatus: " + newValue);
+                }
+            }
+        }));
     }
 }

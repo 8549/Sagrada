@@ -1,7 +1,5 @@
 package it.polimi.ingsw.ui.controller;
 
-import it.polimi.ingsw.network.client.ClientInterface;
-import it.polimi.ingsw.network.client.RMIClient;
 import it.polimi.ingsw.network.client.SocketClient;
 import it.polimi.ingsw.ui.GameProperties;
 import javafx.event.ActionEvent;
@@ -13,7 +11,6 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 import java.util.List;
 import java.util.Properties;
 
@@ -75,7 +72,7 @@ public class IntroController {
         }
         socket = socketToggle.isSelected();
 
-        ClientInterface client = null;
+        SocketClient client = null;
 
         if (socket) {
             //connect with socket
@@ -91,7 +88,7 @@ public class IntroController {
             //Connect RMI
             try {
                 //TODO: check all clients different ports
-                client = new RMIClient(userName, hostName);
+                //client = new RMIClient(userName, hostName);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -99,13 +96,13 @@ public class IntroController {
         }
 
         //Login procedure
-        try {
+        //try {
             client.login();
             connectBtn.setDisable(true);
             launchBoard(client);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+        //} catch (RemoteException e) {
+        //   e.printStackTrace();
+        //}
 
 
     }
@@ -139,7 +136,7 @@ public class IntroController {
         this.selfStage = selfStage;
     }
 
-    private void launchBoard(ClientInterface client) {
+    private void launchBoard(SocketClient client) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("views/main.fxml"));
             Parent root = loader.load();
@@ -152,7 +149,6 @@ public class IntroController {
             selfStage.setScene(scene);
             selfStage.sizeToScene();
             selfStage.centerOnScreen();
-            //boardController.showPatternCardChooser(//TODO GET FROM SERVER, MOVE INSIDE BOARDCONTROLLER);
         } catch (IOException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("GUI Error");
