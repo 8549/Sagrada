@@ -1,8 +1,5 @@
 package it.polimi.ingsw.ui.controller;
 
-import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw.model.CardsDeck;
-import it.polimi.ingsw.model.PatternCard;
 import it.polimi.ingsw.network.client.ClientInterface;
 import it.polimi.ingsw.network.client.RMIClient;
 import it.polimi.ingsw.network.client.SocketClient;
@@ -147,16 +144,15 @@ public class IntroController {
             FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("views/main.fxml"));
             Parent root = loader.load();
             BoardController boardController = loader.getController();
-            //boardController.init(client);
+            boardController.init(client);
             // boardController.bindUI();
             Scene scene = new Scene(root);
             scene.getStylesheets().add("board.css");
-            selfStage.setTitle("Sagrada");
+            selfStage.setTitle("Sagrada - " + client.getName());
             selfStage.setScene(scene);
             selfStage.sizeToScene();
-            CardsDeck deck = new CardsDeck("SamplePatternCards.json", new TypeToken<List<PatternCard>>() {
-            }.getType());
-            boardController.showPatternCardChooser(deck.getAsList());
+            selfStage.centerOnScreen();
+            //boardController.showPatternCardChooser(//TODO GET FROM SERVER, MOVE INSIDE BOARDCONTROLLER);
         } catch (IOException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("GUI Error");

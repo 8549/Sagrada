@@ -156,6 +156,9 @@ public class BoardController {
         Stage clientDialog = new Stage(StageStyle.UNDECORATED);
         clientDialog.initModality(Modality.APPLICATION_MODAL);
         clientDialog.setScene(scene);
+
+        //client.getStatus().addListener;
+
         clientDialog.showAndWait();
     }
 }

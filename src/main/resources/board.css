@@ -1,17 +1,14 @@
 .board {
   -fx-pref-width: 300;
+  -fx-fit-height: 750;
 }
 #fxBoard1 {
-  -fx-background-color: red;
 }
 #fxBoard2 {
-  -fx-background-color: green;
 }
 #fxBoard3 {
-  -fx-background-color: blue;
 }
 #fxBoard4 {
-  -fx-background-color: purple;
 }
 .card {
   -fx-pref-width: 150;
@@ -21,6 +18,6 @@
   -fx-graphic-text-gap: 0;
   /*-fx-content-display: graphic-only;*/
 }
-#main {
+/*#main {
   -fx-background-image: url(images/pattern/dark.png)
-}
+}*/
