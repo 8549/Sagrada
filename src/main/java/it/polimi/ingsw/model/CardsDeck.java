@@ -28,7 +28,7 @@ public class CardsDeck {
      */
     public Card getRandomCard() {
         if (cardsDeck.size() > 0) {
-            return cardsDeck.remove(Utils.getRandom(0, cardsDeck.size()));
+            return cardsDeck.remove(Utils.getRandom(0, cardsDeck.size()-1));
         } else {
             return null;
         }

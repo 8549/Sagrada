@@ -97,9 +97,9 @@ public class GameManager {
 
 
             // set pattern card da player;
-            System.out.println("Game manager ask for Pattern");
+            System.out.println("Game manager ask for Pattern to " + player.getName());
             try {
-                server.choosePatternCard(choices,player );
+                server.choosePatternCard(choices,player);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }

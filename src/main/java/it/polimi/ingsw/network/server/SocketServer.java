@@ -236,8 +236,8 @@ public class SocketServer implements ServerInterface {
         for(SocketHandler s : socketClients){
             if (s.getClient().getName().equals(player.getName())){
                 s.send(type,"initPattern",data);
-                break;
             }
+
         }
 
     }
@@ -288,14 +288,16 @@ public class SocketServer implements ServerInterface {
                 // Get messages from the client, line by line;
                 while (true) {
                     String input = in.readLine();
-                    System.out.println("Client message: " + input);
-                    socketParser.parseInput(input);
-                    outputLine = processInput(socketParser.getType(), socketParser.getHeader(), socketParser.getData(), this);
+                    if (input != null) {
+                        System.out.println("Client message: " + input);
+                        socketParser.parseInput(input);
+                        outputLine = processInput(socketParser.getType(), socketParser.getHeader(), socketParser.getData(), this);
                     /*String type ;
                     if(socketParser.getType().equals("request")){
                         type="response";
                     }*/
-                    send("response", socketParser.getHeader(), outputLine);
+                        send("response", socketParser.getHeader(), outputLine);
+                    }
                 }
             } catch (IOException e) {
                 log("Error handling client");

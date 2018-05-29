@@ -21,24 +21,19 @@ import static it.polimi.ingsw.network.runServer.DEFAULT_SOCKET_PORT;
 public class SocketClient implements ClientInterface {
     private Player player;
     ObservableList<ClientInterface> clients = FXCollections.observableArrayList();
-    private BufferedReader in;
-    private PrintWriter out;
     Socket socket;
     int port;
-    SocketParser socketParser;
+    SocketParser socketParserClient = new SocketParser();
     ObservableList<PatternCard> patternCards = FXCollections.observableArrayList();
-
+    SocketHandlerClient socketHandlerClient;
     @Override
     public void connect(String serverAddress, int portNumber, String userName) throws IOException {
         player = new Player(userName);
         port = portNumber;
         // Make connection and initialize streams
         socket = new Socket(serverAddress, DEFAULT_SOCKET_PORT);
-        in = new BufferedReader(
-                new InputStreamReader(socket.getInputStream()));
-        out = new PrintWriter(socket.getOutputStream(), true);
-        socketParser = new SocketParser();
-        listen();
+        socketHandlerClient = new SocketHandlerClient(this, socket);
+        socketHandlerClient.start();
 
     }
     @Override
@@ -48,7 +43,7 @@ public class SocketClient implements ClientInterface {
 
     @Override
     public void login()  {
-        out.println("request-login-" + player.getName() + "-" + port + "-end" );
+        socketHandlerClient.send("request-login-" + player.getName() + "-end");
 
     }
 
@@ -92,7 +87,7 @@ public class SocketClient implements ClientInterface {
                 switch(header){
                     case "start": System.out.println(data);
                         break;
-                    case "users": ObservableList<String> names = socketParser.parseData(data);
+                    case "users": ObservableList<String> names = socketParserClient.parseData(data);
                         System.out.println("You are playing against");
                         for (String s : names) {
                             System.out.println(s);
@@ -105,52 +100,77 @@ public class SocketClient implements ClientInterface {
                     default: break;
 
                 }
-            }else if(type.equals("request")){
-                        switch(header){
-                            case "initPattern":
-                                ObservableList<String> patternNames = socketParser.parseData(data);
-                                CardsDeck deck = new CardsDeck("PatternCards.json", new TypeToken<List<PatternCard>>() {
-                                }.getType());
-                                List<PatternCard> list = new ArrayList<>();
-                                list.add((PatternCard) deck.getByName(patternNames.get(0)+patternNames.get(1)));
-                                list.add((PatternCard) deck.getByName(patternNames.get(2)+patternNames.get(3)));
-                                System.out.println("Choose your pattern card between : " + patternNames.get(0)+ ", " + patternNames.get(1) + ", " + patternNames.get(2) + ", " + patternNames.get(3));
-                                patternCards.addAll(list);
-                                break;
-                            default: break;
+        }else if(type.equals("request")){
+                switch(header){
+                    case "initPattern":
+                        ObservableList<String> patternNames = socketParserClient.parseData(data);
+                        CardsDeck deck = new CardsDeck("PatternCards.json", new TypeToken<List<PatternCard>>() {
+                        }.getType());
+                        List<PatternCard> list = new ArrayList<>();
+                        list.add((PatternCard) deck.getByName(patternNames.get(0)+patternNames.get(1)));
+                        list.add((PatternCard) deck.getByName(patternNames.get(2)+patternNames.get(3)));
+                        System.out.println("Choose your pattern card between : " + patternNames.get(0)+ ", " + patternNames.get(1) + ", " + patternNames.get(2) + ", " + patternNames.get(3));
+                        patternCards.addAll(list);
+                        break;
+                    default: break;
 
-            }
+                }
         }
 
         return null;
     }
-    public void listen() throws IOException {
-        // Get messages from the server, line by line;
-        System.out.println("client is listening");
-        boolean end= false;
-        while (true) {
-            String input = in.readLine();
-            if(input !=null){
-                if(input.equals("Hello from server")){
-                    System.out.println("Connection with server established");
-                    login();
-                    end=true;
-                }else {
-                    socketParser.parseInput(input);
-                    System.out.println("Processing "+socketParser.getType()+ socketParser.getHeader()+ socketParser.getData());
-                    String out = processInput(socketParser.getType(), socketParser.getHeader(), socketParser.getData());
-                    end=true;
-                }
-            }
-        }
 
-
-    }
 
     public void setPlayer(String name){
         this.player = new Player(name);
 
     }
 
+    private class SocketHandlerClient extends Thread {
+        private BufferedReader in;
+        private PrintWriter out;
+        SocketClient client;
+        Socket socket;
+        SocketParser socketParser;
+        boolean available=false;
+
+        private SocketHandlerClient(SocketClient client, Socket socket){
+            this.client = client;
+            this.socket = socket;
+            socketParser = new SocketParser();
+            try {
+                in = new BufferedReader(
+                        new InputStreamReader(socket.getInputStream()));
+                out = new PrintWriter(socket.getOutputStream(), true);
+            }catch(IOException e){e.printStackTrace();}
+        }
+        public synchronized void run(){
+            // Get messages from the server, line by line;
+            System.out.println("client is listening");
+            try {
+
+
+                while (true) {
+                    String input = in.readLine();
+                    if (input != null) {
+                        if (input.equals("Hello from server")) {
+                            System.out.println("Connection with server established");
+                        }else{
+                            socketParser.parseInput(input);
+                            System.out.println("Processing " + socketParser.getType() + socketParser.getHeader() + socketParser.getData());
+                            String out = processInput(socketParser.getType(), socketParser.getHeader(), socketParser.getData());
+                        }
+                    }
+                }
+            }catch (IOException e){
+                System.out.println("Error while handlig client socket");
+            }
+        }
+
+        private synchronized void send(String s){
+            while (out==null){}
+            out.println(s);
+        }
+    }
 }
 
