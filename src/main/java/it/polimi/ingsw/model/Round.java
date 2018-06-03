@@ -14,10 +14,11 @@ public class Round {
     public Round(List<Player> players, int number) {
         this.number = number;
         this.players = players;
-        draftPool = new ArrayList<>();
         setTurns();
+        startPlayer = players.get(0);
         currentTurn = 0;
-        for(int i=0; i<(players.size()*2+1); i++)
+        draftPool = new ArrayList<>();
+        for (int i = 0; i < (players.size() * 2 + 1); i++)
             draftPool.add(DiceBag.draftDie());
     }
 
@@ -73,6 +74,7 @@ public class Round {
         }
         currentTurn++;
     }
+
 
     public List<Player> getPlayers() {
         return players;

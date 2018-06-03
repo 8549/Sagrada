@@ -30,10 +30,10 @@ public class GameManager {
 
     public GameManager(ServerInterface server, ObservableList<Player> players) {
         this.server = server;
-        this. players = players;
+        this.players = players;
         System.out.println("Game is started with " + players.toString());
-        gameSetup();
-        playerSetup();
+        //gameSetup();
+        //playerSetup();
     }
 
     /**
@@ -64,6 +64,7 @@ public class GameManager {
         Collections.shuffle(players);
         //select first random
         firstPlayer = players.get(0);
+        diceBag = DiceBag.getInstance();
 
     }
 
@@ -77,7 +78,8 @@ public class GameManager {
         //CardsDeck privateObjectiveCardsDeck = new CardsDeck("", null); // TODO
 
         //create deck, extract one time only and immediately delete cards
-        CardsDeck patternCardsDeck = new CardsDeck("PatternCards.json", new TypeToken<List<PatternCard>>(){}.getType());
+        CardsDeck patternCardsDeck = new CardsDeck("PatternCards.json", new TypeToken<List<PatternCard>>() {
+        }.getType());
 
         try {
             server.sendPlayers(players);
@@ -99,7 +101,7 @@ public class GameManager {
             // set pattern card da player;
             System.out.println("Game manager ask for Pattern to " + player.getName());
             try {
-                server.choosePatternCard(choices,player);
+                server.choosePatternCard(choices, player);
             } catch (RemoteException e) {
                 e.printStackTrace();
             }
@@ -162,7 +164,7 @@ public class GameManager {
         }
     }
 
-    public boolean checkContraints(WindowPattern windowPattern, int row, int column, Die die){
+    public boolean checkConstraints(WindowPattern windowPattern, int row, int column, Die die) {
         return windowPattern.getConstraint(row, column).checkConstraint(die);
     }
 }
