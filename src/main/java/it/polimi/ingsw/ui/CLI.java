@@ -2,11 +2,17 @@ package it.polimi.ingsw.ui;
 
 import it.polimi.ingsw.model.PatternCard;
 import it.polimi.ingsw.network.ConnectionType;
+import it.polimi.ingsw.network.client.ClientHandler;
 
 import java.util.Scanner;
 
 public class CLI implements UI {
     private final Scanner scanner = new Scanner(System.in);
+    private ClientHandler handler;
+
+    public CLI() {
+        handler = new ClientHandler(this);
+    }
 
     @Override
     public void showLogin() {
@@ -36,7 +42,7 @@ public class CLI implements UI {
 
     @Override
     public void showLoggedInUsers() {
-
+        System.out.println("You are logged in.");
     }
 
     @Override

@@ -3,13 +3,10 @@ package it.polimi.ingsw.ui.controller;
 import it.polimi.ingsw.model.Card;
 import it.polimi.ingsw.model.PatternCard;
 import it.polimi.ingsw.model.WindowPattern;
-import it.polimi.ingsw.network.client.ClientInterface;
 import it.polimi.ingsw.network.client.SocketClient;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.beans.value.WeakChangeListener;
-import javafx.collections.ListChangeListener;
-import javafx.collections.WeakListChangeListener;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -17,7 +14,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -27,7 +23,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 import java.util.List;
 
 public class BoardController {
@@ -107,7 +102,7 @@ public class BoardController {
     }
 
     private void showPlayersDialog() {
-        BorderPane bPane = new BorderPane();
+        /*BorderPane bPane = new BorderPane();
         bPane.setPadding(new Insets(10, 10, 10, 10));
 
         Label label = new Label("Waiting for players...");
@@ -147,7 +142,7 @@ public class BoardController {
         }));
 
         currentDialog = clientsDialog;
-        clientsDialog.showAndWait();
+        clientsDialog.showAndWait();*/
     }
 
     private void hideCurrentDialog() {

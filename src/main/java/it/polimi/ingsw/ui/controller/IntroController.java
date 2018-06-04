@@ -69,39 +69,6 @@ public class IntroController {
         }
         socket = socketToggle.isSelected();
 
-        SocketClient client = null;
-
-        if (socket) {
-            //connect with socket
-            try {
-                client = new SocketClient();
-                client.connect(hostName, port, userName);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        } else {
-            //Connect RMI
-            try {
-                //TODO: check all clients different ports
-                //client = new RMIClient(userName, hostName);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        //Login procedure
-        //try {
-            client.login();
-            connectBtn.setDisable(true);
-            launchBoard(client);
-        //} catch (RemoteException e) {
-        //   e.printStackTrace();
-        //}
-
-
     }
 
     public void initUI() {

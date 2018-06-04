@@ -1,16 +1,17 @@
 package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.network.ConnectionType;
+import it.polimi.ingsw.ui.UI;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 
 public class ClientHandler {
-    ClientInterface client;
-    boolean loginResponse;
+    private ClientInterface client;
+    private boolean loginResponse;
+    private UI ui;
 
-    public ClientHandler(){
-
+    public ClientHandler(UI ui) {
+        this.ui = ui;
     }
 
     public void handleLogin(String hostname, int port, String username, ConnectionType connectionType) throws IOException {
@@ -34,7 +35,7 @@ public class ClientHandler {
         this.loginResponse = loginResponse;
     }
 
-    public void showLoginDialog(){
-
+    public void loginSuccessful() {
+        ui.showLoggedInUsers();
     }
 }

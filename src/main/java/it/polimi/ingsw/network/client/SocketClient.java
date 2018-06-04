@@ -87,7 +87,7 @@ public class SocketClient implements ClientInterface {
                         System.out.println("Login successful!");
                         updatePlayersInfo(this);
                         ch.setLoginResponse(true);
-                        ch.showLoginDialog();
+                        ch.loginSuccessful();
 
                     } else {
                         System.out.println("Try with a different username, or maybe the game is already began so... :(");
