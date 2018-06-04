@@ -1,6 +1,5 @@
-package it.polimi.ingsw.network;
+package it.polimi.ingsw;
 
-import it.polimi.ingsw.GameManager;
 import it.polimi.ingsw.network.server.ClientWrapper;
 import it.polimi.ingsw.network.server.RMIServer;
 import it.polimi.ingsw.network.server.SocketServer;
@@ -11,9 +10,9 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 
 
-public class runServer {
+public class RunServer {
     public static final int DEFAULT_RMI_PORT = 1234;
-    public static final int DEFAULT_SOCKET_PORT= 3130;
+    public static final int DEFAULT_SOCKET_PORT = 3130;
     static ObservableList<ClientWrapper> users = FXCollections.observableArrayList();
     static ObservableList<ClientWrapper> lobby = FXCollections.observableArrayList();
 
@@ -27,27 +26,27 @@ public class runServer {
             RMIServer rmiServer = new RMIServer(users, lobby);
 
             //Socket server
-            SocketServer socketServer= new SocketServer(users, lobby);
+            SocketServer socketServer = new SocketServer(users, lobby);
 
-            new Thread(){
-                public void run(){
+            new Thread() {
+                public void run() {
                     try {
 
                         socketServer.start(args);
 
-                    }catch (IOException e){
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
             }.start();
 
-            new Thread(){
-                public void run(){
+            new Thread() {
+                public void run() {
                     try {
 
                         rmiServer.start(args);
 
-                    }catch (RemoteException e){
+                    } catch (RemoteException e) {
                         e.printStackTrace();
                     }
                 }
@@ -55,7 +54,7 @@ public class runServer {
 
         } catch (RemoteException e) {
             System.err.println("Server failed due to RMI problem: " + e);
-        } catch (IOException e){
+        } catch (IOException e) {
             System.err.println("Server failed due to Socket problem: " + e);
 
         }

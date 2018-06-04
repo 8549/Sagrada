@@ -1,7 +1,6 @@
 package it.polimi.ingsw.ui.controller;
 
 import it.polimi.ingsw.network.client.SocketClient;
-import it.polimi.ingsw.ui.GameProperties;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,8 +10,6 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Properties;
 
 public class IntroController {
     private Stage selfStage;
@@ -107,28 +104,11 @@ public class IntroController {
 
     }
 
-    public void initUI(List<String> parameters) {
+    public void initUI() {
         toggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
             boolean portDisabled = !newValue.equals(socketToggle);
             portField.setDisable(portDisabled);
         });
-        Properties props = GameProperties.getFromFileOrCli(parameters);
-        if (props.containsKey(GameProperties.USERNAME_KEY)) {
-            nameField.setText(props.getProperty(GameProperties.USERNAME_KEY));
-        }
-        if (props.containsKey(GameProperties.HOSTNAME_KEY)) {
-            hostField.setText(props.getProperty(GameProperties.HOSTNAME_KEY));
-        }
-        if (props.containsKey(GameProperties.PORT_KEY)) {
-            portField.setText(props.getProperty(GameProperties.PORT_KEY));
-        }
-        if (props.containsKey(GameProperties.CONNECTION_KEY)) {
-            if (props.getProperty(GameProperties.CONNECTION_KEY).equalsIgnoreCase("socket")) {
-                socketToggle.setSelected(true);
-            } else if (props.getProperty(GameProperties.CONNECTION_KEY).equalsIgnoreCase("rmi")) {
-                rmiToggle.setSelected(true);
-            }
-        }
 
     }
 

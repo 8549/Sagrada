@@ -1,25 +1,32 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.ui.CLILauncher;
-import it.polimi.ingsw.ui.GUILauncher;
-import it.polimi.ingsw.ui.GameProperties;
-import javafx.application.Application;
+import it.polimi.ingsw.ui.CLI;
+import it.polimi.ingsw.ui.GUI;
+import it.polimi.ingsw.ui.UI;
 
-import java.util.Properties;
+import java.util.Scanner;
 
 public class RunClient {
     public static void main(String[] args) {
+        String uiType;
+        UI ui;
 
-        Properties props = GameProperties.getFromFileOrCli(args);
-
-        // Launch appropriate client with args
-        if (props.containsKey(GameProperties.UI_KEY) &&
-                (props.getProperty(GameProperties.UI_KEY).equalsIgnoreCase("gui"))) {
-            Application.launch(GUILauncher.class, args);
+        if (args.length == 0) {
+            Scanner in = new Scanner(System.in);
+            System.out.println("Choose a UI mode (cli or gui): ");
+            uiType = in.next();
         } else {
-            CLILauncher.launch(args);
+            uiType = args[0];
         }
 
+        if (uiType.equalsIgnoreCase("gui")) {
+            ui = new GUI();
+        } else if (uiType.equalsIgnoreCase("cli")) {
+            ui = new CLI();
+        } else {
+            System.err.println("Invalid UI choice");
+            return;
+        }
     }
 
 }
