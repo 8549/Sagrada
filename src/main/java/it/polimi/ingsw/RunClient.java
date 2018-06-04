@@ -27,6 +27,7 @@ public class RunClient {
             System.err.println("Invalid UI choice");
             return;
         }
+        ui.launch();
     }
 
 }
