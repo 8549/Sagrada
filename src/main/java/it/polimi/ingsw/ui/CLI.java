@@ -1,36 +1,45 @@
 package it.polimi.ingsw.ui;
 
 import it.polimi.ingsw.model.PatternCard;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.network.ConnectionType;
 import it.polimi.ingsw.network.client.ClientHandler;
+import javafx.collections.ListChangeListener;
+import javafx.collections.WeakListChangeListener;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class CLI implements UI {
-    private final Scanner scanner = new Scanner(System.in);
     private ClientHandler handler;
+    private ProxyModel model;
 
-    public CLI() {
-        handler = new ClientHandler(this);
+    public CLI(ClientHandler clientHandler) {
+        this.handler = clientHandler;
     }
 
     @Override
     public void showLogin() {
+        Scanner scanner = new Scanner(System.in);
         String hostName;
         int port;
         String username;
         ConnectionType connType;
 
-        System.out.println("Enter the server address: ");
+        System.out.print("Enter the server address: ");
         hostName = scanner.next();
-        System.out.println("Enter the server port: ");
+        System.out.print("Enter the server port: ");
         port = scanner.nextInt();
-        System.out.println("Enter your username: ");
+        System.out.print("Enter your username: ");
         username = scanner.next();
-        System.out.println("Choose a connection type (SOCKET or RMI): ");
-        connType = ConnectionType.valueOf(scanner.next());
+        System.out.print("Choose a connection type (SOCKET or RMI): ");
+        connType = ConnectionType.valueOf(scanner.next().toUpperCase());
 
-        // LOGIN
+        try {
+            handler.handleLogin(hostName, port, username, connType);
+        } catch (IOException e) {
+            System.err.println("Error in connection: " + e.getMessage());
+        }
         // if successful, showLoggedInUsers
         // else, show error and exit or retry
     }
@@ -42,12 +51,31 @@ public class CLI implements UI {
 
     @Override
     public void showLoggedInUsers() {
-        System.out.println("You are logged in.");
+        System.out.println("You are logged in.\nAlready logged in users:");
+        for (Player p : model.players) {
+            System.out.println(p.getName());
+        }
+        model.players.addListener(new WeakListChangeListener<>(new ListChangeListener<Player>() {
+            @Override
+            public void onChanged(Change<? extends Player> c) {
+                while (c.next()) {
+                    if (c.wasAdded()) {
+                        for (Player p : c.getAddedSubList()) {
+                            System.out.println(p.getName() + "logged in");
+                        }
+                    } else if (c.wasRemoved()) {
+                        for (Player p : c.getRemoved()) {
+                            System.out.println(p.getName() + "logged out");
+                        }
+                    }
+                }
+            }
+        }));
     }
 
     @Override
     public void setProxyModel(ProxyModel model) {
-
+        this.model = model;
     }
 
     @Override
