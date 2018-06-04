@@ -19,7 +19,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.network.runServer.DEFAULT_SOCKET_PORT;
+import static it.polimi.ingsw.network.server.MainServer.DEFAULT_SOCKET_PORT;
+
 
 public class SocketClient implements ClientInterface {
     private Player player;
@@ -29,7 +30,13 @@ public class SocketClient implements ClientInterface {
     SocketParser socketParserClient = new SocketParser();
     ObservableList<PatternCard> patternCards = FXCollections.observableArrayList();
     SocketHandlerClient socketHandlerClient;
-    StringProperty gameStatus = new SimpleStringProperty("WAITING_LOGIN");
+    StringProperty gameStatus = new SimpleStringProperty("WAITING_PLAYERS");
+    ClientHandler ch;
+
+
+    public SocketClient(ClientHandler ch){
+        this.ch = ch;
+    }
 
     @Override
     public void connect(String serverAddress, int portNumber, String userName) throws IOException {
@@ -49,23 +56,14 @@ public class SocketClient implements ClientInterface {
     @Override
     public void login()  {
         socketHandlerClient.send("request-login-" + player.getName() + "-end");
-
     }
 
-    @Override
-    public void pushData() {
-
-    }
 
     @Override
     public void updatePlayersInfo(ClientInterface c)  {
         clients.add(c);
     }
 
-    @Override
-    public ObservableList<ClientInterface> getClients() {
-        return clients;
-    }
 
     public String getGameStatus() {
         return gameStatus.get();
@@ -79,10 +77,6 @@ public class SocketClient implements ClientInterface {
         return patternCards;
     }
 
-    @Override
-    public void setCurrentLogged(List<ClientInterface> clients) {
-        clients.addAll(clients);
-    }
 
     public String processInput(String type, String header, String data){
         if (type.equals("response")){
@@ -92,10 +86,12 @@ public class SocketClient implements ClientInterface {
                     if(data.equals("Login Accepted !")){
                         System.out.println("Login successful!");
                         updatePlayersInfo(this);
-                        gameStatus.set("WAITING_PLAYERS");
+                        ch.setLoginResponse(true);
+                        ch.showLoginDialog();
 
                     } else {
                         System.out.println("Try with a different username, or maybe the game is already began so... :(");
+                        ch.setLoginResponse(false);
                     }
                     break;
                 default:
@@ -110,7 +106,7 @@ public class SocketClient implements ClientInterface {
                         System.out.println("You are playing against");
                         for (String s : names) {
                             System.out.println(s);
-                            ClientInterface client = new SocketClient();
+                            ClientInterface client = new SocketClient(ch);
                             ((SocketClient) client).setPlayer(s);
                             updatePlayersInfo(client);
                         }
@@ -118,7 +114,7 @@ public class SocketClient implements ClientInterface {
 
                     case "userLogged": String name = data;
                         System.out.println("user " + name + "logged in");
-                        ClientInterface client = new SocketClient();
+                        ClientInterface client = new SocketClient(ch);
                         ((SocketClient) client).setPlayer(name);
                         updatePlayersInfo(client);
 
@@ -134,15 +130,15 @@ public class SocketClient implements ClientInterface {
         }else if(type.equals("request")){
                 switch(header){
                     case "initPattern":
-                        gameStatus.set("WAITING_PATTERNCARD");
                         ObservableList<String> patternNames = socketParserClient.parseData(data);
                         CardsDeck deck = new CardsDeck("PatternCards.json", new TypeToken<List<PatternCard>>() {
                         }.getType());
                         List<PatternCard> list = new ArrayList<>();
-                        list.add((PatternCard) deck.getByName(patternNames.get(0)+patternNames.get(1)));
-                        list.add((PatternCard) deck.getByName(patternNames.get(2)+patternNames.get(3)));
+                        list.add((PatternCard) deck.getByName(patternNames.get(0)+"/"+patternNames.get(1)));
+                        list.add((PatternCard) deck.getByName(patternNames.get(2)+"/"+patternNames.get(3)));
                         System.out.println("Choose your pattern card between : " + patternNames.get(0)+ ", " + patternNames.get(1) + ", " + patternNames.get(2) + ", " + patternNames.get(3));
                         patternCards.addAll(list);
+                        gameStatus.set("WAITING_PATTERNCARD");
 
                         break;
                     default: break;
@@ -172,21 +168,18 @@ public class SocketClient implements ClientInterface {
         Socket socket;
         SocketParser socketParser;
 
-        private SocketHandlerClient(SocketClient client, Socket socket){
+        private SocketHandlerClient(SocketClient client, Socket socket) throws IOException {
             this.client = client;
             this.socket = socket;
             socketParser = new SocketParser();
-            try {
                 in = new BufferedReader(
                         new InputStreamReader(socket.getInputStream()));
                 out = new PrintWriter(socket.getOutputStream(), true);
-            }catch(IOException e){e.printStackTrace();}
         }
         public synchronized void run(){
             // Get messages from the server, line by line;
             System.out.println("client is listening");
             try {
-
 
                 while (true) {
                     String input = in.readLine();
@@ -205,9 +198,10 @@ public class SocketClient implements ClientInterface {
             }
         }
 
-        private synchronized void send(String s){
+        private synchronized boolean send(String s){
             while (out==null){}
             out.println(s);
+            return true;
         }
     }
 }

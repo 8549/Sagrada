@@ -14,13 +14,42 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
 
-import static it.polimi.ingsw.network.runServer.DEFAULT_RMI_PORT;
+import static it.polimi.ingsw.network.server.MainServer.DEFAULT_RMI_PORT;
+
 
 public class RMIClient extends UnicastRemoteObject implements ClientInterface {
     public Player player;
     ObservableList<ClientInterface> clients = FXCollections.observableArrayList();
     ServerInterface server;
+    ClientHandler ch;
 
+    public RMIClient(ClientHandler ch) throws RemoteException{
+        this.ch = ch;
+    }
+
+    protected RMIClient() throws RemoteException {
+    }
+
+    @Override
+    public String getName() throws RemoteException {
+        return null;
+    }
+
+    @Override
+    public void login() throws RemoteException {
+
+    }
+
+    @Override
+    public void updatePlayersInfo(ClientInterface c) throws RemoteException {
+
+    }
+
+    @Override
+    public void connect(String serverAddress, int portNumber, String userName) throws RemoteException, IOException {
+
+    }
+/*
     public RMIClient(String name, String hostName) throws RemoteException {
         player = new Player(name);
         try {
@@ -44,7 +73,7 @@ public class RMIClient extends UnicastRemoteObject implements ClientInterface {
 
     @Override
     public void login() {
-        /*try {
+        try {
             if (server.login(this)) {
                 System.out.println("Login accepted");
             } else {
@@ -52,7 +81,7 @@ public class RMIClient extends UnicastRemoteObject implements ClientInterface {
             }
         } catch (RemoteException e) {
             e.printStackTrace();
-        }*/
+        }
 
     }
 
@@ -82,5 +111,5 @@ public class RMIClient extends UnicastRemoteObject implements ClientInterface {
     @Override
     public void connect(String serverAddress, int portNumber, String userName) throws RemoteException, IOException {
 
-    }
+    }*/
 }

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.GameManager;
-import it.polimi.ingsw.network.server.ClientWrapper;
 import it.polimi.ingsw.network.server.ServerInterface;
 import javafx.beans.InvalidationListener;
 import javafx.collections.ListChangeListener;

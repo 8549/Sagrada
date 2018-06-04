@@ -1,11 +1,7 @@
 package it.polimi.ingsw.network.server;
 
-import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw.GameManager;
-import it.polimi.ingsw.model.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableArrayBase;
-import javafx.collections.ObservableList;
+import it.polimi.ingsw.model.Player;
+
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,29 +9,25 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
-import static it.polimi.ingsw.network.runServer.DEFAULT_SOCKET_PORT;
+import static it.polimi.ingsw.network.server.MainServer.DEFAULT_SOCKET_PORT;;
 
 public class SocketServer implements ServerInterface {
 
-    ObservableList<ClientWrapper> users;
-    ObservableList<ClientWrapper> lobby;
-    ObservableList<SocketHandler> socketClients = FXCollections.observableArrayList();
-    Timer timer;
-    private boolean timerIsRunning=false;
-    private boolean isGameStarted = false;
+    private List<ClientObject> users;
+    private List<SocketHandler> socketClients = new ArrayList<>();
 
-    public SocketServer(ObservableList<ClientWrapper> users, ObservableList<ClientWrapper> lobby){
+    MainServer server;
+
+    public SocketServer(List<ClientObject> users, MainServer server){
         this.users = users;
-        this.lobby = lobby;
+        this.server = server;
     }
 
     @Override
-    public  void start(String[] args) throws IOException {
+    public  void start() throws IOException {
         ServerSocket listener = new ServerSocket(DEFAULT_SOCKET_PORT);
         System.out.println("[System] Socket server is listening on port " + DEFAULT_SOCKET_PORT);
 
@@ -58,238 +50,36 @@ public class SocketServer implements ServerInterface {
         }
     }
 
-    @Override
-    public  void ping() {
-        for (SocketHandler s : socketClients){
-            try {
-                if(!s.ping()){
-                    System.out.println("Connection with client " + s.getClient().getName() + " lost ");
-                }
 
-            } catch (IOException e) {
-                System.out.println("Connection with client " + s.getClient().getName() + " lost ");
-                e.printStackTrace();
-            }
-        }
-
-    }
-
-    @Override
-    public  boolean login(ClientWrapper client){
-        for (ClientWrapper c : users ){
-            if (c.getName().equals(client.getName())){
-                System.err.println("User already logged in");
-                return false;
-            }
-        }
-        users.add(client);
-        if(lobby.size()<5){
-            lobby.add(client);
-
-        }
-        client.setCurrentLogged(users);
-        for (ClientWrapper c : users){
-            if (!c.equals(client)) {
-                c.updatePlayersInfo(client);
-                updateLoggedPlayers(client);
-            }
-        }
-        showClients();
-        return checkTimer();
-
-    }
-
-    @Override
-    public  boolean updateOtherServer()  {
-        return false;
-    }
-
-    @Override
-    public  void notifyClients()  {
-
-    }
-
-    @Override
-    public  void showClients()  {
-        System.out.println("Current Players");
-        for (ClientWrapper c : users){
-            System.out.println("Player: " + c.getName());
-        }
-
-    }
-
-    @Override
-    public ObservableList<ClientWrapper> getClientsConnected() {
-        return null;
-    }
-
-    @Override
-    public  void removeClient(ClientWrapper c) {
-        users.remove(c);
-    }
-
-    @Override
-    public  boolean checkTimer() {
-        if (users.size()<2){
-            System.out.println("Waiting for more players . . .");
-            if (timerIsRunning) {
-                timer.cancel();
-                timerIsRunning = false;
-                System.out.println("Timer stopped");
-            }
-        }else {
-            if (users.size()==2){
-                timerIsRunning = true;
-                timer = new Timer();
-                timer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        try {
-                            showClients();
-                            System.out.println("Time to join the game is out !");
-                            if (users.size() > 2) {
-                                System.out.println("Let the game begin !");
-                                timerIsRunning = false;
-                                if(!isGameStarted) {
-                                    initGame(getPlayersFromClients(users));
-                                    isGameStarted = true;
-                                }
-                            }
-                        }catch (Exception e){
-                            System.out.println("Exception inside timer!!!!!!!!!!!!!!!!!!!!!!!");
-                            e.printStackTrace();
-                        }
-                    }
-                }, 200*1000);
-
-                System.out.println("Timer has started!!" );
-
-            }else if(users.size()==4){
-                if (timerIsRunning) {
-                    timer.cancel();
-                    timerIsRunning = false;
-                    System.out.println("Timer stopped");
-                }
-                System.out.println("Let the game begin !");
-                if(!isGameStarted) {
-                    initGame(getPlayersFromClients(users));
-                    isGameStarted = true;
-                }
-
-
-            } else if(users.size()>4){
-                System.out.println("Too many users !");
-                return false;
-            }
-        }
-        return true;
-
-    }
 
     public synchronized String processInput(String type, String header, String data, SocketHandler s) {
     if (type.equals("request")){
         switch(header) {
             case "login":
-                if (!isGameStarted) {
-                    ClientWrapper client = new SocketClientWrapper(data);
-                    s.setClient(client);
-                    boolean response = login(client);
-                    return  client.loginResponse(response);
-                } else {
-                    return "Game is already begin, sorry try later";
-                }
+                        SocketClientObject client = new SocketClientObject(new Player(data),this);
+                        if(server.addClient(client)){
+                            System.out.println("Login accepted. . . ");
+                        }
+                        break;
 
             case "patterncard":
-                CardsDeck cardsDeck = new CardsDeck("PatternCards.json", new TypeToken<List<PatternCard>>(){}.getType());
-                WindowPattern windowPattern=null;
-                for(Card c :cardsDeck.getAsList()){
-                    if(data.equals(((PatternCard) c).getFront().getName())){
-                        windowPattern = ((PatternCard) c).getFront();
-                        s.getClient().getPlayer().getPlayerWindow().setWindowPattern(windowPattern);
 
-                    }
-                    if(data.equals(((PatternCard) c).getBack().getName())){
-                        windowPattern = ((PatternCard) c).getBack();
-                        s.getClient().getPlayer().getPlayerWindow().setWindowPattern(windowPattern);
-                    }
-                }
-
-                if(windowPattern!=null) {
-                    for (SocketHandler client : socketClients) {
-                        client.send("update", "patterncard",s.getClient().getPlayer().getName() + "/" + windowPattern.getName() );
-
-                    }
-                }else{
-                    System.out.println("Wrong window pattern");
-                }
 
                 break;
             default:
                 System.out.println("Wrong message!");
         }
     }else{
-        System.out.println("Nothing for this command till now");
+        System.out.println("Nothing for this command yet");
     }
 
         return null;
     }
 
-    private ObservableList<Player> getPlayersFromClients(ObservableList<ClientWrapper> clients){
-        ObservableList<Player> players = FXCollections.observableArrayList();
-        for (ClientWrapper c : clients){
-            players.add(c.getPlayer());
-        }
-        return players;
+    private void removeClient(ClientObject client) {
+        server.disconnect(client);
     }
 
-    public synchronized void initGame(ObservableList<Player> players){
-        isGameStarted = true;
-        GameManager gm= new GameManager(this, players);
-        for(SocketHandler s: socketClients){
-            s.send("update", "start", "Game started!");
-        }
-
-    }
-
-    @Override
-    public void choosePatternCard(List<PatternCard> choices, Player player) {
-        String data = "";
-        String type = "request";
-        for (PatternCard c : choices) {
-            data = data + "/" + c.getBack().getName() + "/" + c.getFront().getName();
-        }
-
-        for (SocketHandler s : socketClients) {
-            if (s.getClient().getName().equals(player.getName())) {
-                s.send(type, "initPattern", data);
-            }
-
-        }
-
-    }
-
-    public void updateLoggedPlayers(ClientWrapper c){
-        String data = c.getName();
-
-        for(SocketHandler s : socketClients){
-            if(!s.getClient().getName().equals(c.getName())){
-                s.send("update", "userLogged",data);
-            }
-        }
-    }
-
-    @Override
-    public void sendPlayers(ObservableList<Player> players){
-        for(SocketHandler s : socketClients){
-            String data="";
-            for (Player p: players){
-                if(!p.getName().equals(s.getClient().getName())){
-                    data= data + "/" + p.getName();
-                }
-            }
-            s.send("update", "users",data);
-        }
-    }
 
 
     /**
@@ -300,7 +90,7 @@ public class SocketServer implements ServerInterface {
         private SocketParser socketParser;
         private BufferedReader in;
         private PrintWriter out;
-        private ClientWrapper client;
+        private ClientObject client;
         private SocketServer server;
 
         public SocketHandler(Socket socket, SocketServer server) {
@@ -320,19 +110,14 @@ public class SocketServer implements ServerInterface {
                 // Send a welcome message to the client.
                 out.println("Hello from server");
 
-                String outputLine;
                 // Get messages from the client, line by line;
                 while (true) {
                     String input = in.readLine();
                     if (input != null) {
                         System.out.println("Client message: " + input);
                         socketParser.parseInput(input);
-                        outputLine = processInput(socketParser.getType(), socketParser.getHeader(), socketParser.getData(), this);
-                    /*String type ;
-                    if(socketParser.getType().equals("request")){
-                        type="response";
-                    }*/
-                        send("response", socketParser.getHeader(), outputLine);
+                        processInput(socketParser.getType(), socketParser.getHeader(), socketParser.getData(), this);
+
                     }
                 }
             } catch (IOException e) {
@@ -344,8 +129,7 @@ public class SocketServer implements ServerInterface {
                 } catch (IOException e) {
                     log("Couldn't close a socket, what's going on?");
                 }
-                log("Connection with " + client.getName() + " closed");
-                checkTimer();
+                log("Connection with " + client.getPlayer().getName() + " closed");
 
             }
         }
@@ -362,24 +146,8 @@ public class SocketServer implements ServerInterface {
             return true;
         }
 
-        public synchronized boolean ping() throws IOException {
-            out.println("ping");
-            String r = in.readLine();
-            if (r==null){
-                return false;
-            }else{
-                return true;
-            }
-
-        }
-
-        public ClientWrapper getClient(){
-            return this.client;
-        }
-
-        public void setClient(ClientWrapper c){
-            this.client = c;
-        }
 
     }
+
+
 }

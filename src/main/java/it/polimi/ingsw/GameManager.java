@@ -81,7 +81,7 @@ public class GameManager {
         CardsDeck patternCardsDeck = new CardsDeck("PatternCards.json", new TypeToken<List<PatternCard>>() {
         }.getType());
 
-        try {
+        /*try {
             server.sendPlayers(players);
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -107,10 +107,9 @@ public class GameManager {
             }
             //TODO WAIT FOR PLAYER CHOICE
 
-            /*//token
-            player.setInitialTokens();*/
-        }
-
+            //token
+            player.setInitialTokens();
+        }*/
     }
 
 
