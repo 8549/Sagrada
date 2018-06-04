@@ -56,16 +56,21 @@ public class SocketServer implements ServerInterface {
     if (type.equals("request")){
         switch(header) {
             case "login":
-                        SocketClientObject client = new SocketClientObject(new Player(data),this);
+                        SocketClientObject client = new SocketClientObject(new Player(data),this, s);
                         if(server.addClient(client)){
                             System.out.println("Login accepted. . . ");
+                            s.send("response","login","Login Accepted !");
+                            server.addAlreadyLoogedPlayers(client);
+                            server.addLoggedPlayer(client.getPlayer());
+
                         }
-                        break;
+                    break;
 
             case "patterncard":
 
 
                 break;
+
             default:
                 System.out.println("Wrong message!");
         }

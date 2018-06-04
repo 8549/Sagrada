@@ -14,9 +14,6 @@ public class CLI implements UI {
     private ClientHandler handler;
     private ProxyModel model;
 
-    public CLI(ClientHandler clientHandler) {
-        this.handler = clientHandler;
-    }
 
     @Override
     public void showLogin() {
@@ -84,5 +81,9 @@ public class CLI implements UI {
     @Override
     public void launch() {
         showLogin();
+    }
+
+    public void setHandler(ClientHandler ch){
+        handler = ch;
     }
 }

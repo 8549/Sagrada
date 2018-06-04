@@ -24,7 +24,6 @@ import static it.polimi.ingsw.network.server.MainServer.DEFAULT_SOCKET_PORT;
 
 public class SocketClient implements ClientInterface {
     private Player player;
-    ObservableList<ClientInterface> clients = FXCollections.observableArrayList();
     Socket socket;
     int port;
     SocketParser socketParserClient = new SocketParser();
@@ -55,14 +54,9 @@ public class SocketClient implements ClientInterface {
 
     @Override
     public void login()  {
-        socketHandlerClient.send("request-login-" + player.getName() + "-end");
+        socketHandlerClient.send("request","login", player.getName());
     }
 
-
-    @Override
-    public void updatePlayersInfo(ClientInterface c)  {
-        clients.add(c);
-    }
 
 
     public String getGameStatus() {
@@ -85,10 +79,8 @@ public class SocketClient implements ClientInterface {
                     String response=data;
                     if(data.equals("Login Accepted !")){
                         System.out.println("Login successful!");
-                        updatePlayersInfo(this);
-                        ch.setLoginResponse(true);
                         ch.loginSuccessful();
-
+                        ch.addPlayersToProxyModel(new Player(getName()));
                     } else {
                         System.out.println("Try with a different username, or maybe the game is already began so... :(");
                         ch.setLoginResponse(false);
@@ -102,24 +94,27 @@ public class SocketClient implements ClientInterface {
                     case "start": System.out.println(data);
                                 gameStatus.set("STARTED");
                         break;
-                    case "users": ObservableList<String> names = socketParserClient.parseData(data);
+                    case "users": List<String> names = socketParserClient.parseData(data);
                         System.out.println("You are playing against");
                         for (String s : names) {
                             System.out.println(s);
-                            ClientInterface client = new SocketClient(ch);
-                            ((SocketClient) client).setPlayer(s);
-                            updatePlayersInfo(client);
+
                         }
                         break;
 
-                    case "userLogged": String name = data;
-                        System.out.println("user " + name + "logged in");
-                        ClientInterface client = new SocketClient(ch);
-                        ((SocketClient) client).setPlayer(name);
-                        updatePlayersInfo(client);
-
+                    case "loggedPlayer": String name = data;
+                        Player player = new Player(name);
+                        ch.addPlayersToProxyModel(player);
                         break;
-                    case "patterncard": ObservableList<String> tokens = socketParserClient.parseData(data);
+
+                    case "loggedPlayers": List<String> playersNames = socketParserClient.parseData(data);
+                        List<Player> players = new ArrayList<>();
+                        for (String s : playersNames){
+                            players.add(new Player(s));
+                        }
+                        ch.addPlayersToProxyModel(players);
+                        break;
+                    case "patterncard": List<String> tokens = socketParserClient.parseData(data);
                                     System.out.println("Player " + tokens.get(1) + " choose pattern card" + tokens.get(0));
 
                         break;
@@ -130,9 +125,8 @@ public class SocketClient implements ClientInterface {
         }else if(type.equals("request")){
                 switch(header){
                     case "initPattern":
-                        ObservableList<String> patternNames = socketParserClient.parseData(data);
-                        CardsDeck deck = new CardsDeck("PatternCards.json", new TypeToken<List<PatternCard>>() {
-                        }.getType());
+                        List<String> patternNames = socketParserClient.parseData(data);
+                        CardsDeck deck = new CardsDeck("PatternCards.json", new TypeToken<List<PatternCard>>() {}.getType());
                         List<PatternCard> list = new ArrayList<>();
                         list.add((PatternCard) deck.getByName(patternNames.get(0)+"/"+patternNames.get(1)));
                         list.add((PatternCard) deck.getByName(patternNames.get(2)+"/"+patternNames.get(3)));
@@ -156,7 +150,7 @@ public class SocketClient implements ClientInterface {
     }
 
     public void validatePatternCard(WindowPattern windowPattern) {
-        socketHandlerClient.send("request-patterncard-" + windowPattern.getName() + "-end");
+        socketHandlerClient.send("request","patterncard", windowPattern.getName());
 
 
     }
@@ -198,9 +192,8 @@ public class SocketClient implements ClientInterface {
             }
         }
 
-        private synchronized boolean send(String s){
-            while (out==null){}
-            out.println(s);
+        public synchronized boolean send(String type, String header, String s){
+            out.println(type + "-" + header + "-" + s + "-end");
             return true;
         }
     }

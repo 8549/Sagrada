@@ -1,5 +1,7 @@
 package it.polimi.ingsw.network.server;
 
+import it.polimi.ingsw.model.Player;
+
 import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -76,6 +78,7 @@ public class MainServer {
                 }
 
             }
+
             connectedClients.add(client);
             checkTimer();
             return true;
@@ -105,7 +108,7 @@ public class MainServer {
                                 System.out.println("Let the game begin !");
                                 timerIsRunning = false;
                                 if(!isGameStarted) {
-                                    //initGame(getPlayersFromClients(connectedClients));
+                                    initGame(getPlayersFromClients(connectedClients));
                                     isGameStarted = true;
                                 }
                             }
@@ -126,7 +129,7 @@ public class MainServer {
                 }
                 System.out.println("Let the game begin !");
                 if(!isGameStarted) {
-                    //initGame(getPlayersFromClients(connectedClients));
+                    initGame(getPlayersFromClients(connectedClients));
                     isGameStarted = true;
                 }
 
@@ -141,14 +144,41 @@ public class MainServer {
     }
 
 
-public void disconnect(ClientObject c){
-        if(!isGameStarted){
-            connectedClients.remove(c);
-            checkTimer();
-        }else{
-            //CODE TO HANDLE DISCONNECTION MEANWHILE THE GAME
+    public void disconnect(ClientObject c){
+            if(!isGameStarted){
+                connectedClients.remove(c);
+                checkTimer();
+            }else{
+                //CODE TO HANDLE DISCONNECTION MEANWHILE THE GAME
+            }
+    }
+
+    public void initGame(List<Player> players){
+        //Code to init Game manager
+
+    }
+
+    public List<Player> getPlayersFromClients(List<ClientObject> clients){
+        List<Player> players= new ArrayList<>();
+
+        for (ClientObject c : clients){
+            players.add(c.getPlayer());
         }
-}
+        return players;
+    }
 
+    public void addLoggedPlayer(Player p) {
+        for(ClientObject c : connectedClients){
+            if (!c.getPlayer().getName().equals(p.getName())){
+                c.pushLoggedPlayer(p);
+            }
+        }
 
+    }
+
+    public void addAlreadyLoogedPlayers(ClientObject client){
+        if (connectedClients.size()>1) {
+            client.pushPlayers(getPlayersFromClients(connectedClients));
+        }
+    }
 }

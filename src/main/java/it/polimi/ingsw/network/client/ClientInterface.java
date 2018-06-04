@@ -12,8 +12,5 @@ public interface ClientInterface extends Remote {
 
     void login() throws RemoteException;
 
-
-    void updatePlayersInfo(ClientInterface c) throws RemoteException;
-
     void connect(String serverAddress, int portNumber, String userName) throws RemoteException, IOException;
 }

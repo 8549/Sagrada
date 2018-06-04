@@ -40,10 +40,6 @@ public class RMIClient extends UnicastRemoteObject implements ClientInterface {
 
     }
 
-    @Override
-    public void updatePlayersInfo(ClientInterface c) throws RemoteException {
-
-    }
 
     @Override
     public void connect(String serverAddress, int portNumber, String userName) throws RemoteException, IOException {

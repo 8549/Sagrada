@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.network.client.ClientHandler;
 import it.polimi.ingsw.ui.CLI;
 import it.polimi.ingsw.ui.GUI;
 import it.polimi.ingsw.ui.UI;
@@ -10,6 +11,7 @@ public class RunClient {
     public static void main(String[] args) {
         String uiType;
         UI ui;
+        ClientHandler clientHandler;
 
         if (args.length == 0) {
             Scanner in = new Scanner(System.in);
@@ -23,6 +25,8 @@ public class RunClient {
             ui = new GUI();
         } else if (uiType.equalsIgnoreCase("cli")) {
             ui = new CLI();
+            clientHandler= new ClientHandler(ui);
+            ((CLI) ui).setHandler(clientHandler);
         } else {
             System.err.println("Invalid UI choice");
             return;

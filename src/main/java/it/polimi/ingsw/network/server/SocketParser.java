@@ -1,8 +1,9 @@
 package it.polimi.ingsw.network.server;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 public class SocketParser {
@@ -22,8 +23,8 @@ public class SocketParser {
             i++;
         }
     }
-    public ObservableList<String> parseData(String data){
-        ObservableList<String> d= FXCollections.observableArrayList();
+    public List<String> parseData(String data){
+        List<String> d= new ArrayList<>();
         StringTokenizer tokens = new StringTokenizer(data, "/", false);
         int i = 0;
         while (tokens.hasMoreTokens()) {
