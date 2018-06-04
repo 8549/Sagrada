@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
-public enum Status {
+public enum PlayerStatus {
     ACTIVE,
     DISCONNECTED,
-    PASSIVE;
+    PASSIVE
 }
