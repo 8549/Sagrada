@@ -51,9 +51,12 @@ public class CLI implements UI {
 
     @Override
     public void showLoggedInUsers() {
-        System.out.println("You are logged in.\nAlready logged in users:");
+        System.out.println("You are logged in.");
+        if (model.players.size() > 0) {
+            System.out.println("Already logged in users:\n");
+        }
         for (Player p : model.players) {
-            System.out.println(p.getName());
+            System.out.println(p.getName() + "\n");
         }
         model.players.addListener(new WeakListChangeListener<>(new ListChangeListener<Player>() {
             @Override
@@ -61,11 +64,11 @@ public class CLI implements UI {
                 while (c.next()) {
                     if (c.wasAdded()) {
                         for (Player p : c.getAddedSubList()) {
-                            System.out.println(p.getName() + "logged in");
+                            System.out.println(p.getName() + " logged in");
                         }
                     } else if (c.wasRemoved()) {
                         for (Player p : c.getRemoved()) {
-                            System.out.println(p.getName() + "logged out");
+                            System.out.println(p.getName() + " logged out");
                         }
                     }
                 }
