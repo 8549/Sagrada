@@ -52,7 +52,8 @@ public class CLI implements UI {
             printWindowPattern(p);
         }
         System.out.print("Plase choose your window pattern: ");
-        handler.setChosenPatternCard(patterns[scanner.nextInt()]);
+        int which = scanner.nextInt();
+        handler.setChosenPatternCard(patterns[which]);
     }
 
     @Override
