@@ -43,4 +43,9 @@ public class GUI extends Application implements UI {
     public void launch() {
 
     }
+
+    @Override
+    public void startGame() {
+
+    }
 }

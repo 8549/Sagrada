@@ -14,19 +14,20 @@ public class SocketParser {
     private static final int END = 3;
 
     public void parseInput(String input){
-        int len= input.length();
-        StringTokenizer tokens = new StringTokenizer(input, "-", false);
-        message = new String[len];
-        int i = 0;
-        while (tokens.hasMoreTokens() && i< len) {
-            message[i] = (tokens.nextToken());
-            i++;
+        if (input !=null) {
+            int len = input.length();
+            StringTokenizer tokens = new StringTokenizer(input, "-", false);
+            message = new String[len];
+            int i = 0;
+            while (tokens.hasMoreTokens() && i < len) {
+                message[i] = (tokens.nextToken());
+                i++;
+            }
         }
     }
     public List<String> parseData(String data){
         List<String> d= new ArrayList<>();
         StringTokenizer tokens = new StringTokenizer(data, "/", false);
-        int i = 0;
         while (tokens.hasMoreTokens()) {
             d.add(tokens.nextToken());
 

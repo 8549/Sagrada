@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.WindowPattern;
 import it.polimi.ingsw.network.server.ServerInterface;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -43,6 +44,11 @@ public class RMIClient extends UnicastRemoteObject implements ClientInterface {
 
     @Override
     public void connect(String serverAddress, int portNumber, String userName) throws RemoteException, IOException {
+
+    }
+
+    @Override
+    public void validatePatternCard(WindowPattern w) {
 
     }
 /*

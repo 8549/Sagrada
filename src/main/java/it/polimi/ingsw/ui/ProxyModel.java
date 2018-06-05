@@ -16,6 +16,14 @@ public class ProxyModel {
     public void addPlayers(List<Player> l) {
         players.addAll(l);
     }
+    public void removePlayer (Player p){
+        for(Player player : players){
+            if(player.getName().equals(p.getName())){
+                players.remove(player);
+                break;
+            }
+        }
+    }
 
     public void resetPlayers(List<Player> l) {
         players.clear();

@@ -41,7 +41,7 @@ public class SocketServer implements ServerInterface {
                 socketHandler.start();
 
             }
-        } catch (Exception e){
+        } catch (IOException e){
             System.err.println("[System]Socket server failed " + e);
             e.printStackTrace();
         }finally {
@@ -52,21 +52,22 @@ public class SocketServer implements ServerInterface {
 
 
 
-    public synchronized String processInput(String type, String header, String data, SocketHandler s) {
+    public synchronized String processInput(String type, String header, String data, SocketHandler s) throws IOException {
     if (type.equals("request")){
         switch(header) {
             case "login":
                         SocketClientObject client = new SocketClientObject(new Player(data),this, s);
                         if(server.addClient(client)){
-                            System.out.println("Login accepted. . . ");
                             s.send("response","login","Login Accepted !");
                             server.addAlreadyLoogedPlayers(client);
                             server.addLoggedPlayer(client.getPlayer());
+                            s.setClient(client);
 
                         }
                     break;
 
             case "patterncard":
+                        System.out.println("Player" + s.getClient() + " has chosen " + data);
 
 
                 break;
@@ -98,7 +99,7 @@ public class SocketServer implements ServerInterface {
         private ClientObject client;
         private SocketServer server;
 
-        public SocketHandler(Socket socket, SocketServer server) {
+        public SocketHandler(Socket socket, SocketServer server) throws IOException {
             this.server = server;
             this.socket = socket;
             log("New connection at " + socket);
@@ -118,23 +119,25 @@ public class SocketServer implements ServerInterface {
                 // Get messages from the client, line by line;
                 while (true) {
                     String input = in.readLine();
-                    if (input != null) {
+                    if (input == null){
+                        break;
+                    }else{
                         System.out.println("Client message: " + input);
                         socketParser.parseInput(input);
                         processInput(socketParser.getType(), socketParser.getHeader(), socketParser.getData(), this);
-
                     }
                 }
             } catch (IOException e) {
                 log("Error handling client");
+                e.printStackTrace();
             } finally {
+                log("Connection with " + client.getPlayer().getName() + " closed");
                 server.removeClient(client);
                 try {
                     socket.close();
                 } catch (IOException e) {
                     log("Couldn't close a socket, what's going on?");
                 }
-                log("Connection with " + client.getPlayer().getName() + " closed");
 
             }
         }
@@ -150,6 +153,11 @@ public class SocketServer implements ServerInterface {
             out.println(type + "-" + header + "-" + s + "-end");
             return true;
         }
+
+        private synchronized void setClient(ClientObject client){
+            this.client = client;
+        }
+        private synchronized String getClient(){return this.client.getPlayer().getName();}
 
 
     }

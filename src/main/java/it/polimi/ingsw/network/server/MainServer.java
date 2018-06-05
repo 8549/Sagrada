@@ -1,5 +1,8 @@
 package it.polimi.ingsw.network.server;
 
+import com.sun.security.ntlm.Client;
+import it.polimi.ingsw.GameManager;
+import it.polimi.ingsw.model.PatternCard;
 import it.polimi.ingsw.model.Player;
 
 import java.io.IOException;
@@ -15,11 +18,14 @@ public class MainServer {
     public static final int CONNECTION_TIMEOUT = 200;
     private ServerInterface rmiServer;
     private ServerInterface socketServer;
-    Timer timer;
+    private Timer timer;
     private boolean timerIsRunning=false;
     private boolean isGameStarted = false;
 
     private List<ClientObject> connectedClients = new ArrayList<>();
+    private List<ClientObject> inGameClients = new ArrayList<>();
+    private GameManager gm;
+
     /*
     TODO: this class must handle the different requests from RMI and Socket, so it must use ClientWrapper and instantiate different ServerHandler objects for every
     TODO: different room of game
@@ -144,9 +150,16 @@ public class MainServer {
     }
 
 
-    public void disconnect(ClientObject c){
+    public void disconnect(ClientObject client){
             if(!isGameStarted){
-                connectedClients.remove(c);
+                if(connectedClients.size()>1) {
+                    for (ClientObject c : connectedClients) {
+                        if (!c.getPlayer().getName().equals(client.getPlayer().getName())) {
+                            c.notifyPlayerDisconnection(client.getPlayer());
+                        }
+                    }
+                }
+                connectedClients.remove(client);
                 checkTimer();
             }else{
                 //CODE TO HANDLE DISCONNECTION MEANWHILE THE GAME
@@ -155,6 +168,7 @@ public class MainServer {
 
     public void initGame(List<Player> players){
         //Code to init Game manager
+        gm = new GameManager(this, players);
 
     }
 
@@ -177,8 +191,23 @@ public class MainServer {
     }
 
     public void addAlreadyLoogedPlayers(ClientObject client){
-        if (connectedClients.size()>1) {
+        if (connectedClients.size()>0) {
             client.pushPlayers(getPlayersFromClients(connectedClients));
+        }
+    }
+
+    public void gameStartedProcedures(List<Player> players){
+        inGameClients.addAll(connectedClients);
+        for (ClientObject c : inGameClients){
+            c.notifyGameStarted(players);
+        }
+    }
+
+    public void choosePatternCard(List<PatternCard> patternCards, Player player){
+        for(ClientObject c : inGameClients ){
+            if (c.getPlayer().getName().equals(player.getName())){
+                c.requestPatternCardChoice(patternCards);
+            }
         }
     }
 }

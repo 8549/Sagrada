@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.client;
 
+import it.polimi.ingsw.model.WindowPattern;
 import javafx.collections.ObservableList;
 
 import java.io.IOException;
@@ -13,4 +14,5 @@ public interface ClientInterface extends Remote {
     void login() throws RemoteException;
 
     void connect(String serverAddress, int portNumber, String userName) throws RemoteException, IOException;
+    void validatePatternCard(WindowPattern w);
 }

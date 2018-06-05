@@ -2,6 +2,7 @@ package it.polimi.ingsw;
 
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.network.server.MainServer;
 import it.polimi.ingsw.network.server.ServerInterface;
 import it.polimi.ingsw.network.server.SocketServer;
 import javafx.collections.ObservableList;
@@ -14,8 +15,8 @@ import java.util.Random;
 
 public class GameManager {
     private static final int PATTERN_CARDS_PER_PLAYER = 2;
-    private ServerInterface server;
-    private ObservableList<Player> players;
+    private MainServer server;
+    private List<Player> players;
     private RoundTrack roundTrack;
     private ScoreTrack scoreTrack;
     private ObjCard[] publicObjectiveCards;
@@ -28,12 +29,12 @@ public class GameManager {
     public static final int FIRSTROUND = 1;
     public static final int SECONDROUND = 2;
 
-    public GameManager(ServerInterface server, ObservableList<Player> players) {
+    public GameManager(MainServer server, List<Player> players) {
         this.server = server;
         this.players = players;
         System.out.println("Game is started with " + players.toString());
-        //gameSetup();
-        //playerSetup();
+        gameSetup();
+        playerSetup();
     }
 
     /**
@@ -81,11 +82,9 @@ public class GameManager {
         CardsDeck patternCardsDeck = new CardsDeck("PatternCards.json", new TypeToken<List<PatternCard>>() {
         }.getType());
 
-        /*try {
-            server.sendPlayers(players);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+        //confirm players
+        server.gameStartedProcedures(players);
+
         for (Player player : players) {
 
             //obj priv
@@ -100,16 +99,13 @@ public class GameManager {
 
             // set pattern card da player;
             System.out.println("Game manager ask for Pattern to " + player.getName());
-            try {
-                server.choosePatternCard(choices, player);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
+
+            server.choosePatternCard(choices, player);
             //TODO WAIT FOR PLAYER CHOICE
 
             //token
             player.setInitialTokens();
-        }*/
+        }
     }
 
 

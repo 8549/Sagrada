@@ -76,47 +76,68 @@ public class SocketClient implements ClientInterface {
         if (type.equals("response")){
             switch(header) {
                 case "login":
-                    String response=data;
-                    if(data.equals("Login Accepted !")){
-                        System.out.println("Login successful!");
-                        ch.loginSuccessful();
-                        ch.addPlayersToProxyModel(new Player(getName()));
-                    } else {
-                        System.out.println("Try with a different username, or maybe the game is already began so... :(");
-                        ch.setLoginResponse(false);
-                    }
-                    break;
+                            String response=data;
+                            if(data.equals("Login Accepted !")){
+                                System.out.println("Login successful!");
+
+                            } else {
+                                System.out.println("Try with a different username, or maybe the game is already began so... :(");
+                                ch.setLoginResponse(false);
+                            }
+                            break;
                 default:
-                    System.out.println("Wrong message!");
+                            System.out.println("Wrong message!");
+                            break;
             }
         }else if(type.equals("update")){
                 switch(header){
                     case "start": System.out.println(data);
                                 gameStatus.set("STARTED");
                         break;
-                    case "users": List<String> names = socketParserClient.parseData(data);
-                        System.out.println("You are playing against");
-                        for (String s : names) {
-                            System.out.println(s);
+                    case "users":       List<String> names = socketParserClient.parseData(data);
+                                        System.out.println("You are playing against");
+                                        for (String s : names) {
+                                            System.out.println(s);
 
-                        }
+                                        }
                         break;
 
                     case "loggedPlayer": String name = data;
-                        Player player = new Player(name);
-                        ch.addPlayersToProxyModel(player);
+                                        Player player = new Player(name);
+                                        ch.addPlayersToProxyModel(player);
                         break;
 
-                    case "loggedPlayers": List<String> playersNames = socketParserClient.parseData(data);
-                        List<Player> players = new ArrayList<>();
-                        for (String s : playersNames){
-                            players.add(new Player(s));
-                        }
-                        ch.addPlayersToProxyModel(players);
+                    case "loggedPlayers":
+                                        if (data.equals("You are the first player!")){
+                                            System.out.println(data);
+                                            ch.loginSuccessful();
+
+                                        }else{
+                                                List<String> playersNames = socketParserClient.parseData(data);
+                                                List<Player> players = new ArrayList<>();
+                                                for (String s : playersNames) {
+                                                    players.add(new Player(s));
+                                                }
+                                                ch.addPlayersToProxyModel(players);
+                                                ch.loginSuccessful();
+                                            }
+                        break;
+
+                    case "disconnectedPlayer":
+                                        ch.deletePlayerFromProxyModel(new Player(data));
                         break;
                     case "patterncard": List<String> tokens = socketParserClient.parseData(data);
-                                    System.out.println("Player " + tokens.get(1) + " choose pattern card" + tokens.get(0));
+                                        System.out.println("Player " + tokens.get(1) + " choose pattern card" + tokens.get(0));
 
+                        break;
+
+                    case "gameStarted":
+                                        List<String> n = socketParserClient.parseData(data);
+                                        List<Player> p = new ArrayList<>();
+                                        for (String s : n){
+                                            p.add(new Player(s));
+                                        }
+                                        ch.handleGameStarted(p);
                         break;
 
                     default: break;
@@ -130,10 +151,9 @@ public class SocketClient implements ClientInterface {
                         List<PatternCard> list = new ArrayList<>();
                         list.add((PatternCard) deck.getByName(patternNames.get(0)+"/"+patternNames.get(1)));
                         list.add((PatternCard) deck.getByName(patternNames.get(2)+"/"+patternNames.get(3)));
-                        System.out.println("Choose your pattern card between : " + patternNames.get(0)+ ", " + patternNames.get(1) + ", " + patternNames.get(2) + ", " + patternNames.get(3));
-                        patternCards.addAll(list);
-                        gameStatus.set("WAITING_PATTERNCARD");
-
+                        if (list.size()==2) {
+                            ch.patternCardChooser(list.get(0), list.get(1));
+                        }
                         break;
                     default: break;
 

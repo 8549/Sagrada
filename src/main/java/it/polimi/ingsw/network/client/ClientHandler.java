@@ -1,6 +1,8 @@
 package it.polimi.ingsw.network.client;
 
+import it.polimi.ingsw.model.PatternCard;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.WindowPattern;
 import it.polimi.ingsw.network.ConnectionType;
 import it.polimi.ingsw.ui.ProxyModel;
 import it.polimi.ingsw.ui.UI;
@@ -16,6 +18,8 @@ public class ClientHandler {
 
     public ClientHandler(UI ui) {
         this.ui = ui;
+        proxyModel = new ProxyModel();
+        ui.setProxyModel(this.proxyModel);
     }
 
     public void handleLogin(String hostname, int port, String username, ConnectionType connectionType) throws IOException {
@@ -37,8 +41,6 @@ public class ClientHandler {
     }
 
     public  void loginSuccessful() {
-        proxyModel = new ProxyModel();
-        ui.setProxyModel(this.proxyModel);
         ui.showLoggedInUsers();
 
     }
@@ -50,5 +52,24 @@ public class ClientHandler {
     public void addPlayersToProxyModel(Player p){
         while(proxyModel==null){}
         proxyModel.addPlayers(p);
+
     }
-}
+
+    public void deletePlayerFromProxyModel(Player p){
+        System.out.println("Player " + p.getName() + " disconnected");
+        proxyModel.removePlayer(p);
+    }
+    public void patternCardChooser(PatternCard p1, PatternCard p2){
+        ui.showPatternCardsChooser(p1,p2);
+
+    }
+    public void handleGameStarted(List<Player> players){
+        ui.startGame();
+        proxyModel.resetPlayers(players);
+
+
+    }
+    public void setChosenPatternCard(WindowPattern w){
+        client.validatePatternCard(w);
+
+    }}
