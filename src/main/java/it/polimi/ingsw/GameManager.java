@@ -94,6 +94,7 @@ public class GameManager {
             List<PatternCard> choices = new ArrayList<>();
             for (int i = 0; i < PATTERN_CARDS_PER_PLAYER; i++) {
                 choices.add((PatternCard) patternCardsDeck.getRandomCard());
+                System.out.println("Choice: " + choices.get(i).getName());
             }
 
 

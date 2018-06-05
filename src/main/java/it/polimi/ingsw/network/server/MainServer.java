@@ -207,6 +207,7 @@ public class MainServer {
         for(ClientObject c : inGameClients ){
             if (c.getPlayer().getName().equals(player.getName())){
                 c.requestPatternCardChoice(patternCards);
+                break;
             }
         }
     }

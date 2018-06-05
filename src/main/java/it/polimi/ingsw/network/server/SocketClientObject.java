@@ -50,6 +50,7 @@ public class SocketClientObject extends ClientObject {
         for (Player p :players){
             data = data + p.getName() + "/";
         }
+
         socketHandler.send("update", "gameStarted", data);
     }
 
@@ -57,7 +58,7 @@ public class SocketClientObject extends ClientObject {
     public void requestPatternCardChoice(List<PatternCard> patternCards) {
         String data="";
         for (PatternCard p : patternCards){
-            data = p.getName() + "/" ;
+            data = data + p.getName();
         }
         socketHandler.send("request", "initPattern", data);
     }
