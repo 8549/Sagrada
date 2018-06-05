@@ -2,14 +2,22 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.GameManager;
 
-public class RoundTrack {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class RoundTrack {                             
     private static RoundTrack instance;
-    private Die[] dice;
+    private Map<Integer, List<Die>> dice;
     private int roundCounter;
 
     private RoundTrack() {
         roundCounter = 0;
-        dice = new Die[GameManager.ROUNDS];
+        dice = new HashMap<>();
+        for (int i=0; i<GameManager.ROUNDS; i++){
+            dice.put(i, new ArrayList<>());
+        }
     }
 
     public static RoundTrack getInstance() {
@@ -24,20 +32,25 @@ public class RoundTrack {
         return roundCounter;
     }
 
+    public Die getDieAt(int roundCounter, int numberOfDie){
+        return dice.get(roundCounter).get(numberOfDie);
+    }
 
-    public void addRound(Die die) {
-        this.dice[roundCounter] = die;
+    public void addRound(List<Die> dice) {
+        for (int i=0; i<dice.size(); i++) {
+            this.dice.get(roundCounter).add(dice.get(i));
+        }
         roundCounter++;
     }
 
-    public SagradaColor getColorOfDieAtRound(int turn) {
-        return dice[turn - 1].getColor();
+    public SagradaColor getColorOfDieAtRound(int turn, int numberOfDie) {
+        return dice.get(turn - 1).get(numberOfDie).getColor();
     }
 
-    public Die replaceDie(Die die, int turn) {
+    public Die replaceDie(Die die, int turn, int numberOfDie) {
         if (turn <= roundCounter) {
-            Die oldDie = dice[turn - 1];
-            dice[turn - 1] = die;
+            Die oldDie = dice.get(turn - 1).remove(numberOfDie);
+            dice.get(turn - 1).add(die);
             return oldDie;
         }
         return null;

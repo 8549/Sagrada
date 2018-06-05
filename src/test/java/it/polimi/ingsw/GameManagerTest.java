@@ -2,7 +2,9 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.server.ClientObject;
+import it.polimi.ingsw.network.server.MainServer;
 import it.polimi.ingsw.network.server.ServerInterface;
+import it.polimi.ingsw.network.server.SocketServer;
 import javafx.beans.InvalidationListener;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -23,7 +25,8 @@ class GameManagerTest {
 
     @Test
     void disconnectPlayer() {
-        /*
+   /*     MainServer mainServer = new MainServer();
+        List<Player> players = new ArrayList<>();
         Player marco = new Player("marco");
         players.add(marco);
         Player giulia = new Player("giulia");
@@ -39,7 +42,7 @@ class GameManagerTest {
         roundPlayers.add(andrea);
         roundPlayers.add(francesca);
         Round round = new Round(roundPlayers, 1);
-        GameManager gameManager = new GameManager(serverInterface, players);
+        GameManager gameManager = new GameManager();
 
         gameManager.disconnectPlayer(giulia, round);
         assertEquals(6, round.getTurns().size());*/

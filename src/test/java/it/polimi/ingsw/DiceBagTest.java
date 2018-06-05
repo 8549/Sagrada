@@ -18,7 +18,6 @@ class DiceBagTest {
 
     }
 
-
     @Test
     void getSizeDice() {
     }
@@ -30,4 +29,6 @@ class DiceBagTest {
         Die die1 = DiceBag.draftDie();
         assertTrue(DiceBag.addDie(die));
     }
+
+
 }

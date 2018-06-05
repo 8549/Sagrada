@@ -74,8 +74,6 @@
     "id": 8,
     "when": "after",
     "features": [
-      "chooseDieFromDraftPool",
-      "placeDie",
       "changeTurnOrder"
     ]
   },
@@ -91,6 +89,7 @@
   {
     "name": "Grinding Stone",
     "id": 10,
+    "when":"always",
     "features": [
       "chooseDieFromDraftPool",
       "flipDie"
@@ -99,6 +98,7 @@
   {
     "name": "Flux Remover",
     "id": 11,
+    "when":"before",
     "features": [
       "chooseDieFromDraftPool",
       "addDieToDicePool",
@@ -110,12 +110,13 @@
   {
     "name": "Tap Wheel",
     "id": 12,
+    "when": "always",
     "features": [
       "chooseDieFromWindowPattern",
       "getColorFromDieOfRoundTrack",
+      "chooseDieFromWindowPattern",
       "moveDieWithSameColor",
       "chooseDieFromWindowPattern",
-      "getColorFromDieOfRoundTrack",
       "moveDieWithSameColor"
     ]
   }
