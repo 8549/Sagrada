@@ -58,7 +58,7 @@ public class SocketClientObject extends ClientObject {
     public void requestPatternCardChoice(List<PatternCard> patternCards) {
         String data="";
         for (PatternCard p : patternCards){
-            data = data + p.getName();
+            data = data + p.getName() +"/";
         }
         socketHandler.send("request", "initPattern", data);
     }

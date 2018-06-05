@@ -63,6 +63,8 @@ public class SocketServer implements ServerInterface {
                             server.addLoggedPlayer(client.getPlayer());
                             s.setClient(client);
 
+                        }else{
+                            //s.send();
                         }
                     break;
 
