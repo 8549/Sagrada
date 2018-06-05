@@ -40,4 +40,11 @@ public interface PatternConstraint {
      * @return a JavaFX Node representing the constraint
      */
     Node getAsGraphic(double size);
+
+    /**
+     * Gets a string representation of the constraint
+     *
+     * @return
+     */
+    String toCLI();
 }

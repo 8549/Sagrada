@@ -20,6 +20,11 @@ public class BlankConstraint implements PatternConstraint {
     }
 
     @Override
+    public String toCLI() {
+        return " ";
+    }
+
+    @Override
     public String toString() {
         return "BLANK";
     }

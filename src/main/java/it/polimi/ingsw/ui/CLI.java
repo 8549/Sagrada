@@ -2,6 +2,7 @@ package it.polimi.ingsw.ui;
 
 import it.polimi.ingsw.model.PatternCard;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.WindowPattern;
 import it.polimi.ingsw.network.ConnectionType;
 import it.polimi.ingsw.network.client.ClientHandler;
 import javafx.collections.ListChangeListener;
@@ -11,13 +12,13 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class CLI implements UI {
+    private final Scanner scanner = new Scanner(System.in);
     private ClientHandler handler;
     private ProxyModel model;
 
 
     @Override
     public void showLogin() {
-        Scanner scanner = new Scanner(System.in);
         String hostName;
         int port;
         String username;
@@ -43,7 +44,14 @@ public class CLI implements UI {
 
     @Override
     public void showPatternCardsChooser(PatternCard one, PatternCard two) {
-
+        WindowPattern[] patterns = {one.getFront(), one.getBack(), two.getFront(), two.getBack()};
+        int i = 1;
+        for (WindowPattern p : patterns) {
+            System.out.println(String.format("%d) %s, difficulty %d", i, p.getName(), p.getDifficulty()));
+            printWindowPattern(p);
+        }
+        System.out.print("Plase choose your window pattern: ");
+        handler.setChosenPatternCard(patterns[scanner.nextInt()]);
     }
 
     @Override
@@ -81,6 +89,92 @@ public class CLI implements UI {
     @Override
     public void launch() {
         showLogin();
+    }
+
+    @Override
+    public void startGame() {
+        System.out.println("The game is starting! Players for this match will be: ");
+        int i;
+        for (i = 0; i < model.players.size() - 1; i++) {
+            System.out.println(model.players.get(i).getName() + ", ");
+        }
+        System.out.println(model.players.get(i).getName());
+    }
+
+    public void printWindowPattern(WindowPattern p) {
+        StringBuilder b = new StringBuilder();
+        int k = 0;
+        int l = 0;
+        int gridMaxRows = 2 * WindowPattern.ROWS + 1;
+        int gridMaxCols = 2 * WindowPattern.COLUMNS + 1;
+        for (int i = 0; i < gridMaxRows; i++) {
+            for (int j = 0; j < gridMaxCols; j++) {
+                if (i == 0) {
+                    if (j == 0) {
+                        // print left down beginning
+                        b.append((char) 9484);
+                    } else if (j == gridMaxCols - 1) {
+                        // print right down end
+                        b.append((char) 9488);
+                    } else if (j % 2 == 0) {
+                        // print T intersection
+                        b.append((char) 9516);
+                    } else if (j % 2 == 1) {
+                        // print top line
+                        b.append((char) 9472);
+                    }
+                } else if (i == gridMaxRows - 1) {
+                    if (j == 0) {
+                        // print left top end
+                        b.append((char) 9492);
+                    } else if (j == gridMaxCols - 1) {
+                        // print right top end
+                        b.append((char) 9496);
+                    } else if (j % 2 == 0) {
+                        // print _|_ intersection
+                        b.append((char) 9524);
+                    } else if (j % 2 == 1) {
+                        // print bottom line
+                        b.append((char) 9472);
+                    }
+                } else if (i % 2 == 0) {
+                    if (j == 0) {
+                        // print |-
+                        b.append((char) 9500);
+                    } else if (j == gridMaxCols - 1) {
+                        // print -|
+                        b.append((char) 9508);
+                    } else if (j % 2 == 1) {
+                        // print middle line
+                        b.append((char) 9472);
+                    } else if (j % 2 == 0) {
+                        //print +
+                        b.append((char) 9532);
+                    }
+                } else if (i % 2 == 1) {
+                    if (j == 0) {
+                        // print left |
+                        b.append((char) 9474);
+                    } else if (j == gridMaxCols - 1) {
+                        // print right |
+                        b.append((char) 9474);
+                    } else if (j % 2 == 1) {
+                        // print constraint
+                        b.append(p.getConstraints()[k][l].toCLI());
+                        l++;
+                        if (l % WindowPattern.COLUMNS == 0) {
+                            l = 0;
+                            k++;
+                        }
+                    } else if (j % 2 == 0) {
+                        //print middle |
+                        b.append((char) 9474);
+                    }
+                }
+            }
+            b.append("\n");
+        }
+        System.out.println(b.toString());
     }
 
     public void setHandler(ClientHandler ch){

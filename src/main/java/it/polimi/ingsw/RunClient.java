@@ -15,7 +15,7 @@ public class RunClient {
 
         if (args.length == 0) {
             Scanner in = new Scanner(System.in);
-            System.out.println("Choose a UI mode (cli or gui): ");
+            System.out.print("Choose a UI mode (cli or gui): ");
             uiType = in.next();
         } else {
             uiType = args[0];

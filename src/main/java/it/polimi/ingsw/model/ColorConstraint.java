@@ -24,6 +24,12 @@ public class ColorConstraint implements PatternConstraint {
         return rect;
     }
 
+    @Override
+    public String toCLI() {
+        int unicodeNumber = 9632;
+        return color.escapeString() + (char) unicodeNumber + SagradaColor.RESET;
+    }
+
     public SagradaColor getColor() {
         return color;
     }

@@ -16,4 +16,9 @@ public class ProxyModel {
     public void addPlayers(List<Player> l) {
         players.addAll(l);
     }
+
+    public void resetPlayers(List<Player> l) {
+        players.clear();
+        players.addAll(l);
+    }
 }

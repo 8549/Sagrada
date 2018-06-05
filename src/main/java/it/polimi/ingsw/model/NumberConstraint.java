@@ -25,6 +25,11 @@ public class NumberConstraint implements PatternConstraint {
         return imageView;
     }
 
+    @Override
+    public String toCLI() {
+        return "" + number;
+    }
+
     public int getNumber() {
         return number;
     }
