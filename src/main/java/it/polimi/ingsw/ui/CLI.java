@@ -15,6 +15,7 @@ public class CLI implements UI {
     private final Scanner scanner = new Scanner(System.in);
     private ClientHandler handler;
     private ProxyModel model;
+    private ListChangeListener listener;
 
 
     @Override
@@ -63,7 +64,7 @@ public class CLI implements UI {
         for (Player p : model.players) {
             System.out.println(p.getName() + "\n");
         }
-        model.players.addListener(new WeakListChangeListener<>(new ListChangeListener<Player>() {
+        listener = new WeakListChangeListener<>(new ListChangeListener<Player>() {
             @Override
             public void onChanged(Change<? extends Player> c) {
                 while (c.next()) {
@@ -78,7 +79,8 @@ public class CLI implements UI {
                     }
                 }
             }
-        }));
+        });
+        model.players.addListener(listener);
     }
 
     @Override
@@ -93,10 +95,11 @@ public class CLI implements UI {
 
     @Override
     public void startGame() {
+        model.players.removeListener(listener);
         System.out.println("The game is starting! Players for this match will be: ");
         int i;
         for (i = 0; i < model.players.size() - 1; i++) {
-            System.out.println(model.players.get(i).getName() + ", ");
+            System.out.print(model.players.get(i).getName() + ", ");
         }
         System.out.println(model.players.get(i).getName());
     }
