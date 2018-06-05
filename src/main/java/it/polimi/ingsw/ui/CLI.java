@@ -48,7 +48,7 @@ public class CLI implements UI {
         WindowPattern[] patterns = {one.getFront(), one.getBack(), two.getFront(), two.getBack()};
         int i = 1;
         for (WindowPattern p : patterns) {
-            System.out.println(String.format("%d) %s, difficulty %d", i, p.getName(), p.getDifficulty()));
+            System.out.println(String.format("%d) %s, difficulty %d", i++, p.getName(), p.getDifficulty()));
             printWindowPattern(p);
         }
         System.out.print("Plase choose your window pattern: ");
@@ -59,10 +59,10 @@ public class CLI implements UI {
     public void showLoggedInUsers() {
         System.out.println("You are logged in.");
         if (model.players.size() > 0) {
-            System.out.println("Already logged in users:\n");
+            System.out.println("Already logged in users:");
         }
         for (Player p : model.players) {
-            System.out.println(p.getName() + "\n");
+            System.out.println(p.getName());
         }
         listener = new WeakListChangeListener<>(new ListChangeListener<Player>() {
             @Override
