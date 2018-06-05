@@ -105,7 +105,7 @@ public class GameManager {
             //TODO WAIT FOR PLAYER CHOICE
 
             //token
-            player.setInitialTokens();
+            //player.setInitialTokens();
         }
     }
 

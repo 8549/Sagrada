@@ -74,7 +74,6 @@ public class MainServer {
     public synchronized boolean addClient(ClientObject client){
         if(connectedClients == null){
             connectedClients.add(client);
-            checkTimer();
             return true;
 
         }else{
@@ -86,7 +85,6 @@ public class MainServer {
             }
 
             connectedClients.add(client);
-            checkTimer();
             return true;
         }
 

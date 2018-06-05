@@ -62,9 +62,10 @@ public class SocketServer implements ServerInterface {
                             server.addAlreadyLoogedPlayers(client);
                             server.addLoggedPlayer(client.getPlayer());
                             s.setClient(client);
+                            server.checkTimer();
 
                         }else{
-                            //s.send();
+                            s.send("response", "login", "Login failed");
                         }
                     break;
 
