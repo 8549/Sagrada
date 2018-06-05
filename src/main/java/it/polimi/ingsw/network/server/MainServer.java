@@ -15,7 +15,7 @@ import java.util.TimerTask;
 public class MainServer {
     public static final int DEFAULT_RMI_PORT = 1234;
     public static final int DEFAULT_SOCKET_PORT= 3130;
-    public static final int CONNECTION_TIMEOUT = 200;
+    public static final int CONNECTION_TIMEOUT = 10;
     private ServerInterface rmiServer;
     private ServerInterface socketServer;
     private Timer timer;
@@ -108,7 +108,7 @@ public class MainServer {
                         try {
                             //showClients();
                             System.out.println("Time to join the game is out !");
-                            if (connectedClients.size() > 2) {
+                            if (connectedClients.size() >= 2) {
                                 System.out.println("Let the game begin !");
                                 timerIsRunning = false;
                                 if(!isGameStarted) {

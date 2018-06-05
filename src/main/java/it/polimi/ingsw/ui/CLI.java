@@ -53,7 +53,7 @@ public class CLI implements UI {
         }
         System.out.print("Plase choose your window pattern: ");
         int which = scanner.nextInt();
-        handler.setChosenPatternCard(patterns[which]);
+        handler.setChosenPatternCard(patterns[which-1]);
     }
 
     @Override
