@@ -211,7 +211,7 @@
   },
   {
     "front": {
-      "name": "Fratal Drops",
+      "name": "Fractal Drops",
       "difficulty": 3,
       "patternConstraints": [
         [
@@ -232,7 +232,8 @@
           null,
           null,
           "RED",
-          "PURPLE"
+          "PURPLE",
+          1
         ],
         [
           "BLUE",
