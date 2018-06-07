@@ -2,15 +2,13 @@ package it.polimi.ingsw.network.server;
 
 import com.sun.security.ntlm.Client;
 import it.polimi.ingsw.GameManager;
+import it.polimi.ingsw.model.Die;
 import it.polimi.ingsw.model.PatternCard;
 import it.polimi.ingsw.model.Player;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 public class MainServer {
     public static final int DEFAULT_RMI_PORT = 1234;
@@ -209,4 +207,26 @@ public class MainServer {
             }
         }
     }
+
+    //TODO
+
+    public void chooseDie(List<Die> dice){}
+
+    public Die setDie(){
+        return null;
+    }
+
+    public void choosePlacement(){
+        //notify client to choose die and coordinates
+    }
+
+    public void setChoosePlacement(){
+
+    }
+    public void notifyPlayerChangeTurn(){}
+
+    public void notifyCorrectMovement(){}
+
+    public void notifyIncorrectMovement(){}
+
 }
