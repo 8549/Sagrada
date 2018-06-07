@@ -141,8 +141,8 @@ public class SocketClient implements ClientInterface {
                         break;
 
                     case "opponentsInfo": List<String> info = socketParserClient.parseData(data);
-                                            for(int i=0; i<info.size(); i++){
-
+                                            for(int i=0; i<info.size(); i= i+2){
+                                                ch.initPlayer(info.get(i), info.get(i+1));
                                             }
                     default: break;
 
