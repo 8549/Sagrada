@@ -1,6 +1,7 @@
 package it.polimi.ingsw.ui;
 
 import it.polimi.ingsw.model.PatternCard;
+import it.polimi.ingsw.model.Player;
 
 public interface UI {
     void showLogin();
@@ -14,4 +15,12 @@ public interface UI {
     void launch();
 
     void startGame();
+
+    void update();
+
+    void myTurnStarted();
+
+    void myTurnEnded();
+
+    void playerDisconnected(Player p);
 }

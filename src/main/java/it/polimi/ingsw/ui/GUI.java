@@ -1,6 +1,7 @@
 package it.polimi.ingsw.ui;
 
 import it.polimi.ingsw.model.PatternCard;
+import it.polimi.ingsw.model.Player;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -46,6 +47,26 @@ public class GUI extends Application implements UI {
 
     @Override
     public void startGame() {
+
+    }
+
+    @Override
+    public void update() {
+
+    }
+
+    @Override
+    public void myTurnStarted() {
+
+    }
+
+    @Override
+    public void myTurnEnded() {
+
+    }
+
+    @Override
+    public void playerDisconnected(Player p) {
 
     }
 }

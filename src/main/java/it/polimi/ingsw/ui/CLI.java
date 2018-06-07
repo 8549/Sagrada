@@ -1,10 +1,14 @@
 package it.polimi.ingsw.ui;
 
+import it.polimi.ingsw.model.Die;
 import it.polimi.ingsw.model.PatternCard;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.WindowPattern;
 import it.polimi.ingsw.network.ConnectionType;
 import it.polimi.ingsw.network.client.ClientHandler;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.beans.value.WeakChangeListener;
 import javafx.collections.ListChangeListener;
 import javafx.collections.WeakListChangeListener;
 
@@ -103,6 +107,64 @@ public class CLI implements UI {
             System.out.print(model.players.get(i).getName() + ", ");
         }
         System.out.println(model.players.get(i).getName());
+        model.draftPool.addListener(new WeakListChangeListener<>(new ListChangeListener<Die>() {
+            @Override
+            public void onChanged(Change<? extends Die> c) {
+                while (c.next()) {
+                    update();
+                    if (c.wasAdded()) {
+                        for (Die d : c.getAddedSubList()) {
+                            System.out.println("Die " + d.toCLI() + " was added");
+                        }
+                    } else if (c.wasRemoved()) {
+                        for (Die d : c.getRemoved()) {
+                            System.out.println("Die " + d.toCLI() + " was removed");
+                        }
+                    }
+                }
+            }
+        }));
+        model.currentRoundProperty().addListener(new WeakChangeListener<>(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                System.out.println(String.format("Turn changed %d --> %d", oldValue.intValue(), newValue.intValue()));
+            }
+        }));
+        model.currentTurnProperty().addListener(new WeakChangeListener<>(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                System.out.println(String.format("Turn changed %d --> %d", oldValue.intValue(), newValue.intValue()));
+            }
+        }));
+    }
+
+    @Override
+    public void update() {
+        System.out.println(String.format("It's turn %d of round %d", model.getCurrentTurn(), model.getCurrentRound()));
+        for (Player p : model.players) {
+            System.out.println(p.getName());
+            printWindowPattern(p.getPlayerWindow().getWindowPattern());
+        }
+        System.out.print("\nDraft pool:");
+        for (Die d : model.draftPool) {
+            System.out.println(" " + d.toCLI());
+        }
+    }
+
+    @Override
+    public void myTurnStarted() {
+        System.out.println(String.format("It's your turn! (Turn number %d of round %d)", model.getCurrentTurn(), model.getCurrentRound()));
+        //update();
+    }
+
+    @Override
+    public void myTurnEnded() {
+        System.out.println("Your turn has ended.");
+    }
+
+    @Override
+    public void playerDisconnected(Player p) {
+        System.out.println(String.format("Player %s has disconnected", p.getName()));
     }
 
     public void printWindowPattern(WindowPattern p) {

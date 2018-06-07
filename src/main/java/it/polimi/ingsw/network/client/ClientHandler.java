@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.client;
 
+import it.polimi.ingsw.model.CardsDeck;
 import it.polimi.ingsw.model.PatternCard;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.WindowPattern;
@@ -56,7 +57,7 @@ public class ClientHandler {
     }
 
     public void deletePlayerFromProxyModel(Player p){
-        System.out.println("Player " + p.getName() + " disconnected");
+        ui.playerDisconnected(p);
         proxyModel.removePlayer(p);
     }
     public void patternCardChooser(PatternCard p1, PatternCard p2){
@@ -74,8 +75,9 @@ public class ClientHandler {
 
     }
 
-    public void initPlayer(String name, String patternCardName){
+    public void initPlayer(String name, String windowPatternName) {
         for (Player p : proxyModel.getPlayers()){
+            CardsDeck.getWindowPatternByName(windowPatternName);
             //Caricare WindowPattern con nome "patternCard" al player p
         }
     }

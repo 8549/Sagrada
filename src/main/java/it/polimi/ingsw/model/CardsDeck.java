@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import it.polimi.ingsw.Utils;
 import it.polimi.ingsw.serialization.GsonSingleton;
@@ -33,6 +34,25 @@ public class CardsDeck {
             return null;
         }
 
+    }
+
+    public static WindowPattern getWindowPatternByName(String name) {
+        List<? extends Card> deck;
+        try (JsonReader reader = new JsonReader(new InputStreamReader(CardsDeck.class.getClassLoader().getResourceAsStream("PatternCards.json")))) {
+            deck = GsonSingleton.getInstance().fromJson(reader, new TypeToken<List<PatternCard>>() {
+            }.getType());
+            for (Card c : deck) {
+                PatternCard pc = (PatternCard) c;
+                if (pc.getFront().getName().equalsIgnoreCase(name)) {
+                    return pc.getFront();
+                } else if (pc.getBack().getName().equalsIgnoreCase(name)) {
+                    return pc.getBack();
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public Card getByName(String name) {
