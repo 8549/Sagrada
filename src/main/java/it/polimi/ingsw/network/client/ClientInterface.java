@@ -8,11 +8,11 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
-public interface ClientInterface extends Remote {
-    String getName() throws RemoteException;
+public interface ClientInterface  {
+    String getName() throws IOException;
 
-    void login() throws RemoteException;
+    void login() throws IOException;
 
-    void connect(String serverAddress, int portNumber, String userName) throws RemoteException, IOException;
-    void validatePatternCard(WindowPattern w);
+    void connect(String serverAddress, int portNumber, String userName) throws IOException;
+    void validatePatternCard(WindowPattern w) throws IOException;
 }

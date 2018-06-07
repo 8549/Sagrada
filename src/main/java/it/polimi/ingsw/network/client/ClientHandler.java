@@ -70,7 +70,7 @@ public class ClientHandler {
 
 
     }
-    public void setChosenPatternCard(WindowPattern w){
+    public void setChosenPatternCard(WindowPattern w) throws IOException {
         client.validatePatternCard(w);
 
     }

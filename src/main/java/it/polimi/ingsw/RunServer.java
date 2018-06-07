@@ -15,7 +15,7 @@ public class RunServer {
 
 
     public static void main(String[] args) {
-        MainServer mainServer = new MainServer();
+        MainServer mainServer = new MainServer(args);
 
     }
 

@@ -7,6 +7,7 @@ import it.polimi.ingsw.network.client.ClientInterface;
 import javafx.collections.ObservableList;
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
+import sun.applet.Main;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -17,16 +18,16 @@ import java.util.List;
 
 import static it.polimi.ingsw.network.server.MainServer.DEFAULT_RMI_PORT;
 
-public class RMIServer extends UnicastRemoteObject implements ServerInterface {
-    ObservableList<ClientObject> users ;
-    ObservableList<ClientObject> lobby ;
+public class RMIServer extends UnicastRemoteObject implements RMIServerInterface {
+    List<ClientObject> users ;
+    MainServer server;
 
-    public RMIServer(ObservableList<ClientObject> users, ObservableList<ClientObject> lobby) throws RemoteException {
+    public RMIServer(List<ClientObject> users, MainServer server) throws RemoteException {
         this.users = users;
-        this.lobby= lobby;
+        this.server = server;
     }
 
-    /*@Override
+    @Override
     public void start(String[] args) throws RemoteException {
         //RMI SERVER
 
@@ -49,12 +50,6 @@ public class RMIServer extends UnicastRemoteObject implements ServerInterface {
         }catch (Exception e){
             System.out.println("[System] RMI MainServer failed: " + e);
         }
-    }*/
-
-
-
-    @Override
-    public void start() throws IOException {
-
     }
+
 }

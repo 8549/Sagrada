@@ -14,7 +14,7 @@ public class MainServer {
     public static final int DEFAULT_RMI_PORT = 1234;
     public static final int DEFAULT_SOCKET_PORT= 3130;
     public static final int CONNECTION_TIMEOUT = 10;
-    private ServerInterface rmiServer;
+    private RMIServerInterface rmiServer;  //TODO: check if it is really right to create the common server interface
     private ServerInterface socketServer;
     private Timer timer;
     private boolean timerIsRunning=false;
@@ -34,10 +34,14 @@ public class MainServer {
     to act
     */
 
-    public MainServer(){
+    public MainServer(String[] args){
 
         // RMI server
-        //rmiServer = new RMIServer(connectedClients, this);
+        try {
+            rmiServer = new RMIServer(connectedClients, this);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
         //Socket server
         socketServer= new SocketServer(connectedClients, this);
@@ -46,7 +50,7 @@ public class MainServer {
             public void run(){
                 try {
 
-                    socketServer.start();
+                    socketServer.start(args);
 
                 }catch (IOException e){
                     e.printStackTrace();
@@ -54,7 +58,7 @@ public class MainServer {
             }
         }.start();
 
-            /*new Thread(){
+            new Thread(){
                 public void run(){
                     try {
 
@@ -64,7 +68,7 @@ public class MainServer {
                         e.printStackTrace();
                     }
                 }
-            }.start();*/
+            }.start();
 
     }
 
