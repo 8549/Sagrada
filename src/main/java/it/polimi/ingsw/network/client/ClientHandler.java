@@ -72,4 +72,12 @@ public class ClientHandler {
     public void setChosenPatternCard(WindowPattern w){
         client.validatePatternCard(w);
 
-    }}
+    }
+
+    public void initPlayer(String name, String patternCardName){
+        for (Player p : proxyModel.getPlayers()){
+            //Caricare WindowPattern con nome "patternCard" al player p
+        }
+    }
+}
+

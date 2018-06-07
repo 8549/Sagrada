@@ -140,6 +140,10 @@ public class SocketClient implements ClientInterface {
                                         ch.handleGameStarted(p);
                         break;
 
+                    case "opponentsInfo": List<String> info = socketParserClient.parseData(data);
+                                            for(int i=0; i<info.size(); i++){
+
+                                            }
                     default: break;
 
                 }

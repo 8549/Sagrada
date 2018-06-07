@@ -229,4 +229,30 @@ public class MainServer {
 
     public void notifyIncorrectMovement(){}
 
+
+    public void setPlayerChoice(ClientObject client, String name){
+        gm.completePlayerSetup(client.getPlayer(), name);
+    }
+
+    public void initPlayersData(){
+        List<Player> thinPlayers = new ArrayList<>();
+        for(ClientObject client1 : inGameClients){
+            for(ClientObject client2 : inGameClients){
+                if (!client1.getPlayer().getName().equals(client2.getPlayer().getName())){
+                    thinPlayers.add(getOpponentVisibleFromClient(client2.getPlayer()));
+                }
+            }
+            //
+        }
+
+    }
+
+    public Player getOpponentVisibleFromClient(Player p ){
+        Player player = new Player(p.getName());
+        player.getPlayerWindow().setWindowPattern(p.getPlayerWindow().getWindowPattern());
+        player.setPrivateObjectiveCard(null);
+        return player;
+    }
+
+
 }

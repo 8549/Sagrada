@@ -29,4 +29,8 @@ public class ProxyModel {
         players.clear();
         players.addAll(l);
     }
+
+    public ObservableList<Player> getPlayers(){
+        return this.players;
+    }
 }

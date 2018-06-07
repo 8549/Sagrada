@@ -1,16 +1,22 @@
 package it.polimi.ingsw.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Player {
     private String name;
     private final PlayerWindow playerWindow;
     private ObjCard privateObjectiveCard;
     private boolean privateObjectiveCardSet;
     private int tokens;
+    List<PatternCard> choices;
+    private boolean chosenPatternCard = false;
 
     public Player(String name) {
         this.name = name;
         this.playerWindow = new PlayerWindow();
         this.privateObjectiveCardSet = false;
+        this.choices = new ArrayList<>();
         
     }
 
@@ -48,6 +54,20 @@ public class Player {
     public void setInitialTokens() {
         this.tokens = playerWindow.getWindowPattern().getDifficulty();
     }
+
+    public List<PatternCard> getChoices(){
+        return this.choices;
+    }
+
+    public boolean hasChosenPatternCard(){
+        return this.chosenPatternCard;
+    }
+
+    public void setHasChosenPatternCard(boolean chosen){
+        this.chosenPatternCard = chosen;
+    }
+
+
 
     @Override
     public String toString() {

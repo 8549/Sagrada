@@ -62,4 +62,16 @@ public class SocketClientObject extends ClientObject {
         }
         socketHandler.send("request", "initPattern", data);
     }
+
+    @Override
+    public void pushOpponentsInit(List<Player> thinPlayers) {
+        String data = null;
+        for (Player p : thinPlayers){
+
+            data = data + p.getName() + "/" + p.getPlayerWindow().getWindowPattern().getName() + "/";
+
+        }
+
+        socketHandler.send("update", "opponentsInfo", "data");
+    }
 }

@@ -83,7 +83,12 @@ public class PlayerWindow {
                 .count();
     }
 
-    public void setWindowPattern(WindowPattern windowPattern){
-        this.windowPattern= windowPattern;
+    public boolean setWindowPattern(WindowPattern windowPattern){
+        if(windowPattern!=null) {
+            this.windowPattern = windowPattern;
+            return true;
+        }else{
+            return false;
+        }
     }
 }

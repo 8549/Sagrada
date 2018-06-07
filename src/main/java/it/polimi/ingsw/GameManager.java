@@ -163,4 +163,35 @@ public class GameManager {
     public boolean checkConstraints(WindowPattern windowPattern, int row, int column, Die die) {
         return windowPattern.getConstraint(row, column).checkConstraint(die);
     }
+
+    public void completePlayerSetup(Player p, String patternCardName){
+        WindowPattern w=null;
+        for (PatternCard c: p.getChoices()){
+            if (c.getBack().equals(patternCardName)){
+                w = c.getBack();
+            }else if(c.getFront().equals(patternCardName)){
+                w = c.getFront();
+            }
+        }
+        boolean everybodyHasChosen= true;
+        if(w!=null) {
+            for (Player player : players) {
+                if (player.getName().equals(p.getName())) {
+                    player.setHasChosenPatternCard(player.getPlayerWindow().setWindowPattern(w));
+                }
+                if(!player.hasChosenPatternCard()) {
+                    everybodyHasChosen = false;
+                }
+            }
+        }else{
+            System.out.println("Error, patterncard not found! ");
+        }
+
+        if (everybodyHasChosen){
+            server.initPlayersData(); //TODO
+        }
+
+
+    }
+
 }

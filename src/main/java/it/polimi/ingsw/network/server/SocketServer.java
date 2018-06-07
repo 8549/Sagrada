@@ -70,7 +70,9 @@ public class SocketServer implements ServerInterface {
                     break;
 
             case "patterncard":
-                        System.out.println("Player" + s.getClient() + " has chosen " + data);
+                        System.out.println("Player" + s.getClient().getPlayer().getName() + " has chosen " + data);
+                        server.setPlayerChoice(s.getClient(), data);
+
 
 
                 break;
@@ -160,7 +162,7 @@ public class SocketServer implements ServerInterface {
         private synchronized void setClient(ClientObject client){
             this.client = client;
         }
-        private synchronized String getClient(){return this.client.getPlayer().getName();}
+        private synchronized ClientObject getClient(){return this.client;}
 
 
     }
