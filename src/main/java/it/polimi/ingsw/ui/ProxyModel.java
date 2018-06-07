@@ -3,6 +3,7 @@ package it.polimi.ingsw.ui;
 import it.polimi.ingsw.model.Die;
 import it.polimi.ingsw.model.Player;
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -13,6 +14,11 @@ public class ProxyModel {
     ObservableList<Player> players = FXCollections.observableArrayList();
     IntegerProperty currentRound;
     IntegerProperty currentTurn;
+
+    public ProxyModel() {
+        this.currentRound = new SimpleIntegerProperty();
+        this.currentTurn = new SimpleIntegerProperty();
+    }
 
     public int getCurrentRound() {
         return currentRound.get();
