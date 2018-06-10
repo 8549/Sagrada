@@ -11,6 +11,7 @@ import java.util.List;
 
 public class ProxyModel {
     ObservableList<Die> draftPool = FXCollections.observableArrayList();
+    Player myself;
     ObservableList<Player> players = FXCollections.observableArrayList();
     IntegerProperty currentRound;
     IntegerProperty currentTurn;
@@ -42,6 +43,13 @@ public class ProxyModel {
 
     public IntegerProperty currentTurnProperty() {
         return currentTurn;
+    }
+
+    public void setPlayer(Player p){
+        this.myself= p;
+    }
+    public Player getMyself(){
+        return myself;
     }
 
     public void addPlayers(Player p) {

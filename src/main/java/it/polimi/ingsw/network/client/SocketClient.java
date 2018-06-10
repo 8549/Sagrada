@@ -79,6 +79,7 @@ public class SocketClient implements ClientInterface {
                             String response=data;
                             if(data.equals("Login Accepted !")){
                                 System.out.println("Login successful!");
+                                ch.setPlayerToProxyModel(player.getName());
 
                             } else {
                                 System.out.println("Try with a different username, or maybe the game is already began so... :(");
@@ -94,12 +95,12 @@ public class SocketClient implements ClientInterface {
                     case "start": System.out.println(data);
                                 gameStatus.set("STARTED");
                         break;
-                    case "users":       List<String> names = socketParserClient.parseData(data);
-                                        System.out.println("You are playing against");
-                                        for (String s : names) {
-                                            System.out.println(s);
+                    case "users":   List<String> names = socketParserClient.parseData(data);
+                                    System.out.println("You are playing against");
+                                    for (String s : names) {
+                                        System.out.println(s);
 
-                                        }
+                                    }
                         break;
 
                     case "loggedPlayer": String name = data;
@@ -126,6 +127,11 @@ public class SocketClient implements ClientInterface {
                     case "disconnectedPlayer":
                                         ch.deletePlayerFromProxyModel(new Player(data));
                         break;
+
+                    case "patterncardValidation":
+                                                    ch.initPatternCard(data);
+                        break;
+
                     case "patterncard": List<String> tokens = socketParserClient.parseData(data);
                                         System.out.println("Player " + tokens.get(1) + " choose pattern card" + tokens.get(0));
 

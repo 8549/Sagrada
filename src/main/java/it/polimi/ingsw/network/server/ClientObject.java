@@ -15,6 +15,7 @@ public abstract class ClientObject  {
     public abstract void notifyPlayerDisconnection(Player p);
     public abstract void notifyGameStarted(List<Player> players);
     public abstract void requestPatternCardChoice(List<PatternCard> patternCards);
+    public abstract void pushPatternCardResponse(String name);
     public abstract void pushOpponentsInit(List<Player> thinPlayers);
 
     public Player getPlayer(){

@@ -41,6 +41,10 @@ public class ClientHandler {
         this.loginResponse = loginResponse;
     }
 
+    public void setPlayerToProxyModel(String name){
+        proxyModel.setPlayer(new Player(name));
+    }
+
     public  void loginSuccessful() {
         ui.showLoggedInUsers();
 
@@ -77,9 +81,25 @@ public class ClientHandler {
 
     public void initPlayer(String name, String windowPatternName) {
         for (Player p : proxyModel.getPlayers()){
-            CardsDeck.getWindowPatternByName(windowPatternName);
-            //Caricare WindowPattern con nome "patternCard" al player p
+            if (p.getName().equals(name)) {
+                p.getPlayerWindow().setWindowPattern(CardsDeck.getWindowPatternByName(windowPatternName));
+            }
         }
+        boolean finish= true;
+        for (Player p : proxyModel.getPlayers()){
+            if(!p.getName().equals(proxyModel.getMyself().getName()) && p.getPlayerWindow().getWindowPattern()==null){
+                finish = false;
+            }
+
+        }
+        if (finish){
+            System.out.println("Everybody has chosen theirs patternCards ");
+            //TODO:call showOpponentsPatternCards method
+        }
+    }
+
+    public void initPatternCard(String name){
+        proxyModel.getMyself().getPlayerWindow().setWindowPattern(CardsDeck.getWindowPatternByName(name));
     }
 }
 

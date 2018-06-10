@@ -48,7 +48,9 @@ public class SocketClientObject extends ClientObject {
     public void notifyGameStarted(List<Player> players) {
         String data="";
         for (Player p :players){
-            data = data + p.getName() + "/";
+            if (!p.getName().equals(this.player.getName())) {
+                data = data + p.getName() + "/";
+            }
         }
 
         socketHandler.send("update", "gameStarted", data);
@@ -64,14 +66,19 @@ public class SocketClientObject extends ClientObject {
     }
 
     @Override
+    public void pushPatternCardResponse(String name) {
+        socketHandler.send("update", "patterncardValidation", name);
+    }
+
+    @Override
     public void pushOpponentsInit(List<Player> thinPlayers) {
-        String data = null;
+        String data = "";
         for (Player p : thinPlayers){
-
-            data = data + p.getName() + "/" + p.getPlayerWindow().getWindowPattern().getName() + "/";
-
+            if (!p.getName().equals(this.player.getName())) {
+                data = data + p.getName() + "/" + p.getPlayerWindow().getWindowPattern().getName() + "/";
+            }
         }
 
-        socketHandler.send("update", "opponentsInfo", "data");
+        socketHandler.send("update", "opponentsInfo", data);
     }
 }

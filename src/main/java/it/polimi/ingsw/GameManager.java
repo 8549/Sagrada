@@ -96,7 +96,7 @@ public class GameManager {
                 choices.add((PatternCard) patternCardsDeck.getRandomCard());
                 System.out.println("Choice: " + choices.get(i).getName());
             }
-
+            player.setChoices(choices);
 
             // set pattern card da player;
             System.out.println("Game manager ask for Pattern to " + player.getName());
@@ -167,17 +167,19 @@ public class GameManager {
     public void completePlayerSetup(Player p, String patternCardName){
         WindowPattern w=null;
         for (PatternCard c: p.getChoices()){
-            if (c.getBack().equals(patternCardName)){
+            if (c.getBack().getName().equals(patternCardName)){
                 w = c.getBack();
-            }else if(c.getFront().equals(patternCardName)){
+            }else if(c.getFront().getName().equals(patternCardName)){
                 w = c.getFront();
             }
         }
         boolean everybodyHasChosen= true;
         if(w!=null) {
+            System.out.println("Setting " + w.getName() +  " to " + p.getName());
             for (Player player : players) {
                 if (player.getName().equals(p.getName())) {
                     player.setHasChosenPatternCard(player.getPlayerWindow().setWindowPattern(w));
+
                 }
                 if(!player.hasChosenPatternCard()) {
                     everybodyHasChosen = false;
@@ -188,7 +190,7 @@ public class GameManager {
         }
 
         if (everybodyHasChosen){
-            server.initPlayersData(); //TODO
+            server.initPlayersData();
         }
 
 

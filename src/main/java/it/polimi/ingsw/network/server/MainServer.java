@@ -13,7 +13,7 @@ import java.util.*;
 public class MainServer {
     public static final int DEFAULT_RMI_PORT = 1234;
     public static final int DEFAULT_SOCKET_PORT= 3130;
-    public static final int CONNECTION_TIMEOUT = 10;
+    public static final int CONNECTION_TIMEOUT = 5;
     private RMIServerInterface rmiServer;  //TODO: check if it is really right to create the common server interface
     private ServerInterface socketServer;
     private Timer timer;
@@ -235,18 +235,22 @@ public class MainServer {
 
 
     public void setPlayerChoice(ClientObject client, String name){
+        //TODO: check correct pattern card
         gm.completePlayerSetup(client.getPlayer(), name);
+        client.pushPatternCardResponse(name);
     }
 
     public void initPlayersData(){
-        List<Player> thinPlayers = new ArrayList<>();
         for(ClientObject client1 : inGameClients){
+            List<Player> thinPlayers = new ArrayList<>();
             for(ClientObject client2 : inGameClients){
                 if (!client1.getPlayer().getName().equals(client2.getPlayer().getName())){
                     thinPlayers.add(getOpponentVisibleFromClient(client2.getPlayer()));
+
                 }
             }
-            //
+            System.out.println("Pushing opponents: " + thinPlayers.toString());
+            client1.pushOpponentsInit(thinPlayers);
         }
 
     }

@@ -58,6 +58,9 @@ public class Player {
     public List<PatternCard> getChoices(){
         return this.choices;
     }
+    public void setChoices(List<PatternCard> choices){
+        this.choices=choices;
+    }
 
     public boolean hasChosenPatternCard(){
         return this.chosenPatternCard;
