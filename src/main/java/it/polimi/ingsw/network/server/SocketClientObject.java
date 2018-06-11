@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.model.PatternCard;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.PublicObjectiveCard;
 
 import java.util.List;
 
@@ -80,5 +81,14 @@ public class SocketClientObject extends ClientObject {
         }
 
         socketHandler.send("update", "opponentsInfo", data);
+    }
+
+    @Override
+    public void pushPublicObj(List<PublicObjectiveCard> publicObj) {
+        String data="";
+        for (PublicObjectiveCard p : publicObj){
+            data = data + p.getName() + "/";
+        }
+        socketHandler.send("update","publicObj", data);
     }
 }

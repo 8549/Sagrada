@@ -1,10 +1,7 @@
 package it.polimi.ingsw.network.client;
 
 import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw.model.CardsDeck;
-import it.polimi.ingsw.model.PatternCard;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.WindowPattern;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.server.SocketParser;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -150,6 +147,23 @@ public class SocketClient implements ClientInterface {
                                             for(int i=0; i<info.size(); i= i+2){
                                                 ch.initPlayer(info.get(i), info.get(i+1));
                                             }
+                        break;
+
+                    case "publicObj": List<String> obj = socketParserClient.parseData(data);
+                                    CardsDeck objDeck = new CardsDeck("PublicObjectiveCards.json", new TypeToken<List<PublicObjectiveCard>>() {
+                                    }.getType());
+                                    List<PublicObjectiveCard> publicObjectiveCards = new ArrayList<>();
+                                    for (String o : obj){
+                                        publicObjectiveCards.add((PublicObjectiveCard) objDeck.getByName(o));
+                                    }
+                                    if(publicObjectiveCards!=null) {
+                                        System.out.println("Public cards arrived correctly ");
+                                        ch.setPublicObjCard(publicObjectiveCards);
+                                    }else{
+                                        System.out.println("Public obj cards error");
+                                    }
+                        break;
+
                     default: break;
 
                 }

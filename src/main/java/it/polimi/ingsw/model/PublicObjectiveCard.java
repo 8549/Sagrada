@@ -7,7 +7,6 @@ import java.util.Map;
 
 public class PublicObjectiveCard extends ObjCard {
     private int numberOfTimes;
-    private int points;
 
     public int setOfShades(int num1, int num2, Cell[][] grid) {
         int numbers[] = new int[6];
@@ -196,4 +195,5 @@ public class PublicObjectiveCard extends ObjCard {
         return 0;
 
     }
+
 }

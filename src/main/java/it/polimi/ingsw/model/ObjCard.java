@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-public abstract class ObjCard {
+public abstract class ObjCard implements Card{
     private String name;
     private int points;
     private ObjectiveCardType type;
@@ -32,5 +32,9 @@ public abstract class ObjCard {
         PrizeType type;
         int value;
 
+    }
+
+    public String getName(){
+        return this.name;
     }
 }

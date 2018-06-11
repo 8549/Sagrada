@@ -15,11 +15,12 @@ import java.util.Random;
 
 public class GameManager {
     private static final int PATTERN_CARDS_PER_PLAYER = 2;
+    private static final int PUBLIC_OBJ_CARDS_NUMBER = 3;
     private MainServer server;
     private List<Player> players;
     private RoundTrack roundTrack;
     private ScoreTrack scoreTrack;
-    private ObjCard[] publicObjectiveCards;
+    private ObjCard[] publicObjectiveCards= new ObjCard[PUBLIC_OBJ_CARDS_NUMBER];
     private ToolCard[] toolCard;
     private List<Die> draftPool;
     private DiceBag diceBag;
@@ -57,10 +58,11 @@ public class GameManager {
         }*/
 
         //obj pub
-        /*CardsDeck objDeck = new CardsDeck("", null); //TODO
+        CardsDeck objDeck = new CardsDeck("PublicObjectiveCards.json", new TypeToken<List<PublicObjectiveCard>>() {
+        }.getType());
         for (int j = 0; j < 3; j++) {
             publicObjectiveCards[j] = (ObjCard) objDeck.getRandomCard();
-        }*/
+        }
 
         Collections.shuffle(players);
         //select first random
@@ -102,7 +104,6 @@ public class GameManager {
             System.out.println("Game manager ask for Pattern to " + player.getName());
 
             server.choosePatternCard(choices, player);
-            //TODO WAIT FOR PLAYER CHOICE
 
             //token
             //player.setInitialTokens();
@@ -191,6 +192,7 @@ public class GameManager {
 
         if (everybodyHasChosen){
             server.initPlayersData();
+
         }
 
 

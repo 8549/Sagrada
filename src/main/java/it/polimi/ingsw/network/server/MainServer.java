@@ -5,6 +5,7 @@ import it.polimi.ingsw.GameManager;
 import it.polimi.ingsw.model.Die;
 import it.polimi.ingsw.model.PatternCard;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.PublicObjectiveCard;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -236,8 +237,9 @@ public class MainServer {
 
     public void setPlayerChoice(ClientObject client, String name){
         //TODO: check correct pattern card
-        gm.completePlayerSetup(client.getPlayer(), name);
         client.pushPatternCardResponse(name);
+        gm.completePlayerSetup(client.getPlayer(), name);
+
     }
 
     public void initPlayersData(){
@@ -260,6 +262,14 @@ public class MainServer {
         player.getPlayerWindow().setWindowPattern(p.getPlayerWindow().getWindowPattern());
         player.setPrivateObjectiveCard(null);
         return player;
+    }
+
+    public void setPublicObj(List<PublicObjectiveCard> publicObj){
+
+        for(ClientObject c : inGameClients){
+            c.pushPublicObj(publicObj);
+        }
+
     }
 
 

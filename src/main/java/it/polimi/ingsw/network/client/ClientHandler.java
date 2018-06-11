@@ -1,9 +1,6 @@
 package it.polimi.ingsw.network.client;
 
-import it.polimi.ingsw.model.CardsDeck;
-import it.polimi.ingsw.model.PatternCard;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.WindowPattern;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.ConnectionType;
 import it.polimi.ingsw.ui.ProxyModel;
 import it.polimi.ingsw.ui.UI;
@@ -100,6 +97,10 @@ public class ClientHandler {
 
     public void initPatternCard(String name){
         proxyModel.getMyself().getPlayerWindow().setWindowPattern(CardsDeck.getWindowPatternByName(name));
+    }
+
+    public void setPublicObjCard(List<PublicObjectiveCard> publicObjCards){
+        proxyModel.addPubObjCards(publicObjCards);
     }
 }
 
