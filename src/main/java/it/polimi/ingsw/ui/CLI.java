@@ -1,9 +1,6 @@
 package it.polimi.ingsw.ui;
 
-import it.polimi.ingsw.model.Die;
-import it.polimi.ingsw.model.PatternCard;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.WindowPattern;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.ConnectionType;
 import it.polimi.ingsw.network.client.ClientHandler;
 import javafx.beans.value.ChangeListener;
@@ -156,6 +153,16 @@ public class CLI implements UI {
         System.out.print("\nDraft pool:");
         for (Die d : model.draftPool) {
             System.out.println(" " + d.toCLI());
+        }
+        System.out.print("Public objective cards:");
+        for (PublicObjectiveCard c : model.publicObjectiveCards) {
+            System.out.print(String.format("%s, ", c.getName()));
+        }
+        System.out.println("\nYour private objective card: " + model.myself.getPrivateObjectiveCard().getName());
+        //TODO DEBUG REMOVE THIS
+        System.out.println("Others private objective cards: ");
+        for (Player p : model.players) {
+            System.out.print(String.format("%s, ", p.getPrivateObjectiveCard().getName()));
         }
     }
 
