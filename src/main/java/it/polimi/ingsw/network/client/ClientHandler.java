@@ -104,9 +104,14 @@ public class ClientHandler {
     }
 
     public void setPrivateObj(String name, PrivateObjectiveCard p){
-        for (Player player : proxyModel.getPlayers()){
-            if (player.getName().equals(name)){
-                player.setPrivateObjectiveCard(p);
+        if (name.equals(proxyModel.getMyself().getName())){
+            proxyModel.getMyself().setPrivateObjectiveCard(p);
+        }else {
+            for (Player player : proxyModel.getPlayers()) {
+                if (player.getName().equals(name)) {
+                    player.setPrivateObjectiveCard(p);
+                    System.out.println("Player " + player.getName() + " has private " + player.getPrivateObjectiveCard().getName());
+                }
             }
         }
     }
