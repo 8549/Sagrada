@@ -69,4 +69,9 @@ public class GUI extends Application implements UI {
     public void playerDisconnected(Player p) {
 
     }
+
+    @Override
+    public void initBoard() {
+
+    }
 }

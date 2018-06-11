@@ -94,7 +94,7 @@ public class ClientHandler {
         }
         if (finish){
             System.out.println("Everybody has chosen theirs patternCards ");
-            //TODO:call showOpponentsPatternCards method
+            ui.initBoard();
         }
     }
 

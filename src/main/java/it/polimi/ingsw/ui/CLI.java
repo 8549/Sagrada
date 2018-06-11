@@ -13,9 +13,12 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.WeakListChangeListener;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class CLI implements UI {
+    private static final char FAVOR_TOKEN_CHAR = '\u2022';
     private final Scanner scanner = new Scanner(System.in);
     private ClientHandler handler;
     private ProxyModel model;
@@ -25,26 +28,61 @@ public class CLI implements UI {
     @Override
     public void showLogin() {
         String hostName;
-        int port;
+        int port = 0;
         String username;
-        ConnectionType connType;
+        ConnectionType connType = ConnectionType.SOCKET;
 
+        boolean validHostName = false;
         System.out.print("Enter the server address: ");
         hostName = scanner.next();
+        while (!validHostName) {
+            try {
+                InetAddress.getByName(hostName);
+                validHostName = true;
+            } catch (UnknownHostException e) {
+                System.out.print("Please enter a valid and reachable server address: ");
+                hostName = scanner.next();
+            }
+        }
+
+        //TODO fix int value check
+        //boolean validPort = false;
         System.out.print("Enter the server port: ");
-        port = scanner.nextInt();
+        /*while(!scanner.hasNextInt()) {
+            System.out.print("Please enter a valid port number: ");
+        }
+        try {
+            port = scanner.nextInt();
+            //if (port >= 0 && port < 65535) {
+            //    validPort = true;
+            //}
+        }
+        catch (InputMismatchException e) {
+            System.err.println("This shouldn't have happened");
+        }*/
+        scanner.nextInt();
+
         System.out.print("Enter your username: ");
         username = scanner.next();
+
+        boolean validConn = false;
         System.out.print("Choose a connection type (SOCKET or RMI): ");
-        connType = ConnectionType.valueOf(scanner.next().toUpperCase());
+        String c = scanner.next();
+        while (!validConn) {
+            try {
+                connType = ConnectionType.valueOf(c.toUpperCase());
+                validConn = true;
+            } catch (IllegalArgumentException | NullPointerException e) {
+                System.out.print("Please choose either SOCKET or RMI: ");
+                c = scanner.next();
+            }
+        }
 
         try {
             handler.handleLogin(hostName, port, username, connType);
         } catch (IOException e) {
             System.err.println("Error in connection: " + e.getMessage());
         }
-        // if successful, showLoggedInUsers
-        // else, show error and exit or retry
     }
 
     @Override
@@ -105,12 +143,49 @@ public class CLI implements UI {
     @Override
     public void startGame() {
         model.players.removeListener(listener);
-        System.out.println("The game is starting! Players for this match will be: ");
-        int i;
-        for (i = 0; i < model.players.size() - 1; i++) {
-            System.out.print(model.players.get(i).getName() + ", ");
+    }
+
+
+    @Override
+    public void update() {
+        System.out.println(String.format("It's turn %d of round %d", model.getCurrentTurn(), model.getCurrentRound()));
+        for (Player p : model.players) {
+            System.out.println(p.getName());
+            printWindowPattern(p.getPlayerWindow().getWindowPattern());
         }
-        System.out.println(model.players.get(i).getName());
+        System.out.print("\nDraft pool:");
+        for (Die d : model.draftPool) {
+            System.out.println(" " + d.toCLI());
+        }
+    }
+
+    @Override
+    public void myTurnStarted() {
+        System.out.println(String.format("It's your turn! (Turn number %d of round %d)", model.getCurrentTurn(), model.getCurrentRound()));
+        //update();
+    }
+
+    @Override
+    public void myTurnEnded() {
+        System.out.println("Your turn has ended.");
+    }
+
+    @Override
+    public void playerDisconnected(Player p) {
+        System.out.println(String.format("Player %s has disconnected", p.getName()));
+    }
+
+    @Override
+    public void initBoard() {
+        System.out.println("The game is starting! You will play against:");
+        for (Player p : model.players) {
+            System.out.println(String.format("%s (%s favor tokens)\n", p.getName(), printFavorTokens(p.getPlayerWindow().getWindowPattern().getDifficulty())));
+            printWindowPattern(p.getPlayerWindow().getWindowPattern());
+        }
+        System.out.println("You will play with:");
+        System.out.println(String.format("%s (%s favor tokens)\n", model.myself.getName(), printFavorTokens(model.myself.getPlayerWindow().getWindowPattern().getDifficulty())));
+        printWindowPattern(model.myself.getPlayerWindow().getWindowPattern());
+
         model.draftPool.addListener(new WeakListChangeListener<>(new ListChangeListener<Die>() {
             @Override
             public void onChanged(Change<? extends Die> c) {
@@ -142,33 +217,12 @@ public class CLI implements UI {
         }));
     }
 
-    @Override
-    public void update() {
-        System.out.println(String.format("It's turn %d of round %d", model.getCurrentTurn(), model.getCurrentRound()));
-        for (Player p : model.players) {
-            System.out.println(p.getName());
-            printWindowPattern(p.getPlayerWindow().getWindowPattern());
+    private String printFavorTokens(int n) {
+        String s = "";
+        for (int i = 0; i < n; i++) {
+            s += FAVOR_TOKEN_CHAR;
         }
-        System.out.print("\nDraft pool:");
-        for (Die d : model.draftPool) {
-            System.out.println(" " + d.toCLI());
-        }
-    }
-
-    @Override
-    public void myTurnStarted() {
-        System.out.println(String.format("It's your turn! (Turn number %d of round %d)", model.getCurrentTurn(), model.getCurrentRound()));
-        //update();
-    }
-
-    @Override
-    public void myTurnEnded() {
-        System.out.println("Your turn has ended.");
-    }
-
-    @Override
-    public void playerDisconnected(Player p) {
-        System.out.println(String.format("Player %s has disconnected", p.getName()));
+        return s;
     }
 
     public void printWindowPattern(WindowPattern p) {

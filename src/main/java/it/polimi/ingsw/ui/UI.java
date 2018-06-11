@@ -23,4 +23,6 @@ public interface UI {
     void myTurnEnded();
 
     void playerDisconnected(Player p);
+
+    void initBoard();
 }

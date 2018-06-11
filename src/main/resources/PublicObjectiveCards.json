@@ -88,7 +88,7 @@
   },
   {
     "name": "Shade Variety",
-    "type": "numbers",
+    "type": "number",
     "where": "everywhere",
     "patternConstraints": [
       1,
