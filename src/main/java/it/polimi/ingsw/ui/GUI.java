@@ -3,21 +3,36 @@ package it.polimi.ingsw.ui;
 import it.polimi.ingsw.model.PatternCard;
 import it.polimi.ingsw.model.Player;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.URL;
 
 public class GUI extends Application implements UI {
 
     @Override
     public void start(Stage primaryStage) {
-        /*URL url = getClass().getClassLoader().getResource("views/intro.fxml");
+        URL url = getClass().getClassLoader().getResource("views/intro.fxml");
         FXMLLoader loader = new FXMLLoader(url);
-        Parent root = loader.load();
-        primaryStage.setTitle("Sagrada - Connection");
-        primaryStage.setScene(new Scene(root));
-        IntroController controller = loader.getController();
-        controller.setSelfStage(primaryStage);
-        controller.initUI(getParameters().getRaw());
-        primaryStage.show();*/
+        Parent root = null;
+        try {
+            root = loader.load();
+            primaryStage.setTitle("Sagrada - Connection");
+            primaryStage.setScene(new Scene(root));
+            loader.setController(this);
+            primaryStage.show();
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Couldn't load GUI file");
+            alert.setContentText(null);
+            alert.showAndWait();
+            Platform.exit();
+        }
     }
 
     @Override
@@ -41,8 +56,8 @@ public class GUI extends Application implements UI {
     }
 
     @Override
-    public void launch() {
-
+    public void initUI() {
+        launch();
     }
 
     @Override

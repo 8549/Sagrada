@@ -12,7 +12,7 @@ public interface UI {
 
     void setProxyModel(ProxyModel model);
 
-    void launch();
+    void initUI();
 
     void startGame();
 

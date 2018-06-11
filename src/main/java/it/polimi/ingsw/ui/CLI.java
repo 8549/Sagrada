@@ -133,7 +133,7 @@ public class CLI implements UI {
     }
 
     @Override
-    public void launch() {
+    public void initUI() {
         showLogin();
     }
 
@@ -189,9 +189,10 @@ public class CLI implements UI {
             System.out.println(String.format("%s (%s favor tokens)\n", p.getName(), printFavorTokens(p.getPlayerWindow().getWindowPattern().getDifficulty())));
             printWindowPattern(p.getPlayerWindow().getWindowPattern());
         }
-        System.out.println("You will play with:");
+        System.out.println("You:");
         System.out.println(String.format("%s (%s favor tokens)\n", model.myself.getName(), printFavorTokens(model.myself.getPlayerWindow().getWindowPattern().getDifficulty())));
         printWindowPattern(model.myself.getPlayerWindow().getWindowPattern());
+        System.out.println("Your private objective card will be: " + model.myself.getPrivateObjectiveCard().getName());
 
         model.draftPool.addListener(new WeakListChangeListener<>(new ListChangeListener<Die>() {
             @Override
