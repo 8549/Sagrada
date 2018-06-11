@@ -6,7 +6,7 @@ public abstract class ObjCard implements Card{
     private ObjectiveCardType type;
     private ObjectiveCardWhere where;
     private PatternConstraint[] rules;
-
+    private Prize prize;
 
     public abstract int checkObjective(Cell[][] grid);
 
