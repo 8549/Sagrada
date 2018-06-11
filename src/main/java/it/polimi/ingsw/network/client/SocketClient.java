@@ -164,6 +164,17 @@ public class SocketClient implements ClientInterface {
                                     }
                         break;
 
+                    case "privObj": List<String> priv = socketParserClient.parseData(data);
+                                    CardsDeck objDeckpriv = new CardsDeck("PrivateObjectiveCards.json", new TypeToken<List<PrivateObjectiveCard>>() {
+                                    }.getType());
+                                    for (int i =0; i<priv.size(); i = i+2){
+                                        if (priv.get(i+1).equals("blank")){
+                                            ch.setPrivateObj(priv.get(i),(PrivateObjectiveCard) objDeckpriv.getByName(priv.get(i+1)) );
+                                        }else{
+                                            ch.setPrivateObj(priv.get(i),(PrivateObjectiveCard) objDeckpriv.getByName(priv.get(i+1)));
+                                        }
+                                    }
+
                     default: break;
 
                 }

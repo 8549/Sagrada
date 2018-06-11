@@ -1,8 +1,6 @@
 package it.polimi.ingsw.network.server;
 
-import it.polimi.ingsw.model.PatternCard;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.PublicObjectiveCard;
+import it.polimi.ingsw.model.*;
 
 import java.util.List;
 
@@ -90,5 +88,17 @@ public class SocketClientObject extends ClientObject {
             data = data + p.getName() + "/";
         }
         socketHandler.send("update","publicObj", data);
+    }
+
+    @Override
+    public void setPrivObj(ObjCard privObj, List<Player> players) {
+        String data ="";
+        data = this.getPlayer().getName() + "/" + privObj.getName() + "/";
+        for (Player p :players){
+            if (!p.getName().equals(this.player.getName())) {
+                data = data + p.getName() + "/blank/";
+            }
+        }
+        socketHandler.send("update", "privObj", data);
     }
 }

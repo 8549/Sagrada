@@ -1,8 +1,6 @@
 package it.polimi.ingsw.network.server;
 
-import it.polimi.ingsw.model.PatternCard;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.PublicObjectiveCard;
+import it.polimi.ingsw.model.*;
 
 import java.util.List;
 
@@ -19,6 +17,7 @@ public abstract class ClientObject  {
     public abstract void pushPatternCardResponse(String name);
     public abstract void pushOpponentsInit(List<Player> thinPlayers);
     public abstract void pushPublicObj(List<PublicObjectiveCard> publicObj);
+    public abstract void setPrivObj(ObjCard privObj, List<Player> players);
 
     public Player getPlayer(){
         return this.player;

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 public class PrivateObjectiveCard extends ObjCard {
-    private int points;
     private int numberOfDice;
 
     public int sumColors(Cell[][] grid, SagradaColor color) {

@@ -2,10 +2,7 @@ package it.polimi.ingsw.network.server;
 
 import com.sun.security.ntlm.Client;
 import it.polimi.ingsw.GameManager;
-import it.polimi.ingsw.model.Die;
-import it.polimi.ingsw.model.PatternCard;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.PublicObjectiveCard;
+import it.polimi.ingsw.model.*;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
@@ -270,6 +267,15 @@ public class MainServer {
             c.pushPublicObj(publicObj);
         }
 
+    }
+
+    public void setPrivateObj(Player p, ObjCard privateObjectiveCard){
+        for (ClientObject c : inGameClients) {
+            if (c.getPlayer().getName().equals(p.getName())) {
+                System.out.println("SETTING private " + privateObjectiveCard.getName() + "  to " + p.getName());
+                c.setPrivObj(privateObjectiveCard, getPlayersFromClients(inGameClients));
+            }
+        }
     }
 
 

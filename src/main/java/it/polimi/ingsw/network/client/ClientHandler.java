@@ -102,5 +102,13 @@ public class ClientHandler {
     public void setPublicObjCard(List<PublicObjectiveCard> publicObjCards){
         proxyModel.addPubObjCards(publicObjCards);
     }
+
+    public void setPrivateObj(String name, PrivateObjectiveCard p){
+        for (Player player : proxyModel.getPlayers()){
+            if (player.getName().equals(name)){
+                player.setPrivateObjectiveCard(p);
+            }
+        }
+    }
 }
 

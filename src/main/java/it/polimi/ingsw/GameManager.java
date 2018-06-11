@@ -78,7 +78,8 @@ public class GameManager {
      */
     private void playerSetup() {
         //create deck, extract one time only and immediately delete cards
-        //CardsDeck privateObjectiveCardsDeck = new CardsDeck("", null); // TODO
+        CardsDeck privateObjectiveCardsDeck = new CardsDeck("PrivateObjectiveCards.json", new TypeToken<List<PrivateObjectiveCard>>() {
+        }.getType());
 
         //create deck, extract one time only and immediately delete cards
         CardsDeck patternCardsDeck = new CardsDeck("PatternCards.json", new TypeToken<List<PatternCard>>() {
@@ -90,7 +91,8 @@ public class GameManager {
         for (Player player : players) {
 
             //obj priv
-            //player.setPrivateObjectiveCard((ObjCard) privateObjectiveCardsDeck.getRandomCard());
+            player.setPrivateObjectiveCard((ObjCard) privateObjectiveCardsDeck.getRandomCard());
+            server.setPrivateObj(player, player.getPrivateObjectiveCard());
 
             //pattern card
             List<PatternCard> choices = new ArrayList<>();
