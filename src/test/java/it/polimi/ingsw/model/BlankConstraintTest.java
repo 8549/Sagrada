@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.BlankConstraint;
 import it.polimi.ingsw.model.CheckModifier;
