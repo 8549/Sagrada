@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.model.CheckModifier;
 import it.polimi.ingsw.model.ColorConstraint;
 import it.polimi.ingsw.model.Die;
 import it.polimi.ingsw.model.SagradaColor;
@@ -16,7 +17,7 @@ class ColorConstraintTest {
     void checkConstraint() {
         for (SagradaColor sagradaColor : SagradaColor.values()) {
             ColorConstraint constraint = new ColorConstraint(sagradaColor);
-            assertTrue(constraint.checkConstraint(new Die(sagradaColor)));
+            assertTrue(constraint.checkConstraint(new Die(sagradaColor), CheckModifier.NORMAL));
             //assertFalse(constraint.checkConstraint(new Die(Color.BLACK)));
         }
     }

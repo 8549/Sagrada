@@ -12,7 +12,9 @@ public class NumberConstraint implements PatternConstraint {
     }
 
     @Override
-    public boolean checkConstraint(Die die) {
+    public boolean checkConstraint(Die die, CheckModifier modifier) {
+        if (modifier.equals(CheckModifier.NONUMBER)){
+        return true;}
         return number == die.getNumber();
     }
 

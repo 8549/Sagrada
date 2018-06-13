@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.model.CheckModifier;
 import it.polimi.ingsw.model.Die;
 import it.polimi.ingsw.model.NumberConstraint;
 import it.polimi.ingsw.model.SagradaColor;
@@ -21,9 +22,9 @@ class NumberConstraintTest {
             Die die = new Die(color);
             NumberConstraint constraint = new NumberConstraint(i);
             if (die.getNumber() == i) {
-                assertTrue(constraint.checkConstraint(die));
+                assertTrue(constraint.checkConstraint(die, CheckModifier.NORMAL));
             } else {
-                assertFalse(constraint.checkConstraint(die));
+                assertFalse(constraint.checkConstraint(die, CheckModifier.NORMAL));
             }
         }
     }

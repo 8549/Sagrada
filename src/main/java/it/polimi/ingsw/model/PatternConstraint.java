@@ -31,7 +31,7 @@ public interface PatternConstraint {
         return false;
     }
 
-    boolean checkConstraint(Die die);
+    boolean checkConstraint(Die die, CheckModifier modifier);
 
     /**
      * Get the appropriate graphic JavaFX Node for the constraint

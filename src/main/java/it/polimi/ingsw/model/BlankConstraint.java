@@ -6,7 +6,8 @@ import javafx.scene.shape.Rectangle;
 
 public class BlankConstraint implements PatternConstraint {
 
-    public boolean checkConstraint(Die die) {
+    @Override
+    public boolean checkConstraint(Die die, CheckModifier modifier) {
         return true;
     }
 

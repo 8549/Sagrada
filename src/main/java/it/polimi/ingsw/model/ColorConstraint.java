@@ -11,8 +11,11 @@ public class ColorConstraint implements PatternConstraint {
     }
 
     @Override
-    public boolean checkConstraint(Die die) {
-        return color.equals(die.getColor());
+    public boolean checkConstraint(Die die, CheckModifier modifier) {
+        if (modifier.equals(CheckModifier.NOCOLOR)) {
+            return true;
+        }
+            return color.equals(die.getColor());
     }
 
     @Override
