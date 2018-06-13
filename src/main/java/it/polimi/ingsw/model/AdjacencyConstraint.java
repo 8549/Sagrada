@@ -29,20 +29,21 @@ public class AdjacencyConstraint {
      * @param grid
      * @param row
      * @param column
+     * @param die
      * @return true if there isn't a dice with the same number and color nearby, false otherwise
      */
-    public boolean checkAdjacency(Cell grid[][], int row, int column) {
+    public boolean checkAdjacency(Cell grid[][], int row, int column, Die die) {
         try {
-            if (!controlCell(grid, row - 1, column, grid[row][column].getDie())) {
+            if (!controlCell(grid, row - 1, column, die)) {
                 return false;
             }
-            if (!controlCell(grid, row, column - 1, grid[row][column].getDie())) {
+            if (!controlCell(grid, row, column - 1, die)) {
                 return false;
             }
-            if (!controlCell(grid, row, column + 1, grid[row][column].getDie())) {
+            if (!controlCell(grid, row, column + 1, die)) {
                 return false;
             }
-            if (!controlCell(grid, row + 1, column, grid[row][column].getDie())) {
+            if (!controlCell(grid, row + 1, column, die)) {
                 return false;
             }
         } catch (IndexOutOfBoundsException e) {

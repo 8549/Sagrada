@@ -57,9 +57,9 @@ class AdjacencyConstraintTest {
         dice[7] = new Die(SagradaColor.PURPLE);
         dice[7].setNumber(6);
         grid[3][4].setDie(dice[7]);
-        assertFalse(adjacencyConstraint.checkAdjacency(grid, 2, 4));
-        assertFalse(adjacencyConstraint.checkAdjacency(grid, 2, 2));
-        assertTrue(adjacencyConstraint.checkAdjacency(grid, 1, 3));
+        assertFalse(adjacencyConstraint.checkAdjacency(grid, 2, 4, dice[6]));
+        assertFalse(adjacencyConstraint.checkAdjacency(grid, 2, 2,dice[4]));
+        assertTrue(adjacencyConstraint.checkAdjacency(grid, 1, 3, dice[2]));
 
     }
 
