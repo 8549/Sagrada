@@ -9,21 +9,19 @@ class AdjacencyConstraintTest {
 
     @Test
     void checkAdjacencyFirstDie() {
-        AdjacencyConstraint adjacencyConstraint = new AdjacencyConstraint();
         for (int i = 0; i < WindowPattern.ROWS; i++) {
-            assertTrue(adjacencyConstraint.checkAdjacencyFirstDie(i, 0));
-            assertTrue(adjacencyConstraint.checkAdjacencyFirstDie(i, 4));
+            assertTrue(AdjacencyConstraint.checkAdjacencyFirstDie(i, 0));
+            assertTrue(AdjacencyConstraint.checkAdjacencyFirstDie(i, 4));
         }
         for (int i = 0; i < WindowPattern.COLUMNS; i++) {
-            assertTrue(adjacencyConstraint.checkAdjacencyFirstDie(0, i));
-            assertTrue(adjacencyConstraint.checkAdjacencyFirstDie(3, i));
+            assertTrue(AdjacencyConstraint.checkAdjacencyFirstDie(0, i));
+            assertTrue(AdjacencyConstraint.checkAdjacencyFirstDie(3, i));
         }
-        assertFalse(adjacencyConstraint.checkAdjacencyFirstDie(2, 3));
+        assertFalse(AdjacencyConstraint.checkAdjacencyFirstDie(2, 3));
     }
 
     @Test
     void checkAdjacency() {
-        AdjacencyConstraint adjacencyConstraint = new AdjacencyConstraint();
         Cell[][] grid = new Cell[WindowPattern.ROWS][WindowPattern.COLUMNS];
         int w = 0;
         for (int i = 0; i < WindowPattern.ROWS; i++) {
@@ -57,15 +55,14 @@ class AdjacencyConstraintTest {
         dice[7] = new Die(SagradaColor.PURPLE);
         dice[7].setNumber(6);
         grid[3][4].setDie(dice[7]);
-        assertFalse(adjacencyConstraint.checkAdjacency(grid, 2, 4, dice[6]));
-        assertFalse(adjacencyConstraint.checkAdjacency(grid, 2, 2,dice[4]));
-        assertTrue(adjacencyConstraint.checkAdjacency(grid, 1, 3, dice[2]));
+        assertFalse(AdjacencyConstraint.checkAdjacency(grid, 2, 4, dice[6]));
+        assertFalse(AdjacencyConstraint.checkAdjacency(grid, 2, 2,dice[4]));
+        assertTrue(AdjacencyConstraint.checkAdjacency(grid, 1, 3, dice[2]));
 
     }
 
     @Test
     void checkCell() {
-        AdjacencyConstraint adjacencyConstraint = new AdjacencyConstraint();
         Cell[][] grid = new Cell[WindowPattern.ROWS][WindowPattern.COLUMNS];
         Die dieForGrid = new Die(SagradaColor.RED);
         dieForGrid.setNumber(5);
@@ -78,16 +75,15 @@ class AdjacencyConstraintTest {
         Die die2 = new Die(SagradaColor.GREEN);
         die2.setNumber(5);
         Die die3 = new Die(SagradaColor.RED);
-        assertFalse(adjacencyConstraint.controlCell(grid, 3, 4, die1)); // same color
-        assertFalse(adjacencyConstraint.controlCell(grid, 3, 4, die2)); // same number
-        assertFalse(adjacencyConstraint.controlCell(grid, 3, 4, dieForGrid)); // same number and color
-        assertTrue(adjacencyConstraint.controlCell(grid, 3, 4, die)); // different number and color
+        assertFalse(AdjacencyConstraint.controlCell(grid, 3, 4, die1)); // same color
+        assertFalse(AdjacencyConstraint.controlCell(grid, 3, 4, die2)); // same number
+        assertFalse(AdjacencyConstraint.controlCell(grid, 3, 4, dieForGrid)); // same number and color
+        assertTrue(AdjacencyConstraint.controlCell(grid, 3, 4, die)); // different number and color
 
     }
 
     @Test
     void checkCellAdjacency() {
-        AdjacencyConstraint adjacencyConstraint = new AdjacencyConstraint();
         Cell[][] grid = new Cell[WindowPattern.ROWS][WindowPattern.COLUMNS];
         int w = 0;
         for (int i = 0; i < WindowPattern.ROWS; i++) {
@@ -96,25 +92,24 @@ class AdjacencyConstraintTest {
                 w++;
             }
         }
-        assertFalse(adjacencyConstraint.checkCellAdjacency(grid, 3, 4));
+        assertFalse(AdjacencyConstraint.checkCellAdjacency(grid, 3, 4));
         Die die = new Die(SagradaColor.GREEN);
         grid[0][0].setDie(die);
-        assertTrue(adjacencyConstraint.checkCellAdjacency(grid, 1, 1));
+        assertTrue(AdjacencyConstraint.checkCellAdjacency(grid, 1, 1));
         grid[1][3].setDie(die);
-        assertTrue(adjacencyConstraint.checkCellAdjacency(grid, 2, 3));
+        assertTrue(AdjacencyConstraint.checkCellAdjacency(grid, 2, 3));
         grid[2][2].setDie(die);
         grid[3][1].setDie(die);
-        assertTrue(adjacencyConstraint.checkCellAdjacency(grid, 3, 2));
+        assertTrue(AdjacencyConstraint.checkCellAdjacency(grid, 3, 2));
     }
 
     @Test
     void checkEmptyCell() {
-        AdjacencyConstraint adjacencyConstraint = new AdjacencyConstraint();
         Cell[][] grid = new Cell[WindowPattern.ROWS][WindowPattern.COLUMNS];
         grid[3][4] = new Cell();
-        assertTrue(adjacencyConstraint.checkEmptyCell(grid, 3, 4));
+        assertTrue(AdjacencyConstraint.checkEmptyCell(grid, 3, 4));
         Die die = new Die(SagradaColor.GREEN);
         grid[3][4].setDie(die);
-        assertFalse(adjacencyConstraint.checkEmptyCell(grid, 3, 4));
+        assertFalse(AdjacencyConstraint.checkEmptyCell(grid, 3, 4));
     }
 }
