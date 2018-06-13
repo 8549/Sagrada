@@ -21,6 +21,7 @@ public class Round {
         for (int i = 0; i < (players.size() * 2 + 1); i++)
             draftPool.add(DiceBag.draftDie());
     }
+    public Turn getTurn(){ return turns.get(currentTurn);}
 
     public void setTurns() {
         turns = new ArrayList<>();
@@ -58,7 +59,9 @@ public class Round {
     public void playRound() {
         int i = 0;
         for (Turn turn : turns) {
-            //place die
+
+
+            //turn.getPlayer().getPlayerWindow().addDie();
             turn.setDiePlaced();
 
 
@@ -75,7 +78,6 @@ public class Round {
         currentTurn++;
     }
 
-
     public List<Player> getPlayers() {
         return players;
     }
@@ -87,4 +89,5 @@ public class Round {
     public int getCurrentTurn() {
         return currentTurn;
     }
+
 }
