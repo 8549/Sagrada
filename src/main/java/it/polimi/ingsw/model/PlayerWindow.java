@@ -68,13 +68,6 @@ public class PlayerWindow {
         return windowPattern;
     }
 
-    public boolean checkPlacement(Die die, int row, int column) {
-        if (row < 0 || row >= WindowPattern.ROWS)
-            return false;
-        if (column < 0 || column >= WindowPattern.COLUMNS)
-            return false;
-        return windowPattern.getConstraints()[row][column].checkConstraint(die);
-    }
 
     public int dieCount() {
         return (int) Arrays.stream(diceGrid)
@@ -90,5 +83,9 @@ public class PlayerWindow {
         }else{
             return false;
         }
+    }
+
+    public Cell[][] getDiceGrid() {
+        return diceGrid;
     }
 }

@@ -15,12 +15,11 @@ import java.util.Random;
 
 public class GameManager {
     private static final int PATTERN_CARDS_PER_PLAYER = 2;
-    private static final int PUBLIC_OBJ_CARDS_NUMBER = 3;
     private MainServer server;
     private List<Player> players;
     private RoundTrack roundTrack;
     private ScoreTrack scoreTrack;
-    private ObjCard[] publicObjectiveCards= new ObjCard[PUBLIC_OBJ_CARDS_NUMBER];
+    private ObjCard[] publicObjectiveCards;
     private ToolCard[] toolCard;
     private List<Die> draftPool;
     private DiceBag diceBag;
@@ -58,11 +57,10 @@ public class GameManager {
         }*/
 
         //obj pub
-        CardsDeck objDeck = new CardsDeck("PublicObjectiveCards.json", new TypeToken<List<PublicObjectiveCard>>() {
-        }.getType());
+        /*CardsDeck objDeck = new CardsDeck("", null); //TODO
         for (int j = 0; j < 3; j++) {
             publicObjectiveCards[j] = (ObjCard) objDeck.getRandomCard();
-        }
+        }*/
 
         Collections.shuffle(players);
         //select first random
@@ -78,8 +76,7 @@ public class GameManager {
      */
     private void playerSetup() {
         //create deck, extract one time only and immediately delete cards
-        CardsDeck privateObjectiveCardsDeck = new CardsDeck("PrivateObjectiveCards.json", new TypeToken<List<PrivateObjectiveCard>>() {
-        }.getType());
+        //CardsDeck privateObjectiveCardsDeck = new CardsDeck("", null); // TODO
 
         //create deck, extract one time only and immediately delete cards
         CardsDeck patternCardsDeck = new CardsDeck("PatternCards.json", new TypeToken<List<PatternCard>>() {
@@ -91,8 +88,7 @@ public class GameManager {
         for (Player player : players) {
 
             //obj priv
-            player.setPrivateObjectiveCard((ObjCard) privateObjectiveCardsDeck.getRandomCard());
-            server.setPrivateObj(player, player.getPrivateObjectiveCard());
+            //player.setPrivateObjectiveCard((ObjCard) privateObjectiveCardsDeck.getRandomCard());
 
             //pattern card
             List<PatternCard> choices = new ArrayList<>();
@@ -100,12 +96,13 @@ public class GameManager {
                 choices.add((PatternCard) patternCardsDeck.getRandomCard());
                 System.out.println("Choice: " + choices.get(i).getName());
             }
-            player.setChoices(choices);
+
 
             // set pattern card da player;
             System.out.println("Game manager ask for Pattern to " + player.getName());
 
             server.choosePatternCard(choices, player);
+            //TODO WAIT FOR PLAYER CHOICE
 
             //token
             //player.setInitialTokens();
@@ -161,10 +158,6 @@ public class GameManager {
                 round.getTurns().add(turn);
             }
         }
-    }
-
-    public boolean checkConstraints(WindowPattern windowPattern, int row, int column, Die die) {
-        return windowPattern.getConstraint(row, column).checkConstraint(die);
     }
 
     public void completePlayerSetup(Player p, String patternCardName){
