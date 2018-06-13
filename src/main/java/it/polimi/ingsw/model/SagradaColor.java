@@ -30,11 +30,5 @@ public enum SagradaColor {
         return "\u001B[" + escape + "m";
     }
 
-    public static void main(String[] args) {
-        for (SagradaColor c : SagradaColor.values()) {
-            System.out.println(c.escapeString() + c + SagradaColor.RESET);
-        }
-    }
-
 
 }
