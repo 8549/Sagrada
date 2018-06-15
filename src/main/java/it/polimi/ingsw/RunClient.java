@@ -25,12 +25,12 @@ public class RunClient {
             ui = new GUI();
         } else if (uiType.equalsIgnoreCase("cli")) {
             ui = new CLI();
-            clientHandler= new ClientHandler(ui);
-            ((CLI) ui).setHandler(clientHandler);
         } else {
             System.err.println("Invalid UI choice");
             return;
         }
+        clientHandler = new ClientHandler(ui);
+        ui.setHandler(clientHandler);
         ui.initUI();
     }
 

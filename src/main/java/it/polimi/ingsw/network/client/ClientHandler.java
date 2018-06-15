@@ -123,5 +123,9 @@ public class ClientHandler {
     public void handlePlacement(Die d, int row, int column){
 
     }
+
+    public void notifyTurnStarted() {
+        ui.myTurnStarted();
+    }
 }
 

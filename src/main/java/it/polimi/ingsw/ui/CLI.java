@@ -43,21 +43,21 @@ public class CLI implements UI {
         }
 
         //TODO fix int value check
-        //boolean validPort = false;
+        boolean validPort = false;
         System.out.print("Enter the server port: ");
-        /*while(!scanner.hasNextInt()) {
-            System.out.print("Please enter a valid port number: ");
+        while (!validPort) {
+            if (scanner.hasNextInt()) {
+                port = scanner.nextInt();
+                if (port > 0 && port < 0xFFFF) {
+                    validPort = true;
+                } else {
+                    System.out.print("Please choose a valid port number: ");
+                }
+            } else {
+                System.out.print("Please choose a valid port number: ");
+                scanner.next();
+            }
         }
-        try {
-            port = scanner.nextInt();
-            //if (port >= 0 && port < 65535) {
-            //    validPort = true;
-            //}
-        }
-        catch (InputMismatchException e) {
-            System.err.println("This shouldn't have happened");
-        }*/
-        scanner.nextInt();
 
         System.out.print("Enter your username: ");
         username = scanner.next();
@@ -95,7 +95,7 @@ public class CLI implements UI {
         try {
             handler.setChosenPatternCard(patterns[which-1]);
         } catch (IOException e) {
-            e.printStackTrace();//TODO: alert connection problem
+            System.err.println("There was a connection error");
         }
     }
 
@@ -145,31 +145,96 @@ public class CLI implements UI {
 
     @Override
     public void update() {
-        System.out.println(String.format("It's turn %d of round %d", model.getCurrentTurn(), model.getCurrentRound()));
+        System.out.println(String.format("It's turn %d of round %d", model.getCurrentTurn() + 1, model.getCurrentRound() + 1));
         for (Player p : model.players) {
             System.out.println(p.getName());
             printWindowPattern(p.getPlayerWindow().getWindowPattern());
         }
         System.out.print("\nDraft pool:");
         for (Die d : model.draftPool) {
-            System.out.println(" " + d.toCLI());
+            System.out.print(" " + d.toCLI());
         }
-        System.out.print("Public objective cards:");
+        System.out.print("\nPublic objective cards: ");
         for (PublicObjectiveCard c : model.publicObjectiveCards) {
             System.out.print(String.format("%s, ", c.getName()));
         }
         System.out.println("\nYour private objective card: " + model.myself.getPrivateObjectiveCard().getName());
-        //TODO DEBUG REMOVE THIS
-        System.out.println("Others private objective cards: ");
-        for (Player p : model.players) {
-            System.out.print(String.format("%s, ", p.getPrivateObjectiveCard().getName()));
-        }
     }
 
     @Override
     public void myTurnStarted() {
         System.out.println(String.format("It's your turn! (Turn number %d of round %d)", model.getCurrentTurn(), model.getCurrentRound()));
-        //update();
+        boolean validChoice = false;
+        while (!validChoice) {
+            System.out.print("You can place a Die, use a Tool card or Pass; enter the initial character of your choice: ");
+            String choice = scanner.next().toUpperCase();
+            switch (choice) {
+                case "D":
+                    validChoice = true;
+                    int which = -1;
+                    int i = -1;
+                    int j = -1;
+                    System.out.print("Which die [0-" + (model.draftPool.size() - 1) + "]? ");
+                    boolean validDie = false;
+                    while (!validDie) {
+                        if (scanner.hasNextInt()) {
+                            which = scanner.nextInt();
+                            if (which > 0 && which < model.draftPool.size()) {
+                                validDie = true;
+                            } else {
+                                System.out.print("Please choose a valid die [0-" + (model.draftPool.size() - 1) + "]: ");
+                            }
+                        } else {
+                            System.out.print("Please choose a valid die [0-" + (model.draftPool.size() - 1) + "]: ");
+                            scanner.next();
+                        }
+                    }
+                    System.out.print("Which row do you want to place it [0-" + (WindowPattern.ROWS - 1) + "]: ");
+                    boolean validRow = false;
+                    while (!validRow) {
+                        if (scanner.hasNextInt()) {
+                            i = scanner.nextInt();
+                            if (i > 0 && i < WindowPattern.ROWS) {
+                                validRow = true;
+                            } else {
+                                System.out.print("Please choose a valid row [0-" + (WindowPattern.ROWS - 1) + "]: ");
+                            }
+                        } else {
+                            System.out.print("Please choose a valid row [0-" + (WindowPattern.ROWS - 1) + "]: ");
+                            scanner.next();
+                        }
+                    }
+                    System.out.print("Which column do you want to place it [0-" + (WindowPattern.COLUMNS - 1) + "]: ");
+                    boolean validCol = false;
+                    while (!validCol) {
+                        if (scanner.hasNextInt()) {
+                            j = scanner.nextInt();
+                            if (j > 0 && j < WindowPattern.COLUMNS) {
+                                validCol = true;
+                            } else {
+                                System.out.print("Please choose a valid column [0-" + (WindowPattern.COLUMNS - 1) + "]: ");
+                            }
+                        } else {
+                            System.out.print("Please choose a valid column [0-" + (WindowPattern.COLUMNS - 1) + "]: ");
+                            scanner.next();
+                        }
+                    }
+                    handler.handlePlacement(model.draftPool.get(which - 1), i, j);
+                    break;
+                case "P":
+                    validChoice = true;
+                    System.out.println("Ok, you're passing...");
+                    // handler.handlePass();
+                    break;
+                case "T":
+                    validChoice = true;
+                    System.out.println("Coming soon...");
+                    // handler.handleToolCard();
+                    break;
+                default:
+                    System.err.println("Invalid choice!");
+            }
+        }
     }
 
     @Override
@@ -186,11 +251,11 @@ public class CLI implements UI {
     public void initBoard() {
         System.out.println("The game is starting! You will play against:");
         for (Player p : model.players) {
-            System.out.println(String.format("%s (%s favor tokens)\n", p.getName(), printFavorTokens(p.getPlayerWindow().getWindowPattern().getDifficulty())));
+            System.out.println(String.format("%s (%s favor tokens)", p.getName(), printFavorTokens(p.getPlayerWindow().getWindowPattern().getDifficulty())));
             printWindowPattern(p.getPlayerWindow().getWindowPattern());
         }
         System.out.println("You:");
-        System.out.println(String.format("%s (%s favor tokens)\n", model.myself.getName(), printFavorTokens(model.myself.getPlayerWindow().getWindowPattern().getDifficulty())));
+        System.out.println(String.format("%s (%s favor tokens)", model.myself.getName(), printFavorTokens(model.myself.getPlayerWindow().getWindowPattern().getDifficulty())));
         printWindowPattern(model.myself.getPlayerWindow().getWindowPattern());
         System.out.println("Your private objective card will be: " + model.myself.getPrivateObjectiveCard().getName());
 
@@ -200,9 +265,9 @@ public class CLI implements UI {
                 while (c.next()) {
                     update();
                     if (c.wasAdded()) {
-                        for (Die d : c.getAddedSubList()) {
+                        /*for (Die d : c.getAddedSubList()) {
                             System.out.println("Die " + d.toCLI() + " was added");
-                        }
+                        }*/
                     } else if (c.wasRemoved()) {
                         for (Die d : c.getRemoved()) {
                             System.out.println("Die " + d.toCLI() + " was removed");
@@ -309,6 +374,7 @@ public class CLI implements UI {
         System.out.println(b.toString());
     }
 
+    @Override
     public void setHandler(ClientHandler ch){
         handler = ch;
     }

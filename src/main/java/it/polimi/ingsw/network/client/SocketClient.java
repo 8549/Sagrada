@@ -191,7 +191,7 @@ public class SocketClient implements ClientInterface {
                     case "turnStarted":
                                         if(data.equals(getName())){
                                             System.out.println("It's your turn!!");
-                                            //TODO: code to launch board and choice
+                                            ch.notifyTurnStarted();
                                         }else{
                                             System.out.println("Now it's " + data + " turn");
                                         }

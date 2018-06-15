@@ -2,6 +2,7 @@ package it.polimi.ingsw.ui;
 
 import it.polimi.ingsw.model.PatternCard;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.network.client.ClientHandler;
 
 public interface UI {
     void showLogin();
@@ -25,4 +26,6 @@ public interface UI {
     void playerDisconnected(Player p);
 
     void initBoard();
+
+    void setHandler(ClientHandler ch);
 }
