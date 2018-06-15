@@ -175,8 +175,30 @@ public class SocketClient implements ClientInterface {
                                             ch.setPrivateObj(priv.get(i),(PrivateObjectiveCard) objDeckpriv.getByName(priv.get(i+1)));
                                         }
                                     }
+                        break;
+
+                    case "draftPool": List<String> dice = socketParserClient.parseData(data);
+                                        List<Die> draft = new ArrayList<>();
+                                        for (int i =0; i<dice.size();i=i+2) {
+                                            Die die = new Die(SagradaColor.valueOf(dice.get(i).toUpperCase()));
+                                            die.setNumber(Integer.valueOf(dice.get(i + 1)));
+                                            draft.add(die);
+                                        }
+                                        ch.setDraftPool(draft);
+
+                        break;
+
+                    case "turnStarted":
+                                        if(data.equals(getName())){
+                                            System.out.println("It's your turn!!");
+                                            //TODO: code to launch board and choice
+                                        }else{
+                                            System.out.println("Now it's " + data + " turn");
+                                        }
+                                        break;
 
                     default: break;
+
 
                 }
         }else if(type.equals("request")){
@@ -209,6 +231,10 @@ public class SocketClient implements ClientInterface {
         socketHandlerClient.send("request","patterncard", windowPattern.getName());
 
 
+    }
+
+    public void requestPlacement(int number, String color, int row, int column){
+        socketHandlerClient.send("request", "placement", number + "/" + color + "/" + row + "/" + column);
     }
 
     private class SocketHandlerClient extends Thread {

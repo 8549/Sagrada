@@ -16,8 +16,10 @@ public abstract class ClientObject  {
     public abstract void requestPatternCardChoice(List<PatternCard> patternCards);
     public abstract void pushPatternCardResponse(String name);
     public abstract void pushOpponentsInit(List<Player> thinPlayers);
-    public abstract void pushPublicObj(List<PublicObjectiveCard> publicObj);
+    public abstract void pushPublicObj(ObjCard[] publicObj);
     public abstract void setPrivObj(ObjCard privObj, List<Player> players);
+    public abstract void pushDraft(List<Die> draft);
+    public abstract void notifyTurn(Player p);
 
     public Player getPlayer(){
         return this.player;

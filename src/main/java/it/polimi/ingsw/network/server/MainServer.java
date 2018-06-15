@@ -261,8 +261,7 @@ public class MainServer {
         return player;
     }
 
-    public void setPublicObj(List<PublicObjectiveCard> publicObj){
-
+    public void setPublicObj(ObjCard[] publicObj){
         for(ClientObject c : inGameClients){
             c.pushPublicObj(publicObj);
         }
@@ -278,5 +277,17 @@ public class MainServer {
         }
     }
 
+    public void setDraft(List<Die> draft){
+        for (ClientObject c: inGameClients){
+            c.pushDraft(draft);
+        }
+    }
+
+    public void notifyBeginTurn(Player p ){
+        for (ClientObject c : inGameClients){
+            c.notifyTurn(p);
+
+        }
+    }
 
 }

@@ -115,5 +115,13 @@ public class ClientHandler {
             }
         }
     }
+
+    public void setDraftPool(List<Die> draft){
+        proxyModel.setDraftPool(draft);
+    }
+
+    public void handlePlacement(Die d, int row, int column){
+
+    }
 }
 

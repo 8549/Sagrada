@@ -11,6 +11,7 @@ public class Player {
     private int tokens;
     List<PatternCard> choices;
     private boolean chosenPatternCard = false;
+    private boolean isPlaying = false;
 
     public Player(String name) {
         this.name = name;
@@ -69,6 +70,7 @@ public class Player {
     public void setHasChosenPatternCard(boolean chosen){
         this.chosenPatternCard = chosen;
     }
+
 
 
 

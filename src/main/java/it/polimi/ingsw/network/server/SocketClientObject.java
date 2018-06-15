@@ -4,6 +4,8 @@ import it.polimi.ingsw.model.*;
 
 import java.util.List;
 
+import static it.polimi.ingsw.GameManager.PUBLIC_OBJ_CARDS_NUMBER;
+
 public class SocketClientObject extends ClientObject {
 
     List<ClientObject> clients;
@@ -82,10 +84,10 @@ public class SocketClientObject extends ClientObject {
     }
 
     @Override
-    public void pushPublicObj(List<PublicObjectiveCard> publicObj) {
+    public void pushPublicObj(ObjCard[] publicObj) {
         String data="";
-        for (PublicObjectiveCard p : publicObj){
-            data = data + p.getName() + "/";
+        for (int i=0; i < PUBLIC_OBJ_CARDS_NUMBER; i++ ){
+            data = data + publicObj[i].getName() + "/";
         }
         socketHandler.send("update","publicObj", data);
     }
@@ -100,5 +102,19 @@ public class SocketClientObject extends ClientObject {
             }
         }
         socketHandler.send("update", "privObj", data);
+    }
+
+    @Override
+    public void pushDraft(List<Die> draft) {
+        String data = "";
+        for (Die d: draft){
+            data = data + d.getColor() + "/" + d.getNumber() + "/";
+        }
+        socketHandler.send("update","draftPool", data);
+    }
+
+    @Override
+    public void notifyTurn(Player p) {
+        socketHandler.send("update", "turnStarted", p.getName());
     }
 }

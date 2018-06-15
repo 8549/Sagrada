@@ -97,4 +97,8 @@ public class ProxyModel {
         this.publicObjectiveCards.addAll(publicObjectiveCards);
     }
 
+    public void setDraftPool(List<Die> draftPool){
+        this.draftPool.clear();
+        this.draftPool.addAll(draftPool);
+    }
 }

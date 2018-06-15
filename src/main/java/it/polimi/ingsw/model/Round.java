@@ -90,4 +90,6 @@ public class Round {
         return currentTurn;
     }
 
+    public List<Die> getDraftPool(){ return draftPool;}
+
 }
