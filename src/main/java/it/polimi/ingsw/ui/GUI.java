@@ -2,6 +2,7 @@ package it.polimi.ingsw.ui;
 
 import it.polimi.ingsw.model.PatternCard;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.network.client.ClientHandler;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -87,6 +88,11 @@ public class GUI extends Application implements UI {
 
     @Override
     public void initBoard() {
+
+    }
+
+    @Override
+    public void setHandler(ClientHandler ch) {
 
     }
 }

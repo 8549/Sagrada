@@ -23,8 +23,7 @@ public class MainServer {
     private GameManager gm;
 
     /*
-    TODO: this class must handle the different requests from RMI and Socket, so it must use ClientWrapper and instantiate different ServerHandler objects for every
-    TODO: different room of game
+
 
     This class must unify all the actions that come from RMIServer and SocketServer and let the ServerHandler handle the actions
 
@@ -72,11 +71,15 @@ public class MainServer {
 
 
     public synchronized boolean addClient(ClientObject client){
-        if(connectedClients == null){
+        if(isGameStarted){
+            return false;
+        }
+        if(connectedClients == null ){
             connectedClients.add(client);
             return true;
 
         }else{
+
             for (ClientObject clients : connectedClients){
                 if (clients.getPlayer().getName().equals(client.getPlayer().getName())){
                     return false;

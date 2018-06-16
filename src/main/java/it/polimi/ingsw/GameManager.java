@@ -30,6 +30,7 @@ public class GameManager {
     public static final int FIRSTROUND = 1;
     public static final int SECONDROUND = 2;
     private static int current_round = 0;
+    private Round round;
 
     public GameManager(MainServer server, List<Player> players) {
         this.server = server;
@@ -136,13 +137,13 @@ public class GameManager {
 
     public void gameLoop() {
 
-    Round round = new Round(players, current_round );
+    round = new Round(players, current_round );
     server.setDraft(round.getDraftPool());
 
     server.notifyBeginTurn(round.getTurn().getPlayer());
     //round.playRound();
-    players.add(players.get(0));
-    players.remove(players.get(0));
+    //players.add(players.get(0));
+    //players.remove(players.get(0));
 
     }
 
@@ -181,7 +182,7 @@ public class GameManager {
         if(w!=null) {
             System.out.println("Setting " + w.getName() +  " to " + p.getName());
             for (Player player : players) {
-                if (player.getName().equals(p.getName())) {
+                if (!player.hasChosenPatternCard() && player.getName().equals(p.getName())) {
                     player.setHasChosenPatternCard(player.getPlayerWindow().setWindowPattern(w));
 
                 }
@@ -193,7 +194,7 @@ public class GameManager {
             System.out.println("Error, patterncard not found! ");
         }
 
-        if (everybodyHasChosen){
+        if (everybodyHasChosen && round ==null){
             //token
             for (Player player: players){
                 player.setInitialTokens();
@@ -203,6 +204,10 @@ public class GameManager {
 
         }
 
+
+    }
+
+    public void processMove(Die d, int row, int column, Player p){
 
     }
 
