@@ -3,15 +3,10 @@ package it.polimi.ingsw;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.server.MainServer;
-import it.polimi.ingsw.network.server.ServerInterface;
-import it.polimi.ingsw.network.server.SocketServer;
-import javafx.collections.ObservableList;
 
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class GameManager {
     public static final int PATTERN_CARDS_PER_PLAYER = 2;
@@ -20,7 +15,7 @@ public class GameManager {
     private List<Player> players;
     private RoundTrack roundTrack;
     private ScoreTrack scoreTrack;
-    private ObjCard[] publicObjectiveCards= new ObjCard[PUBLIC_OBJ_CARDS_NUMBER];
+    private ObjCard[] publicObjectiveCards = new ObjCard[PUBLIC_OBJ_CARDS_NUMBER];
     private ToolCard[] toolCard;
     private List<Die> draftPool;
     private DiceBag diceBag;
@@ -29,7 +24,7 @@ public class GameManager {
     public static final int ROUNDS = 10;
     public static final int FIRSTROUND = 1;
     public static final int SECONDROUND = 2;
-    private static int current_round = 0;
+    private int numberCurrentRound;
     private Round round;
 
     public GameManager(MainServer server, List<Player> players) {
@@ -71,6 +66,7 @@ public class GameManager {
         firstPlayer = players.get(0);
         diceBag = DiceBag.getInstance();
 
+        numberCurrentRound = 0;
     }
 
     /**
@@ -135,17 +131,40 @@ public class GameManager {
         return players;
     }
 
-    public void gameLoop() {
+    public void startRound() {
 
-    round = new Round(players, current_round );
-    server.setDraft(round.getDraftPool());
+        round = new Round(players, numberCurrentRound);
+        server.setDraft(round.getDraftPool());
 
-    server.notifyBeginTurn(round.getTurn().getPlayer());
-    //round.playRound();
-    //players.add(players.get(0));
-    //players.remove(players.get(0));
-
+        startCurrentTurn();
     }
+
+    public void startCurrentTurn() {
+        server.notifyBeginTurn(round.getTurn().getPlayer());
+    }
+
+    public void completeCurrentTurn() {
+        round.passCurrentTurn();
+        server.notifyEndTurn(players);
+        if (round.getCurrentTurn() < round.getTurns().size()) {
+            startCurrentTurn();
+        } else {
+            completeRound(round.getDraftPool());
+        }
+    }
+
+
+    public void completeRound(List<Die> dieForRoundTrack) {
+        server.notifyEndRound(players);
+        players.add(players.get(0));
+        players.remove(0);
+        roundTrack.addRound(dieForRoundTrack);
+        numberCurrentRound++;
+        if (numberCurrentRound < ROUNDS) {
+            startRound();
+        }
+    }
+
 
     public void disconnectPlayer(Player player, Round round) {
         players.remove(player);
@@ -169,49 +188,52 @@ public class GameManager {
     }
 
 
-    public void completePlayerSetup(Player p, String patternCardName){
-        WindowPattern w=null;
-        for (PatternCard c: p.getChoices()){
-            if (c.getBack().getName().equals(patternCardName)){
+    public void completePlayerSetup(Player p, String patternCardName) {
+        WindowPattern w = null;
+        for (PatternCard c : p.getChoices()) {
+            if (c.getBack().getName().equals(patternCardName)) {
                 w = c.getBack();
-            }else if(c.getFront().getName().equals(patternCardName)){
+            } else if (c.getFront().getName().equals(patternCardName)) {
                 w = c.getFront();
             }
         }
-        boolean everybodyHasChosen= true;
-        if(w!=null) {
-            System.out.println("Setting " + w.getName() +  " to " + p.getName());
+        boolean everybodyHasChosen = true;
+        if (w != null) {
+            System.out.println("Setting " + w.getName() + " to " + p.getName());
             for (Player player : players) {
                 if (!player.hasChosenPatternCard() && player.getName().equals(p.getName())) {
                     player.setHasChosenPatternCard(player.getPlayerWindow().setWindowPattern(w));
 
                 }
-                if(!player.hasChosenPatternCard()) {
+                if (!player.hasChosenPatternCard()) {
                     everybodyHasChosen = false;
                 }
             }
-        }else{
+        } else {
             System.out.println("Error, patterncard not found! ");
         }
 
-        if (everybodyHasChosen && round ==null){
+        if (everybodyHasChosen && round == null) {
             //token
-            for (Player player: players){
+            for (Player player : players) {
                 player.setInitialTokens();
             }
             server.initPlayersData();
-            gameLoop();
+            startRound();
 
         }
 
 
     }
 
-    public void processMove(Die d, int row, int column, Player p){
-        MoveValidator mv = new MoveValidator(round.getTurn(), round.getDraftPool(), true,true,true);
-        boolean result = mv.validateMove(d,row,column,p);
-        //TODO: code to actually do the move server-side
-        server.notifyPlacementResponse(result,p);
+    public void processMove(Die die, int row, int column, Player player) {
+        MoveValidator mv = new MoveValidator(round.getTurn(), round.getDraftPool(), true, true, true);
+        boolean result = mv.validateMove(die, row, column, player);
+        if (result) {
+            player.getPlayerWindow().addDie(die, row, column);
+            round.removeDieFromDraftPool(die);
+        }
+        server.notifyPlacementResponse(result, player);
     }
 
 }
