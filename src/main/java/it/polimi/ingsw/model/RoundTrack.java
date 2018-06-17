@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class RoundTrack {                             
+public class RoundTrack {
     private static RoundTrack instance;
     private Map<Integer, List<Die>> dice;
     private int roundCounter;

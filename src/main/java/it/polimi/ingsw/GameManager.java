@@ -166,13 +166,13 @@ public class GameManager {
     }
 
 
-    public void disconnectPlayer(Player player, Round round) {
+    public void disconnectPlayer(Player player) {
         players.remove(player);
         int num = round.getCurrentTurn();
         round.removeTurn(player, round.getTurns().get(num).getNumber());
     }
 
-    public void reconnectPlayer(Player player, Round round) {
+    public void reconnectPlayer(Player player) {
         if (players.size() < 4) {
             int numb = round.getTurns().get(round.getCurrentTurn()).getNumber();
             Turn turn = new Turn(player, numb);
@@ -230,7 +230,7 @@ public class GameManager {
         MoveValidator mv = new MoveValidator(round.getTurn(), round.getDraftPool(), true, true, true);
         boolean result = mv.validateMove(die, row, column, player);
         if (result) {
-            player.getPlayerWindow().addDie(die, row, column);
+            round.getTurn().getPlayer().getPlayerWindow().addDie(die, row, column);
             round.removeDieFromDraftPool(die);
         }
         server.notifyPlacementResponse(result, player);

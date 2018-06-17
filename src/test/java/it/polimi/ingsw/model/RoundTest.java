@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import com.sun.javafx.scene.control.ReadOnlyUnbackedObservableList;
 import it.polimi.ingsw.GameManager;
 import it.polimi.ingsw.network.server.ServerInterface;
 import javafx.beans.InvalidationListener;
@@ -55,4 +56,19 @@ class RoundTest {
         assertEquals(3, round.getTurns().size());
     }
 
+    @Test
+    void doubledTurn() {
+        List<Player> players = new ArrayList<>();
+        Player marco = new Player("marco");
+        players.add(marco);
+        Player giulia = new Player("giulia");
+        players.add(giulia);
+        Player andrea = new Player("andrea");
+        players.add(andrea);
+        Player francesca = new Player("francesca");
+        players.add(francesca);
+        DiceBag diceBag = DiceBag.getInstance();
+        Round round = new Round(players, 1);
+        round.doubledTurn(2);
+    }
 }

@@ -18,7 +18,6 @@ class ColorConstraintTest {
         for (SagradaColor sagradaColor : SagradaColor.values()) {
             ColorConstraint constraint = new ColorConstraint(sagradaColor);
             assertTrue(constraint.checkConstraint(new Die(sagradaColor), CheckModifier.NORMAL));
-            //assertFalse(constraint.checkConstraint(new Die(Color.BLACK)));
         }
     }
 }
