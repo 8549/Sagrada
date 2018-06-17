@@ -194,7 +194,7 @@ public class CLI implements UI {
                     while (!validRow) {
                         if (scanner.hasNextInt()) {
                             i = scanner.nextInt();
-                            if (i > 0 && i < WindowPattern.ROWS) {
+                            if (i >= 0 && i < WindowPattern.ROWS) {
                                 validRow = true;
                             } else {
                                 System.out.print("Please choose a valid row [0-" + (WindowPattern.ROWS - 1) + "]: ");
@@ -209,7 +209,7 @@ public class CLI implements UI {
                     while (!validCol) {
                         if (scanner.hasNextInt()) {
                             j = scanner.nextInt();
-                            if (j > 0 && j < WindowPattern.COLUMNS) {
+                            if (j >= 0 && j < WindowPattern.COLUMNS) {
                                 validCol = true;
                             } else {
                                 System.out.print("Please choose a valid column [0-" + (WindowPattern.COLUMNS - 1) + "]: ");
