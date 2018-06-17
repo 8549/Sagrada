@@ -143,7 +143,7 @@ public class GameManager {
         server.notifyBeginTurn(round.getTurn().getPlayer());
     }
 
-    public void completeCurrentTurn() {
+    public void endCurrentTurn() {
         round.passCurrentTurn();
         server.notifyEndTurn(players);
         if (round.getCurrentTurn() < round.getTurns().size()) {

@@ -100,7 +100,7 @@ class GameManagerTest {
         roundPlayers.add(francesca);
         Round round = new Round(roundPlayers, 1);
         GameManager gameManager = new GameManager(mainServer, players);
-        gameManager.gameLoop();
+        gameManager.startRound();
 
     }
 }
