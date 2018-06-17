@@ -87,16 +87,16 @@ public class AdjacencyConstraint {
      * @return true when is found a die nearby, false if there isn't any
      */
     public static boolean checkCellAdjacency(Cell grid[][], int row, int column) {
-        try {
-            for (int i = row - 1; i <= row + 1; i++) {
-                for (int j = column - 1; j <= column + 1; j++) {
+        for (int i = row - 1; i <= row + 1; i++) {
+            for (int j = column - 1; j <= column + 1; j++) {
+                try {
                     if (!grid[i][j].isEmpty()) {
                         return true;
                     }
+                } catch (IndexOutOfBoundsException e) {
+                    e.printStackTrace();
                 }
             }
-        } catch (IndexOutOfBoundsException e) {
-            e.printStackTrace();
         }
 
         return false;
