@@ -68,7 +68,7 @@ public class AdjacencyConstraint {
                 }
             }
         } catch (ArrayIndexOutOfBoundsException e) {
-            e.printStackTrace();
+            System.err.println("Checking out of grid bounds because is on the edge");
         }
         return true;
     }
@@ -89,7 +89,7 @@ public class AdjacencyConstraint {
                         return true;
                     }
                 } catch (IndexOutOfBoundsException e) {
-                    e.printStackTrace();
+                    System.err.println("Checking out of grid bounds because is on the edge");
                 }
             }
         }
