@@ -285,4 +285,7 @@ public class MainServer {
         gm.processMove(d, row, column, p);
     }
 
+    //TODO
+    public void notifyEndTurn(List<Player> players){}
+    public void notifyEndRound(List<Player> players){}
 }
