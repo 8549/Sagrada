@@ -17,6 +17,16 @@ public class PlayerWindow {
 
     }
 
+    public boolean isFirstPlacement(){
+        for (int i = 0; i < WindowPattern.ROWS; i++){
+            for (int j = 0; j < WindowPattern.COLUMNS; j++) {
+                if(!diceGrid[i][j].isEmpty()){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
     /**
      * Return a copy of the cell containing the die at the given coordinates

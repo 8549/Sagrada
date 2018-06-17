@@ -1,6 +1,8 @@
 package it.polimi.ingsw.network.server;
 
+import it.polimi.ingsw.model.Die;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.SagradaColor;
 
 
 import java.io.BufferedReader;
@@ -16,6 +18,7 @@ import static it.polimi.ingsw.network.server.MainServer.DEFAULT_SOCKET_PORT;;
 
 public class SocketServer implements ServerInterface {
 
+    private SocketParser socketParserServer = new SocketParser();
     private List<ClientObject> users;
     private List<SocketHandler> socketClients = new ArrayList<>();
 
@@ -72,13 +75,16 @@ public class SocketServer implements ServerInterface {
             case "patterncard":
                         System.out.println("Player" + s.getClient().getPlayer().getName() + " has chosen " + data);
                         server.setPlayerChoice(s.getClient(), data);
+                    break;
 
-
-
+            case "placement": List<String> c = socketParserServer.parseData(data);
+                                Die d  = new Die(SagradaColor.valueOf(c.get(1)));
+                                d.setNumber(Integer.valueOf(c.get(0)));
+                                server.handleMove(d, Integer.valueOf(c.get(2)),Integer.valueOf(c.get(3)), s.getClient().getPlayer());
                 break;
-
             default:
                 System.out.println("Wrong message!");
+                break;
         }
     }else{
         System.out.println("Nothing for this command yet");

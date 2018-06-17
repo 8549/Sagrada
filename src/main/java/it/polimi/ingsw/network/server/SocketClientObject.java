@@ -16,10 +16,7 @@ public class SocketClientObject extends ClientObject {
         this.server = server;
         this.socketHandler = socketHandler;
     }
-    @Override
-    public void login() {
 
-    }
 
     @Override
     public void pushPlayers(List<Player> players) {
@@ -117,4 +114,13 @@ public class SocketClientObject extends ClientObject {
     public void notifyTurn(Player p) {
         socketHandler.send("update", "turnStarted", p.getName());
     }
+
+    @Override
+    public void notifyMoveResponse(boolean response, String type) {
+        if(response) {
+            socketHandler.send(type, "moveResponse","Move accepted");
+        }else{
+            socketHandler.send(type, "moveResponse", "Wrong move");
+
+        }    }
 }

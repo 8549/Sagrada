@@ -121,7 +121,7 @@ public class ClientHandler {
     }
 
     public void handlePlacement(Die d, int row, int column){
-
+        client.requestPlacement(d.getNumber(),d.getColor().toString(), row, column);
     }
 
     public void notifyTurnStarted() {

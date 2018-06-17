@@ -15,4 +15,6 @@ public interface ClientInterface  {
 
     void connect(String serverAddress, int portNumber, String userName) throws IOException;
     void validatePatternCard(WindowPattern w) throws IOException;
+
+    void requestPlacement(int number, String color, int row, int column);
 }

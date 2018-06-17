@@ -233,6 +233,7 @@ public class SocketClient implements ClientInterface {
 
     }
 
+    @Override
     public void requestPlacement(int number, String color, int row, int column){
         socketHandlerClient.send("request", "placement", number + "/" + color + "/" + row + "/" + column);
     }

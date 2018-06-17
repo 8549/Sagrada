@@ -86,7 +86,6 @@ public class MainServer {
                 }
 
             }
-
             connectedClients.add(client);
             return true;
         }
@@ -213,27 +212,6 @@ public class MainServer {
         }
     }
 
-    //TODO
-
-    public void chooseDie(List<Die> dice){}
-
-    public Die setDie(){
-        return null;
-    }
-
-    public void choosePlacement(){
-        //notify client to choose die and coordinates
-    }
-
-    public void setChoosePlacement(){
-
-    }
-    public void notifyPlayerChangeTurn(){}
-
-    public void notifyCorrectMovement(){}
-
-    public void notifyIncorrectMovement(){}
-
 
     public void setPlayerChoice(ClientObject client, String name){
         //TODO: check correct pattern card
@@ -291,6 +269,20 @@ public class MainServer {
             c.notifyTurn(p);
 
         }
+    }
+
+    public void notifyPlacementResponse(boolean response, Player p){
+        for(ClientObject c : inGameClients){
+            if (c.getPlayer().getName().equals(p.getName())){
+                c.notifyMoveResponse(response, "response");
+            }else{
+                c.notifyMoveResponse(response, "update");
+            }
+        }
+    }
+
+    public void handleMove(Die d, int row, int column, Player p ){
+        gm.processMove(d, row, column, p);
     }
 
 }

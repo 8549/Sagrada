@@ -51,6 +51,11 @@ public class RMIClient extends UnicastRemoteObject implements ClientInterface {
     public void validatePatternCard(WindowPattern w) {
 
     }
+
+    @Override
+    public void requestPlacement(int number, String color, int row, int column) {
+
+    }
 /*
     public RMIClient(String name, String hostName) throws RemoteException {
         player = new Player(name);

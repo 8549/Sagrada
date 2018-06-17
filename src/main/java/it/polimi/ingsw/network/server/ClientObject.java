@@ -5,10 +5,9 @@ import it.polimi.ingsw.model.*;
 import java.util.List;
 
 public abstract class ClientObject  {
-    ServerInterface server;
-    Player player;
+    protected ServerInterface server;
+    protected Player player;
 
-    public abstract void login();
     public abstract void pushPlayers(List<Player> players);
     public abstract void pushLoggedPlayer(Player player);
     public abstract void notifyPlayerDisconnection(Player p);
@@ -20,6 +19,7 @@ public abstract class ClientObject  {
     public abstract void setPrivObj(ObjCard privObj, List<Player> players);
     public abstract void pushDraft(List<Die> draft);
     public abstract void notifyTurn(Player p);
+    public abstract void notifyMoveResponse(boolean response, String type);
 
     public Player getPlayer(){
         return this.player;

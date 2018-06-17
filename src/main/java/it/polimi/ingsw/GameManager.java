@@ -208,7 +208,10 @@ public class GameManager {
     }
 
     public void processMove(Die d, int row, int column, Player p){
-
+        MoveValidator mv = new MoveValidator(round.getTurn(), round.getDraftPool(), true,true,true);
+        boolean result = mv.validateMove(d,row,column,p);
+        //TODO: code to actually do the move server-side
+        server.notifyPlacementResponse(result,p);
     }
 
 }
