@@ -162,7 +162,7 @@ public class MainServer {
                 connectedClients.remove(client);
                 checkTimer();
             }else{
-                //CODE TO HANDLE DISCONNECTION MEANWHILE THE GAME
+                gm.disconnectPlayer(client.getPlayer());
             }
     }
 

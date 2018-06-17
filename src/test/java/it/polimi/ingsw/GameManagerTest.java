@@ -45,7 +45,7 @@ class GameManagerTest {
         Round round = new Round(roundPlayers, 1);
         GameManager gameManager = new GameManager(mainServer, players);
 
-        gameManager.disconnectPlayer(giulia, round);
+        gameManager.disconnectPlayer(giulia);
         assertEquals(6, round.getTurns().size());
     }
 
@@ -71,11 +71,11 @@ class GameManagerTest {
         Round round = new Round(roundPlayers, 1);
         GameManager gameManager = new GameManager(mainServer, players);
 
-        gameManager.disconnectPlayer(giulia, round);
+        gameManager.disconnectPlayer(giulia);
         assertEquals(6, round.getTurns().size());
 
 
-        gameManager.reconnectPlayer(francesca, round);
+        gameManager.reconnectPlayer(francesca);
         assertEquals(8, round.getTurns().size());
     }
 

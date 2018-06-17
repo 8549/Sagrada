@@ -75,21 +75,28 @@ public class SocketClient implements ClientInterface {
                 case "login":
                             String response=data;
                             if(data.equals("Login Accepted !")){
-                                System.out.println("Login successful!");
                                 ch.setPlayerToProxyModel(player.getName());
 
                             } else {
-                                System.out.println("Try with a different username, or maybe the game is already began so... :(");
                                 ch.setLoginResponse(false);
                             }
                             break;
+
+                case "moveResponse":
+                            if (data.equals("Move accepted"))
+                                    ch.handleMoveResponse(true);
+                            else if (data.equals("Wrong move")){
+                                ch.handleMoveResponse(false);
+                            }
+
+                    break;
                 default:
                             System.out.println("Wrong message!");
                             break;
             }
         }else if(type.equals("update")){
                 switch(header){
-                    case "start": System.out.println(data);
+                    case "start":
                                 gameStatus.set("STARTED");
                         break;
                     case "users":   List<String> names = socketParserClient.parseData(data);
@@ -107,7 +114,6 @@ public class SocketClient implements ClientInterface {
 
                     case "loggedPlayers":
                                         if (data.equals("You are the first player!")){
-                                            System.out.println(data);
                                             ch.loginSuccessful();
 
                                         }else{
@@ -130,7 +136,7 @@ public class SocketClient implements ClientInterface {
                         break;
 
                     case "patterncard": List<String> tokens = socketParserClient.parseData(data);
-                                        System.out.println("Player " + tokens.get(1) + " choose pattern card" + tokens.get(0));
+                                        //System.out.println("Player " + tokens.get(1) + " choose pattern card" + tokens.get(0));
 
                         break;
 
@@ -157,7 +163,6 @@ public class SocketClient implements ClientInterface {
                                         publicObjectiveCards.add((PublicObjectiveCard) objDeck.getByName(o));
                                     }
                                     if(publicObjectiveCards!=null) {
-                                        System.out.println("Public cards arrived correctly ");
                                         ch.setPublicObjCard(publicObjectiveCards);
                                     }else{
                                         System.out.println("Public obj cards error");
@@ -167,7 +172,6 @@ public class SocketClient implements ClientInterface {
                     case "privObj": List<String> priv = socketParserClient.parseData(data);
                                     CardsDeck objDeckpriv = new CardsDeck("PrivateObjectiveCards.json", new TypeToken<List<PrivateObjectiveCard>>() {
                                     }.getType());
-                                    System.out.println("Setting private...");
                                     for (int i =0; i<priv.size(); i = i+2){
                                         if (priv.get(i+1).equals("blank")){
                                             ch.setPrivateObj(priv.get(i),(PrivateObjectiveCard) objDeckpriv.getByName(priv.get(i+1)) );
@@ -188,13 +192,8 @@ public class SocketClient implements ClientInterface {
 
                         break;
 
-                    case "turnStarted":
-                                        if(data.equals(getName())){
-                                            System.out.println("It's your turn!!");
-                                            ch.notifyTurnStarted();
-                                        }else{
-                                            System.out.println("Now it's " + data + " turn");
-                                        }
+                    case "turnStarted": ch.notifyTurnStarted(data);
+
                                         break;
 
                     default: break;
@@ -265,7 +264,6 @@ public class SocketClient implements ClientInterface {
                             System.out.println("Connection with server established");
                         }else{
                             socketParser.parseInput(input);
-                            System.out.println("Processing " + socketParser.getType() + socketParser.getHeader() + socketParser.getData());
                             String out = processInput(socketParser.getType(), socketParser.getHeader(), socketParser.getData());
                         }
                     }

@@ -124,8 +124,16 @@ public class ClientHandler {
         client.requestPlacement(d.getNumber(),d.getColor().toString(), row, column);
     }
 
-    public void notifyTurnStarted() {
-        ui.myTurnStarted();
+    public void notifyTurnStarted(String name) {
+        if(proxyModel.getMyself().getName().equals(name)){
+            ui.myTurnStarted();
+        }else{
+            proxyModel.setCurrentPlayer(new Player(name));
+        }
+    }
+
+    public void handleMoveResponse(boolean response){
+
     }
 }
 

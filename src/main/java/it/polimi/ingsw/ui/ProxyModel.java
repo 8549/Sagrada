@@ -14,6 +14,7 @@ import java.util.List;
 public class ProxyModel {
     ObservableList<Die> draftPool = FXCollections.observableArrayList();
     Player myself;
+    Player currentPlayer;
     ObservableList<Player> players = FXCollections.observableArrayList();
     IntegerProperty currentRound;
     IntegerProperty currentTurn;
@@ -100,5 +101,8 @@ public class ProxyModel {
     public void setDraftPool(List<Die> draftPool){
         this.draftPool.clear();
         this.draftPool.addAll(draftPool);
+    }
+    public void setCurrentPlayer(Player player){
+        this.currentPlayer= player;
     }
 }
