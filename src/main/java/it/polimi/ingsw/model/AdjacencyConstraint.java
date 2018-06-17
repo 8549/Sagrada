@@ -33,23 +33,18 @@ public class AdjacencyConstraint {
      * @return true if there isn't a dice with the same number and color nearby, false otherwise
      */
     public static boolean checkAdjacency(Cell grid[][], int row, int column, Die die) {
-        try {
-            if (!controlCell(grid, row - 1, column, die)) {
-                return false;
-            }
-            if (!controlCell(grid, row, column - 1, die)) {
-                return false;
-            }
-            if (!controlCell(grid, row, column + 1, die)) {
-                return false;
-            }
-            if (!controlCell(grid, row + 1, column, die)) {
-                return false;
-            }
-        } catch (IndexOutOfBoundsException e) {
-            System.out.println(String.format("%s (grid[%d][%d])"));
+        if (!controlCell(grid, row - 1, column, die)) {
+            return false;
         }
-
+        if (!controlCell(grid, row, column - 1, die)) {
+            return false;
+        }
+        if (!controlCell(grid, row, column + 1, die)) {
+            return false;
+        }
+        if (!controlCell(grid, row + 1, column, die)) {
+            return false;
+        }
         return true;
     }
 
@@ -72,7 +67,7 @@ public class AdjacencyConstraint {
                     return false;
                 }
             }
-        } catch (IndexOutOfBoundsException e) {
+        } catch (ArrayIndexOutOfBoundsException e) {
             e.printStackTrace();
         }
         return true;
