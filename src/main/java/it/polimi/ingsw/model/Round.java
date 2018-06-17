@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.network.server.MainServer;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +23,10 @@ public class Round {
         for (int i = 0; i < (players.size() * 2 + 1); i++)
             draftPool.add(DiceBag.draftDie());
     }
-    public Turn getTurn(){ return turns.get(currentTurn);}
+
+    public Turn getTurn() {
+        return turns.get(currentTurn);
+    }
 
     public void setTurns() {
         turns = new ArrayList<>();
@@ -56,25 +61,17 @@ public class Round {
         }
     }
 
-    public void playRound() {
-        int i = 0;
-        for (Turn turn : turns) {
 
-
-            //turn.getPlayer().getPlayerWindow().addDie();
-            turn.setDiePlaced();
-
-
-            //or use tool card
-            /*if (toolCardUsed) {
-                turn.setToolCardUsed();
-            }
-            //or place die
-            if (turnDoubled) {
-                turns.remove(players.size() * 2 - i - 1);
-                turns.add(i + 1, turn);
-            }*/
+    public void doubledTurn(int turn) {
+        if (turn < players.size()) {
+            turns.add(turn + 1, turns.get(turn));
+            turns.get(turn + 1).modifyTurn();
+            turns.remove(turns.size() - 1 - turn);
         }
+    }
+
+
+    public void passCurrentTurn() {
         currentTurn++;
     }
 
@@ -90,6 +87,12 @@ public class Round {
         return currentTurn;
     }
 
-    public List<Die> getDraftPool(){ return draftPool;}
+    public List<Die> getDraftPool() {
+        return draftPool;
+    }
+
+    public void removeDieFromDraftPool(Die die){
+        draftPool.remove(die);
+    }
 
 }

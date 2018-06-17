@@ -18,7 +18,7 @@ public class Player {
         this.playerWindow = new PlayerWindow();
         this.privateObjectiveCardSet = false;
         this.choices = new ArrayList<>();
-        
+
     }
 
 
