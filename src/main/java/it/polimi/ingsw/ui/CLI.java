@@ -16,6 +16,18 @@ import java.util.Scanner;
 
 public class CLI implements UI {
     private static final char FAVOR_TOKEN_CHAR = '\u2022';
+    private static final char DOWN_RIGHT = '\u250C';
+    private static final char DOWN_LEFT = '\u2510';
+    private static final char DOWN_HORIZONTAL = '\u252C';
+    private static final char HORIZONTAL = '\u2500';
+    private static final char UP_RIGHT = '\u2514';
+    private static final char UP_LEFT = '\u2518';
+    private static final char UP_HORIZONTAL = '\u2534';
+    private static final char VERTICAL_RIGHT = '\u251C';
+    private static final char VERTICAL_LEFT = '\u2524';
+    private static final char VERTICAL_HORIZONTAL = '\u253C';
+    private static final char VERTICAL = '\u2502';
+
     private final Scanner scanner = new Scanner(System.in);
     private ClientHandler handler;
     private ProxyModel model;
@@ -90,7 +102,7 @@ public class CLI implements UI {
             System.out.println(String.format("%d) %s, difficulty %d", i++, p.getName(), p.getDifficulty()));
             printWindowPattern(p);
         }
-        System.out.print("Plase choose your window pattern: ");
+        System.out.print("Please choose your window pattern: ");
         int which = scanner.nextInt();
         try {
             handler.setChosenPatternCard(patterns[which-1]);
@@ -148,7 +160,7 @@ public class CLI implements UI {
         System.out.println(String.format("It's turn %d of round %d", model.getCurrentTurn() + 1, model.getCurrentRound() + 1));
         for (Player p : model.players) {
             System.out.println(p.getName());
-            printWindowPattern(p.getPlayerWindow().getWindowPattern());
+            printWindowPattern(p.getPlayerWindow().getWindowPattern(), p.getPlayerWindow());
         }
         System.out.print("\nDraft pool:");
         for (Die d : model.draftPool) {
@@ -174,52 +186,52 @@ public class CLI implements UI {
                     int which = -1;
                     int i = -1;
                     int j = -1;
-                    System.out.print("Which die [0-" + (model.draftPool.size() - 1) + "]? ");
+                    System.out.print("Which die [1-" + model.draftPool.size() + "]? ");
                     boolean validDie = false;
                     while (!validDie) {
                         if (scanner.hasNextInt()) {
                             which = scanner.nextInt();
-                            if (which > 0 && which < model.draftPool.size()) {
+                            if (which > 0 && which <= model.draftPool.size()) {
                                 validDie = true;
                             } else {
-                                System.out.print("Please choose a valid die [0-" + (model.draftPool.size() - 1) + "]: ");
+                                System.out.print("Please choose a valid die [1-" + model.draftPool.size() + "]: ");
                             }
                         } else {
-                            System.out.print("Please choose a valid die [0-" + (model.draftPool.size() - 1) + "]: ");
+                            System.out.print("Please choose a valid die [1-" + model.draftPool.size() + "]: ");
                             scanner.next();
                         }
                     }
-                    System.out.print("Which row do you want to place it [0-" + (WindowPattern.ROWS - 1) + "]: ");
+                    System.out.print("Which row do you want to place it [1-" + WindowPattern.ROWS + "]: ");
                     boolean validRow = false;
                     while (!validRow) {
                         if (scanner.hasNextInt()) {
                             i = scanner.nextInt();
-                            if (i >= 0 && i < WindowPattern.ROWS) {
+                            if (i > 0 && i <= WindowPattern.ROWS) {
                                 validRow = true;
                             } else {
-                                System.out.print("Please choose a valid row [0-" + (WindowPattern.ROWS - 1) + "]: ");
+                                System.out.print("Please choose a valid row [1-" + WindowPattern.ROWS + "]: ");
                             }
                         } else {
-                            System.out.print("Please choose a valid row [0-" + (WindowPattern.ROWS - 1) + "]: ");
+                            System.out.print("Please choose a valid row [1-" + WindowPattern.ROWS + "]: ");
                             scanner.next();
                         }
                     }
-                    System.out.print("Which column do you want to place it [0-" + (WindowPattern.COLUMNS - 1) + "]: ");
+                    System.out.print("Which column do you want to place it [1-" + WindowPattern.COLUMNS + "]: ");
                     boolean validCol = false;
                     while (!validCol) {
                         if (scanner.hasNextInt()) {
                             j = scanner.nextInt();
-                            if (j >= 0 && j < WindowPattern.COLUMNS) {
+                            if (j > 0 && j <= WindowPattern.COLUMNS) {
                                 validCol = true;
                             } else {
-                                System.out.print("Please choose a valid column [0-" + (WindowPattern.COLUMNS - 1) + "]: ");
+                                System.out.print("Please choose a valid column [1-" + WindowPattern.COLUMNS + "]: ");
                             }
                         } else {
-                            System.out.print("Please choose a valid column [0-" + (WindowPattern.COLUMNS - 1) + "]: ");
+                            System.out.print("Please choose a valid column [1-" + WindowPattern.COLUMNS + "]: ");
                             scanner.next();
                         }
                     }
-                    handler.handlePlacement(model.draftPool.get(which - 1), i, j);
+                    handler.handlePlacement(model.draftPool.get(which - 1), i - 1, j - 1);
                     break;
                 case "P":
                     validChoice = true;
@@ -298,7 +310,11 @@ public class CLI implements UI {
         return s;
     }
 
-    public void printWindowPattern(WindowPattern p) {
+    private void printWindowPattern(WindowPattern p) {
+        printWindowPattern(p, new PlayerWindow());
+    }
+
+    private void printWindowPattern(WindowPattern p, PlayerWindow w) {
         StringBuilder b = new StringBuilder();
         int k = 0;
         int l = 0;
@@ -308,64 +324,52 @@ public class CLI implements UI {
             for (int j = 0; j < gridMaxCols; j++) {
                 if (i == 0) {
                     if (j == 0) {
-                        // print left down beginning
-                        b.append((char) 9484);
+                        b.append(DOWN_RIGHT);
                     } else if (j == gridMaxCols - 1) {
-                        // print right down end
-                        b.append((char) 9488);
+                        b.append(DOWN_LEFT);
                     } else if (j % 2 == 0) {
-                        // print T intersection
-                        b.append((char) 9516);
+                        b.append(DOWN_HORIZONTAL);
                     } else if (j % 2 == 1) {
-                        // print top line
-                        b.append((char) 9472);
+                        b.append(HORIZONTAL);
                     }
                 } else if (i == gridMaxRows - 1) {
                     if (j == 0) {
-                        // print left top end
-                        b.append((char) 9492);
+                        b.append(UP_RIGHT);
                     } else if (j == gridMaxCols - 1) {
-                        // print right top end
-                        b.append((char) 9496);
+                        b.append(UP_LEFT);
                     } else if (j % 2 == 0) {
-                        // print _|_ intersection
-                        b.append((char) 9524);
+                        b.append(UP_HORIZONTAL);
                     } else if (j % 2 == 1) {
-                        // print bottom line
-                        b.append((char) 9472);
+                        b.append(HORIZONTAL);
                     }
                 } else if (i % 2 == 0) {
                     if (j == 0) {
-                        // print |-
-                        b.append((char) 9500);
+                        b.append(VERTICAL_RIGHT);
                     } else if (j == gridMaxCols - 1) {
-                        // print -|
-                        b.append((char) 9508);
+                        b.append(VERTICAL_LEFT);
                     } else if (j % 2 == 1) {
-                        // print middle line
-                        b.append((char) 9472);
+                        b.append(HORIZONTAL);
                     } else if (j % 2 == 0) {
-                        //print +
-                        b.append((char) 9532);
+                        b.append(VERTICAL_HORIZONTAL);
                     }
                 } else if (i % 2 == 1) {
                     if (j == 0) {
-                        // print left |
-                        b.append((char) 9474);
+                        b.append(VERTICAL);
                     } else if (j == gridMaxCols - 1) {
-                        // print right |
-                        b.append((char) 9474);
+                        b.append(VERTICAL);
                     } else if (j % 2 == 1) {
-                        // print constraint
-                        b.append(p.getConstraints()[k][l].toCLI());
+                        if (w.getCellAt(k, l).isEmpty()) {
+                            b.append(p.getConstraints()[k][l].toCLI());
+                        } else {
+                            b.append(w.getCellAt(k, l).getDie());
+                        }
                         l++;
                         if (l % WindowPattern.COLUMNS == 0) {
                             l = 0;
                             k++;
                         }
                     } else if (j % 2 == 0) {
-                        //print middle |
-                        b.append((char) 9474);
+                        b.append(VERTICAL);
                     }
                 }
             }
