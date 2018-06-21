@@ -35,6 +35,12 @@ public class CLI implements UI {
 
 
     @Override
+    public void failedLogin(String msg) {
+        System.err.println("Login failed: " + msg);
+        showLogin();
+    }
+
+    @Override
     public void showLogin() {
         String hostName;
         int port = 0;
