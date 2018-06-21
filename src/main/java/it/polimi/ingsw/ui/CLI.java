@@ -175,6 +175,7 @@ public class CLI implements UI {
 
     @Override
     public void myTurnStarted() {
+        update();
         System.out.println(String.format("It's your turn! (Turn number %d of round %d)", model.getCurrentTurn(), model.getCurrentRound()));
         boolean validChoice = false;
         while (!validChoice) {
@@ -361,7 +362,7 @@ public class CLI implements UI {
                         if (w.getCellAt(k, l).isEmpty()) {
                             b.append(p.getConstraints()[k][l].toCLI());
                         } else {
-                            b.append(w.getCellAt(k, l).getDie());
+                            b.append(w.getCellAt(k, l).getDie().toCLI());
                         }
                         l++;
                         if (l % WindowPattern.COLUMNS == 0) {
