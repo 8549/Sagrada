@@ -5,6 +5,8 @@ import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.network.client.ClientHandler;
 
 public interface UI {
+    void failedLogin(String msg);
+
     void showLogin();
 
     void showPatternCardsChooser(PatternCard one, PatternCard two);

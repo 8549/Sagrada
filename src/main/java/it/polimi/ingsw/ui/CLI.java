@@ -60,7 +60,6 @@ public class CLI implements UI {
             }
         }
 
-        //TODO fix int value check
         boolean validPort = false;
         System.out.print("Enter the server port: ");
         while (!validPort) {
@@ -177,6 +176,7 @@ public class CLI implements UI {
             System.out.print(String.format("%s, ", c.getName()));
         }
         System.out.println("\nYour private objective card: " + model.myself.getPrivateObjectiveCard().getName());
+        printWindowPattern(model.myself.getPlayerWindow().getWindowPattern(), model.myself.getPlayerWindow());
     }
 
     @Override
