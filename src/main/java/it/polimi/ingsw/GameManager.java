@@ -66,11 +66,11 @@ public class GameManager {
         scoreTrack = ScoreTrack.getIstance();
 
         //place toolcard
-        CardsDeck toolDeck = new CardsDeck("ToolCards.json", new TypeToken<List<ToolCard>>() {
+       /* CardsDeck toolDeck = new CardsDeck("ToolCards.json", new TypeToken<List<ToolCard>>() {
         }.getType());
         for (int i = 0; i < 3; i++) {
             toolCard[i] = (ToolCard) toolDeck.getRandomCard();
-        }
+        }*/
 
         //obj pub
         CardsDeck objDeck = new CardsDeck("PublicObjectiveCards.json", new TypeToken<List<PublicObjectiveCard>>() {

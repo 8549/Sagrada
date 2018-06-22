@@ -72,7 +72,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
             ch.setPlayerToProxyModel(player.getName());
         }else{
             System.out.println("[DEBUG] Login failed");
-            ch.setLoginResponse(response);
+            ch.loginFailed();
         }
 
 
@@ -91,7 +91,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
     @Override
     public void initPatternCardChoice(List<PatternCard> choices){
-        ch.patternCardChooser(choices.get(0), choices.get(2));
+        ch.patternCardChooser(choices.get(0), choices.get(1));
     }
 
     @Override

@@ -123,4 +123,9 @@ public class SocketClientObject extends ClientObject {
             socketHandler.send(type, "moveResponse", "Wrong move");
 
         }    }
+
+    @Override
+    public void answerLogin(boolean response) {
+
+    }
 }

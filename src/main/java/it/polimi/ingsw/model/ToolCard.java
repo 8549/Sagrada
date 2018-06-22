@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model;
 
 //TODO 
-public class ToolCard {
+public class ToolCard implements Card {
     private int tokens;
     private boolean used;
 
@@ -29,5 +29,10 @@ public class ToolCard {
 
     public int getTokens() {
         return tokens;
+    }
+
+    @Override
+    public String getName() {
+        return null;
     }
 }

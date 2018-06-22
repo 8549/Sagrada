@@ -37,11 +37,11 @@ public class RMIServer  implements RMIServerInterface {
     @Override
     public void start(String[] args) throws RemoteException {
         //RMI SERVER
-        OptionParser parser = new OptionParser();
+       /* OptionParser parser = new OptionParser();
         parser.accepts("p").withRequiredArg().ofType(Integer.class).defaultsTo(DEFAULT_RMI_PORT);
         OptionSet set = parser.parse(args);
 
-        int port = (int) set.valueOf("p");
+        int port = (int) set.valueOf("p");*/
 
 
         try {
@@ -68,8 +68,9 @@ public class RMIServer  implements RMIServerInterface {
     @Override
     public void login(Player p, RMIClientInterface c) throws RemoteException {
         RMIClientObject client = new RMIClientObject(p, c);
+        client.run();
         boolean result= server.addClient(client);
-        c.loginResponse(result);
+        client.answerLogin(result);
 
         if(result){
             server.addAlreadyLoogedPlayers(client);
@@ -81,7 +82,7 @@ public class RMIServer  implements RMIServerInterface {
     }
 
     @Override
-    public void patternCardValidation(String patternName, RMIClient c){
+    public void patternCardValidation(String patternName, RMIClientInterface c){
         ClientObject client=null;
         for(ClientObject clients: users){
             try {

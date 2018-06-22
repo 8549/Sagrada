@@ -2,7 +2,9 @@ package it.polimi.ingsw.model;
 
 import javafx.scene.Node;
 
-public interface PatternConstraint {
+import java.io.Serializable;
+
+public interface PatternConstraint extends Serializable {
     static boolean equals(PatternConstraint[][] one, PatternConstraint[][] two) {
         if (one.length != two.length) {
             return false;

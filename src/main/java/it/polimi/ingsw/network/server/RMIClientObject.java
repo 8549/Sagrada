@@ -97,4 +97,13 @@ public class RMIClientObject extends ClientObject {
     public void notifyMoveResponse(boolean response, String type) {
 
     }
+    @Override
+    public void answerLogin(boolean response){
+        try {
+            client.loginResponse(response);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

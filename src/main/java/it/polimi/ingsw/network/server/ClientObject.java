@@ -26,4 +26,5 @@ public abstract class ClientObject  {
 
     }
 
+    public abstract void answerLogin(boolean response);
 }

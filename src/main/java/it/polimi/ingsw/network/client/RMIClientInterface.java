@@ -11,6 +11,9 @@ public interface RMIClientInterface extends ClientInterface, Remote {
     @Override
     void connect(String serverAddress, int portNumber, String userName) throws RemoteException;
 
+    @Override
+    String getName() throws RemoteException;
+
     void loginResponse(boolean result) throws RemoteException;
 
     void addPlayersToProxy(List<Player> players) throws RemoteException;

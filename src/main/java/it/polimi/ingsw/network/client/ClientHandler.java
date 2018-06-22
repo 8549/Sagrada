@@ -36,8 +36,9 @@ public class ClientHandler implements Serializable {
     }
 
 
-    public void setLoginResponse(boolean loginResponse){
-        this.loginResponse = loginResponse;
+    public void loginFailed(){
+        ui.failedLogin();
+
     }
 
     public void setPlayerToProxyModel(String name){

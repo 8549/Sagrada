@@ -78,7 +78,7 @@ public class SocketClient implements ClientInterface {
                                 ch.setPlayerToProxyModel(player.getName());
 
                             } else {
-                                ch.setLoginResponse(false);
+                                ch.loginFailed();
                             }
                             break;
 
