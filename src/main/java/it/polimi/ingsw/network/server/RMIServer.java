@@ -68,7 +68,6 @@ public class RMIServer  implements RMIServerInterface {
     @Override
     public void login(Player p, RMIClientInterface c) throws RemoteException {
         RMIClientObject client = new RMIClientObject(p, c);
-        client.run();
         boolean result= server.addClient(client);
         client.answerLogin(result);
 

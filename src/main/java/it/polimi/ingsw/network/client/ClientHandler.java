@@ -26,13 +26,13 @@ public class ClientHandler implements Serializable {
 
         if(connectionType.equals(ConnectionType.SOCKET)){
             client = new SocketClient(this);
+            client.connect(hostname, port, username);
+            client.login();
         }else if(connectionType.equals(ConnectionType.RMI)){
             client = new RMIClient(this);
-
+            client.connect(hostname, port, username);
+            ((RMIClient) client).run();
         }
-
-        client.connect(hostname, port, username);
-        client.login();
     }
 
 

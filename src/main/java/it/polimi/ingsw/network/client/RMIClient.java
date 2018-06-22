@@ -23,7 +23,7 @@ import java.util.List;
 import static it.polimi.ingsw.network.server.MainServer.DEFAULT_RMI_PORT;
 
 
-public class RMIClient extends UnicastRemoteObject implements RMIClientInterface, Serializable {
+public class RMIClient extends UnicastRemoteObject implements RMIClientInterface, Serializable, Runnable {
     Player player;
     RMIServerInterface server;
     ClientHandler ch;
@@ -100,4 +100,12 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
     }
 
+    @Override
+    public void run() {
+        try {
+            login();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+    }
 }
