@@ -37,6 +37,11 @@ public class GUI extends Application implements UI {
     }
 
     @Override
+    public void failedLogin(String msg) {
+
+    }
+
+    @Override
     public void showLogin() {
 
     }

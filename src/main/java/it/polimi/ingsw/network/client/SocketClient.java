@@ -114,7 +114,7 @@ public class SocketClient implements ClientInterface {
 
                     case "loggedPlayers":
                                         if (data.equals("You are the first player!")){
-                                            ch.loginSuccessful();
+                                            ch.loggedUsers();
 
                                         }else{
                                                 List<String> playersNames = socketParserClient.parseData(data);
@@ -123,7 +123,7 @@ public class SocketClient implements ClientInterface {
                                                     players.add(new Player(s));
                                                 }
                                                 ch.addPlayersToProxyModel(players);
-                                                ch.loginSuccessful();
+                                                ch.loggedUsers();
                                             }
                         break;
 

@@ -1,7 +1,9 @@
 package it.polimi.ingsw.model;
 
 
-public class PatternCard implements Card {
+import java.io.Serializable;
+
+public class PatternCard implements Card, Serializable {
     private final WindowPattern front;
     private final WindowPattern back;
 

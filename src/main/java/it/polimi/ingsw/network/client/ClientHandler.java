@@ -6,9 +6,11 @@ import it.polimi.ingsw.ui.ProxyModel;
 import it.polimi.ingsw.ui.UI;
 
 import java.io.IOException;
+import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.util.List;
 
-public class ClientHandler {
+public class ClientHandler implements Serializable {
     private ClientInterface client;
     private boolean loginResponse;
     private UI ui;
@@ -42,7 +44,7 @@ public class ClientHandler {
         proxyModel.setPlayer(new Player(name));
     }
 
-    public  void loginSuccessful() {
+    public  void loggedUsers() {
         ui.showLoggedInUsers();
 
     }
@@ -110,7 +112,7 @@ public class ClientHandler {
             for (Player player : proxyModel.getPlayers()) {
                 if (player.getName().equals(name)) {
                     player.setPrivateObjectiveCard(p);
-                    System.out.println("Player " + player.getName() + " has private " + player.getPrivateObjectiveCard().getName());
+                    System.out.println("[DEBUG] Player " + player.getName() + " has private " + player.getPrivateObjectiveCard().getName());
                 }
             }
         }
@@ -120,8 +122,12 @@ public class ClientHandler {
         proxyModel.setDraftPool(draft);
     }
 
-    public void handlePlacement(Die d, int row, int column){
-        client.requestPlacement(d.getNumber(),d.getColor().toString(), row, column);
+    public void handlePlacement(Die d, int row, int column) {
+        try {
+            client.requestPlacement(d.getNumber(),d.getColor().toString(), row, column);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     public void notifyTurnStarted(String name) {
@@ -129,11 +135,16 @@ public class ClientHandler {
             ui.myTurnStarted();
         }else{
             proxyModel.setCurrentPlayer(new Player(name));
+            System.out.println("[DEBUG] Now it's " + name + " turn");
         }
     }
 
     public void handleMoveResponse(boolean response){
-
+        if(response) {
+            System.out.println("[DEBUG] Server response: Correct move!");
+        }else{
+            System.out.println("[DEBUG] Server response: Wrong Move!");
+        }
     }
 }
 

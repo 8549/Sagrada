@@ -5,6 +5,9 @@ import it.polimi.ingsw.model.*;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
 
 public class MainServer {
@@ -21,23 +24,33 @@ public class MainServer {
     private List<ClientObject> inGameClients = new ArrayList<>();
     private GameManager gm;
 
-    /*
 
-
-    This class must unify all the actions that come from RMIServer and SocketServer and let the ServerHandler handle the actions
-
-    RMIServer and SocketServer must handle just the comunication of a certain message, but both processInput in SocketClient and the methods in RMIServer refer to this class
-    to act
-    */
-
+    /** MainServer handles the two different type of connections
+     * (RMI and Socket), and unify them to communicate with GameManager
+     *
+     * @param args are the parameter from command line
+     *
+     */
     public MainServer(String[] args){
 
-        // RMI server
+        //RMI Server
         try {
             rmiServer = new RMIServer(connectedClients, this);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
+
+
+        new Thread(){
+            public void run(){
+                try {
+                    rmiServer.start(args);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+
 
         //Socket server
         socketServer= new SocketServer(connectedClients, this);
@@ -54,17 +67,7 @@ public class MainServer {
             }
         }.start();
 
-            new Thread(){
-                public void run(){
-                    try {
 
-                        rmiServer.start(args);
-
-                    }catch (RemoteException e){
-                        e.printStackTrace();
-                    }
-                }
-            }.start();
 
     }
 

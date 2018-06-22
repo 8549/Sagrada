@@ -1,11 +1,12 @@
 package it.polimi.ingsw.model;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class PublicObjectiveCard extends ObjCard {
+public class PublicObjectiveCard extends ObjCard implements Serializable {
     private int numberOfTimes;
 
     public int setOfShades(int num1, int num2, Cell[][] grid) {

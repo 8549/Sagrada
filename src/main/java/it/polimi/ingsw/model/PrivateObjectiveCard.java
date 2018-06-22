@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
-public class PrivateObjectiveCard extends ObjCard {
+import java.io.Serializable;
+
+public class PrivateObjectiveCard extends ObjCard implements Serializable {
     private int numberOfDice;
 
     public int sumColors(Cell[][] grid, SagradaColor color) {

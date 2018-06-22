@@ -233,7 +233,14 @@ public class GameManager {
             round.getTurn().getPlayer().getPlayerWindow().addDie(die, row, column);
             round.removeDieFromDraftPool(die);
         }
+
         server.notifyPlacementResponse(result, player);
+        if (result){
+            server.setDraft(round.getDraftPool());
+            endCurrentTurn();
+        }else{
+            System.out.println("[DEBUG] Wrong move, should they try again or not?");
+        }
     }
 
 }

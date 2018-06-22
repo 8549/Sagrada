@@ -2,10 +2,11 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.Utils;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.Random;
 
-public class Die {
+public class Die implements Serializable {
     private int number;
     private SagradaColor color;
     public static final int MAX = 6;

@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
-public class WindowPattern {
+import java.io.Serializable;
+
+public class WindowPattern implements Serializable {
     public static final int ROWS = 4;
     public static final int COLUMNS = 5;
     private int difficulty;

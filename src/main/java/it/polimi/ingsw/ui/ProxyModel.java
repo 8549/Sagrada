@@ -8,10 +8,11 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProxyModel {
+public class ProxyModel  {
     ObservableList<Die> draftPool = FXCollections.observableArrayList();
     Player myself;
     Player currentPlayer;

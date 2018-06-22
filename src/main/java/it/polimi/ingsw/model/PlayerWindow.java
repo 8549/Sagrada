@@ -1,9 +1,10 @@
 package it.polimi.ingsw.model;
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.Arrays;
 
-public class PlayerWindow {
+public class PlayerWindow implements Serializable {
 
     private WindowPattern windowPattern;
     //if the array is empty the value of the cell is a Die with number equal to 0
