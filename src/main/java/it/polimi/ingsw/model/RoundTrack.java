@@ -55,4 +55,13 @@ public class RoundTrack {
         }
         return null;
     }
+
+    public void removeAllDice(){
+        dice.clear();
+        dice = new HashMap<>();
+        for (int i=0; i<GameManager.ROUNDS; i++){
+            dice.put(i, new ArrayList<>());
+        }
+        roundCounter=0;
+    }
 }
