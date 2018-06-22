@@ -1,10 +1,14 @@
 package it.polimi.ingsw.ui.controller;
 
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.network.ConnectionType;
 import it.polimi.ingsw.network.client.ClientHandler;
+import it.polimi.ingsw.ui.ProxyModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Orientation;
 import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -14,10 +18,9 @@ import java.net.UnknownHostException;
 public class IntroController {
     private ClientHandler handler;
     private Stage selfStage;
-    private int port;
-    private String userName;
-    private String hostName;
-    private boolean socket;
+
+    @FXML
+    private BorderPane bordPane;
 
     @FXML
     private Label status;
@@ -42,6 +45,8 @@ public class IntroController {
 
     @FXML
     private Button connectBtn;
+
+    private ProxyModel model;
 
     @FXML
     void handleConnect(ActionEvent event) {
@@ -80,16 +85,39 @@ public class IntroController {
             return;
         }
         connType = (socketToggle.isSelected()) ? ConnectionType.SOCKET : ConnectionType.RMI;
-
+        connectBtn.setDisable(true);
         status.setText("Trying login...");
         try {
             handler.handleLogin(hostName, port, username, connType);
         } catch (IOException e) {
             status.setText("Connection error: " + e.getMessage());
+            connectBtn.setDisable(false);
         }
     }
 
     public void setHandler(ClientHandler handler) {
         this.handler = handler;
+    }
+
+    public void setModel(ProxyModel model) {
+        this.model = model;
+    }
+
+    public void failedLogin() {
+        status.setText("Login failed, please retry!");
+        connectBtn.setDisable(false);
+    }
+
+    public void setSelfStage(Stage stage) {
+        selfStage = stage;
+    }
+
+    public void showLoggedInUsers() {
+        selfStage.setTitle("Sagrada - Welcome to the game room");
+        ListView<Player> listView = new ListView<>(model.getPlayers());
+        listView.setEditable(false);
+        listView.setOrientation(Orientation.VERTICAL);
+        bordPane.setCenter(listView);
+        selfStage.sizeToScene();
     }
 }

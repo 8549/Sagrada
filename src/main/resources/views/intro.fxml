@@ -3,8 +3,8 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity" xmlns="http://javafx.com/javafx/9.0.1"
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:id="bordPane" maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/9.0.1"
             fx:controller="it.polimi.ingsw.ui.controller.IntroController">
     <left>
         <VBox BorderPane.alignment="CENTER">

@@ -16,26 +16,22 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class GUI extends Application implements UI {
-    private Stage currentStage;
-    private IntroController controller;
+    private Stage stage;
+    private IntroController introController;
     private ClientHandler handler;
     private ProxyModel model;
-
-    @Override
-    public void init() {
-        handler = RunClient.getClientHandler();
-    }
 
     @Override
     public void start(Stage primaryStage) {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("views/intro.fxml"));
         try {
-            Parent root = loader.load();
+            stage = primaryStage;
             primaryStage.setTitle("Sagrada - Connection");
+            Parent root = loader.load();
+            introController = loader.getController();
+            introController.setHandler(RunClient.getClientHandler());
+            introController.setSelfStage(primaryStage);
             primaryStage.setScene(new Scene(root));
-            controller = loader.getController();
-            controller.setHandler(handler);
-            currentStage = primaryStage;
             primaryStage.show();
         } catch (IOException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -48,12 +44,11 @@ public class GUI extends Application implements UI {
 
     @Override
     public void failedLogin() {
-
+        introController.failedLogin();
     }
 
     @Override
     public void showLogin() {
-        // Intentionally left blank
     }
 
     @Override
@@ -63,7 +58,8 @@ public class GUI extends Application implements UI {
 
     @Override
     public void showLoggedInUsers() {
-
+        introController.setModel(model);
+        introController.showLoggedInUsers();
     }
 
     @Override
@@ -108,6 +104,7 @@ public class GUI extends Application implements UI {
 
     @Override
     public void setHandler(ClientHandler ch) {
+        handler = ch;
     }
 
 }
