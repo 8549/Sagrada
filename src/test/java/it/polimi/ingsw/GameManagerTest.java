@@ -32,12 +32,10 @@ class GameManagerTest {
         players.add(giulia);
         Player andrea = new Player("andrea");
         players.add(andrea);
-        DiceBag diceBag = DiceBag.getInstance();
         List<Player> roundPlayers = new ArrayList<>();
         roundPlayers.add(marco);
         roundPlayers.add(giulia);
         roundPlayers.add(andrea);
-        Round round = new Round(roundPlayers, 1);
         GameManager gameManager = new GameManager(players);
         gameManager.disconnectPlayer(giulia);
         assertEquals(PlayerStatus.DISCONNECTED, giulia.getStatus());
@@ -52,12 +50,10 @@ class GameManagerTest {
         players.add(giulia);
         Player andrea = new Player("andrea");
         players.add(andrea);
-        DiceBag diceBag = DiceBag.getInstance();
         List<Player> roundPlayers = new ArrayList<>();
         roundPlayers.add(marco);
         roundPlayers.add(giulia);
         roundPlayers.add(andrea);
-        Round round = new Round(roundPlayers, 1);
         GameManager gameManager = new GameManager( players);
         gameManager.disconnectPlayer(giulia);
         gameManager.reconnectPlayer(giulia);
