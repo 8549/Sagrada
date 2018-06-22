@@ -38,7 +38,7 @@ public class GameManager {
     public GameManager(List<Player> players) {
         this.players = players;
         board = new Board();
-
+        board.setDiceBag();
     }
 
     /**

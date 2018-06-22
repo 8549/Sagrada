@@ -72,10 +72,6 @@ public class Board {
         return diceBag;
     }
 
-    public void setDiceBag(DiceBag diceBag) {
-        this.diceBag = diceBag;
-    }
-
     public void setRoundTrack() {
         roundTrack = new RoundTrack();
         roundTrack.getRoundCounter();
