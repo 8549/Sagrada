@@ -27,8 +27,10 @@ class RoundTest {
         players.add(andrea);
         Player francesca = new Player("francesca");
         players.add(francesca);
-        DiceBag diceBag = DiceBag.getInstance();
-        Round round = new Round(players, 1);
+        DiceBag diceBag = new DiceBag();
+        Board board = new Board();
+        board.setDiceBag();
+        Round round = new Round(players, 1, board);
         assertEquals(round.getTurns().get(0).getPlayer(), marco);
         assertEquals(round.getTurns().get(7).getPlayer(), marco);
         assertEquals(round.getTurns().get(1).getPlayer(), giulia);
@@ -51,8 +53,9 @@ class RoundTest {
         players.add(andrea);
         Player francesca = new Player("francesca");
         players.add(francesca);
-        DiceBag diceBag = DiceBag.getInstance();
-        Round round = new Round(players, 1);
+        Board board = new Board();
+        board.setDiceBag();
+        Round round = new Round(players, 1, board);
         round.doubledTurn(2);
         assertEquals(andrea, round.getTurns().get(3).getPlayer());
     }

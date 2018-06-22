@@ -22,7 +22,7 @@ class RoundTrackTest {
         List<Die> dice = new ArrayList<>();
         Die die = new Die(SagradaColor.PURPLE);
         dice.add(die);
-        RoundTrack roundTrack = RoundTrack.getInstance();
+        RoundTrack roundTrack = new RoundTrack();
         roundTrack.addRound(dice);
         assertEquals(die, roundTrack.getDieAt(0,0));
         Die die1= new Die(SagradaColor.GREEN);
@@ -43,7 +43,7 @@ class RoundTrackTest {
         List<Die> dice1 = new ArrayList<>();
         Die die1 = new Die(SagradaColor.PURPLE);
         dice1.add(die1);
-        RoundTrack roundTrack = RoundTrack.getInstance();
+        RoundTrack roundTrack = new RoundTrack();
         roundTrack.addRound(dice1);
         Die die2 = new Die(SagradaColor.GREEN);
         List<Die> dice2 = new ArrayList<>();
