@@ -27,12 +27,29 @@ public class GameManager {
     private int numberCurrentRound;
     private Round round;
 
+    public GameManager(List<Player> players){
+        this.players = players;
+        testSetup();
+
+    }
+
     public GameManager(MainServer server, List<Player> players) {
         this.server = server;
         this.players = players;
         System.out.println("Game is started with " + players.toString());
         gameSetup();
         playerSetup();
+    }
+
+    public void testSetup(){
+        //place round track
+        roundTrack = RoundTrack.getInstance();
+        roundTrack.getRoundCounter();
+
+        //init scoretrack
+        scoreTrack = ScoreTrack.getIstance();
+
+        round = new Round(players, numberCurrentRound);
     }
 
     /**

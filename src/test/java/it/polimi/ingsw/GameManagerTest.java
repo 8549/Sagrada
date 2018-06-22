@@ -17,8 +17,7 @@ import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class GameManagerTest {
-    String[] args = new String[3];
-    MainServer mainServer = new MainServer(args);
+
     @Test
     void endGame() {
     }
@@ -39,9 +38,9 @@ class GameManagerTest {
         roundPlayers.add(giulia);
         roundPlayers.add(andrea);
         Round round = new Round(roundPlayers, 1);
-        GameManager gameManager = new GameManager(mainServer, players);
+        GameManager gameManager = new GameManager(players);
         gameManager.disconnectPlayer(giulia);
-        assertEquals(PlayerStatus.PASSIVE, giulia.getStatus());
+        assertEquals(PlayerStatus.DISCONNECTED, giulia.getStatus());
     }
 
     @Test
@@ -59,7 +58,7 @@ class GameManagerTest {
         roundPlayers.add(giulia);
         roundPlayers.add(andrea);
         Round round = new Round(roundPlayers, 1);
-        GameManager gameManager = new GameManager(mainServer, players);
+        GameManager gameManager = new GameManager( players);
         gameManager.disconnectPlayer(giulia);
         gameManager.reconnectPlayer(giulia);
         assertEquals(PlayerStatus.ACTIVE, giulia.getStatus());
