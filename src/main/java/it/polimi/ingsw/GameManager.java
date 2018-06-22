@@ -27,12 +27,29 @@ public class GameManager {
     private int numberCurrentRound;
     private Round round;
 
+    public GameManager(List<Player> players){
+        this.players = players;
+        testSetup();
+
+    }
+
     public GameManager(MainServer server, List<Player> players) {
         this.server = server;
         this.players = players;
         System.out.println("Game is started with " + players.toString());
         gameSetup();
         playerSetup();
+    }
+
+    public void testSetup(){
+        //place round track
+        roundTrack = RoundTrack.getInstance();
+        roundTrack.getRoundCounter();
+
+        //init scoretrack
+        scoreTrack = ScoreTrack.getIstance();
+
+        round = new Round(players, numberCurrentRound);
     }
 
     /**
@@ -49,10 +66,11 @@ public class GameManager {
         scoreTrack = ScoreTrack.getIstance();
 
         //place toolcard
-        /*CardsDeck toolDeck = new CardsDeck("", null); //TODO
+        CardsDeck toolDeck = new CardsDeck("ToolCards.json", new TypeToken<List<ToolCard>>() {
+        }.getType());
         for (int i = 0; i < 3; i++) {
             toolCard[i] = (ToolCard) toolDeck.getRandomCard();
-        }*/
+        }
 
         //obj pub
         CardsDeck objDeck = new CardsDeck("PublicObjectiveCards.json", new TypeToken<List<PublicObjectiveCard>>() {
@@ -167,24 +185,11 @@ public class GameManager {
 
 
     public void disconnectPlayer(Player player) {
-        players.remove(player);
-        int num = round.getCurrentTurn();
-        round.removeTurn(player, round.getTurns().get(num).getNumber());
+        player.setStatus(PlayerStatus.DISCONNECTED);
     }
 
     public void reconnectPlayer(Player player) {
-        if (players.size() < 4) {
-            int numb = round.getTurns().get(round.getCurrentTurn()).getNumber();
-            Turn turn = new Turn(player, numb);
-            players.add(player);
-            if (numb == FIRSTROUND) {
-                int num = round.getTurns().size() / 2;
-                round.getTurns().add(num - 1, turn);
-                round.getTurns().add(num, turn);
-            } else {
-                round.getTurns().add(turn);
-            }
-        }
+       player.setStatus(PlayerStatus.ACTIVE);
     }
 
 
@@ -229,16 +234,20 @@ public class GameManager {
     public void processMove(Die die, int row, int column, Player player) {
         MoveValidator mv = new MoveValidator(round.getTurn(), round.getDraftPool(), true, true, true);
         boolean result = mv.validateMove(die, row, column, player);
+        boolean diePlaced = round.getTurn().isDiePlaced();
         if (result) {
-            round.getTurn().getPlayer().getPlayerWindow().addDie(die, row, column);
-            round.removeDieFromDraftPool(die);
+            if (!diePlaced) {
+                round.getTurn().getPlayer().getPlayerWindow().addDie(die, row, column);
+                round.removeDieFromDraftPool(die);
+                round.getTurn().setDiePlaced();
+            }
         }
-
-        server.notifyPlacementResponse(result, player);
-        if (result){
+        if (result && !diePlaced) {
+            server.notifyPlacementResponse(true, player);
             server.setDraft(round.getDraftPool());
             endCurrentTurn();
-        }else{
+        } else {
+            server.notifyPlacementResponse(false, player);
             System.out.println("[DEBUG] Wrong move, should they try again or not?");
         }
     }

@@ -43,24 +43,6 @@ public class Round {
 
     }
 
-    public void removeTurn(Player player, int turn) {
-        int firstTurn = 0;
-        int secondTurn = 0;
-        for (int i = 0; i < turns.size(); i++) {
-            if (turns.get(i).getPlayer().equals(player)) {
-                if (i < turns.size() / 2) {
-                    firstTurn = i;
-                } else {
-                    secondTurn = i;
-                }
-            }
-        }
-        turns.remove(secondTurn);
-        if (turn == 1) {
-            turns.remove(firstTurn);
-        }
-    }
-
 
     public void doubledTurn(int turn) {
         if (turn < players.size()) {

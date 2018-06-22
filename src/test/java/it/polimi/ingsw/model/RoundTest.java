@@ -39,22 +39,6 @@ class RoundTest {
         assertEquals(round.getTurns().get(4).getPlayer(), francesca);
     }
 
-    @Test
-    void removeTurn() {
-        List<Player> players = new ArrayList<>();
-        Player marco = new Player("marco");
-        players.add(marco);
-        Player giulia = new Player("giulia");
-        players.add(giulia);
-        Player andrea = new Player("andrea");
-        players.add(andrea);
-        DiceBag diceBag = DiceBag.getInstance();
-        Round round = new Round(players, 1);
-        round.removeTurn(giulia, 2);
-        assertEquals(5, round.getTurns().size());
-        round.removeTurn(andrea, 1);
-        assertEquals(3, round.getTurns().size());
-    }
 
     @Test
     void doubledTurn() {
@@ -70,5 +54,6 @@ class RoundTest {
         DiceBag diceBag = DiceBag.getInstance();
         Round round = new Round(players, 1);
         round.doubledTurn(2);
+        assertEquals(andrea, round.getTurns().get(3).getPlayer());
     }
 }
