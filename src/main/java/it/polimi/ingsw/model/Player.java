@@ -13,13 +13,14 @@ public class Player implements Serializable {
     List<PatternCard> choices;
     private boolean chosenPatternCard = false;
     private boolean isPlaying = false;
+    private PlayerStatus status;
 
     public Player(String name) {
         this.name = name;
         this.playerWindow = new PlayerWindow();
         this.privateObjectiveCardSet = false;
         this.choices = new ArrayList<>();
-
+        status = PlayerStatus.PASSIVE;
     }
 
 
@@ -41,6 +42,11 @@ public class Player implements Serializable {
 
     }
 
+    public void setStatus(PlayerStatus status){
+        this.status=status;
+    }
+
+    public PlayerStatus getStatus(){ return status; }
     public PlayerWindow getPlayerWindow() {
         return playerWindow;
     }

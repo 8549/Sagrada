@@ -49,6 +49,9 @@ public class MoveValidator {
             return false;
         }
 
+        if (!AdjacencyConstraint.checkEmptyCell(turn.getPlayer().getPlayerWindow().getDiceGrid(), row, column)){
+            return false;
+        }
 
         if (colorConstraint && numberConstraint) {
             if (!turn.getPlayer().getPlayerWindow().getWindowPattern().getConstraint(row, column).checkConstraint(die, CheckModifier.NORMAL)) {
