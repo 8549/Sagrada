@@ -8,10 +8,11 @@ import it.polimi.ingsw.ui.UI;
 import java.util.Scanner;
 
 public class RunClient {
+    private static ClientHandler clientHandler;
+
     public static void main(String[] args) {
         String uiType;
         UI ui;
-        ClientHandler clientHandler;
 
         if (args.length == 0) {
             Scanner in = new Scanner(System.in);
@@ -34,4 +35,7 @@ public class RunClient {
         ui.initUI();
     }
 
+    public static ClientHandler getClientHandler() {
+        return clientHandler;
+    }
 }
