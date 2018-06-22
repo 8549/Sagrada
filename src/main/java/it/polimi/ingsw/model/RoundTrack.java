@@ -8,11 +8,10 @@ import java.util.List;
 import java.util.Map;
 
 public class RoundTrack {
-    private static RoundTrack instance;
     private Map<Integer, List<Die>> dice;
     private int roundCounter;
 
-    private RoundTrack() {
+    public RoundTrack() {
         roundCounter = 0;
         dice = new HashMap<>();
         for (int i=0; i<GameManager.ROUNDS; i++){
@@ -20,13 +19,6 @@ public class RoundTrack {
         }
     }
 
-    public static RoundTrack getInstance() {
-        if (instance == null) {
-            instance = new RoundTrack();
-        }
-        return instance;
-
-    }
 
     public int getRoundCounter() {
         return roundCounter;
