@@ -14,9 +14,13 @@ public class Turn {
         toolCardUsed = false;
     }
 
-    public Player getPlayer(){ return player; }
+    public Player getPlayer() {
+        return player;
+    }
 
-    public int getNumber(){ return number; }
+    public int getNumber() {
+        return number;
+    }
 
     public boolean isDiePlaced() {
         return diePlaced;
@@ -26,11 +30,15 @@ public class Turn {
         return toolCardUsed;
     }
 
-    public boolean setDiePlaced(){ return diePlaced = true; }
-
-    public boolean setToolCardUsed(){return toolCardUsed = true;
+    public boolean setDiePlaced() {
+        return diePlaced = true;
     }
-    public void modifyTurn(){
+
+    public boolean setToolCardUsed() {
+        return toolCardUsed = true;
+    }
+
+    public void modifyTurn() {
         number = 2;
     }
 }

@@ -11,45 +11,34 @@ import java.util.List;
 public class GameManager {
     public static final int PATTERN_CARDS_PER_PLAYER = 2;
     public static final int PUBLIC_OBJ_CARDS_NUMBER = 3;
+    public static final int TOOL_CARDS_NUMBER = 3;
     private MainServer server;
     private List<Player> players;
-    private RoundTrack roundTrack;
-    private ScoreTrack scoreTrack;
     private ObjCard[] publicObjectiveCards = new ObjCard[PUBLIC_OBJ_CARDS_NUMBER];
     private ToolCard[] toolCard;
-    private List<Die> draftPool;
-    private DiceBag diceBag;
     private Player firstPlayer;
     private Player currentPlayer;
+    private Board board;
     public static final int ROUNDS = 10;
     public static final int FIRSTROUND = 1;
     public static final int SECONDROUND = 2;
     private int numberCurrentRound;
     private Round round;
 
-    public GameManager(List<Player> players){
-        this.players = players;
-        testSetup();
-
-    }
 
     public GameManager(MainServer server, List<Player> players) {
         this.server = server;
         this.players = players;
         System.out.println("Game is started with " + players.toString());
+        board = new Board();
         gameSetup();
         playerSetup();
     }
 
-    public void testSetup(){
-        //place round track
-        roundTrack = RoundTrack.getInstance();
-        roundTrack.getRoundCounter();
+    public GameManager(List<Player> players) {
+        this.players = players;
+        board = new Board();
 
-        //init scoretrack
-        scoreTrack = ScoreTrack.getIstance();
-
-        round = new Round(players, numberCurrentRound);
     }
 
     /**
@@ -59,18 +48,18 @@ public class GameManager {
     private void gameSetup() {
 
         //place round track
-        roundTrack = RoundTrack.getInstance();
-        roundTrack.getRoundCounter();
+        board.setRoundTrack();
 
         //init scoretrack
-        scoreTrack = ScoreTrack.getIstance();
+        board.setScoreTrack();
 
         //place toolcard
-       /* CardsDeck toolDeck = new CardsDeck("ToolCards.json", new TypeToken<List<ToolCard>>() {
+        CardsDeck toolDeck = new CardsDeck("ToolCards.json", new TypeToken<List<ToolCard>>() {
         }.getType());
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < TOOL_CARDS_NUMBER; i++) {
             toolCard[i] = (ToolCard) toolDeck.getRandomCard();
-        }*/
+        }
+        board.setToolCards(toolCard);
 
         //obj pub
         CardsDeck objDeck = new CardsDeck("PublicObjectiveCards.json", new TypeToken<List<PublicObjectiveCard>>() {
@@ -78,11 +67,12 @@ public class GameManager {
         for (int j = 0; j < PUBLIC_OBJ_CARDS_NUMBER; j++) {
             publicObjectiveCards[j] = (ObjCard) objDeck.getRandomCard();
         }
+        board.setPublicObjectiveCards(publicObjectiveCards);
 
         Collections.shuffle(players);
         //select first random
         firstPlayer = players.get(0);
-        diceBag = DiceBag.getInstance();
+        board.setDiceBag();
 
         numberCurrentRound = 0;
     }
@@ -151,7 +141,7 @@ public class GameManager {
 
     public void startRound() {
 
-        round = new Round(players, numberCurrentRound);
+        round = new Round(players, numberCurrentRound, board);
         server.setDraft(round.getDraftPool());
 
         startCurrentTurn();
@@ -176,7 +166,7 @@ public class GameManager {
         server.notifyEndRound(players);
         players.add(players.get(0));
         players.remove(0);
-        roundTrack.addRound(dieForRoundTrack);
+        board.getRoundTrack().addRound(dieForRoundTrack);
         numberCurrentRound++;
         if (numberCurrentRound < ROUNDS) {
             startRound();
@@ -189,7 +179,7 @@ public class GameManager {
     }
 
     public void reconnectPlayer(Player player) {
-       player.setStatus(PlayerStatus.ACTIVE);
+        player.setStatus(PlayerStatus.ACTIVE);
     }
 
 
@@ -252,4 +242,7 @@ public class GameManager {
         }
     }
 
+    public Board getBoard() {
+        return board;
+    }
 }

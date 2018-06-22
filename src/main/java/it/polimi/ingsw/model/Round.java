@@ -12,16 +12,18 @@ public class Round {
     private List<Player> players;
     private int number;
     private int currentTurn;
+    private Board board;
 
-    public Round(List<Player> players, int number) {
+    public Round(List<Player> players, int number, Board  board) {
         this.number = number;
         this.players = players;
         setTurns();
         startPlayer = players.get(0);
         currentTurn = 0;
+        this.board= board;
         draftPool = new ArrayList<>();
         for (int i = 0; i < (players.size() * 2 + 1); i++)
-            draftPool.add(DiceBag.draftDie());
+            draftPool.add(board.getDiceBag().draftDie());
     }
 
     public Turn getTurn() {

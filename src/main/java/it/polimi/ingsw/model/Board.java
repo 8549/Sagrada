@@ -1,12 +1,14 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.GameManager;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class Board {
-    private List<ObjCard> publicObjectiveCards;
-    private List<ToolCard> toolCards;
+    private ObjCard[] publicObjectiveCards ;
+    private ToolCard[] toolCards;
     private List<Die> draftPool;
     private RoundTrack roundTrack;
     private List<Player> players;
@@ -14,8 +16,8 @@ public class Board {
     private DiceBag diceBag;
 
     public Board() {
-        publicObjectiveCards = new ArrayList<>();
-        toolCards = new ArrayList<>();
+        publicObjectiveCards = new ObjCard[GameManager.PUBLIC_OBJ_CARDS_NUMBER];
+        toolCards = new ToolCard[GameManager.TOOL_CARDS_NUMBER];
     }
 
     public List<Player> getPlayers() {
@@ -26,19 +28,19 @@ public class Board {
         this.players = players;
     }
 
-    public List<ObjCard> getPublicObjectiveCards() {
+    public ObjCard[] getPublicObjectiveCards() {
         return publicObjectiveCards;
     }
 
-    public void setPublicObjectiveCards(List<ObjCard> publicObjectiveCards) {
+    public void setPublicObjectiveCards(ObjCard[] publicObjectiveCards) {
         this.publicObjectiveCards = publicObjectiveCards;
     }
 
-    public List<ToolCard> getToolCards() {
+    public Object getToolCards() {
         return toolCards;
     }
 
-    public void setToolCards(List<ToolCard> toolCards) {
+    public void setToolCards(ToolCard[] toolCards) {
         this.toolCards = toolCards;
     }
 
@@ -75,27 +77,15 @@ public class Board {
     }
 
     public void setRoundTrack() {
-        roundTrack = RoundTrack.getInstance();
+        roundTrack = new RoundTrack();
         roundTrack.getRoundCounter();
     }
 
     public void setScoreTrack() {
-        scoreTrack = ScoreTrack.getIstance();
-    }
-
-    public void addPubCard(ObjCard card) {
-        publicObjectiveCards.add(card);
+        scoreTrack = new ScoreTrack();
     }
 
     public void setDiceBag() {
-        diceBag = DiceBag.getInstance();
-    }
-
-    public void shufflePlayers() {
-        Collections.shuffle(players);
-    }
-
-    public Player getFirstPlayer() {
-        return players.get(0);
+        diceBag = new DiceBag();
     }
 }

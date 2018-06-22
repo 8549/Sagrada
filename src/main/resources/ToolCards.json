@@ -5,6 +5,7 @@
     "when": "always",
     "features": [
       "chooseDieFromDraftPool",
+      "chooseIfDecreaseOrIncreaseValue",
       "increaseValueDie",
       "decreaseValueDie"
     ]
@@ -83,7 +84,7 @@
     "when": "before",
     "features": [
       "chooseDieFromDraftPool",
-      "placeDieWithoutAdjacentConstraint"
+      "placeDieWithoutAdjacencyConstraint"
     ]
   },
   {
@@ -112,7 +113,7 @@
     "id": 12,
     "when": "always",
     "features": [
-      "chooseDieFromWindowPattern",
+      "chooseDieFromRoundTrack",
       "getColorFromDieOfRoundTrack",
       "chooseDieFromWindowPattern",
       "moveDieWithSameColor",
