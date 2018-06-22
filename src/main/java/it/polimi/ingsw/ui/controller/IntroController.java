@@ -1,23 +1,23 @@
 package it.polimi.ingsw.ui.controller;
 
-import it.polimi.ingsw.network.client.SocketClient;
+import it.polimi.ingsw.network.ConnectionType;
+import it.polimi.ingsw.network.client.ClientHandler;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 public class IntroController {
+    private ClientHandler handler;
     private Stage selfStage;
     private int port;
     private String userName;
     private String hostName;
     private boolean socket;
-
 
     @FXML
     private Label status;
@@ -45,62 +45,51 @@ public class IntroController {
 
     @FXML
     void handleConnect(ActionEvent event) {
+        String hostName;
+        int port;
+        String username;
+        ConnectionType connType;
 
-        // Fields validation
-        userName = nameField.getText();
-        if (userName.equals("")) {
-            status.setText("Please enter a username");
+        if ("".equals(hostField.getText())) {
+            status.setText("Please choose a server");
             return;
         }
-        hostName = hostField.getText();
-        if (hostName.equals("")) {
-            status.setText("Please enter a hostname/IP address");
+        try {
+            InetAddress.getByName(hostField.getText());
+            hostName = hostField.getText();
+        } catch (UnknownHostException e) {
+            status.setText("Invalid server address");
             return;
         }
-        if (toggleGroup.getSelectedToggle() == null) {
-            status.setText("Please choose a connection type");
-            return;
-        }
+
         try {
             port = Integer.valueOf(portField.getText());
         } catch (NumberFormatException e) {
             status.setText("Invalid port number");
             return;
         }
-        socket = socketToggle.isSelected();
 
-    }
-
-    public void initUI() {
-        toggleGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
-            boolean portDisabled = !newValue.equals(socketToggle);
-            portField.setDisable(portDisabled);
-        });
-
-    }
-
-    public void setSelfStage(Stage selfStage) {
-        this.selfStage = selfStage;
-    }
-
-    private void launchBoard(SocketClient client) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("views/main.fxml"));
-            Parent root = loader.load();
-            BoardController boardController = loader.getController();
-            boardController.init(client);
-            // boardController.bindUI();
-            Scene scene = new Scene(root);
-            scene.getStylesheets().add("board.css");
-            selfStage.setTitle("Sagrada - " + client.getName());
-            selfStage.setScene(scene);
-            selfStage.sizeToScene();
-            selfStage.centerOnScreen();
-        } catch (IOException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("GUI Error");
-            alert.setContentText("Couldn't load GUI");
-            alert.showAndWait();
+        if ("".equals(nameField.getText())) {
+            status.setText("Please choose a username");
+            return;
         }
+        username = nameField.getText();
+
+        if (toggleGroup.getSelectedToggle() == null) {
+            status.setText("Please choose a connection type");
+            return;
+        }
+        connType = (socketToggle.isSelected()) ? ConnectionType.SOCKET : ConnectionType.RMI;
+
+        status.setText("Trying login...");
+        try {
+            handler.handleLogin(hostName, port, username, connType);
+        } catch (IOException e) {
+            status.setText("Connection error: " + e.getMessage());
+        }
+    }
+
+    public void setHandler(ClientHandler handler) {
+        this.handler = handler;
     }
 }

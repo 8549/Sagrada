@@ -4,7 +4,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity" xmlns="http://javafx.com/javafx/9.0.1">
+            minWidth="-Infinity" xmlns="http://javafx.com/javafx/9.0.1"
+            fx:controller="it.polimi.ingsw.ui.controller.IntroController">
     <left>
         <VBox BorderPane.alignment="CENTER">
             <children>
@@ -80,20 +81,12 @@
         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
     </padding>
     <bottom>
-        <VBox BorderPane.alignment="CENTER">
+        <HBox alignment="CENTER" BorderPane.alignment="CENTER">
             <children>
-                <ButtonBar>
-                    <buttons>
-                        <Button fx:id="connectBtn" defaultButton="true" mnemonicParsing="false"
-                                onAction="#handleConnect" text="Connect"/>
-                    </buttons>
-                </ButtonBar>
-                <Label fx:id="status">
-                    <padding>
-                        <Insets top="10.0"/>
-                    </padding>
-                </Label>
+                <Label fx:id="status" maxWidth="1.7976931348623157E308" HBox.hgrow="ALWAYS"/>
+                <Button fx:id="connectBtn" defaultButton="true" mnemonicParsing="false" onAction="#handleConnect"
+                        text="Connect"/>
             </children>
-        </VBox>
+        </HBox>
     </bottom>
 </BorderPane>

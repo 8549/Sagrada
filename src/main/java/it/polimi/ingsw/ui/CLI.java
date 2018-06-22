@@ -35,8 +35,8 @@ public class CLI implements UI {
 
 
     @Override
-    public void failedLogin(String msg) {
-        System.err.println("Login failed: " + msg);
+    public void failedLogin() {
+        System.err.println("Login failed, retrying");
         showLogin();
     }
 

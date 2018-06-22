@@ -1,8 +1,10 @@
 package it.polimi.ingsw.ui;
 
+import it.polimi.ingsw.RunClient;
 import it.polimi.ingsw.model.PatternCard;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.network.client.ClientHandler;
+import it.polimi.ingsw.ui.controller.IntroController;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
@@ -12,38 +14,46 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URL;
 
 public class GUI extends Application implements UI {
+    private Stage currentStage;
+    private IntroController controller;
+    private ClientHandler handler;
+    private ProxyModel model;
+
+    @Override
+    public void init() {
+        handler = RunClient.getClientHandler();
+    }
 
     @Override
     public void start(Stage primaryStage) {
-        URL url = getClass().getClassLoader().getResource("views/intro.fxml");
-        FXMLLoader loader = new FXMLLoader(url);
-        Parent root = null;
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("views/intro.fxml"));
         try {
-            root = loader.load();
+            Parent root = loader.load();
             primaryStage.setTitle("Sagrada - Connection");
             primaryStage.setScene(new Scene(root));
-            loader.setController(this);
+            controller = loader.getController();
+            controller.setHandler(handler);
+            currentStage = primaryStage;
             primaryStage.show();
         } catch (IOException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Couldn't load GUI file");
-            alert.setContentText(null);
+            alert.setHeaderText("Couldn't load GUI");
+            alert.setContentText(e.getMessage());
             alert.showAndWait();
             Platform.exit();
         }
     }
 
     @Override
-    public void failedLogin(String msg) {
+    public void failedLogin() {
 
     }
 
     @Override
     public void showLogin() {
-
+        // Intentionally left blank
     }
 
     @Override
@@ -58,7 +68,7 @@ public class GUI extends Application implements UI {
 
     @Override
     public void setProxyModel(ProxyModel model) {
-
+        this.model = model;
     }
 
     @Override
@@ -98,6 +108,6 @@ public class GUI extends Application implements UI {
 
     @Override
     public void setHandler(ClientHandler ch) {
-
     }
+
 }
