@@ -30,6 +30,7 @@ class RoundTrackTest {
         roundTrack.addRound(dice);
         assertEquals(die, roundTrack.getDieAt(1,0));
         assertEquals(die1, roundTrack.getDieAt(1,1));
+        roundTrack.removeAllDice();
     }
 
     @Test
@@ -49,7 +50,7 @@ class RoundTrackTest {
         dice2.add(die2);
         roundTrack.addRound(dice2);
         Die die = new Die(SagradaColor.RED);
-        assertEquals(die2, roundTrack.replaceDie(die, 2, 0));
+        roundTrack.replaceDie(die, 2, 0);
         assertEquals(die, roundTrack.getDieAt(1, 0));
     }
 }
