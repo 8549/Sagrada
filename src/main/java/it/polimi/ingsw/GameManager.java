@@ -245,4 +245,8 @@ public class GameManager {
     public Board getBoard() {
         return board;
     }
+
+    public Round getRound(){return round;}
+
+
 }
