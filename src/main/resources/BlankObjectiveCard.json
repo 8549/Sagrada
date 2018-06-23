@@ -1,0 +1,12 @@
+[
+  {
+    "name": "Blank",
+    "type": "color",
+    "where": "everywhere",
+    "patternConstraints": [],
+    "prize": {
+      "type": "fixed",
+      "value": 0
+    }
+  }
+]

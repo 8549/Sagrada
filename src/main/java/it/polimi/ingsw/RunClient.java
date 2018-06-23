@@ -31,7 +31,6 @@ public class RunClient {
             return;
         }
         clientHandler = new ClientHandler(ui);
-        ui.setHandler(clientHandler);
         ui.initUI();
     }
 

@@ -2,8 +2,7 @@ package it.polimi.ingsw.ui.controller;
 
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.network.ConnectionType;
-import it.polimi.ingsw.network.client.ClientHandler;
-import it.polimi.ingsw.ui.ProxyModel;
+import it.polimi.ingsw.ui.GUI;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Orientation;
@@ -16,7 +15,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 
 public class IntroController {
-    private ClientHandler handler;
+    private GUI gui;
     private Stage selfStage;
 
     @FXML
@@ -45,8 +44,6 @@ public class IntroController {
 
     @FXML
     private Button connectBtn;
-
-    private ProxyModel model;
 
     @FXML
     void handleConnect(ActionEvent event) {
@@ -88,19 +85,19 @@ public class IntroController {
         connectBtn.setDisable(true);
         status.setText("Trying login...");
         try {
-            handler.handleLogin(hostName, port, username, connType);
+            gui.getClientHandler().handleLogin(hostName, port, username, connType);
         } catch (IOException e) {
             status.setText("Connection error: " + e.getMessage());
             connectBtn.setDisable(false);
         }
     }
 
-    public void setHandler(ClientHandler handler) {
-        this.handler = handler;
+    public void setSelfStage(Stage selfStage) {
+        this.selfStage = selfStage;
     }
 
-    public void setModel(ProxyModel model) {
-        this.model = model;
+    public void setGui(GUI gui) {
+        this.gui = gui;
     }
 
     public void failedLogin() {
@@ -108,13 +105,10 @@ public class IntroController {
         connectBtn.setDisable(false);
     }
 
-    public void setSelfStage(Stage stage) {
-        selfStage = stage;
-    }
-
     public void showLoggedInUsers() {
-        selfStage.setTitle("Sagrada - Welcome to the game room");
-        ListView<Player> listView = new ListView<>(model.getPlayers());
+        status.setText("Login successful!");
+        connectBtn.setVisible(false);
+        ListView<Player> listView = new ListView<>(gui.getModel().getPlayers());
         listView.setEditable(false);
         listView.setOrientation(Orientation.VERTICAL);
         bordPane.setCenter(listView);

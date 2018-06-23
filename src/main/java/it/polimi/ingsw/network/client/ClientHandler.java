@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.ConnectionType;
 import it.polimi.ingsw.ui.ProxyModel;
 import it.polimi.ingsw.ui.UI;
+import javafx.application.Platform;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -14,12 +15,20 @@ public class ClientHandler implements Serializable {
     private ClientInterface client;
     private boolean loginResponse;
     private UI ui;
-    ProxyModel proxyModel;
+    private ProxyModel proxyModel;
 
     public ClientHandler(UI ui) {
         this.ui = ui;
         proxyModel = new ProxyModel();
-        ui.setProxyModel(this.proxyModel);
+        //ui.setProxyModel(this.proxyModel);
+    }
+
+    private void perform(Runnable r) {
+        if (ui.isGUI()) {
+            Platform.runLater(r);
+        } else {
+            r.run();
+        }
     }
 
     public void handleLogin(String hostname, int port, String username, ConnectionType connectionType) throws IOException {
@@ -42,7 +51,13 @@ public class ClientHandler implements Serializable {
     }
 
     public void setPlayerToProxyModel(String name){
-        proxyModel.setPlayer(new Player(name));
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                proxyModel.setPlayer(new Player(name));
+            }
+        };
+        perform(task);
     }
 
     public  void loggedUsers() {
@@ -51,18 +66,34 @@ public class ClientHandler implements Serializable {
     }
 
     public void addPlayersToProxyModel(List<Player> p){
-        while(proxyModel==null){}
-        proxyModel.addPlayers(p);
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                proxyModel.addPlayers(p);
+            }
+        };
+        perform(task);
     }
-    public void addPlayersToProxyModel(Player p){
-        while(proxyModel==null){}
-        proxyModel.addPlayers(p);
 
+    public void addPlayersToProxyModel(Player p){
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                proxyModel.addPlayers(p);
+            }
+        };
+        perform(task);
     }
 
     public void deletePlayerFromProxyModel(Player p){
         ui.playerDisconnected(p);
-        proxyModel.removePlayer(p);
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                proxyModel.removePlayer(p);
+            }
+        };
+        perform(task);
     }
     public void patternCardChooser(PatternCard p1, PatternCard p2){
         ui.showPatternCardsChooser(p1,p2);
@@ -70,57 +101,95 @@ public class ClientHandler implements Serializable {
     }
     public void handleGameStarted(List<Player> players){
         ui.startGame();
-        proxyModel.resetPlayers(players);
-
-
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                proxyModel.resetPlayers(players);
+            }
+        };
+        perform(task);
     }
+
     public void setChosenPatternCard(WindowPattern w) throws IOException {
         client.validatePatternCard(w);
-
     }
 
     public void initPlayer(String name, String windowPatternName) {
-        for (Player p : proxyModel.getPlayers()){
-            if (p.getName().equals(name)) {
-                p.getPlayerWindow().setWindowPattern(CardsDeck.getWindowPatternByName(windowPatternName));
-            }
-        }
-        boolean finish= true;
-        for (Player p : proxyModel.getPlayers()){
-            if(!p.getName().equals(proxyModel.getMyself().getName()) && p.getPlayerWindow().getWindowPattern()==null){
-                finish = false;
-            }
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                for (Player p : proxyModel.getPlayers()) {
+                    if (p.getName().equals(name)) {
+                        p.getPlayerWindow().setWindowPattern(CardsDeck.getWindowPatternByName(windowPatternName));
+                    }
+                }
+                boolean finish = true;
+                for (Player p : proxyModel.getPlayers()) {
+                    if (!p.getName().equals(proxyModel.getMyself().getName()) && p.getPlayerWindow().getWindowPattern() == null) {
+                        finish = false;
+                    }
 
-        }
-        if (finish){
-            System.out.println("Everybody has chosen theirs patternCards ");
-            ui.initBoard();
-        }
+                }
+                if (finish) {
+                    System.out.println("Everybody has chosen theirs patternCards ");
+                    ui.initBoard();
+                }
+            }
+        };
+        perform(task);
     }
 
     public void initPatternCard(String name){
-        proxyModel.getMyself().getPlayerWindow().setWindowPattern(CardsDeck.getWindowPatternByName(name));
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                proxyModel.getMyself().getPlayerWindow().setWindowPattern(CardsDeck.getWindowPatternByName(name));
+            }
+        };
+        perform(task);
     }
 
     public void setPublicObjCard(List<PublicObjectiveCard> publicObjCards){
-        proxyModel.addPubObjCards(publicObjCards);
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                proxyModel.addPubObjCards(publicObjCards);
+            }
+        };
+        perform(task);
     }
 
-    public void setPrivateObj(String name, PrivateObjectiveCard p){
-        if (name.equals(proxyModel.getMyself().getName())){
-            proxyModel.getMyself().setPrivateObjectiveCard(p);
-        }else {
-            for (Player player : proxyModel.getPlayers()) {
-                if (player.getName().equals(name)) {
-                    player.setPrivateObjectiveCard(p);
-                    System.out.println("[DEBUG] Player " + player.getName() + " has private " + player.getPrivateObjectiveCard().getName());
+    public void setPrivateObj(String name, ObjCard p) {
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                if (name.equals(proxyModel.getMyself().getName())) {
+                    proxyModel.getMyself().setPrivateObjectiveCard(p);
+                } else {
+                    for (Player player : proxyModel.getPlayers()) {
+                        if (player.getName().equals(name)) {
+                            player.setPrivateObjectiveCard(p);
+                            System.out.println("[DEBUG] Player " + player.getName() + " has private " + player.getPrivateObjectiveCard().getName());
+                        }
+                    }
                 }
             }
-        }
+        };
+        perform(task);
+    }
+
+    public ProxyModel getModel() {
+        return proxyModel;
     }
 
     public void setDraftPool(List<Die> draft){
-        proxyModel.setDraftPool(draft);
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                proxyModel.setDraftPool(draft);
+            }
+        };
+        perform(task);
     }
 
     public void handlePlacement(Die d, int row, int column) {
@@ -132,12 +201,18 @@ public class ClientHandler implements Serializable {
     }
 
     public void notifyTurnStarted(String name) {
-        if(proxyModel.getMyself().getName().equals(name)){
-            ui.myTurnStarted();
-        }else{
-            proxyModel.setCurrentPlayer(new Player(name));
-            System.out.println("[DEBUG] Now it's " + name + " turn");
-        }
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                if (proxyModel.getMyself().getName().equals(name)) {
+                    ui.myTurnStarted();
+                } else {
+                    proxyModel.setCurrentPlayer(new Player(name));
+                    System.out.println("[DEBUG] Now it's " + name + " turn");
+                }
+            }
+        };
+        perform(task);
     }
 
     public void handleMoveResponse(boolean response){

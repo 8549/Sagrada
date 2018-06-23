@@ -8,18 +8,29 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProxyModel  {
-    ObservableList<Die> draftPool = FXCollections.observableArrayList();
-    Player myself;
-    Player currentPlayer;
-    ObservableList<Player> players = FXCollections.observableArrayList();
-    IntegerProperty currentRound;
-    IntegerProperty currentTurn;
-    List<PublicObjectiveCard> publicObjectiveCards = new ArrayList<>();
+    private ObservableList<Die> draftPool = FXCollections.observableArrayList();
+    private Player myself;
+    private Player currentPlayer;
+    private ObservableList<Player> players = FXCollections.observableArrayList();
+    private IntegerProperty currentRound;
+    private IntegerProperty currentTurn;
+    private List<PublicObjectiveCard> publicObjectiveCards = new ArrayList<>();
+
+    public ObservableList<Die> getDraftPool() {
+        return draftPool;
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public List<PublicObjectiveCard> getPublicObjectiveCards() {
+        return publicObjectiveCards;
+    }
 
     public ProxyModel() {
         this.currentRound = new SimpleIntegerProperty();

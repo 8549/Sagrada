@@ -107,8 +107,22 @@ public class CLI implements UI {
             System.out.println(String.format("%d) %s, difficulty %d", i++, p.getName(), p.getDifficulty()));
             printWindowPattern(p);
         }
-        System.out.print("Please choose your window pattern: ");
-        int which = scanner.nextInt();
+        System.out.print("Please choose your window pattern [1- " + patterns.length + "]: ");
+        boolean validPatternCard = false;
+        int which = 0;
+        while (!validPatternCard) {
+            if (scanner.hasNextInt()) {
+                which = scanner.nextInt();
+                if (which > 0 && which <= patterns.length) {
+                    validPatternCard = true;
+                } else {
+                    System.out.print("Please type a valid choice: ");
+                }
+            } else {
+                System.out.print("Please type a valid choice: ");
+                scanner.next();
+            }
+        }
         try {
             handler.setChosenPatternCard(patterns[which-1]);
         } catch (IOException e) {
@@ -118,11 +132,12 @@ public class CLI implements UI {
 
     @Override
     public void showLoggedInUsers() {
+        model = handler.getModel();
         System.out.println("You are logged in.");
-        if (model.players.size() > 0) {
+        if (model.getPlayers().size() > 0) {
             System.out.println("Already logged in users:");
         }
-        for (Player p : model.players) {
+        for (Player p : model.getPlayers()) {
             System.out.println(p.getName());
         }
         listener = new WeakListChangeListener<>(new ListChangeListener<Player>() {
@@ -141,7 +156,7 @@ public class CLI implements UI {
                 }
             }
         });
-        model.players.addListener(listener);
+        model.getPlayers().addListener(listener);
     }
 
     @Override
@@ -150,33 +165,45 @@ public class CLI implements UI {
     }
 
     @Override
+    public ClientHandler getClientHandler() {
+        return handler;
+    }
+
+    @Override
+    public ProxyModel getModel() {
+        return model;
+    }
+
+    @Override
     public void initUI() {
+        handler = new ClientHandler(this);
+        //handler = RunClient.getClientHandler();
         showLogin();
     }
 
     @Override
     public void startGame() {
-        model.players.removeListener(listener);
+        model.getPlayers().removeListener(listener);
     }
 
 
     @Override
     public void update() {
         System.out.println(String.format("It's turn %d of round %d", model.getCurrentTurn() + 1, model.getCurrentRound() + 1));
-        for (Player p : model.players) {
+        for (Player p : model.getPlayers()) {
             System.out.println(p.getName());
             printWindowPattern(p.getPlayerWindow().getWindowPattern(), p.getPlayerWindow());
         }
         System.out.print("\nDraft pool:");
-        for (Die d : model.draftPool) {
+        for (Die d : model.getDraftPool()) {
             System.out.print(" " + d.toCLI());
         }
         System.out.print("\nPublic objective cards: ");
-        for (PublicObjectiveCard c : model.publicObjectiveCards) {
+        for (PublicObjectiveCard c : model.getPublicObjectiveCards()) {
             System.out.print(String.format("%s, ", c.getName()));
         }
-        System.out.println("\nYour private objective card: " + model.myself.getPrivateObjectiveCard().getName());
-        printWindowPattern(model.myself.getPlayerWindow().getWindowPattern(), model.myself.getPlayerWindow());
+        System.out.println("\nYour private objective card: " + model.getMyself().getPrivateObjectiveCard().getName());
+        printWindowPattern(model.getMyself().getPlayerWindow().getWindowPattern(), model.getMyself().getPlayerWindow());
     }
 
     @Override
@@ -193,18 +220,18 @@ public class CLI implements UI {
                     int which = -1;
                     int i = -1;
                     int j = -1;
-                    System.out.print("Which die [1-" + model.draftPool.size() + "]? ");
+                    System.out.print("Which die [1-" + model.getDraftPool().size() + "]? ");
                     boolean validDie = false;
                     while (!validDie) {
                         if (scanner.hasNextInt()) {
                             which = scanner.nextInt();
-                            if (which > 0 && which <= model.draftPool.size()) {
+                            if (which > 0 && which <= model.getDraftPool().size()) {
                                 validDie = true;
                             } else {
-                                System.out.print("Please choose a valid die [1-" + model.draftPool.size() + "]: ");
+                                System.out.print("Please choose a valid die [1-" + model.getDraftPool().size() + "]: ");
                             }
                         } else {
-                            System.out.print("Please choose a valid die [1-" + model.draftPool.size() + "]: ");
+                            System.out.print("Please choose a valid die [1-" + model.getDraftPool().size() + "]: ");
                             scanner.next();
                         }
                     }
@@ -238,7 +265,7 @@ public class CLI implements UI {
                             scanner.next();
                         }
                     }
-                    handler.handlePlacement(model.draftPool.get(which - 1), i - 1, j - 1);
+                    handler.handlePlacement(model.getDraftPool().get(which - 1), i - 1, j - 1);
                     break;
                 case "P":
                     validChoice = true;
@@ -269,16 +296,16 @@ public class CLI implements UI {
     @Override
     public void initBoard() {
         System.out.println("The game is starting! You will play against:");
-        for (Player p : model.players) {
+        for (Player p : model.getPlayers()) {
             System.out.println(String.format("%s (%s favor tokens)", p.getName(), printFavorTokens(p.getPlayerWindow().getWindowPattern().getDifficulty())));
             printWindowPattern(p.getPlayerWindow().getWindowPattern());
         }
         System.out.println("You:");
-        System.out.println(String.format("%s (%s favor tokens)", model.myself.getName(), printFavorTokens(model.myself.getPlayerWindow().getWindowPattern().getDifficulty())));
-        printWindowPattern(model.myself.getPlayerWindow().getWindowPattern());
-        System.out.println("Your private objective card will be: " + model.myself.getPrivateObjectiveCard().getName());
+        System.out.println(String.format("%s (%s favor tokens)", model.getMyself().getName(), printFavorTokens(model.getMyself().getPlayerWindow().getWindowPattern().getDifficulty())));
+        printWindowPattern(model.getMyself().getPlayerWindow().getWindowPattern());
+        System.out.println("Your private objective card will be: " + model.getMyself().getPrivateObjectiveCard().getName());
 
-        model.draftPool.addListener(new WeakListChangeListener<>(new ListChangeListener<Die>() {
+        model.getDraftPool().addListener(new WeakListChangeListener<>(new ListChangeListener<Die>() {
             @Override
             public void onChanged(Change<? extends Die> c) {
                 while (c.next()) {
@@ -307,6 +334,11 @@ public class CLI implements UI {
                 System.out.println(String.format("Turn changed %d --> %d", oldValue.intValue(), newValue.intValue()));
             }
         }));
+    }
+
+    @Override
+    public boolean isGUI() {
+        return false;
     }
 
     private String printFavorTokens(int n) {
@@ -383,10 +415,5 @@ public class CLI implements UI {
             b.append("\n");
         }
         System.out.println(b.toString());
-    }
-
-    @Override
-    public void setHandler(ClientHandler ch){
-        handler = ch;
     }
 }
