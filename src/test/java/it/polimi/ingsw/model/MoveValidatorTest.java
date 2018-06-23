@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MoveValidatorTest {
     @Test
-    void validateMove() {
+    void testValidateMove() {
         List<Player> players = new ArrayList<>();
         Player marco = new Player("marco");
         players.add(marco);

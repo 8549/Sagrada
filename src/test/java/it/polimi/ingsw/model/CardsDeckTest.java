@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CardsDeckTest {
 
     @Test
-    void getRandomCard() {
+    void testGetRandomCard() {
         CardsDeck expectedDeck = new CardsDeck("SamplePatternCards.json", new TypeToken<List<PatternCard>>(){}.getType());
         List<PatternCard> actualCards = getSamplePatternCards();
         assertEquals(expectedDeck.getAsList(), actualCards);

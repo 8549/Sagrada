@@ -14,7 +14,7 @@ class ColorConstraintTest {
      * For every SagradaColor, check if the ColorConstraint recognizes a Die with that color, and if it rejects a Die colored black
      */
     @Test
-    void checkConstraint() {
+    void testCheckConstraint() {
         for (SagradaColor sagradaColor : SagradaColor.values()) {
             ColorConstraint constraint = new ColorConstraint(sagradaColor);
             assertTrue(constraint.checkConstraint(new Die(sagradaColor), CheckModifier.NORMAL));

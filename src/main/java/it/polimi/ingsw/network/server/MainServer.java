@@ -94,7 +94,7 @@ public class MainServer {
 
     }
 
-    public  boolean checkTimer() {
+    public synchronized boolean checkTimer() {
         if (connectedClients.size()<2){
             System.out.println("Waiting for more players . . .");
             if (timerIsRunning) {
@@ -152,7 +152,7 @@ public class MainServer {
     }
 
 
-    public void disconnect(ClientObject client){
+    public synchronized void disconnect(ClientObject client){
             if(!isGameStarted){
                 if(connectedClients.size()>1) {
                     for (ClientObject c : connectedClients) {
@@ -168,13 +168,13 @@ public class MainServer {
             }
     }
 
-    public void initGame(List<Player> players){
+    public  synchronized void initGame(List<Player> players){
         //Code to init Game manager
         gm = new GameManager(this, players);
 
     }
 
-    public List<Player> getPlayersFromClients(List<ClientObject> clients){
+    public synchronized List<Player> getPlayersFromClients(List<ClientObject> clients){
         List<Player> players= new ArrayList<>();
 
         for (ClientObject c : clients){
@@ -183,7 +183,7 @@ public class MainServer {
         return players;
     }
 
-    public void addLoggedPlayer(Player p) {
+    public synchronized void addLoggedPlayer(Player p) {
         for(ClientObject c : connectedClients){
             if (!c.getPlayer().getName().equals(p.getName())){
                 c.pushLoggedPlayer(p);
@@ -192,20 +192,20 @@ public class MainServer {
 
     }
 
-    public void addAlreadyLoogedPlayers(ClientObject client){
+    public synchronized void addAlreadyLoogedPlayers(ClientObject client){
         if (connectedClients.size()>0) {
             client.pushPlayers(getPlayersFromClients(connectedClients));
         }
     }
 
-    public void gameStartedProcedures(List<Player> players){
+    public synchronized void gameStartedProcedures(List<Player> players){
         inGameClients.addAll(connectedClients);
         for (ClientObject c : inGameClients){
             c.notifyGameStarted(players);
         }
     }
 
-    public void choosePatternCard(List<PatternCard> patternCards, Player player){
+    public synchronized void choosePatternCard(List<PatternCard> patternCards, Player player){
         for(ClientObject c : inGameClients ){
             if (c.getPlayer().getName().equals(player.getName())){
                 c.requestPatternCardChoice(patternCards);
@@ -215,14 +215,14 @@ public class MainServer {
     }
 
 
-    public void setPlayerChoice(ClientObject client, String name){
+    public synchronized void setPlayerChoice(ClientObject client, String name){
         //TODO: check correct pattern card
         client.pushPatternCardResponse(name);
         gm.completePlayerSetup(client.getPlayer(), name);
 
     }
 
-    public void initPlayersData(){
+    public synchronized void initPlayersData(){
         for(ClientObject client1 : inGameClients){
             List<Player> thinPlayers = new ArrayList<>();
             for(ClientObject client2 : inGameClients){
@@ -237,21 +237,21 @@ public class MainServer {
 
     }
 
-    public Player getOpponentVisibleFromClient(Player p ){
+    public synchronized Player getOpponentVisibleFromClient(Player p ){
         Player player = new Player(p.getName());
         player.getPlayerWindow().setWindowPattern(p.getPlayerWindow().getWindowPattern());
         player.setPrivateObjectiveCard(null);
         return player;
     }
 
-    public void setPublicObj(ObjCard[] publicObj){
+    public synchronized void setPublicObj(ObjCard[] publicObj){
         for(ClientObject c : inGameClients){
             c.pushPublicObj(publicObj);
         }
 
     }
 
-    public void setPrivateObj(Player p, ObjCard privateObjectiveCard){
+    public synchronized void setPrivateObj(Player p, ObjCard privateObjectiveCard){
         for (ClientObject c : inGameClients) {
             if (c.getPlayer().getName().equals(p.getName())) {
                 System.out.println("SETTING private " + privateObjectiveCard.getName() + "  to " + p.getName());
@@ -260,20 +260,20 @@ public class MainServer {
         }
     }
 
-    public void setDraft(List<Die> draft){
+    public synchronized void setDraft(List<Die> draft){
         for (ClientObject c: inGameClients){
             c.pushDraft(draft);
         }
     }
 
-    public void notifyBeginTurn(Player p ){
+    public synchronized void notifyBeginTurn(Player p ){
         for (ClientObject c : inGameClients){
             c.notifyTurn(p);
 
         }
     }
 
-    public void notifyPlacementResponse(boolean response, Player p){
+    public synchronized void notifyPlacementResponse(boolean response, Player p){
         for(ClientObject c : inGameClients){
             if (c.getPlayer().getName().equals(p.getName())){
                 c.notifyMoveResponse(response, "response");
@@ -283,7 +283,7 @@ public class MainServer {
         }
     }
 
-    public void handleMove(Die d, int row, int column, Player p ){
+    public synchronized void handleMove(Die d, int row, int column, Player p ){
         gm.processMove(d, row, column, p);
     }
 

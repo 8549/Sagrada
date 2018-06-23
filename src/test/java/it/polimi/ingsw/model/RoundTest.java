@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class RoundTest {
 
     @Test
-    void setTurns() {
+    void testSetTurns() {
         List<Player> players = new ArrayList<>();
         Player marco = new Player("marco");
         players.add(marco);
@@ -43,7 +43,7 @@ class RoundTest {
 
 
     @Test
-    void doubledTurn() {
+    void testDoubledTurn() {
         List<Player> players = new ArrayList<>();
         Player marco = new Player("marco");
         players.add(marco);

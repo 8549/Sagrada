@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class PrivateObjectiveCardTest {
 
     @Test
-    void sumColors() {
+    void testSumColors() {
         PrivateObjectiveCard privateObjectiveCard = new PrivateObjectiveCard();
         Cell[][] grid = new Cell[WindowPattern.ROWS][WindowPattern.COLUMNS];
         Die dice[] = new Die[20];
@@ -78,10 +78,10 @@ class PrivateObjectiveCardTest {
     }
 
     @Test
-    void checkObjective() {
+    void testCheckObjective() {
     }
 
     @Test
-    void getPoints() {
+    void testGetPoints() {
     }
 }

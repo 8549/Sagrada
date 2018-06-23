@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class PublicObjectiveCardTest {
 
     @Test
-    void setOfShades() {
+    void testSetOfShades() {
         PublicObjectiveCard publicObjectiveCard = new PublicObjectiveCard();
         Cell[][] grid = new Cell[WindowPattern.ROWS][WindowPattern.COLUMNS];
         Die dice[] = new Die[20];
@@ -77,7 +77,7 @@ class PublicObjectiveCardTest {
     }
 
     @Test
-    void setOfColors() {
+    void testSetOfColors() {
         PublicObjectiveCard publicObjectiveCard = new PublicObjectiveCard();
         Cell[][] grid = new Cell[WindowPattern.ROWS][WindowPattern.COLUMNS];
         Die dice[] = new Die[20];
@@ -145,7 +145,7 @@ class PublicObjectiveCardTest {
     }
 
     @Test
-    void rowNumberVariety() {
+    void testRowNumberVariety() {
         PublicObjectiveCard publicObjectiveCard = new PublicObjectiveCard();
         Cell[][] grid = new Cell[WindowPattern.ROWS][WindowPattern.COLUMNS];
         Die dice[] = new Die[20];
@@ -208,7 +208,7 @@ class PublicObjectiveCardTest {
     }
 
     @Test
-    void columnNumberVariety() {
+    void testColumnNumberVariety() {
 
         PublicObjectiveCard publicObjectiveCard = new PublicObjectiveCard();
         Cell[][] grid = new Cell[WindowPattern.ROWS][WindowPattern.COLUMNS];
@@ -272,7 +272,7 @@ class PublicObjectiveCardTest {
     }
 
     @Test
-    void rowColorVariety() {
+    void testRowColorVariety() {
         PublicObjectiveCard publicObjectiveCard = new PublicObjectiveCard();
         Cell[][] grid = new Cell[WindowPattern.ROWS][WindowPattern.COLUMNS];
         Die dice[] = new Die[20];
@@ -335,7 +335,7 @@ class PublicObjectiveCardTest {
     }
 
     @Test
-    void columnColorVariety() {
+    void testColumnColorVariety() {
         PublicObjectiveCard publicObjectiveCard = new PublicObjectiveCard();
         Cell[][] grid = new Cell[WindowPattern.ROWS][WindowPattern.COLUMNS];
         Die dice[] = new Die[20];
@@ -398,7 +398,7 @@ class PublicObjectiveCardTest {
     }
 
     @Test
-    void diagonalsVariety() {
+    void testDiagonalsVariety() {
         PublicObjectiveCard publicObjectiveCard = new PublicObjectiveCard();
         Cell[][] grid = new Cell[WindowPattern.ROWS][WindowPattern.COLUMNS];
         Die dice[] = new Die[20];

@@ -24,7 +24,7 @@ class GameManagerTest {
 
 
     @Test
-    void disconnectPlayer() {
+    void TestdisconnectPlayer() {
         List<Player> players = new ArrayList<>();
         Player marco = new Player("marco");
         players.add(marco);
@@ -42,7 +42,7 @@ class GameManagerTest {
     }
 
     @Test
-    void reconnectPlayer() {
+    void testreconnectPlayer() {
         List<Player> players = new ArrayList<>();
         Player marco = new Player("marco");
         players.add(marco);

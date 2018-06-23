@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class DiceBagTest {
 
     @Test
-    void draftDie() {
+    void testDraftDie() {
         Die die2;
         DiceBag diceBag= new DiceBag();
         die2 = diceBag.draftDie();
@@ -20,11 +20,11 @@ class DiceBagTest {
     }
 
     @Test
-    void getSizeDice() {
+    void testGetSizeDice() {
     }
 
     @Test
-    void addDie() {
+    void testAddDie() {
         Die die = new Die(SagradaColor.BLUE);
         DiceBag diceBag= new DiceBag();
         assertFalse(diceBag.addDie(die));

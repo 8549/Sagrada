@@ -54,12 +54,12 @@ public class GameManager {
         board.setScoreTrack();
 
         //place toolcard
-        CardsDeck toolDeck = new CardsDeck("ToolCards.json", new TypeToken<List<ToolCard>>() {
+        /*CardsDeck toolDeck = new CardsDeck("ToolCards.json", new TypeToken<List<ToolCard>>() {
         }.getType());
         for (int i = 0; i < TOOL_CARDS_NUMBER; i++) {
             toolCard[i] = (ToolCard) toolDeck.getRandomCard();
         }
-        board.setToolCards(toolCard);
+        board.setToolCards(toolCard);*/
 
         //obj pub
         CardsDeck objDeck = new CardsDeck("PublicObjectiveCards.json", new TypeToken<List<PublicObjectiveCard>>() {

@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class NumberConstraintTest {
 
     @Test
-    void checkConstraint() {
+    void testCheckConstraint() {
         for (int i = Die.MIN; i <= Die.MAX; i++) {
             Random rnd = new Random();
             int colorIndex = rnd.nextInt(SagradaColor.values().length - 1);

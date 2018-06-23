@@ -18,18 +18,18 @@ class PatternConstraintAdapterTest {
     private Gson gson;
 
     @BeforeEach
-    void setUp() {
+    void testSetUp() {
         gson = GsonSingleton.getInstance();
     }
 
     @Test
-    void write() {
+    void testWrite() {
         List<PatternCard> patternCards = getSamplePatternCards();
         System.out.println(gson.toJson(patternCards));
     }
 
     @Test
-    void read() {
+    void testRead() {
         List<PatternCard> expected = getSamplePatternCards();
 
         try (JsonReader reader = new JsonReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("SamplePatternCards.json")))) {

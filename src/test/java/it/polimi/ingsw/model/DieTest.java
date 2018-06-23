@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class DieTest {
 
     @Test
-    void roll() {
+    void testRoll() {
         double[] histogram = {0, 0, 0, 0, 0, 0};
         Die die = new Die(SagradaColor.GREEN);
         int n;
@@ -29,7 +29,7 @@ class DieTest {
     }
 
     @Test
-    void setNumber() {
+    void testSetNumber() {
         Die die = new Die(SagradaColor.BLUE);
         int number = 2;
         die.setNumber(number);
@@ -38,7 +38,7 @@ class DieTest {
     }
 
     @Test
-    void flip() {
+    void testFlip() {
         Die die1 = new Die(SagradaColor.BLUE);
         die1.setNumber(1);
         Die die2 = new Die(SagradaColor.BLUE);
@@ -67,7 +67,7 @@ class DieTest {
     }
 
     @Test
-    void increase() {
+    void testIncrease() {
         Die die1 = new Die(SagradaColor.BLUE);
         die1.setNumber(1);
         Die die2 = new Die(SagradaColor.BLUE);
@@ -96,7 +96,7 @@ class DieTest {
 
 
     @Test
-    void decrease() {
+    void testDecrease() {
         Die die1 = new Die(SagradaColor.BLUE);
         die1.setNumber(1);
         Die die2 = new Die(SagradaColor.BLUE);
@@ -126,7 +126,7 @@ class DieTest {
 
 
     @Test
-    void checkValue() {
+    void testCheckValue() {
         for (int i = -1000; i <= +1000; i++) {
             if (i < Die.MIN || i > Die.MAX) {
                 assertFalse(Die.checkValue(i));

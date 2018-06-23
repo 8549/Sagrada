@@ -10,11 +10,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class PlayerWindowTest {
 
     @Test
-    void getCellAt() {
+    void testGetCellAt() {
     }
 
     @Test
-    void addDie() {
+    void testAddDie() {
         Die die1 = new Die(SagradaColor.GREEN);
         PlayerWindow playerWindow = new PlayerWindow();
         assertTrue(playerWindow.addDie(die1, 1, 2));
@@ -23,7 +23,7 @@ class PlayerWindowTest {
     }
 
     @Test
-    void moveDie() {
+    void testMoveDie() {
         PlayerWindow playerWindow = new PlayerWindow();
         Die die = new Die(SagradaColor.BLUE);
         assertEquals(playerWindow.dieCount(), 0);
@@ -52,6 +52,6 @@ class PlayerWindowTest {
     }
 
     @Test
-    void checkPlacement() {
+    void testCheckPlacement() {
     }
 }

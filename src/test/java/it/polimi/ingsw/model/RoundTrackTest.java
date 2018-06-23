@@ -18,7 +18,7 @@ class RoundTrackTest {
     }
 
     @Test
-    void addRound() {
+    void testAddRound() {
         List<Die> dice = new ArrayList<>();
         Die die = new Die(SagradaColor.PURPLE);
         dice.add(die);
@@ -39,7 +39,7 @@ class RoundTrackTest {
     }
 
     @Test
-    void replaceDie() {
+    void testReplaceDie() {
         List<Die> dice1 = new ArrayList<>();
         Die die1 = new Die(SagradaColor.PURPLE);
         dice1.add(die1);

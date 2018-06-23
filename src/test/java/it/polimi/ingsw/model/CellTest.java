@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class CellTest {
 
     @Test
-    void isEmpty() {
+    void testIsEmpty() {
         Cell cell = new Cell();
         assertTrue(cell.isEmpty());
         Die die = new Die(SagradaColor.BLUE);
@@ -20,7 +20,7 @@ class CellTest {
 
 
     @Test
-    void setDie() {
+    void testSetDie() {
         Die die = new Die(SagradaColor.BLUE);
         Cell cell = new Cell();
 
@@ -37,7 +37,7 @@ class CellTest {
 
 
     @Test
-    void getDie() {
+    void testGetDie() {
         Cell cell = new Cell();
         assertNull(cell.getDie());
         Die die = new Die(SagradaColor.RED);
@@ -47,7 +47,7 @@ class CellTest {
     }
 
     @Test
-    void removeDie() {
+    void testRemoveDie() {
         Cell cell1 = new Cell();
         Die die = new Die(SagradaColor.BLUE);
         assertFalse(cell1.removeDie());

@@ -1,9 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.Cell;
-import it.polimi.ingsw.model.Die;
-import it.polimi.ingsw.model.WindowPattern;
-
 public class AdjacencyConstraint {
 
     /**
@@ -13,7 +9,7 @@ public class AdjacencyConstraint {
      * @param column
      * @return true if the coordinates are on the edge of the grid, false otherwise
      */
-    public static boolean checkAdjacencyFirstDie(int row, int column) {
+    public static boolean testCheckAdjacencyFirstDie(int row, int column) {
         if (row == WindowPattern.ROWS - 1 || row == 0) {
             return true;
         }
@@ -32,17 +28,17 @@ public class AdjacencyConstraint {
      * @param die
      * @return true if there isn't a dice with the same number and color nearby, false otherwise
      */
-    public static boolean checkAdjacency(Cell grid[][], int row, int column, Die die) {
-        if (!controlCell(grid, row - 1, column, die)) {
+    public static boolean testCheckAdjacency(Cell grid[][], int row, int column, Die die) {
+        if (!testControlCell(grid, row - 1, column, die)) {
             return false;
         }
-        if (!controlCell(grid, row, column - 1, die)) {
+        if (!testControlCell(grid, row, column - 1, die)) {
             return false;
         }
-        if (!controlCell(grid, row, column + 1, die)) {
+        if (!testControlCell(grid, row, column + 1, die)) {
             return false;
         }
-        if (!controlCell(grid, row + 1, column, die)) {
+        if (!testControlCell(grid, row + 1, column, die)) {
             return false;
         }
         return true;
@@ -57,7 +53,7 @@ public class AdjacencyConstraint {
      * @param die
      * @return true if it's different, false otherwise
      */
-    public static boolean controlCell(Cell grid[][], int row, int column, Die die) {
+    public static boolean testControlCell(Cell grid[][], int row, int column, Die die) {
         try {
             if (!grid[row][column].isEmpty()) {
                 if (grid[row][column].getDie().getNumber() == die.getNumber()) {
@@ -81,7 +77,7 @@ public class AdjacencyConstraint {
      * @param column
      * @return true when is found a die nearby, false if there isn't any
      */
-    public static boolean checkCellAdjacency(Cell grid[][], int row, int column) {
+    public static boolean testCheckCellAdjacency(Cell grid[][], int row, int column) {
         for (int i = row - 1; i <= row + 1; i++) {
             for (int j = column - 1; j <= column + 1; j++) {
                 try {
@@ -105,7 +101,7 @@ public class AdjacencyConstraint {
      * @param column
      * @return true if it's empty, false otherwise
      */
-    public static boolean checkEmptyCell(Cell grid[][], int row, int column) {
+    public static boolean testCheckEmptyCell(Cell grid[][], int row, int column) {
         if (grid[row][column].isEmpty()) {
             return true;
         }
