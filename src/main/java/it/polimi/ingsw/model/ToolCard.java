@@ -91,15 +91,18 @@ public class ToolCard {
         die=player.getPlayerWindow().getCellAt(oldRow, oldColumn).getDie();
     }
 
+    public int getValue(){return value;}
+
+
     public void chooseDieFromDraftPool(){} //TODO
+
     public void chooseDieFromRoundTrack(){} //TODO
 
     public void chooseIfDecrease(){} //TODO
+
     public void chooseIfPlaceDie(){} //TODO
 
     public void setValue(){} //TODO
-
-    public int getValue(){return value;}
 
     public void setOldCoordinates(){} //TODO
 

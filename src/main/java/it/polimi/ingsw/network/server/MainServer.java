@@ -290,4 +290,27 @@ public class MainServer {
     //TODO
     public void notifyEndTurn(List<Player> players){}
     public void notifyEndRound(List<Player> players){}
+    public void chooseDieFromRoundTrackForToolCard(List<Die> draftPool){
+        //chooses the turn and the number of die
+    }
+
+    public void chooseDieFromWindowPatternForToolCards(){}
+    public void chooseDieFromDraftPoolForToolCards(){}
+    public void chooseOldCoodinatesForToolCards(){
+        //chooses row and column of the die the player wants to move
+    }
+    public void chooseNewCoodinatesForToolCards(){
+        //chooses row and column of where the player wants to place the die
+    }
+    public void chooseIfDecreaseForToolCards(){
+        // chooses if the player wants to decrease or increase the value of the die
+        // if he chooses true he wants to decrease the value, otherwise increase
+    }
+    public void chooseIfPlaceDieFOrToolCards(){
+        //chooses if the player wants to place the die or to put it back in the draft pool
+        // if he chooses true he wants to place the die on the window pattern otherwise put it back in the draft pool
+    }
+    public void chooseDieValueForToolCards(){
+        //after drafting from the dice bag the player can choose the value of the die
+    }
 }
