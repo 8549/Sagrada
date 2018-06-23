@@ -19,8 +19,13 @@ public class ToolCard {
     private int newColumn;
     private int oldRow;
     private int oldColumn;
+    private int value;
     private Die die;
+    int turnForRoundTrack;
+    int numberOfDieForRoundTrack;
     private Player player;
+    private boolean decrease;
+    private boolean placeDie;
 
 
     public boolean isUsed() {
@@ -58,13 +63,46 @@ public class ToolCard {
     }
 
 
-    public boolean processMoveWithoutConstraints(Die die, int row, int column, Player player, boolean number, boolean color, boolean adjacency){
+    public boolean processMoveWithoutConstraints(boolean number, boolean color, boolean adjacency, boolean place){
+        setNewCoordinates();
+        if(adjacency){
+            setOldCoordinates();
+        }
         MoveValidator moveValidator = new MoveValidator(gameManager.getRound().getTurn(), gameManager.getRound().getDraftPool(), number, color, adjacency);
-        return moveValidator.validateMove(die, row, column, player);
+        if(moveValidator.validateMove(die, newRow, newColumn, player)){
+            if(!adjacency || place){
+                player.getPlayerWindow().addDie(die, newRow, newColumn);
+                gameManager.getRound().getTurn().setDiePlaced();
+            }else{
+                player.getPlayerWindow().moveDie(oldRow, oldColumn, newRow, newColumn);
+            }
+            return true;
+        }
+        return false;
     }
 
-    public void skipTurn(){
-        gameManager.endCurrentTurn();
+    public void getDieFromDicePool(){
+        die=gameManager.getBoard().getDiceBag().draftDie();
     }
+
+
+    public void chooseDieFromWindowPattern(){
+        setOldCoordinates();
+        die=player.getPlayerWindow().getCellAt(oldRow, oldColumn).getDie();
+    }
+
+    public void chooseDieFromDraftPool(){} //TODO
+    public void chooseDieFromRoundTrack(){} //TODO
+
+    public void chooseIfDecrease(){} //TODO
+    public void chooseIfPlaceDie(){} //TODO
+
+    public void setValue(){} //TODO
+
+    public int getValue(){return value;}
+
+    public void setOldCoordinates(){} //TODO
+
+    public void setNewCoordinates(){ } //TODO
 
 }
