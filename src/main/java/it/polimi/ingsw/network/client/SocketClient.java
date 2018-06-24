@@ -277,7 +277,7 @@ public class SocketClient implements ClientInterface {
             }
         }
 
-        public synchronized boolean send(String type, String header, String s){
+        public boolean send(String type, String header, String s){
             out.println(type + "-" + header + "-" + s + "-end");
             return true;
         }
