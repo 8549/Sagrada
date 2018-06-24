@@ -4,6 +4,7 @@ import it.polimi.ingsw.GameManager;
 import it.polimi.ingsw.model.*;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -45,7 +46,7 @@ public class MainServer {
             public void run(){
                 try {
                     rmiServer.start(args);
-                } catch (RemoteException e) {
+                } catch (Exception e){
                     e.printStackTrace();
                 }
             }
@@ -72,7 +73,7 @@ public class MainServer {
     }
 
 
-    public synchronized boolean addClient(ClientObject client){
+    public  boolean addClient(ClientObject client){
         if(isGameStarted){
             return false;
         }
@@ -83,8 +84,12 @@ public class MainServer {
         }else{
 
             for (ClientObject clients : connectedClients){
-                if (clients.getPlayer().getName().equals(client.getPlayer().getName())){
-                    return false;
+                try {
+                    if (clients.getPlayer().getName().equals(client.getPlayer().getName())){
+                        return false;
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
 
             }
@@ -94,7 +99,7 @@ public class MainServer {
 
     }
 
-    public synchronized boolean checkTimer() {
+    public  boolean checkTimer() {
         if (connectedClients.size()<2){
             System.out.println("Waiting for more players . . .");
             if (timerIsRunning) {
@@ -116,8 +121,13 @@ public class MainServer {
                                 System.out.println("Let the game begin !");
                                 timerIsRunning = false;
                                 if(!isGameStarted) {
-                                    initGame(getPlayersFromClients(connectedClients));
-                                    isGameStarted = true;
+                                    new Thread(){
+                                        public void run(){
+                                            initGame(getPlayersFromClients(connectedClients));
+                                            isGameStarted = true;
+                                        }
+                                    }.start();
+
                                 }
                             }
                         }catch (Exception e){
@@ -152,138 +162,202 @@ public class MainServer {
     }
 
 
-    public synchronized void disconnect(ClientObject client){
+    public  void disconnect(ClientObject client){
             if(!isGameStarted){
                 if(connectedClients.size()>1) {
                     for (ClientObject c : connectedClients) {
-                        if (!c.getPlayer().getName().equals(client.getPlayer().getName())) {
-                            c.notifyPlayerDisconnection(client.getPlayer());
+                        try {
+                            if (!c.getPlayer().getName().equals(client.getPlayer().getName())) {
+                                c.notifyPlayerDisconnection(client.getPlayer());
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
                     }
                 }
                 connectedClients.remove(client);
                 checkTimer();
             }else{
-                gm.disconnectPlayer(client.getPlayer());
+                try {
+                    gm.disconnectPlayer(client.getPlayer());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
     }
 
-    public  synchronized void initGame(List<Player> players){
+    public  void initGame(List<Player> players){
         //Code to init Game manager
         gm = new GameManager(this, players);
+        gm.init();
 
     }
 
-    public synchronized List<Player> getPlayersFromClients(List<ClientObject> clients){
+    public  List<Player> getPlayersFromClients(List<ClientObject> clients){
         List<Player> players= new ArrayList<>();
 
         for (ClientObject c : clients){
-            players.add(c.getPlayer());
+            try {
+                players.add(c.getPlayer());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         return players;
     }
 
-    public synchronized void addLoggedPlayer(Player p) {
+    public  void addLoggedPlayer(Player p) {
         for(ClientObject c : connectedClients){
-            if (!c.getPlayer().getName().equals(p.getName())){
-                c.pushLoggedPlayer(p);
+            try {
+                if (!c.getPlayer().getName().equals(p.getName())){
+                    c.pushLoggedPlayer(p);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
 
     }
 
-    public synchronized void addAlreadyLoogedPlayers(ClientObject client){
+    public  void addAlreadyLoogedPlayers(ClientObject client){
         if (connectedClients.size()>0) {
-            client.pushPlayers(getPlayersFromClients(connectedClients));
+            try {
+                client.pushPlayers(getPlayersFromClients(connectedClients));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public synchronized void gameStartedProcedures(List<Player> players){
+    public  void gameStartedProcedures(List<Player> players){
         inGameClients.addAll(connectedClients);
         for (ClientObject c : inGameClients){
-            c.notifyGameStarted(players);
-        }
-    }
-
-    public synchronized void choosePatternCard(List<PatternCard> patternCards, Player player){
-        for(ClientObject c : inGameClients ){
-            if (c.getPlayer().getName().equals(player.getName())){
-                c.requestPatternCardChoice(patternCards);
-                break;
+            try {
+                c.notifyGameStarted(players);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
 
+    public void choosePatternCard(List<PatternCard> patternCards, Player player){
+        for(ClientObject c : inGameClients ){
+            try {
+                if (c.getPlayer().getName().equals(player.getName())){
+                    c.requestPatternCardChoice(patternCards);
+                    break;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return;
+    }
 
-    public synchronized void setPlayerChoice(ClientObject client, String name){
+
+    public  void setPlayerChoice(ClientObject client, String name){
         //TODO: check correct pattern card
-        client.pushPatternCardResponse(name);
-        gm.completePlayerSetup(client.getPlayer(), name);
+        try {
+            while (gm==null){}
+            client.pushPatternCardResponse(name);
+            gm.completePlayerSetup(client.getPlayer(), name);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
     }
 
-    public synchronized void initPlayersData(){
+    public  void initPlayersData(){
         for(ClientObject client1 : inGameClients){
             List<Player> thinPlayers = new ArrayList<>();
             for(ClientObject client2 : inGameClients){
-                if (!client1.getPlayer().getName().equals(client2.getPlayer().getName())){
-                    thinPlayers.add(getOpponentVisibleFromClient(client2.getPlayer()));
+                try {
+                    if (!client1.getPlayer().getName().equals(client2.getPlayer().getName())){
+                        thinPlayers.add(getOpponentVisibleFromClient(client2.getPlayer()));
 
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
             System.out.println("Pushing opponents: " + thinPlayers.toString());
-            client1.pushOpponentsInit(thinPlayers);
+            try {
+                client1.pushOpponentsInit(thinPlayers);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
     }
 
-    public synchronized Player getOpponentVisibleFromClient(Player p ){
+    public  Player getOpponentVisibleFromClient(Player p ){
         Player player = new Player(p.getName());
         player.getPlayerWindow().setWindowPattern(p.getPlayerWindow().getWindowPattern());
         player.setPrivateObjectiveCard(null);
         return player;
     }
 
-    public synchronized void setPublicObj(ObjCard[] publicObj){
+    public  void setPublicObj(ObjCard[] publicObj){
         for(ClientObject c : inGameClients){
-            c.pushPublicObj(publicObj);
+            try {
+                c.pushPublicObj(publicObj);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
     }
 
-    public synchronized void setPrivateObj(Player p, ObjCard privateObjectiveCard){
+    public  void setPrivateObj(Player p, ObjCard privateObjectiveCard){
         for (ClientObject c : inGameClients) {
-            if (c.getPlayer().getName().equals(p.getName())) {
-                System.out.println("SETTING private " + privateObjectiveCard.getName() + "  to " + p.getName());
-                c.setPrivObj(privateObjectiveCard, getPlayersFromClients(inGameClients));
+            try {
+                if (c.getPlayer().getName().equals(p.getName())) {
+                    System.out.println("SETTING private " + privateObjectiveCard.getName() + "  to " + p.getName());
+                    c.setPrivObj(privateObjectiveCard, getPlayersFromClients(inGameClients));
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
 
-    public synchronized void setDraft(List<Die> draft){
+    public  void setDraft(List<Die> draft){
         for (ClientObject c: inGameClients){
-            c.pushDraft(draft);
-        }
-    }
-
-    public synchronized void notifyBeginTurn(Player p ){
-        for (ClientObject c : inGameClients){
-            c.notifyTurn(p);
-
-        }
-    }
-
-    public synchronized void notifyPlacementResponse(boolean response, Player p){
-        for(ClientObject c : inGameClients){
-            if (c.getPlayer().getName().equals(p.getName())){
-                c.notifyMoveResponse(response, "response");
-            }else{
-                c.notifyMoveResponse(response, "update");
+            try {
+                c.pushDraft(draft);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
 
-    public synchronized void handleMove(Die d, int row, int column, Player p ){
+    public  void notifyBeginTurn(Player p ){
+        for (ClientObject c : inGameClients){
+            try {
+                c.notifyTurn(p);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    public  void notifyPlacementResponse(boolean response, Player p){
+        for(ClientObject c : inGameClients){
+            try {
+                if (c.getPlayer().getName().equals(p.getName())){
+                    c.notifyMoveResponse(response, "response");
+                }else{
+                    c.notifyMoveResponse(response, "update");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public  void handleMove(Die d, int row, int column, Player p ){
         gm.processMove(d, row, column, p);
     }
 

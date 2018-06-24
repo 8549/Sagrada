@@ -6,8 +6,9 @@ import java.util.List;
 
 import static it.polimi.ingsw.GameManager.PUBLIC_OBJ_CARDS_NUMBER;
 
-public class SocketClientObject extends ClientObject {
-
+public class SocketClientObject implements ClientObject {
+    private ServerInterface server;
+    private Player player;
     List<ClientObject> clients;
     SocketServer.SocketHandler socketHandler;
 
@@ -123,6 +124,11 @@ public class SocketClientObject extends ClientObject {
             socketHandler.send(type, "moveResponse", "Wrong move");
 
         }    }
+
+    @Override
+    public Player getPlayer() {
+        return this.player;
+    }
 
     @Override
     public void answerLogin(boolean response) {

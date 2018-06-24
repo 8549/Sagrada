@@ -142,9 +142,9 @@ public class SocketServer implements ServerInterface {
                 log("Error handling client");
                 e.printStackTrace();
             } finally {
-                log("Connection with " + client.getPlayer().getName() + " closed");
-                server.removeClient(client);
                 try {
+                    log("Connection with " + client.getPlayer().getName() + " closed");
+                    server.removeClient(client);
                     socket.close();
                 } catch (IOException e) {
                     log("Couldn't close a socket, what's going on?");

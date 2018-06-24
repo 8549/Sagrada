@@ -23,13 +23,17 @@ import java.util.List;
 import static it.polimi.ingsw.network.server.MainServer.DEFAULT_RMI_PORT;
 
 
-public class RMIClient extends UnicastRemoteObject implements RMIClientInterface, Serializable, Runnable {
+public class RMIClient implements RMIClientInterface, Serializable {
     Player player;
     RMIServerInterface server;
     ClientHandler ch;
 
     public RMIClient(ClientHandler ch) throws RemoteException{
         this.ch = ch;
+    }
+
+    public RMIClient() {
+
     }
 
     @Override
@@ -39,7 +43,7 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
 
     @Override
     public void login() throws RemoteException {
-        server.login(player,this);
+        server.login(player,(RMIClientInterface) UnicastRemoteObject.exportObject(this,0));
     }
 
 
@@ -47,9 +51,11 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
     public void connect(String serverAddress, int portNumber, String userName) throws RemoteException{
         player = new Player(userName);
         Registry registry = LocateRegistry.getRegistry(serverAddress);
+
         try {
             server = (RMIServerInterface) registry.lookup("RMIServerInterface");
             System.out.println("[DEBUG] Client connected ");
+
         } catch (NotBoundException e) {
             e.printStackTrace();
         }
@@ -101,11 +107,8 @@ public class RMIClient extends UnicastRemoteObject implements RMIClientInterface
     }
 
     @Override
-    public void run() {
-        try {
-            login();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+    public void setEndPoint(RMIServerInterface server) throws RemoteException {
+        this.server = server;
     }
+
 }

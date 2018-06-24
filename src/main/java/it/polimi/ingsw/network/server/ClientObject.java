@@ -2,29 +2,24 @@ package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.model.*;
 
+import java.io.IOException;
 import java.util.List;
 
-public abstract class ClientObject  {
-    protected ServerInterface server;
-    protected Player player;
+public interface ClientObject  {
+    public  void pushPlayers(List<Player> players) throws IOException;
+    public  void pushLoggedPlayer(Player player)throws IOException;
+    public  void notifyPlayerDisconnection(Player p)throws IOException;
+    public  void notifyGameStarted(List<Player> players)throws IOException;
+    public  void requestPatternCardChoice(List<PatternCard> patternCards)throws IOException;
+    public  void pushPatternCardResponse(String name)throws IOException;
+    public  void pushOpponentsInit(List<Player> thinPlayers)throws IOException;
+    public  void pushPublicObj(ObjCard[] publicObj)throws IOException;
+    public  void setPrivObj(ObjCard privObj, List<Player> players)throws IOException;
+    public  void pushDraft(List<Die> draft)throws IOException;
+    public  void notifyTurn(Player p)throws IOException;
+    public  void notifyMoveResponse(boolean response, String type)throws IOException;
 
-    public abstract void pushPlayers(List<Player> players);
-    public abstract void pushLoggedPlayer(Player player);
-    public abstract void notifyPlayerDisconnection(Player p);
-    public abstract void notifyGameStarted(List<Player> players);
-    public abstract void requestPatternCardChoice(List<PatternCard> patternCards);
-    public abstract void pushPatternCardResponse(String name);
-    public abstract void pushOpponentsInit(List<Player> thinPlayers);
-    public abstract void pushPublicObj(ObjCard[] publicObj);
-    public abstract void setPrivObj(ObjCard privObj, List<Player> players);
-    public abstract void pushDraft(List<Die> draft);
-    public abstract void notifyTurn(Player p);
-    public abstract void notifyMoveResponse(boolean response, String type);
+    public Player getPlayer()throws IOException;
 
-    public Player getPlayer(){
-        return this.player;
-
-    }
-
-    public abstract void answerLogin(boolean response);
+    public  void answerLogin(boolean response)throws IOException;
 }

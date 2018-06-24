@@ -67,7 +67,7 @@ public class Player implements Serializable {
         return this.choices;
     }
     public void setChoices(List<PatternCard> choices){
-        this.choices=choices;
+        this.choices.addAll(choices);
     }
 
     public boolean hasChosenPatternCard(){

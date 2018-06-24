@@ -40,7 +40,7 @@ public class ClientHandler implements Serializable {
         }else if(connectionType.equals(ConnectionType.RMI)){
             client = new RMIClient(this);
             client.connect(hostname, port, username);
-            ((RMIClient) client).run();
+            client.login();
         }
     }
 

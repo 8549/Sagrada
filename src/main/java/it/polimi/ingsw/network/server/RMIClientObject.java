@@ -6,12 +6,15 @@ import it.polimi.ingsw.model.PatternCard;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.network.client.RMIClientInterface;
 
+import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RMIClientObject extends ClientObject {
-    RMIClientInterface client;
+public class RMIClientObject implements RMIClientObjectInterface, RMIServerInterface {
+    private RMIClientInterface client;
+    private ServerInterface server;
+    private Player player;
 
     public RMIClientObject(Player player, RMIClientInterface client){
         this.player= player;
@@ -21,21 +24,34 @@ public class RMIClientObject extends ClientObject {
     public void pushPlayers(List<Player> players) {
         List<Player> p = new ArrayList<>();
         p.addAll(players);
-        try {
-            client.addPlayersToProxy(p);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+        new Thread(){
+            public void run(){
+                try {
+                    client.addPlayersToProxy(p);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+
+
+        return;
     }
 
     @Override
     public void pushLoggedPlayer(Player player) {
-        try {
-            client.addPlayerToProxy(new Player(player.getName()));
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+        new Thread(){
+            public void run(){
+                try {
+                    client.addPlayerToProxy(new Player(player.getName()));
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
 
+
+        return;
     }
 
     @Override
@@ -45,22 +61,35 @@ public class RMIClientObject extends ClientObject {
 
     @Override
     public void notifyGameStarted(List<Player> players) {
-        try {
-            client.initGame(players);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+        new Thread(){
+            public void run(){
+                try {
+                    client.initGame(players);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+
+
+        return;
     }
 
     @Override
     public void requestPatternCardChoice(List<PatternCard> patternCards) {
         List<PatternCard> patterns = new ArrayList<>();
         patterns.addAll(patternCards);
-        try {
-            client.initPatternCardChoice(patterns);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+        new Thread(){
+            public void run(){
+                try {
+                    client.initPatternCardChoice(patterns);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+
+        return;
     }
 
     @Override
@@ -97,13 +126,42 @@ public class RMIClientObject extends ClientObject {
     public void notifyMoveResponse(boolean response, String type) {
 
     }
+
     @Override
-    public void answerLogin(boolean response){
-        try {
-            client.loginResponse(response);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+    public Player getPlayer() {
+        return this.player;
     }
 
+    @Override
+    public void answerLogin(boolean response){
+        new Thread(){
+            public void run(){
+                try {
+                    client.loginResponse(response);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
+
+    @Override
+    public void start(String[] args) throws RemoteException {
+
+    }
+
+    @Override
+    public void login(Player p, RMIClientInterface c) throws RemoteException {
+
+    }
+
+    @Override
+    public void patternCardValidation(String patternName, RMIClientInterface c) throws RemoteException {
+
+    }
+
+    @Override
+    public RMIServerInterface getNewStub() throws RemoteException {
+        return null;
+    }
 }

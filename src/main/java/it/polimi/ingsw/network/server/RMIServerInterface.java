@@ -16,4 +16,6 @@ public interface RMIServerInterface extends ServerInterface, Remote {
     void login(Player p, RMIClientInterface c ) throws RemoteException;
 
     void patternCardValidation(String patternName, RMIClientInterface c) throws RemoteException;
+
+    RMIServerInterface getNewStub() throws RemoteException;
 }

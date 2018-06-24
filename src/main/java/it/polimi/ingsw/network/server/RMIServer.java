@@ -21,6 +21,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.List;
 
 import static it.polimi.ingsw.network.server.MainServer.DEFAULT_RMI_PORT;
@@ -28,6 +29,8 @@ import static it.polimi.ingsw.network.server.MainServer.DEFAULT_RMI_PORT;
 public class RMIServer  implements RMIServerInterface {
     List<ClientObject> users ;
     MainServer server;
+    RMIServerInterface stub;
+    List<RMIServerInterface> objs= new ArrayList<>();
 
     public RMIServer(List<ClientObject> users, MainServer server) throws RemoteException {
         this.users = users;
@@ -65,15 +68,30 @@ public class RMIServer  implements RMIServerInterface {
 
     }
 
+    public RMIServerInterface getEndPoint() throws RemoteException {
+        RMIServerInterface obj = new RMIServerInstance(users, server);
+        RMIServerInterface  stub = (RMIServerInterface) UnicastRemoteObject.exportObject(obj, 0);
+        objs.add(stub);
+        return stub;
+    }
+
+    public RMIServerInterface getStub(){
+        return this.stub;
+    }
+
     @Override
     public void login(Player p, RMIClientInterface c) throws RemoteException {
-        RMIClientObject client = new RMIClientObject(p, c);
-        boolean result= server.addClient(client);
-        client.answerLogin(result);
+        RMIClientObjectInterface client = new RMIClientObject(p, c);
+        RMIClientObjectInterface clientstub = (RMIClientObjectInterface) UnicastRemoteObject.exportObject(client,0);
+
+        boolean result= server.addClient(clientstub);
+
+        clientstub.answerLogin(result);
+
 
         if(result){
-            server.addAlreadyLoogedPlayers(client);
-            server.addLoggedPlayer(client.getPlayer());
+            server.addAlreadyLoogedPlayers(clientstub);
+            server.addLoggedPlayer(clientstub.getPlayer());
 
             server.checkTimer();
 
@@ -81,18 +99,24 @@ public class RMIServer  implements RMIServerInterface {
     }
 
     @Override
-    public void patternCardValidation(String patternName, RMIClientInterface c){
+    public void patternCardValidation(String patternName, RMIClientInterface c) throws RemoteException {
         ClientObject client=null;
         for(ClientObject clients: users){
             try {
                 if(clients.getPlayer().getName().equals(c.getName())){
                     client = clients;
                 }
-            } catch (RemoteException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
+
         }
         server.setPlayerChoice(client, patternName);
+    }
+
+    @Override
+    public RMIServerInterface getNewStub() throws RemoteException {
+        return getEndPoint();
     }
 
 }

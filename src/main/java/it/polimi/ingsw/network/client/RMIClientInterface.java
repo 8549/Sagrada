@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.model.PatternCard;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.network.server.RMIServerInterface;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -23,4 +24,6 @@ public interface RMIClientInterface extends ClientInterface, Remote {
     void initPatternCardChoice(List<PatternCard> choices) throws RemoteException;
 
     void initGame(List<Player> p) throws RemoteException;
+
+    void setEndPoint(RMIServerInterface server) throws RemoteException;
 }

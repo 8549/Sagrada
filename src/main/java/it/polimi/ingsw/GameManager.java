@@ -31,6 +31,9 @@ public class GameManager {
         this.players = players;
         System.out.println("Game is started with " + players.toString());
         board = new Board();
+
+    }
+    public void init(){
         gameSetup();
         playerSetup();
     }
@@ -111,8 +114,10 @@ public class GameManager {
             // set pattern card da player;
             System.out.println("Game manager ask for Pattern to " + player.getName());
 
-            server.choosePatternCard(choices, player);
+        }
 
+        for (Player p : players){
+            server.choosePatternCard(p.getChoices(), p);
         }
         server.setPublicObj(publicObjectiveCards);
 
@@ -183,7 +188,13 @@ public class GameManager {
     }
 
 
-    public void completePlayerSetup(Player p, String patternCardName) {
+    public void completePlayerSetup(Player playerC, String patternCardName) {
+        Player p = null;
+        for (Player pl : players){
+            if (pl.getName().equals(playerC.getName())){
+                p = pl;
+            }
+        }
         WindowPattern w = null;
         for (PatternCard c : p.getChoices()) {
             if (c.getBack().getName().equals(patternCardName)) {
@@ -192,7 +203,8 @@ public class GameManager {
                 w = c.getFront();
             }
         }
-        boolean everybodyHasChosen = true;
+        boolean everybodyHasChosen = false;
+        boolean flag = true;
         if (w != null) {
             System.out.println("Setting " + w.getName() + " to " + p.getName());
             for (Player player : players) {
@@ -201,8 +213,12 @@ public class GameManager {
 
                 }
                 if (!player.hasChosenPatternCard()) {
-                    everybodyHasChosen = false;
+                    flag = false;
                 }
+            }
+            if(flag){
+                everybodyHasChosen= true;
+
             }
         } else {
             System.out.println("Error, patterncard not found! ");
