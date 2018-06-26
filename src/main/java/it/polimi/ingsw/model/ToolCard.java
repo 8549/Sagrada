@@ -3,29 +3,44 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.GameManager;
 import it.polimi.ingsw.model.effect.Effect;
 
+import java.util.Iterator;
 import java.util.List;
 
 //TODO
 public class ToolCard {
     private List<Effect> effects;
     private GameManager gameManager;
+    private Player player;
     private int tokens;
     private boolean used;
     private String name;
     private int id;
     private String when;
     private List<String> features;
-    private int newRow;
-    private int newColumn;
-    private int oldRow;
-    private int oldColumn;
-    private int value;
+    //attributes for effects
     private Die die;
     int turnForRoundTrack;
     int numberOfDieForRoundTrack;
-    private Player player;
     private boolean decrease;
     private boolean placeDie;
+    private boolean moveOneDie;
+    private boolean number;
+    private boolean color;
+    private boolean adjacency;
+    private boolean place;
+    private Iterator effectIterator;
+    private boolean everythingOk;
+
+    public ToolCard(Player player, GameManager gameManager, String name, int id, String when, List<String> features) {
+        this.player = player;
+        this.gameManager = gameManager;
+        effectIterator = effects.iterator();
+        everythingOk=true;
+        this.name=name;
+        this.id=id;
+        this.when=when;
+        this.features=features;
+    }
 
 
     public boolean isUsed() {
@@ -45,12 +60,124 @@ public class ToolCard {
     }
 
     public void useTools() {
-        for (Effect effect : effects){
+        performEffect();
+
+    }
+
+    public void performEffect() {
+        Effect currentEffect;
+        if (effectIterator.hasNext() && everythingOk) {
+            currentEffect = (Effect) effectIterator.next();
+            switch (currentEffect.getName()) {
+                case "addDieToDicePool":
+                    currentEffect.perform(die);
+                    checkHasNextEffect();
+                    break;
+                case "changeTurnOrder":
+                    currentEffect.perform(gameManager.getRound());
+                    checkHasNextEffect();
+                    break;
+                case "checkIsDiePlaced":
+                    currentEffect.perform(gameManager.getRound().getTurn());
+                    checkHasNextEffect();
+                    break;
+                case "checkIsSecondTurn":
+                    currentEffect.perform(gameManager.getRound());
+                    checkHasNextEffect();
+                    break;
+                case "chooseDieFromDraftPool":
+                    currentEffect.perform();
+                    break;
+                case "chooseDieFromRoundTrack":
+                    currentEffect.perform();
+                    break;
+                case "chooseDieFromWindowPattern":
+                    currentEffect.perform();
+                    break;
+                case "chooseDieValue":
+                    currentEffect.perform(die);
+                    break;
+                case "chooseIfDecreaseOrIncreaseValue" :
+                    currentEffect.perform();
+                    break;
+                case "chooseIfPlaceDieOrPlaceDieInDraftPool":
+                    currentEffect.perform();
+                    break;
+                case "chooseToMoveOneOrTwoDice" :
+                    currentEffect.perform();
+                    break;
+                case "decreaseValueDie":
+                    currentEffect.perform(die, decrease);
+                    checkHasNextEffect();
+                    break;
+                case "flipDie":
+                    currentEffect.perform(die);
+                    checkHasNextEffect();
+                    break;
+                case  "getDieFromDicePool":
+                    currentEffect.perform();
+                    checkHasNextEffect();
+                    break;
+                case "increaseValueDie":
+                    currentEffect.perform(die, decrease);
+                    checkHasNextEffect();
+                    break;
+                case "moveDie":
+                    currentEffect.perform();
+                    break;
+                case "moveDieWithoutColorConstraint":
+                    currentEffect.perform();
+                    break;
+                case "moveDieWithoutNumberConstraint":
+                    currentEffect.perform();
+                    break;
+                case "moveDieWithSameColorAsDieFromRoundTrack":
+                    currentEffect.perform();
+                    break;
+                case "placeDie":
+                    currentEffect.perform();
+                    break;
+                case "placeDieInDraftPool":
+                    currentEffect.perform(placeDie, gameManager.getBoard(), die);
+                    checkHasNextEffect();
+                    break;
+                case "placeDieWithoutAdjacencyConstraint":
+                    currentEffect.perform();
+                    break;
+                case "replaceDieOnRoundTrack":
+                    currentEffect.perform(die, turnForRoundTrack, numberOfDieForRoundTrack, gameManager.getBoard());
+                    checkHasNextEffect();
+                    break;
+                case "rollAllDice":
+                    currentEffect.perform(gameManager.getRound());
+                    checkHasNextEffect();
+                    break;
+                case "rollDie":
+                    currentEffect.perform(die);
+                    checkHasNextEffect();
+                    break;
+            }
 
         }
-        used = true;
-        addTokens();
     }
+
+    public void checkHasNextEffect(){
+        if(effectIterator.hasNext() && everythingOk){
+           performEffect();
+        }
+        else {endToolCard();}
+    }
+
+    private void endToolCard() {
+        gameManager.getServer().notifyPlayerIfToolCardWorked(everythingOk);
+        if(everythingOk){
+            gameManager.getRound().getTurn().setToolCardUsed();
+            player.removeTokens(getCost());
+            addTokens();
+            used = true;
+        }
+    }
+
 
     public int getTokens() {
         return tokens;
@@ -63,49 +190,75 @@ public class ToolCard {
     }
 
 
-    public boolean processMoveWithoutConstraints(boolean number, boolean color, boolean adjacency, boolean place){
+
+    public void processMoveWithoutConstraints(boolean number, boolean color, boolean adjacency, boolean place) {
+        this.number=number;
+        this.color=color;
+        this.adjacency=adjacency;
+        this.place=place;
         setNewCoordinates();
-        if(adjacency){
-            setOldCoordinates();
-        }
+    }
+
+    public void getDieFromDicePool() {
+        die = gameManager.getBoard().getDiceBag().draftDie();
+    }
+
+    public void chooseDieFromWindowPattern() {
+        setOldCoordinates();
+    }
+
+    public void chooseDieFromDraftPool() {
+    } //TODO
+
+    public void chooseDieFromRoundTrack() {
+    } //TODO
+
+    public void chooseIfDecrease() {
+    } //TODO
+
+    public void chooseIfPlaceDie() {
+    } //TODO
+
+    public void chooseToMoveOneDie(){
+        //if he chooses to move just one die everythingIsOk is set to false so the tool card won't keep performing effects
+    }//TODO
+
+    public void setValue() {
+        gameManager.getServer().chooseDieValueForToolCards();
+    } //TODO
+
+    public void setOldCoordinates() {
+    } //TODO
+
+    public void setNewCoordinates() {
+    } //TODO
+
+    public void completeProcessMove(int newRow, int newColumn, int oldRow, int oldColumn){
         MoveValidator moveValidator = new MoveValidator(gameManager.getRound().getTurn(), gameManager.getRound().getDraftPool(), number, color, adjacency);
-        if(moveValidator.validateMove(die, newRow, newColumn, player)){
-            if(!adjacency || place){
+        if (moveValidator.validateMove(die, newRow, newColumn, player)) {
+            if (!adjacency || place) {
                 player.getPlayerWindow().addDie(die, newRow, newColumn);
                 gameManager.getRound().getTurn().setDiePlaced();
-            }else{
+            } else {
                 player.getPlayerWindow().moveDie(oldRow, oldColumn, newRow, newColumn);
             }
-            return true;
+            everythingOk = true;
+        } else {
+        everythingOk = false;
         }
-        return false;
     }
 
-    public void getDieFromDicePool(){
-        die=gameManager.getBoard().getDiceBag().draftDie();
+    public void completeChooseDieFromWindowPattern(int oldRow, int oldColumn){
+        die = player.getPlayerWindow().getCellAt(oldRow, oldColumn).getDie();
+        everythingOk = true;
     }
 
-
-    public void chooseDieFromWindowPattern(){
-        setOldCoordinates();
-        die=player.getPlayerWindow().getCellAt(oldRow, oldColumn).getDie();
+    public void setResponse(boolean resultEffect){
+        everythingOk=resultEffect;
     }
 
-    public int getValue(){return value;}
-
-
-    public void chooseDieFromDraftPool(){} //TODO
-
-    public void chooseDieFromRoundTrack(){} //TODO
-
-    public void chooseIfDecrease(){} //TODO
-
-    public void chooseIfPlaceDie(){} //TODO
-
-    public void setValue(){} //TODO
-
-    public void setOldCoordinates(){} //TODO
-
-    public void setNewCoordinates(){ } //TODO
-
+    public void completeChooseValue(int value){
+        die.setNumber(value);
+        everythingOk = true;
+    }
 }

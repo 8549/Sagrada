@@ -13,6 +13,7 @@ public class Player implements Serializable {
     List<PatternCard> choices;
     private boolean chosenPatternCard = false;
     private boolean isPlaying = false;
+    private int points;
     private PlayerStatus status;
 
     public Player(String name) {
@@ -21,8 +22,8 @@ public class Player implements Serializable {
         this.privateObjectiveCardSet = false;
         this.choices = new ArrayList<>();
         status = PlayerStatus.PASSIVE;
+        points=0;
     }
-
 
 
     /**
@@ -63,27 +64,37 @@ public class Player implements Serializable {
         this.tokens = playerWindow.getWindowPattern().getDifficulty();
     }
 
-    public List<PatternCard> getChoices(){
+    public void removeTokens(int numOfTokens) {
+        tokens = tokens - numOfTokens;
+    }
+
+    public List<PatternCard> getChoices() {
         return this.choices;
     }
     public void setChoices(List<PatternCard> choices){
         this.choices.addAll(choices);
     }
 
-    public boolean hasChosenPatternCard(){
+    public boolean hasChosenPatternCard() {
         return this.chosenPatternCard;
     }
 
-    public void setHasChosenPatternCard(boolean chosen){
+    public void setHasChosenPatternCard(boolean chosen) {
         this.chosenPatternCard = chosen;
     }
 
-
-
+    public void addPoints(int points){
+        this.points=+points;
+    }
 
     @Override
     public String toString() {
         return name;
     }
+
+    public int getPoints() {
+        return points;
+    }
+
 }
 
