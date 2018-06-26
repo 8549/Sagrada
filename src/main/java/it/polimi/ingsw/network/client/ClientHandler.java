@@ -200,11 +200,15 @@ public class ClientHandler implements Serializable {
         }
     }
 
-    public void notifyTurnStarted(String name) {
+    public void notifyTurnStarted(String name, int round, int turn) {
         Runnable task = new Runnable() {
             @Override
             public void run() {
+                proxyModel.setCurrentRound(round);
+                proxyModel.setCurrentTurn(turn);
                 if (proxyModel.getMyself().getName().equals(name)) {
+                    proxyModel.setCurrentPlayer(proxyModel.getMyself());
+
                     ui.myTurnStarted();
                 } else {
                     proxyModel.setCurrentPlayer(new Player(name));

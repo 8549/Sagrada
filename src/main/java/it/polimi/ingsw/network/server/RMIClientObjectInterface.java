@@ -1,9 +1,6 @@
 package it.polimi.ingsw.network.server;
 
-import it.polimi.ingsw.model.Die;
-import it.polimi.ingsw.model.ObjCard;
-import it.polimi.ingsw.model.PatternCard;
-import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.*;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -25,13 +22,13 @@ public interface RMIClientObjectInterface extends ClientObject, Remote {
     @Override
     void pushOpponentsInit(List<Player> thinPlayers) throws RemoteException;
     @Override
-    void pushPublicObj(ObjCard[] publicObj) throws RemoteException;
+    void pushPublicObj(PublicObjectiveCard[] publicObj) throws RemoteException;
     @Override
-    void setPrivObj(ObjCard privObj, List<Player> players) throws RemoteException;
+    void setPrivObj(String name, List<Player> players) throws RemoteException;
     @Override
     void pushDraft(List<Die> draft) throws RemoteException;
     @Override
-    void notifyTurn(Player p) throws RemoteException;
+    void notifyTurn(Player p, int round, int turn) throws RemoteException;
     @Override
     void notifyMoveResponse(boolean response, String type) throws RemoteException;
     @Override

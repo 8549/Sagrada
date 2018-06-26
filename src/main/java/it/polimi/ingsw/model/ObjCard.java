@@ -1,6 +1,8 @@
 package it.polimi.ingsw.model;
 
-public abstract class ObjCard implements Card{
+import java.io.Serializable;
+
+public abstract class ObjCard implements Card, Serializable{
     private String name;
     private int points;
     private ObjectiveCardType type;
@@ -28,7 +30,7 @@ public abstract class ObjCard implements Card{
         COUNT
     }
 
-    class Prize {
+    class Prize implements Serializable {
         PrizeType type;
         int value;
 

@@ -199,7 +199,7 @@ public class CLI implements UI {
             System.out.print(" " + d.toCLI());
         }
         System.out.print("\nPublic objective cards: ");
-        for (PublicObjectiveCard c : model.getPublicObjectiveCards()) {
+        for (ObjCard c : model.getPublicObjectiveCards()) {
             System.out.print(String.format("%s, ", c.getName()));
         }
         System.out.println("\nYour private objective card: " + model.getMyself().getPrivateObjectiveCard().getName());

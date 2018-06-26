@@ -13,10 +13,10 @@ public interface ClientObject  {
     public  void requestPatternCardChoice(List<PatternCard> patternCards)throws IOException;
     public  void pushPatternCardResponse(String name)throws IOException;
     public  void pushOpponentsInit(List<Player> thinPlayers)throws IOException;
-    public  void pushPublicObj(ObjCard[] publicObj)throws IOException;
-    public  void setPrivObj(ObjCard privObj, List<Player> players)throws IOException;
+    public  void pushPublicObj(PublicObjectiveCard[] publicObj)throws IOException;
+    public  void setPrivObj(String name, List<Player> players)throws IOException;
     public  void pushDraft(List<Die> draft)throws IOException;
-    public  void notifyTurn(Player p)throws IOException;
+    public  void notifyTurn(Player p, int round, int turn)throws IOException;
     public  void notifyMoveResponse(boolean response, String type)throws IOException;
 
     public Player getPlayer()throws IOException;

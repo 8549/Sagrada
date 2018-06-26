@@ -1,8 +1,7 @@
 package it.polimi.ingsw.network.client;
 
-import it.polimi.ingsw.model.PatternCard;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.WindowPattern;
+import com.google.gson.reflect.TypeToken;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.server.RMIServerInterface;
 import it.polimi.ingsw.network.server.ServerInterface;
 import javafx.collections.FXCollections;
@@ -107,8 +106,55 @@ public class RMIClient implements RMIClientInterface, Serializable {
     }
 
     @Override
+    public void setPrivateObj(String name) throws RemoteException {
+        CardsDeck objDeckpriv = new CardsDeck("PrivateObjectiveCards.json", new TypeToken<List<PrivateObjectiveCard>>() {
+        }.getType());
+        CardsDeck blankDeck = new CardsDeck("BlankObjectiveCard.json", new TypeToken<List<PrivateObjectiveCard>>() {
+        }.getType());
+        PrivateObjectiveCard blankCard = (PrivateObjectiveCard) blankDeck.getRandomCard();
+
+        ch.setPrivateObj(ch.getModel().getMyself().getName(), (PrivateObjectiveCard) objDeckpriv.getByName(name));
+
+        for (Player p : ch.getModel().getPlayers()){
+            ch.setPrivateObj(p.getName(), blankCard);
+        }
+
+    }
+
+    @Override
+    public void setPublicObj(List<PublicObjectiveCard> publicObjCards) throws RemoteException {
+        ch.setPublicObjCard(publicObjCards);
+    }
+
+    @Override
+    public void setDraft(List<Die> draft) throws RemoteException {
+        ch.setDraftPool(draft);
+    }
+
+    @Override
+    public void beginTurn(String name, int round, int turn) throws RemoteException {
+        ch.notifyTurnStarted(name, round, turn);
+    }
+
+    @Override
+    public void patternCardResponse(String name) throws RemoteException {
+        ch.initPatternCard(name);
+    }
+
+    @Override
     public void setEndPoint(RMIServerInterface server) throws RemoteException {
         this.server = server;
+    }
+
+    @Override
+    public void updateOpponentsInfo(List<Player> players) throws RemoteException {
+        for(Player p1 : ch.getModel().getPlayers()){
+            for(Player p2 : players){
+                if (p1.getName().equals(p2.getName())){
+                    ch.initPlayer(p2.getName(), p2.getPlayerWindow().getWindowPattern().getName());
+                }
+            }
+        }
     }
 
 }

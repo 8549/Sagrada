@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.client;
 
-import it.polimi.ingsw.model.PatternCard;
-import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.server.RMIServerInterface;
 
 import java.rmi.Remote;
@@ -25,5 +24,13 @@ public interface RMIClientInterface extends ClientInterface, Remote {
 
     void initGame(List<Player> p) throws RemoteException;
 
+    void setPrivateObj(String name) throws RemoteException;
+
+    void setPublicObj(List<PublicObjectiveCard> publicObjCards) throws RemoteException;
+    void setDraft(List<Die> draft) throws RemoteException;
+    void beginTurn(String name, int round, int turn) throws RemoteException;
+    void patternCardResponse(String name)throws RemoteException;
+
     void setEndPoint(RMIServerInterface server) throws RemoteException;
+    void updateOpponentsInfo(List<Player> players) throws RemoteException;
 }

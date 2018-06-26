@@ -14,7 +14,7 @@ public class GameManager {
     public static final int TOOL_CARDS_NUMBER = 3;
     private MainServer server;
     private List<Player> players;
-    private ObjCard[] publicObjectiveCards = new ObjCard[PUBLIC_OBJ_CARDS_NUMBER];
+    private PublicObjectiveCard[] publicObjectiveCards = new PublicObjectiveCard[PUBLIC_OBJ_CARDS_NUMBER];
     private ToolCard[] toolCard;
     private Player firstPlayer;
     private Player currentPlayer;
@@ -68,7 +68,7 @@ public class GameManager {
         CardsDeck objDeck = new CardsDeck("PublicObjectiveCards.json", new TypeToken<List<PublicObjectiveCard>>() {
         }.getType());
         for (int j = 0; j < PUBLIC_OBJ_CARDS_NUMBER; j++) {
-            publicObjectiveCards[j] = (ObjCard) objDeck.getRandomCard();
+            publicObjectiveCards[j] = (PublicObjectiveCard) objDeck.getRandomCard();
         }
         board.setPublicObjectiveCards(publicObjectiveCards);
 
@@ -77,7 +77,7 @@ public class GameManager {
         firstPlayer = players.get(0);
         board.setDiceBag();
 
-        numberCurrentRound = 0;
+        numberCurrentRound = 1;
     }
 
     /**
@@ -101,7 +101,6 @@ public class GameManager {
 
             //obj priv
             player.setPrivateObjectiveCard((ObjCard) privateObjectiveCardsDeck.getRandomCard());
-            server.setPrivateObj(player, player.getPrivateObjectiveCard());
 
             //pattern card
             List<PatternCard> choices = new ArrayList<>();
@@ -117,6 +116,7 @@ public class GameManager {
         }
 
         for (Player p : players){
+            server.setPrivateObj(p);
             server.choosePatternCard(p.getChoices(), p);
         }
         server.setPublicObj(publicObjectiveCards);
@@ -153,12 +153,13 @@ public class GameManager {
     }
 
     public void startCurrentTurn() {
-        server.notifyBeginTurn(round.getTurn().getPlayer());
+        server.notifyBeginTurn(round.getTurn().getPlayer(), numberCurrentRound,getRound().getCurrentTurn() );
     }
 
     public void endCurrentTurn() {
         round.passCurrentTurn();
         server.notifyEndTurn(players);
+
         if (round.getCurrentTurn() < round.getTurns().size()) {
             startCurrentTurn();
         } else {
@@ -173,7 +174,7 @@ public class GameManager {
         players.remove(0);
         board.getRoundTrack().addRound(dieForRoundTrack);
         numberCurrentRound++;
-        if (numberCurrentRound < ROUNDS) {
+        if (numberCurrentRound <= ROUNDS) {
             startRound();
         }
     }
@@ -188,7 +189,7 @@ public class GameManager {
     }
 
 
-    public void completePlayerSetup(Player playerC, String patternCardName) {
+    public  void completePlayerSetup(Player playerC, String patternCardName) {
         Player p = null;
         for (Player pl : players){
             if (pl.getName().equals(playerC.getName())){
@@ -229,7 +230,8 @@ public class GameManager {
             for (Player player : players) {
                 player.setInitialTokens();
             }
-            server.initPlayersData();
+            List<Player> updatedPlayer = new ArrayList<>(players);
+            server.initPlayersData(updatedPlayer);
             startRound();
 
         }

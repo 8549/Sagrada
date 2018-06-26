@@ -1,6 +1,7 @@
 package it.polimi.ingsw.ui;
 
 import it.polimi.ingsw.model.Die;
+import it.polimi.ingsw.model.ObjCard;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PublicObjectiveCard;
 import javafx.beans.property.IntegerProperty;
@@ -18,7 +19,7 @@ public class ProxyModel  {
     private ObservableList<Player> players = FXCollections.observableArrayList();
     private IntegerProperty currentRound;
     private IntegerProperty currentTurn;
-    private List<PublicObjectiveCard> publicObjectiveCards = new ArrayList<>();
+    private List<ObjCard> publicObjectiveCards = new ArrayList<>();
 
     public ObservableList<Die> getDraftPool() {
         return draftPool;
@@ -28,7 +29,7 @@ public class ProxyModel  {
         return currentPlayer;
     }
 
-    public List<PublicObjectiveCard> getPublicObjectiveCards() {
+    public List<ObjCard> getPublicObjectiveCards() {
         return publicObjectiveCards;
     }
 

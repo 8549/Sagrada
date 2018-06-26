@@ -1,17 +1,15 @@
 package it.polimi.ingsw.network.server;
 
-import it.polimi.ingsw.model.Die;
-import it.polimi.ingsw.model.ObjCard;
-import it.polimi.ingsw.model.PatternCard;
-import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.client.RMIClientInterface;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class RMIClientObject implements RMIClientObjectInterface, RMIServerInterface {
+public class RMIClientObject implements RMIClientObjectInterface {
     private RMIClientInterface client;
     private ServerInterface server;
     private Player player;
@@ -24,34 +22,22 @@ public class RMIClientObject implements RMIClientObjectInterface, RMIServerInter
     public void pushPlayers(List<Player> players) {
         List<Player> p = new ArrayList<>();
         p.addAll(players);
-        new Thread(){
-            public void run(){
-                try {
-                    client.addPlayersToProxy(p);
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
+        try {
+            client.addPlayersToProxy(p);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
-
-        return;
     }
 
     @Override
     public void pushLoggedPlayer(Player player) {
-        new Thread(){
-            public void run(){
-                try {
-                    client.addPlayerToProxy(new Player(player.getName()));
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
 
-
-        return;
+        try {
+            client.addPlayerToProxy(new Player(player.getName()));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -61,24 +47,27 @@ public class RMIClientObject implements RMIClientObjectInterface, RMIServerInter
 
     @Override
     public void notifyGameStarted(List<Player> players) {
-        new Thread(){
-            public void run(){
-                try {
-                    client.initGame(players);
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
+        List<Player> playerstoSend = new ArrayList<>();
+        for (Player p : players){
+            if (!p.getName().equals(this.getPlayer().getName())){
+            playerstoSend.add(p);
             }
-        }.start();
+
+        }
+
+        try {
+            client.initGame(playerstoSend);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
 
-        return;
+
     }
 
     @Override
     public void requestPatternCardChoice(List<PatternCard> patternCards) {
-        List<PatternCard> patterns = new ArrayList<>();
-        patterns.addAll(patternCards);
+        List<PatternCard> patterns = new ArrayList<>(patternCards);
         new Thread(){
             public void run(){
                 try {
@@ -94,32 +83,67 @@ public class RMIClientObject implements RMIClientObjectInterface, RMIServerInter
 
     @Override
     public void pushPatternCardResponse(String name) {
-
+        try {
+            client.patternCardResponse(name);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void pushOpponentsInit(List<Player> thinPlayers) {
+        List<Player> playerstoSend = new ArrayList<>();
+        for (Player p : thinPlayers){
+            if (!p.getName().equals(this.getPlayer().getName())){
+                playerstoSend.add(p);
+            }
 
+        }
+        try {
+            client.updateOpponentsInfo(playerstoSend);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void pushPublicObj(ObjCard[] publicObj) {
-
+    public void pushPublicObj(PublicObjectiveCard[] publicObj) {
+        List<PublicObjectiveCard> p = new ArrayList<>();
+        p.addAll(Arrays.asList(publicObj));
+        try {
+            client.setPublicObj(p);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void setPrivObj(ObjCard privObj, List<Player> players) {
-
+    public void setPrivObj(String name, List<Player> players) {
+        try {
+            client.setPrivateObj(name);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void pushDraft(List<Die> draft) {
-
+    List<Die> d = new ArrayList<>();
+    d.addAll(draft);
+        try {
+            client.setDraft(draft);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void notifyTurn(Player p) {
-
+    public void notifyTurn(Player p, int round, int turn) {
+        try {
+            client.beginTurn(p.getName(), round, turn);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -134,34 +158,13 @@ public class RMIClientObject implements RMIClientObjectInterface, RMIServerInter
 
     @Override
     public void answerLogin(boolean response){
-        new Thread(){
-            public void run(){
-                try {
-                    client.loginResponse(response);
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
-    }
-
-    @Override
-    public void start(String[] args) throws RemoteException {
+        try {
+            client.loginResponse(response);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
 
     }
 
-    @Override
-    public void login(Player p, RMIClientInterface c) throws RemoteException {
 
-    }
-
-    @Override
-    public void patternCardValidation(String patternName, RMIClientInterface c) throws RemoteException {
-
-    }
-
-    @Override
-    public RMIServerInterface getNewStub() throws RemoteException {
-        return null;
-    }
 }

@@ -82,7 +82,7 @@ public class SocketClientObject implements ClientObject {
     }
 
     @Override
-    public void pushPublicObj(ObjCard[] publicObj) {
+    public void pushPublicObj(PublicObjectiveCard[] publicObj) {
         String data="";
         for (int i=0; i < PUBLIC_OBJ_CARDS_NUMBER; i++ ){
             data = data + publicObj[i].getName() + "/";
@@ -91,9 +91,9 @@ public class SocketClientObject implements ClientObject {
     }
 
     @Override
-    public void setPrivObj(ObjCard privObj, List<Player> players) {
+    public void setPrivObj(String name, List<Player> players) {
         String data ="";
-        data = this.getPlayer().getName() + "/" + privObj.getName() + "/";
+        data = this.getPlayer().getName() + "/" + name + "/";
         for (Player p :players){
             if (!p.getName().equals(this.player.getName())) {
                 data = data + p.getName() + "/blank/";
@@ -112,8 +112,8 @@ public class SocketClientObject implements ClientObject {
     }
 
     @Override
-    public void notifyTurn(Player p) {
-        socketHandler.send("update", "turnStarted", p.getName());
+    public void notifyTurn(Player p, int round, int turn) {
+        socketHandler.send("update", "turnStarted", p.getName() + "/" + round + "/" + turn);
     }
 
     @Override

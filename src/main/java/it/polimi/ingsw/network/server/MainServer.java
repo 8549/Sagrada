@@ -230,10 +230,11 @@ public class MainServer {
     }
 
     public  void gameStartedProcedures(List<Player> players){
-        inGameClients.addAll(connectedClients);
+        List<Player> p = new ArrayList<>(players);
+        inGameClients.addAll(connectedClients); //todo:check for lobby
         for (ClientObject c : inGameClients){
             try {
-                c.notifyGameStarted(players);
+                c.notifyGameStarted(p);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -268,13 +269,13 @@ public class MainServer {
 
     }
 
-    public  void initPlayersData(){
+    public  void initPlayersData(List<Player> players){
         for(ClientObject client1 : inGameClients){
             List<Player> thinPlayers = new ArrayList<>();
-            for(ClientObject client2 : inGameClients){
+            for(Player client2 : players){
                 try {
-                    if (!client1.getPlayer().getName().equals(client2.getPlayer().getName())){
-                        thinPlayers.add(getOpponentVisibleFromClient(client2.getPlayer()));
+                    if (!client1.getPlayer().getName().equals(client2.getName())){
+                        thinPlayers.add(getOpponentVisibleFromClient(client2));
 
                     }
                 } catch (IOException e) {
@@ -298,7 +299,7 @@ public class MainServer {
         return player;
     }
 
-    public  void setPublicObj(ObjCard[] publicObj){
+    public  void setPublicObj(PublicObjectiveCard[] publicObj){
         for(ClientObject c : inGameClients){
             try {
                 c.pushPublicObj(publicObj);
@@ -309,12 +310,12 @@ public class MainServer {
 
     }
 
-    public  void setPrivateObj(Player p, ObjCard privateObjectiveCard){
+    public  void setPrivateObj(Player p){
         for (ClientObject c : inGameClients) {
             try {
                 if (c.getPlayer().getName().equals(p.getName())) {
-                    System.out.println("SETTING private " + privateObjectiveCard.getName() + "  to " + p.getName());
-                    c.setPrivObj(privateObjectiveCard, getPlayersFromClients(inGameClients));
+                    System.out.println("SETTING private " + p.getPrivateObjectiveCard().getName() + "  to " + p.getName());
+                    c.setPrivObj(p.getPrivateObjectiveCard().getName(), getPlayersFromClients(inGameClients));
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -332,10 +333,10 @@ public class MainServer {
         }
     }
 
-    public  void notifyBeginTurn(Player p ){
+    public  void notifyBeginTurn(Player p, int round, int turn){
         for (ClientObject c : inGameClients){
             try {
-                c.notifyTurn(p);
+                c.notifyTurn(p, round, turn);
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -172,9 +172,9 @@ public class SocketClient implements ClientInterface {
                     case "privObj": List<String> priv = socketParserClient.parseData(data);
                                     CardsDeck objDeckpriv = new CardsDeck("PrivateObjectiveCards.json", new TypeToken<List<PrivateObjectiveCard>>() {
                                     }.getType());
-                        CardsDeck blankDeck = new CardsDeck("BlankObjectiveCard.json", new TypeToken<List<PrivateObjectiveCard>>() {
-                        }.getType());
-                        PrivateObjectiveCard blankCard = (PrivateObjectiveCard) blankDeck.getRandomCard();
+                                    CardsDeck blankDeck = new CardsDeck("BlankObjectiveCard.json", new TypeToken<List<PrivateObjectiveCard>>() {
+                                    }.getType());
+                                    PrivateObjectiveCard blankCard = (PrivateObjectiveCard) blankDeck.getRandomCard();
                                     for (int i =0; i<priv.size(); i = i+2){
                                         if (priv.get(i+1).equals("blank")){
                                             //ch.setPrivateObj(priv.get(i), new BlankObjectiveCard());
@@ -196,9 +196,12 @@ public class SocketClient implements ClientInterface {
 
                         break;
 
-                    case "turnStarted": ch.notifyTurnStarted(data);
-
-                                        break;
+                    case "turnStarted":
+                        List<String> value = socketParserClient.parseData(data);
+                        int round = Integer.parseInt(value.get(1));
+                        int turn = Integer.parseInt(value.get(1));
+                        ch.notifyTurnStarted(value.get(0), round, turn);
+                        break;
 
                     default: break;
 
