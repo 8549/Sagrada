@@ -2,13 +2,12 @@ package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.GameManager;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.network.server.RMI.RMIServer;
+import it.polimi.ingsw.network.server.RMI.RMIServerInterface;
+import it.polimi.ingsw.network.server.socket.SocketServer;
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
 import java.util.*;
 
 public class MainServer {

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.network.server.RMIServerInterface;
+import it.polimi.ingsw.network.server.RMI.RMIServerInterface;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -13,6 +13,9 @@ public interface RMIClientInterface extends ClientInterface, Remote {
 
     @Override
     String getName() throws RemoteException;
+
+    @Override
+    void requestPlacement(int number, String color, int row, int column)throws RemoteException;
 
     void loginResponse(boolean result) throws RemoteException;
 
@@ -33,4 +36,6 @@ public interface RMIClientInterface extends ClientInterface, Remote {
 
     void setEndPoint(RMIServerInterface server) throws RemoteException;
     void updateOpponentsInfo(List<Player> players) throws RemoteException;
+    void moveResponse(boolean response) throws RemoteException;
+
 }

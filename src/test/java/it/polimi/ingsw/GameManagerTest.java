@@ -1,17 +1,8 @@
 package it.polimi.ingsw;
 
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.network.server.ClientObject;
-import it.polimi.ingsw.network.server.MainServer;
-import it.polimi.ingsw.network.server.ServerInterface;
-import it.polimi.ingsw.network.server.SocketServer;
-import javafx.beans.InvalidationListener;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-import java.rmi.RemoteException;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;

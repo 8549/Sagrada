@@ -2,7 +2,7 @@ package it.polimi.ingsw.network.client;
 
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.network.server.SocketParser;
+import it.polimi.ingsw.network.server.socket.SocketParser;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;

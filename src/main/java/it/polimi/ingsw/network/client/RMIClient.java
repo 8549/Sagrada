@@ -2,24 +2,15 @@ package it.polimi.ingsw.network.client;
 
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.network.server.RMIServerInterface;
-import it.polimi.ingsw.network.server.ServerInterface;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import it.polimi.ingsw.network.server.RMI.RMIServerInterface;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.net.MalformedURLException;
-import java.net.UnknownHostException;
-import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
-
-import static it.polimi.ingsw.network.server.MainServer.DEFAULT_RMI_PORT;
 
 
 public class RMIClient implements RMIClientInterface, Serializable {
@@ -67,7 +58,9 @@ public class RMIClient implements RMIClientInterface, Serializable {
 
     @Override
     public void requestPlacement(int number, String color, int row, int column) throws RemoteException{
-
+        Die d = new Die(SagradaColor.valueOf(color));
+        d.setNumber(number);
+        server.validateMove(d,row, column, this.player);
     }
 
     @Override
@@ -155,6 +148,11 @@ public class RMIClient implements RMIClientInterface, Serializable {
                 }
             }
         }
+    }
+
+    @Override
+    public void moveResponse(boolean response) throws RemoteException {
+        ch.handleMoveResponse(response);
     }
 
 }
