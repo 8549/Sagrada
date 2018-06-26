@@ -335,11 +335,20 @@ public class MainServer {
     public  void notifyBeginTurn(Player p, int round, int turn){
         for (ClientObject c : inGameClients){
             try {
-                c.notifyTurn(p, round, turn);
+                if(!c.getPlayer().getName().equals(p.getName())) {
+                c.notifyTurn(p, round, turn);}
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
+        }
+        for (ClientObject c : inGameClients){
+            try {
+                if(c.getPlayer().getName().equals(p.getName())){
+                    c.notifyTurn(p,round,turn);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

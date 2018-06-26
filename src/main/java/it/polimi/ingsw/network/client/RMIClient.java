@@ -60,7 +60,7 @@ public class RMIClient implements RMIClientInterface, Serializable {
     public void requestPlacement(int number, String color, int row, int column) throws RemoteException{
         Die d = new Die(SagradaColor.valueOf(color));
         d.setNumber(number);
-        server.validateMove(d,row, column, this.player);
+        server.validateMove(d,row, column, ch.getModel().getMyself());
     }
 
     @Override

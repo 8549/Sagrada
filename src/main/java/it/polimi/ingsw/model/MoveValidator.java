@@ -30,7 +30,7 @@ public class MoveValidator {
             return false;
         }
 
-        if (!turn.getPlayer().equals(player)) {
+        if (!turn.getPlayer().getName().equals(player.getName())) {
             return false;
         }
 
