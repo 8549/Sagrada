@@ -117,4 +117,13 @@ public class ProxyModel  {
     public void setCurrentPlayer(Player player){
         this.currentPlayer= player;
     }
+
+    public Player getByName(String name) {
+        for (Player p : players) {
+            if (name.equals(p.getName())) {
+                return p;
+            }
+        }
+        return new Player("PlayerNotFound"); //TODO change this into something better
+    }
 }
