@@ -385,7 +385,22 @@ public class MainServer {
         //chooses if the player wants to place the die or to put it back in the draft pool
         // if he chooses true he wants to place the die on the window pattern otherwise put it back in the draft pool
     }
+
+    public void chooseToPlaceOneDie(){
+        // chooses if the player wants to place one or two dice,
+        // if he chooses false he wants to move just one die, two otherwise
+    }
     public void chooseDieValueForToolCards(){
         //after drafting from the dice bag the player can choose the value of the die
     }
+
+    public void notifyWinner(Optional<Player> winner) {
+    }
+
+    public void notifyLosers(List<Player> players) {
+    }
+
+    public void notifyPlayerIfToolCardWorked(boolean toolCardWorked) {
+    }
+
 }
