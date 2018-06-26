@@ -5,12 +5,12 @@ import it.polimi.ingsw.model.Die;
 public class DecreaseValueEffect extends Effect {
 
     @Override
-    public boolean perform(Object... args) {
+    public void perform(Object... args) {
         Die die = (Die) args[0];
         boolean decrease = (boolean) args[1];
         if (decrease) {
             die.decrease();
         }
-        return true;
+        toolCard.setResponse(true);
     }
 }

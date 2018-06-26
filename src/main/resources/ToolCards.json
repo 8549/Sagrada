@@ -114,11 +114,11 @@
     "when": "always",
     "features": [
       "chooseDieFromRoundTrack",
-      "getColorFromDieOfRoundTrack",
       "chooseDieFromWindowPattern",
-      "moveDieWithSameColor",
+      "moveDieWithSameColorAsDieFromRoundTracks",
+      "chooseToMoveOneOrTwoDice",
       "chooseDieFromWindowPattern",
-      "moveDieWithSameColor"
+      "moveDieWithSameColorAsDieFromRoundTrack"
     ]
   }
 ]
