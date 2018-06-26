@@ -39,7 +39,7 @@ public class SocketClient implements ClientInterface {
         player = new Player(userName);
         port = portNumber;
         // Make connection and initialize streams
-        socket = new Socket(serverAddress, DEFAULT_SOCKET_PORT);
+        socket = new Socket(serverAddress, port);
         socketHandlerClient = new SocketHandlerClient(this, socket);
         socketHandlerClient.start();
 
