@@ -8,7 +8,7 @@ import java.util.List;
 public class MoveDieWithotColorConstraintEffect extends Effect{
 
     @Override
-    public boolean perform(Object... args) {
-        return toolCard.processMoveWithoutConstraints(true, false, true, false);
+    public void perform(Object... args) {
+        toolCard.processMoveWithoutConstraints(true, false, true, false);
     }
 }

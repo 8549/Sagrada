@@ -7,7 +7,7 @@ import it.polimi.ingsw.model.Player;
 
 public class PlaceDieEffect extends Effect {
     @Override
-    public boolean perform(Object... args) {
-        return toolCard.processMoveWithoutConstraints(true, true, true, true);
+    public void perform(Object... args) {
+        toolCard.processMoveWithoutConstraints(true, true, true, true);
     }
 }

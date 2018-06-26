@@ -2,8 +2,8 @@ package it.polimi.ingsw.model.effect;
 
 public class GetDieFromDicePoolEffect extends Effect{
     @Override
-    public boolean perform(Object... args) {
+    public void perform(Object... args) {
         toolCard.getDieFromDicePool();
-        return true;
+        toolCard.setResponse(true);
     }
 }

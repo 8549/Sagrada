@@ -131,6 +131,12 @@ public class GameManager {
     }
 
     public void endGame() {
+        for (Player player: players) {
+            player.addPoints(player.getPrivateObjectiveCard().checkObjective(player.getPlayerWindow().getDiceGrid()));
+            for (ObjCard pubCard: publicObjectiveCards) {
+                player.addPoints(pubCard.checkObjective(player.getPlayerWindow().getDiceGrid()));
+            }
+        }
         //check points private objective cards
         // check Points public objective cards
         // send points and winner
@@ -176,6 +182,9 @@ public class GameManager {
         numberCurrentRound++;
         if (numberCurrentRound <= ROUNDS) {
             startRound();
+        }
+        else {
+            endGame();
         }
     }
 
@@ -266,5 +275,7 @@ public class GameManager {
 
     public Round getRound(){return round;}
 
-
+    public MainServer getServer() {
+        return server;
+    }
 }

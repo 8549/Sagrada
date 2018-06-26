@@ -7,8 +7,8 @@ public class AddDieToDicePoolEffect extends Effect {
 
 
     @Override
-    public boolean perform(Object... args) {
+    public void perform(Object... args) {
         Die die = (Die) args[0];
-        return toolCard.addDieToDiceBag(die);
+        toolCard.setResponse(toolCard.addDieToDiceBag(die));
     }
 }

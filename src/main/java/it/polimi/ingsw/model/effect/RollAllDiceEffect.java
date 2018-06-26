@@ -7,11 +7,11 @@ import it.polimi.ingsw.model.Round;
 public class RollAllDiceEffect extends Effect {
 
     @Override
-    public boolean perform(Object... args) {
+    public void perform(Object... args) {
         Round round = (Round) args[0];
         for (Die die : round.getDraftPool()) {
             die.roll();
         }
-        return true;
+        toolCard.setResponse(true);
     }
 }

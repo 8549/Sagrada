@@ -7,12 +7,12 @@ import it.polimi.ingsw.model.Round;
 public class ReplaceDieOnRoundTrackEffect extends Effect {
 
     @Override
-    public boolean perform(Object... args) {
+    public void perform(Object... args) {
         Die die = (Die) args[0];
         int turn = (int) args[1];
         int numberOfDie = (int) args[2];
         Board board = (Board) args[3];
         board.getDraftPool().add(board.getRoundTrack().replaceDie(die, turn, numberOfDie));
-        return true;
+        toolCard.setResponse(true);
     }
 }

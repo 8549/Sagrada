@@ -4,9 +4,9 @@ import it.polimi.ingsw.model.Die;
 
 public class FlipDieEffect extends Effect{
     @Override
-    public boolean perform(Object... args) {
+    public void perform(Object... args) {
         Die die = (Die) args[0];
         die.flip();
-        return true;
+        toolCard.setResponse(true);
     }
 }

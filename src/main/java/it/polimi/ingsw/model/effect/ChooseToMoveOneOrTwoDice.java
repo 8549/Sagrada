@@ -1,8 +1,9 @@
 package it.polimi.ingsw.model.effect;
 
-public class ChooseDieFromDraftPoolEffect extends Effect {
+public class ChooseToMoveOneOrTwoDice extends Effect{
+
     @Override
     public void perform(Object... args) {
-        toolCard.chooseDieFromDraftPool();
+        toolCard.chooseToMoveOneDie();
     }
 }
