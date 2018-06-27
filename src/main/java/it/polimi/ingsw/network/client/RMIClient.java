@@ -155,4 +155,9 @@ public class RMIClient implements RMIClientInterface, Serializable {
         ch.handleMoveResponse(response);
     }
 
+    @Override
+    public void moveTimeOut() throws RemoteException {
+        ch.moveTimeIsOut();
+    }
+
 }

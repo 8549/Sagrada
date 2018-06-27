@@ -18,6 +18,7 @@ public interface ClientObject  {
     public  void pushDraft(List<Die> draft)throws IOException;
     public  void notifyTurn(Player p, int round, int turn)throws IOException;
     public  void notifyMoveResponse(boolean response, String type)throws IOException;
+    public void notifyEndTimeOut() throws IOException;
 
     public Player getPlayer()throws IOException;
 

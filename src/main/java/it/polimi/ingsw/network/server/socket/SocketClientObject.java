@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.server.ClientObject;
 import it.polimi.ingsw.network.server.ServerInterface;
 
+import java.io.IOException;
 import java.util.List;
 
 import static it.polimi.ingsw.GameManager.PUBLIC_OBJ_CARDS_NUMBER;
@@ -126,6 +127,11 @@ public class SocketClientObject implements ClientObject {
             socketHandler.send(type, "moveResponse", "Wrong move");
 
         }    }
+
+    @Override
+    public void notifyEndTimeOut() throws IOException {
+        socketHandler.send("update", "moveTimer","TimeIsOut" );
+    }
 
     @Override
     public Player getPlayer() {

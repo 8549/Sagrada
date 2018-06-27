@@ -203,6 +203,9 @@ public class SocketClient implements ClientInterface {
                         ch.notifyTurnStarted(value.get(0), round, turn);
                         break;
 
+                    case "moveTimer":
+                        ch.moveTimeIsOut();
+
                     default: break;
 
 

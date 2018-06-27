@@ -370,6 +370,18 @@ public class MainServer {
         gm.processMove(d, row, column, p);
     }
 
+    public void moveTimeOut(){
+        for(ClientObject c : inGameClients){
+            try {
+                if(c.getPlayer().getName().equals(gm.getCurrentPlayer().getName())){
+                   c.notifyEndTimeOut();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     //TODO
     public void notifyEndTurn(List<Player> players){}
     public void notifyEndRound(List<Player> players){}

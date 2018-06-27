@@ -170,5 +170,10 @@ public class RMIClientObject implements RMIClientObjectInterface {
 
     }
 
+    @Override
+    public void notifyEndTimeOut() throws RemoteException {
+
+    }
+
 
 }

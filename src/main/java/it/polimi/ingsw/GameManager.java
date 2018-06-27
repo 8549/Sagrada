@@ -2,16 +2,16 @@ package it.polimi.ingsw;
 
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.network.server.ClientObject;
 import it.polimi.ingsw.network.server.MainServer;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class GameManager {
     public static final int PATTERN_CARDS_PER_PLAYER = 2;
     public static final int PUBLIC_OBJ_CARDS_NUMBER = 3;
     public static final int TOOL_CARDS_NUMBER = 3;
+    public static final int MOVE_TIMEOUT = 8;
     private MainServer server;
     private List<Player> players;
     private PublicObjectiveCard[] publicObjectiveCards = new PublicObjectiveCard[PUBLIC_OBJ_CARDS_NUMBER];
@@ -24,6 +24,10 @@ public class GameManager {
     public static final int SECONDROUND = 2;
     private int numberCurrentRound;
     private Round round;
+    private boolean hasMoved=false;
+    private boolean timerIsRunning = false;
+    private Timer timer;
+
 
 
     public GameManager(MainServer server, List<Player> players) {
@@ -159,6 +163,8 @@ public class GameManager {
     }
 
     public void startCurrentTurn() {
+        currentPlayer = round.getTurn().getPlayer();
+        checkTimerMove();
         server.notifyBeginTurn(round.getTurn().getPlayer(), numberCurrentRound,getRound().getCurrentTurn() );
     }
 
@@ -253,6 +259,9 @@ public class GameManager {
         boolean result = mv.validateMove(die, row, column, player);
         boolean diePlaced = round.getTurn().isDiePlaced();
         if (result) {
+            timer.cancel();
+            timerIsRunning= false;
+            hasMoved= false;
             if (!diePlaced) {
                 round.getTurn().getPlayer().getPlayerWindow().addDie(die, row, column);
                 round.removeDieFromDraftPool(die);
@@ -266,6 +275,24 @@ public class GameManager {
         } else {
             server.notifyPlacementResponse(false, player);
             System.out.println("[DEBUG] Wrong move, should they try again or not?");
+        }
+    }
+
+    public void checkTimerMove() {
+        if (!timerIsRunning) {
+            timerIsRunning = true;
+            timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    if (!hasMoved){
+                        timerIsRunning = false;
+                        server.moveTimeOut();
+                    }
+                }
+            }, MOVE_TIMEOUT * 1000);
+
+
         }
     }
 
