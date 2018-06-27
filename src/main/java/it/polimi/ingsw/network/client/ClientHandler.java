@@ -211,7 +211,7 @@ public class ClientHandler implements Serializable {
 
                     ui.myTurnStarted();
                 } else {
-                    proxyModel.setCurrentPlayer(new Player(name));
+                    proxyModel.setCurrentPlayer(proxyModel.getByName(name));
                     System.out.println("[DEBUG] Now it's " + name + " turn");
                 }
             }
@@ -225,6 +225,10 @@ public class ClientHandler implements Serializable {
         }else{
             System.out.println("[DEBUG] Server response: Wrong Move!");
         }
+    }
+
+    public void moveTimeIsOut(){
+        System.out.println("Time is Out!!!!!!!");
     }
 }
 
