@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.GameManager;
+import it.polimi.ingsw.ToolCardHandler;
 import it.polimi.ingsw.model.effect.Effect;
 
 import java.util.Iterator;
@@ -10,6 +11,7 @@ import java.util.List;
 public class ToolCard {
     private List<Effect> effects;
     private GameManager gameManager;
+    private ToolCardHandler toolCardHandler;
     private Player player;
     private int tokens;
     private boolean used;
@@ -31,9 +33,7 @@ public class ToolCard {
     private Iterator effectIterator;
     private boolean everythingOk;
 
-    public ToolCard(Player player, GameManager gameManager, String name, int id, String when, List<String> features) {
-        this.player = player;
-        this.gameManager = gameManager;
+    public ToolCard(String name, int id, String when, List<String> features) {
         effectIterator = effects.iterator();
         everythingOk=true;
         this.name=name;
@@ -59,7 +59,9 @@ public class ToolCard {
         tokens = tokens + getCost();
     }
 
-    public void useTools() {
+    public void useTools(Player player, GameManager gameManager) {
+        this.player=player;
+        this.gameManager=gameManager;
         performEffect();
 
     }
@@ -169,7 +171,7 @@ public class ToolCard {
     }
 
     private void endToolCard() {
-        gameManager.getServer().notifyPlayerIfToolCardWorked(everythingOk);
+       // gameManager.getServer().notifyPlayerIfToolCardWorked(everythingOk);
         if(everythingOk){
             gameManager.getRound().getTurn().setToolCardUsed();
             player.removeTokens(getCost());
@@ -203,9 +205,7 @@ public class ToolCard {
         die = gameManager.getBoard().getDiceBag().draftDie();
     }
 
-    public void chooseDieFromWindowPattern() {
-        setOldCoordinates();
-    }
+    public void chooseDieFromWindowPattern() {}
 
     public void chooseDieFromDraftPool() {
     } //TODO
@@ -223,9 +223,7 @@ public class ToolCard {
         //if he chooses to move just one die everythingIsOk is set to false so the tool card won't keep performing effects
     }//TODO
 
-    public void setValue() {
-        gameManager.getServer().chooseDieValueForToolCards();
-    } //TODO
+    public void setValue() {} //TODO
 
     public void setOldCoordinates() {
     } //TODO
