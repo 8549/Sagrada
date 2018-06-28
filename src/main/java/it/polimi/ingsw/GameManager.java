@@ -24,10 +24,9 @@ public class GameManager {
     public static final int SECONDROUND = 2;
     private int numberCurrentRound;
     private Round round;
-    private boolean hasMoved=false;
+    private boolean hasMoved = false;
     private boolean timerIsRunning = false;
     private Timer timer;
-
 
 
     public GameManager(MainServer server, List<Player> players) {
@@ -37,7 +36,8 @@ public class GameManager {
         board = new Board();
 
     }
-    public void init(){
+
+    public void init() {
         gameSetup();
         playerSetup();
     }
@@ -119,7 +119,7 @@ public class GameManager {
 
         }
 
-        for (Player p : players){
+        for (Player p : players) {
             server.setPrivateObj(p);
             server.choosePatternCard(p.getChoices(), p);
         }
@@ -135,9 +135,9 @@ public class GameManager {
     }
 
     public void endGame() {
-        for (Player player: players) {
+        for (Player player : players) {
             player.addPoints(player.getPrivateObjectiveCard().checkObjective(player.getPlayerWindow().getDiceGrid()));
-            for (ObjCard pubCard: publicObjectiveCards) {
+            for (ObjCard pubCard : publicObjectiveCards) {
                 player.addPoints(pubCard.checkObjective(player.getPlayerWindow().getDiceGrid()));
             }
         }
@@ -165,7 +165,7 @@ public class GameManager {
     public void startCurrentTurn() {
         currentPlayer = round.getTurn().getPlayer();
         checkTimerMove();
-        server.notifyBeginTurn(round.getTurn().getPlayer(), numberCurrentRound,getRound().getCurrentTurn() );
+        server.notifyBeginTurn(round.getTurn().getPlayer(), numberCurrentRound, getRound().getCurrentTurn());
     }
 
     public void endCurrentTurn() {
@@ -188,8 +188,7 @@ public class GameManager {
         numberCurrentRound++;
         if (numberCurrentRound <= ROUNDS) {
             startRound();
-        }
-        else {
+        } else {
             endGame();
         }
     }
@@ -204,10 +203,10 @@ public class GameManager {
     }
 
 
-    public  void completePlayerSetup(Player playerC, String patternCardName) {
+    public void completePlayerSetup(Player playerC, String patternCardName) {
         Player p = null;
-        for (Player pl : players){
-            if (pl.getName().equals(playerC.getName())){
+        for (Player pl : players) {
+            if (pl.getName().equals(playerC.getName())) {
                 p = pl;
             }
         }
@@ -232,8 +231,8 @@ public class GameManager {
                     flag = false;
                 }
             }
-            if(flag){
-                everybodyHasChosen= true;
+            if (flag) {
+                everybodyHasChosen = true;
 
             }
         } else {
@@ -260,8 +259,8 @@ public class GameManager {
         boolean diePlaced = round.getTurn().isDiePlaced();
         if (result) {
             timer.cancel();
-            timerIsRunning= false;
-            hasMoved= false;
+            timerIsRunning = false;
+            hasMoved = false;
             if (!diePlaced) {
                 round.getTurn().getPlayer().getPlayerWindow().addDie(die, row, column);
                 round.removeDieFromDraftPool(die);
@@ -285,7 +284,7 @@ public class GameManager {
             timer.schedule(new TimerTask() {
                 @Override
                 public void run() {
-                    if (!hasMoved){
+                    if (!hasMoved) {
                         timerIsRunning = false;
                         server.moveTimeOut();
                     }
@@ -300,9 +299,42 @@ public class GameManager {
         return board;
     }
 
-    public Round getRound(){return round;}
+    public Round getRound() {
+        return round;
+    }
 
     public MainServer getServer() {
         return server;
     }
+
+    //methods for TOOL CARDS
+
+    public void chooseDieFromWindowPattern() {
+    }
+
+    public void chooseDieFromDraftPool() {
+    }
+
+    public void chooseDieFromRoundTrack() {
+    }
+
+    public void chooseIfDecrease() {
+    }
+
+    public void chooseIfPlaceDie() {
+    }
+
+    public void chooseToMoveOneDie() {
+        //if he chooses to move just one die everythingIsOk is set to false so the tool card won't keep performing effects
+    }
+
+    public void setValue() {
+    }
+
+    public void setOldCoordinates() {
+    }
+
+    public void setNewCoordinates() {
+    }
+
 }
