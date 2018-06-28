@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.GameManager;
 import it.polimi.ingsw.ToolCardHandler;
 import it.polimi.ingsw.model.effect.Effect;
+import it.polimi.ingsw.network.server.MainServer;
 
 import java.util.Iterator;
 import java.util.List;
@@ -59,9 +60,10 @@ public class ToolCard {
         tokens = tokens + getCost();
     }
 
-    public void useTools(Player player, GameManager gameManager) {
+    public void useTools(Player player, GameManager gameManager, MainServer server) {
         this.player=player;
         this.gameManager=gameManager;
+        toolCardHandler = new ToolCardHandler(gameManager, server, this);
         performEffect();
 
     }

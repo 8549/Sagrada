@@ -1,6 +1,19 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.model.ToolCard;
+import it.polimi.ingsw.network.server.MainServer;
+import sun.tools.tree.ThisExpression;
+
 public class ToolCardHandler {
+    GameManager gm;
+    MainServer server;
+    ToolCard toolcard;
+
+    public ToolCardHandler(GameManager gm, MainServer server, ToolCard toolCard){
+        this.gm= gm;
+        this.server= server;
+        this.toolcard = toolCard;
+    }
     public void chooseDieFromWindowPattern() {
     }
 
