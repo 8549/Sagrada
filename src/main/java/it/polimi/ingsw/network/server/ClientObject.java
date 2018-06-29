@@ -14,7 +14,7 @@ public interface ClientObject  {
     public  void pushPatternCardResponse(String name)throws IOException;
     public  void pushOpponentsInit(List<Player> thinPlayers)throws IOException;
     public  void pushPublicObj(PublicObjectiveCard[] publicObj)throws IOException;
-    public  void pushToolCards(List<ToolCard> tools)throws IOException;
+    public  void pushToolCards(List<String> tools)throws IOException;
     public  void setPrivObj(String name, List<Player> players)throws IOException;
     public  void pushDraft(List<Die> draft)throws IOException;
     public  void notifyTurn(Player p, int round, int turn)throws IOException;

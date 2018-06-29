@@ -5,6 +5,7 @@ import it.polimi.ingsw.ToolCardHandler;
 import it.polimi.ingsw.model.effect.Effect;
 import it.polimi.ingsw.network.server.MainServer;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 

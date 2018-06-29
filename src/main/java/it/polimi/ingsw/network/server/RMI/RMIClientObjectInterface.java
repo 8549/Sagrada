@@ -41,6 +41,6 @@ public interface RMIClientObjectInterface extends ClientObject, Remote {
     @Override
     public void notifyEndTurn(Player p) throws RemoteException;
     @Override
-    public  void pushToolCards(List<ToolCard> tools)throws RemoteException;
+    public  void pushToolCards(List<String> tools)throws RemoteException;
 
 }

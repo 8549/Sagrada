@@ -2,7 +2,6 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.model.ToolCard;
 import it.polimi.ingsw.network.server.MainServer;
-import sun.tools.tree.ThisExpression;
 
 public class ToolCardHandler {
     GameManager gm;

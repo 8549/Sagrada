@@ -94,10 +94,10 @@ public class SocketClientObject implements ClientObject {
     }
 
     @Override
-    public void pushToolCards(List<ToolCard> tools) throws IOException {
+    public void pushToolCards(List<String> tools) throws IOException {
         String data="";
-        for(ToolCard tool : tools){
-            data = data + "/" + tool.getName();
+        for(String tool : tools){
+            data = data + "/" + tool;
         }
         socketHandler.send("update", "tools", data);
     }

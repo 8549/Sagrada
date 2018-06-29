@@ -181,10 +181,10 @@ public class RMIClientObject implements RMIClientObjectInterface {
     }
 
     @Override
-    public void pushToolCards(List<ToolCard> tools) throws RemoteException {
+    public void pushToolCards(List<String> tools) throws RemoteException {
         List<String> names = new ArrayList<>();
-        for(ToolCard tool: tools){
-            names.add(tool.getName());
+        for(String tool: tools){
+            names.add(tool);
         }
         client.initTools(names);
     }

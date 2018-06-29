@@ -353,9 +353,14 @@ public class MainServer {
     }
 
     public void pushTools(List<ToolCard> toolCards){
+        List<String> tools = new ArrayList<>();
+        for(ToolCard tool : toolCards){
+            tools.add(tool.getName());
+        }
+
         for (ClientObject c : inGameClients){
             try {
-                c.pushToolCards(toolCards);
+                c.pushToolCards(tools);
             } catch (IOException e) {
                 e.printStackTrace();
             }
