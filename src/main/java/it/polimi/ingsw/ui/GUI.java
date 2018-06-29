@@ -1,13 +1,17 @@
 package it.polimi.ingsw.ui;
 
+import it.polimi.ingsw.model.Die;
 import it.polimi.ingsw.model.PatternCard;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.WindowPattern;
 import it.polimi.ingsw.network.client.ClientHandler;
 import it.polimi.ingsw.ui.controller.IntroController;
+import it.polimi.ingsw.ui.controller.MainController;
 import it.polimi.ingsw.ui.controller.WindowPatternController;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.collections.ListChangeListener;
+import javafx.collections.WeakListChangeListener;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -23,9 +27,11 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class GUI extends Application implements UI {
+    public static final double TILE_SIZE = 70;
     private Stage stage;
     private WindowPattern selected;
     private IntroController introController;
+    private MainController mainController;
     private ClientHandler handler;
     private ProxyModel model;
 
@@ -163,7 +169,6 @@ public class GUI extends Application implements UI {
 
     @Override
     public void startGame() {
-
     }
 
     @Override
@@ -188,12 +193,47 @@ public class GUI extends Application implements UI {
 
     @Override
     public void initBoard() {
+        Platform.runLater(() -> {
+            stage.setTitle("Sagrada");
+            FXMLLoader boardLoader = new FXMLLoader(getClass().getClassLoader().getResource("views/main.fxml"));
+            try {
+                Parent root = boardLoader.load();
+                root.getStylesheets().add(getClass().getClassLoader().getResource("die.css").toExternalForm());
+                root.getStylesheets().add(getClass().getClassLoader().getResource("board.css").toExternalForm());
+                mainController = boardLoader.getController();
+                mainController.setGUI(this);
+                mainController.update();
+                // Init listeners
+                model.getDraftPool().addListener(new WeakListChangeListener<>(new ListChangeListener<Die>() {
+                    @Override
+                    public void onChanged(Change<? extends Die> c) {
+                        while (c.next()) {
+                            update();
+                        }
+                    }
+                }));
 
+                stage.setScene(new Scene(root));
+                stage.sizeToScene();
+                stage.centerOnScreen();
+            } catch (IOException e) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Error while loading the main game GUI");
+                alert.setContentText(e.getMessage());
+                alert.showAndWait();
+                Platform.exit();
+            }
+        });
     }
 
     @Override
     public boolean isGUI() {
         return true;
+    }
+
+    @Override
+    public void wrongMove() {
+
     }
 
 }

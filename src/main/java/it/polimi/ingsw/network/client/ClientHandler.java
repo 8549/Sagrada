@@ -233,6 +233,7 @@ public class ClientHandler implements Serializable {
             System.out.println("[DEBUG] Server response: Correct move!");
         }else{
             System.out.println("[DEBUG] Server response: Wrong Move!");
+            ui.wrongMove();
         }
     }
 

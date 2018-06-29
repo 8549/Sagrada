@@ -8,7 +8,7 @@
 <?import java.lang.*?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" id="main" fx:id="main" maxHeight="-Infinity" maxWidth="-Infinity"
             minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0"
-            xmlns="http://javafx.com/javafx/9.0.1" fx:controller="it.polimi.ingsw.ui.controller.BoardController">
+            xmlns="http://javafx.com/javafx/9.0.1" fx:controller="it.polimi.ingsw.ui.controller.MainController">
     <center>
         <HBox id="boards-container" alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
             <children>
@@ -56,19 +56,19 @@
             <children>
                 <HBox spacing="10.0">
                     <children>
-                        <Button mnemonicParsing="false" text="Tool Card 1">
+                        <Button focusTraversable="false" mnemonicParsing="false" text="Tool Card 1">
                             <styleClass>
                                 <String fx:value="card"/>
                                 <String fx:value="tool-card"/>
                             </styleClass>
                         </Button>
-                        <Button mnemonicParsing="false" text="Tool Card 2">
+                        <Button focusTraversable="false" mnemonicParsing="false" text="Tool Card 2">
                             <styleClass>
                                 <String fx:value="card"/>
                                 <String fx:value="tool-card"/>
                             </styleClass>
                         </Button>
-                        <Button mnemonicParsing="false" text="Tool Card 3">
+                        <Button focusTraversable="false" mnemonicParsing="false" text="Tool Card 3">
                             <styleClass>
                                 <String fx:value="card"/>
                                 <String fx:value="tool-card"/>
@@ -80,7 +80,11 @@
                 <VBox>
                     <children>
                         <Label text="RoundTrack coming soon"/>
-                        <HBox fx:id="fxDraftPool"/>
+                        <HBox fx:id="fxDraftPool" alignment="CENTER" spacing="10.0">
+                            <VBox.margin>
+                                <Insets top="10.0"/>
+                            </VBox.margin>
+                        </HBox>
                     </children>
                 </VBox>
                 <Region HBox.hgrow="ALWAYS"/>

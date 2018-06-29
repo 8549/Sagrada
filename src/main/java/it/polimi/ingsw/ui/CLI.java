@@ -189,14 +189,19 @@ public class CLI implements UI {
 
     @Override
     public void update() {
-        System.out.println(String.format("It's turn %d of round %d", model.getCurrentTurn() + 1, model.getCurrentRound() + 1));
+        if (model.getMyself().getName().equals(model.getCurrentPlayer().getName())) {
+            System.out.println("It's your turn! You have " + model.getTimeout() + " seconds to play.");
+        } else {
+            System.out.println(String.format("%s is playing! ", model.getCurrentPlayer().getName()));
+        }
+        System.out.println(String.format("It's turn %d of round %d", model.getCurrentTurn(), model.getCurrentRound()));
         for (Player p : model.getPlayers()) {
             System.out.println(p.getName());
             printWindowPattern(p.getPlayerWindow().getWindowPattern(), p.getPlayerWindow());
         }
-        System.out.print("\nDraft pool:");
+        System.out.print("Draft pool:");
         for (Die d : model.getDraftPool()) {
-            System.out.print(" " + d.toCLI());
+            System.out.print(" " + printDie(d));
         }
         System.out.print("\nPublic objective cards: ");
         for (ObjCard c : model.getPublicObjectiveCards()) {
@@ -206,10 +211,13 @@ public class CLI implements UI {
         printWindowPattern(model.getMyself().getPlayerWindow().getWindowPattern(), model.getMyself().getPlayerWindow());
     }
 
+    private String printDie(Die d) {
+        int unicodeNumber = 9856 + d.getNumber() - 1;
+        return d.getColor().escapeString() + (char) unicodeNumber + SagradaColor.RESET;
+    }
+
     @Override
     public void myTurnStarted() {
-        update();
-        System.out.println(String.format("It's your turn! (Turn number %d of round %d)", model.getCurrentTurn(), model.getCurrentRound()));
         boolean validChoice = false;
         while (!validChoice) {
             System.out.print("You can place a Die, use a Tool card or Pass; enter the initial character of your choice: ");
@@ -285,7 +293,7 @@ public class CLI implements UI {
 
     @Override
     public void myTurnEnded() {
-        System.out.println("Your turn has ended.");
+        System.out.println("Time for your turn is up. Be quicker!");
     }
 
     @Override
@@ -298,47 +306,56 @@ public class CLI implements UI {
         System.out.println("The game is starting! You will play against:");
         for (Player p : model.getPlayers()) {
             System.out.println(String.format("%s (%s favor tokens)", p.getName(), printFavorTokens(p.getPlayerWindow().getWindowPattern().getDifficulty())));
-            printWindowPattern(p.getPlayerWindow().getWindowPattern());
+            //printWindowPattern(p.getPlayerWindow().getWindowPattern());
         }
         System.out.println("You:");
         System.out.println(String.format("%s (%s favor tokens)", model.getMyself().getName(), printFavorTokens(model.getMyself().getPlayerWindow().getWindowPattern().getDifficulty())));
-        printWindowPattern(model.getMyself().getPlayerWindow().getWindowPattern());
+        //printWindowPattern(model.getMyself().getPlayerWindow().getWindowPattern());
         System.out.println("Your private objective card will be: " + model.getMyself().getPrivateObjectiveCard().getName());
 
         model.getDraftPool().addListener(new WeakListChangeListener<>(new ListChangeListener<Die>() {
             @Override
             public void onChanged(Change<? extends Die> c) {
                 while (c.next()) {
-                    update();
+                    //update();
                     if (c.wasAdded()) {
-                        /*for (Die d : c.getAddedSubList()) {
-                            System.out.println("Die " + d.toCLI() + " was added");
-                        }*/
+                        for (Die d : c.getAddedSubList()) {
+                            //System.out.println("Die " + printDie(d) + " was added");
+                        }
                     } else if (c.wasRemoved()) {
                         for (Die d : c.getRemoved()) {
-                            System.out.println("Die " + d.toCLI() + " was removed");
+                            //System.out.println("Die " + printDie(d) + " was removed");
                         }
                     }
                 }
             }
         }));
-        model.currentRoundProperty().addListener(new WeakChangeListener<>(new ChangeListener<Number>() {
+        ChangeListener listener1 = new WeakChangeListener<>(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                System.out.println(String.format("Turn changed %d --> %d", oldValue.intValue(), newValue.intValue()));
+                System.out.println(String.format("[DEBUG] Round changed %d --> %d", oldValue.intValue(), newValue.intValue()));
             }
-        }));
-        model.currentTurnProperty().addListener(new WeakChangeListener<>(new ChangeListener<Number>() {
+        });
+        ChangeListener listener2 = new WeakChangeListener<>(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                System.out.println(String.format("Turn changed %d --> %d", oldValue.intValue(), newValue.intValue()));
+                System.out.println(String.format("[DEBUG] Turn changed %d --> %d", oldValue.intValue(), newValue.intValue()));
+                update();
             }
-        }));
+        });
+        model.currentRoundProperty().addListener(listener1);
+        model.currentTurnProperty().addListener(listener2);
     }
 
     @Override
     public boolean isGUI() {
         return false;
+    }
+
+    @Override
+    public void wrongMove() {
+        System.err.println("Your move was incorrect! Please, try again");
+        myTurnStarted();
     }
 
     private String printFavorTokens(int n) {
@@ -400,7 +417,7 @@ public class CLI implements UI {
                         if (w.getCellAt(k, l).isEmpty()) {
                             b.append(p.getConstraints()[k][l].toCLI());
                         } else {
-                            b.append(w.getCellAt(k, l).getDie().toCLI());
+                            b.append(printDie(w.getCellAt(k, l).getDie()));
                         }
                         l++;
                         if (l % WindowPattern.COLUMNS == 0) {

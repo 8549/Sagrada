@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.HBox?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
             minWidth="-Infinity" xmlns="http://javafx.com/javafx/9.0.1"
-            fx:controller="it.polimi.ingsw.ui.controller.BoardController">
+            fx:controller="it.polimi.ingsw.ui.controller.OlldBoardController">
     <center>
         <TextArea fx:id="txtArea" BorderPane.alignment="CENTER"/>
     </center>

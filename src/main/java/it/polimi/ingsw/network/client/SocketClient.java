@@ -16,8 +16,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.network.server.MainServer.DEFAULT_SOCKET_PORT;
-
 
 public class SocketClient implements ClientInterface {
     private Player player;
@@ -179,7 +177,6 @@ public class SocketClient implements ClientInterface {
                                     PrivateObjectiveCard blankCard = (PrivateObjectiveCard) blankDeck.getRandomCard();
                                     for (int i =0; i<priv.size(); i = i+2){
                                         if (priv.get(i+1).equals("blank")){
-                                            //ch.setPrivateObj(priv.get(i), new BlankObjectiveCard());
                                             ch.setPrivateObj(priv.get(i), blankCard);
                                         }else{
                                             ch.setPrivateObj(priv.get(i), (PrivateObjectiveCard) objDeckpriv.getByName(priv.get(i + 1)));

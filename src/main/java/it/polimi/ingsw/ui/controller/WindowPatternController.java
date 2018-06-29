@@ -1,6 +1,7 @@
 package it.polimi.ingsw.ui.controller;
 
 import it.polimi.ingsw.model.WindowPattern;
+import it.polimi.ingsw.ui.GUI;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -31,7 +32,7 @@ public class WindowPatternController {
         for (Node c : patternGrid.getChildren()) {
             int i = GridPane.getRowIndex(c);
             int j = GridPane.getColumnIndex(c);
-            Node graphic = p.getConstraints()[i][j].getAsGraphic(70);
+            Node graphic = p.getConstraints()[i][j].getAsGraphic(GUI.TILE_SIZE);
             ((StackPane) c).getChildren().add(graphic);
         }
         for (int i = 0; i < p.getDifficulty(); i++) {

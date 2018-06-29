@@ -79,4 +79,6 @@ public interface UI {
      * @return true if the UI implementation is some sort of GUI (which needs operations to be run on a specific thread)
      */
     boolean isGUI();
+
+    void wrongMove();
 }
