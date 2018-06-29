@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.JsonElement;
 import javafx.scene.Node;
 
 import java.io.Serializable;
@@ -42,6 +43,8 @@ public interface PatternConstraint extends Serializable {
      * @return a JavaFX Node representing the constraint
      */
     Node getAsGraphic(double size);
+
+    JsonElement getAsJson();
 
     /**
      * Gets a string representation of the constraint

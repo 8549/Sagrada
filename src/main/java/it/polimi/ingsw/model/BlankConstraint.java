@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -18,6 +20,11 @@ public class BlankConstraint implements PatternConstraint {
         rect.setHeight(size);
         rect.setFill(Color.TRANSPARENT);
         return rect;
+    }
+
+    @Override
+    public JsonElement getAsJson() {
+        return JsonNull.INSTANCE;
     }
 
     @Override

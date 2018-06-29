@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -25,6 +27,11 @@ public class NumberConstraint implements PatternConstraint {
         imageView.setFitWidth(size);
         imageView.setFitHeight(size);
         return imageView;
+    }
+
+    @Override
+    public JsonElement getAsJson() {
+        return new JsonPrimitive(number);
     }
 
     @Override

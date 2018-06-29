@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 
@@ -25,6 +27,11 @@ public class ColorConstraint implements PatternConstraint {
         rect.setHeight(size);
         rect.setFill(color.getColor());
         return rect;
+    }
+
+    @Override
+    public JsonElement getAsJson() {
+        return new JsonPrimitive(color.name().toLowerCase());
     }
 
     @Override

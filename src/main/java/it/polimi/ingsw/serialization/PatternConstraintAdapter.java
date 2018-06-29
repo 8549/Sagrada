@@ -1,5 +1,6 @@
 package it.polimi.ingsw.serialization;
 
+import com.google.gson.JsonElement;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
@@ -10,17 +11,17 @@ import java.io.IOException;
 public class PatternConstraintAdapter extends TypeAdapter<PatternConstraint> {
     @Override
     public void write(JsonWriter jsonWriter, PatternConstraint constraint) throws IOException {
-        if (constraint instanceof BlankConstraint) {
+        JsonElement el = constraint.getAsJson();
+        if (el.isJsonNull()) {
             jsonWriter.nullValue();
-            return;
-        }
-        if (constraint instanceof ColorConstraint) {
-            jsonWriter.value(((ColorConstraint) constraint).getColor().name().toLowerCase());
-            return;
-        }
-        if (constraint instanceof NumberConstraint) {
-            jsonWriter.value(((NumberConstraint) constraint).getNumber());
-            return;
+        } else {
+            try {
+                int n = el.getAsInt();
+                jsonWriter.value(n);
+            } catch (ClassCastException | NumberFormatException e) {
+                String n = el.getAsString();
+                jsonWriter.value(n);
+            }
         }
     }
 
