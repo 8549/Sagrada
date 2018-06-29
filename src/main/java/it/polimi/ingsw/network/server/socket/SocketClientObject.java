@@ -94,6 +94,15 @@ public class SocketClientObject implements ClientObject {
     }
 
     @Override
+    public void pushToolCards(List<ToolCard> tools) throws IOException {
+        String data="";
+        for(ToolCard tool : tools){
+            data = data + "/" + tool.getName();
+        }
+        socketHandler.send("update", "tools", data);
+    }
+
+    @Override
     public void setPrivObj(String name, List<Player> players) {
         String data ="";
         data = this.getPlayer().getName() + "/" + name + "/";
@@ -131,6 +140,11 @@ public class SocketClientObject implements ClientObject {
     @Override
     public void notifyEndTimeOut() throws IOException {
         socketHandler.send("update", "moveTimer","TimeIsOut" );
+    }
+
+    @Override
+    public void notifyEndTurn(Player p) throws IOException {
+        socketHandler.send("update", "endTurn",p.getName() );
     }
 
     @Override

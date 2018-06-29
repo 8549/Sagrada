@@ -11,11 +11,11 @@ public class GameManager {
     public static final int PATTERN_CARDS_PER_PLAYER = 2;
     public static final int PUBLIC_OBJ_CARDS_NUMBER = 3;
     public static final int TOOL_CARDS_NUMBER = 3;
-    public static final int MOVE_TIMEOUT = 8;
+    public static final int MOVE_TIMEOUT = 80;
     private MainServer server;
     private List<Player> players;
     private PublicObjectiveCard[] publicObjectiveCards = new PublicObjectiveCard[PUBLIC_OBJ_CARDS_NUMBER];
-    private ToolCard[] toolCard;
+    private List<ToolCard> toolCard= new ArrayList<>();
     private Player firstPlayer;
     private Player currentPlayer;
     private Board board;
@@ -61,12 +61,15 @@ public class GameManager {
         board.setScoreTrack();
 
         //place toolcard
-        /*CardsDeck toolDeck = new CardsDeck("ToolCards.json", new TypeToken<List<ToolCard>>() {
+        CardsDeck toolDeck = new CardsDeck("ToolCards.json", new TypeToken<List<ToolCard>>() {
         }.getType());
         for (int i = 0; i < TOOL_CARDS_NUMBER; i++) {
-            toolCard[i] = (ToolCard) toolDeck.getRandomCard();
+            toolCard.add((ToolCard) toolDeck.getRandomCard());
+            toolCard.get(i).initReferences(this);
         }
-        board.setToolCards(toolCard);*/
+        board.setToolCards(toolCard);
+
+
 
         //obj pub
         CardsDeck objDeck = new CardsDeck("PublicObjectiveCards.json", new TypeToken<List<PublicObjectiveCard>>() {
@@ -124,10 +127,13 @@ public class GameManager {
             server.choosePatternCard(p.getChoices(), p);
         }
         server.setPublicObj(publicObjectiveCards);
-
+        server.pushTools(toolCard);
 
     }
 
+    public MainServer getServer(){
+        return this.server;
+    }
 
     public Player getFirstPlayer() {
 
@@ -169,8 +175,8 @@ public class GameManager {
     }
 
     public void endCurrentTurn() {
+        server.notifyEndTurn(getCurrentPlayer());
         round.passCurrentTurn();
-        server.notifyEndTurn(players);
 
         if (round.getCurrentTurn() < round.getTurns().size()) {
             startCurrentTurn();

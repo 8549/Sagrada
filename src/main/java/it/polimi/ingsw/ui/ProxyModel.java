@@ -1,9 +1,6 @@
 package it.polimi.ingsw.ui;
 
-import it.polimi.ingsw.model.Die;
-import it.polimi.ingsw.model.ObjCard;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.PublicObjectiveCard;
+import it.polimi.ingsw.model.*;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
@@ -20,6 +17,7 @@ public class ProxyModel  {
     private IntegerProperty currentRound;
     private IntegerProperty currentTurn;
     private List<ObjCard> publicObjectiveCards = new ArrayList<>();
+    private List<ToolCard> toolCards = new ArrayList<>();
 
     public ObservableList<Die> getDraftPool() {
         return draftPool;
@@ -32,6 +30,7 @@ public class ProxyModel  {
     public List<ObjCard> getPublicObjectiveCards() {
         return publicObjectiveCards;
     }
+
 
     public ProxyModel() {
         this.currentRound = new SimpleIntegerProperty();
@@ -111,6 +110,9 @@ public class ProxyModel  {
         this.publicObjectiveCards.addAll(publicObjectiveCards);
     }
 
+    public void addToolCard(List<ToolCard> tools){
+        this.toolCards.addAll(tools);
+    }
     public void setDraftPool(List<Die> draftPool){
         this.draftPool.clear();
         this.draftPool.addAll(draftPool);

@@ -352,6 +352,16 @@ public class MainServer {
         }
     }
 
+    public void pushTools(List<ToolCard> toolCards){
+        for (ClientObject c : inGameClients){
+            try {
+                c.pushToolCards(toolCards);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public  void notifyPlacementResponse(boolean response, Player p){
         for(ClientObject c : inGameClients){
             try {
@@ -375,6 +385,7 @@ public class MainServer {
             try {
                 if(c.getPlayer().getName().equals(gm.getCurrentPlayer().getName())){
                    c.notifyEndTimeOut();
+                   gm.endCurrentTurn();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -383,8 +394,19 @@ public class MainServer {
     }
 
     //TODO
-    public void notifyEndTurn(List<Player> players){}
+    public void notifyEndTurn(Player p){
+        for(ClientObject c : inGameClients){
+            try {
+                c.notifyEndTurn(gm.getCurrentPlayer());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     public void notifyEndRound(List<Player> players){}
+
+
+
     public void chooseDieFromRoundTrackForToolCard(List<Die> draftPool){
         //chooses the turn and the number of die
     }

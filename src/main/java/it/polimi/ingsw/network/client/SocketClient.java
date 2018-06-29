@@ -205,6 +205,10 @@ public class SocketClient implements ClientInterface {
 
                     case "moveTimer":
                         ch.moveTimeIsOut();
+                        break;
+
+                    case "endTurn": ch.endTurn(data);
+                        break;
 
                     default: break;
 

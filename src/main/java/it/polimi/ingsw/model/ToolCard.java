@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 
 //TODO
-public class ToolCard {
+public class ToolCard implements Card {
     private List<Effect> effects;
     private GameManager gameManager;
     private ToolCardHandler toolCardHandler;
@@ -43,6 +43,10 @@ public class ToolCard {
         this.features=features;
     }
 
+    public void initReferences(GameManager gm){
+        this.gameManager= gm;
+        toolCardHandler = new ToolCardHandler(gm, gm.getServer(),this);
+    }
 
     public boolean isUsed() {
         return used;
@@ -260,5 +264,10 @@ public class ToolCard {
     public void completeChooseValue(int value){
         die.setNumber(value);
         everythingOk = true;
+    }
+
+    @Override
+    public String getName() {
+        return this.name;
     }
 }

@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Board {
     private ObjCard[] publicObjectiveCards ;
-    private ToolCard[] toolCards;
+    private List<ToolCard> toolCards;
     private List<Die> draftPool;
     private RoundTrack roundTrack;
     private List<Player> players;
@@ -17,7 +17,7 @@ public class Board {
 
     public Board() {
         publicObjectiveCards = new ObjCard[GameManager.PUBLIC_OBJ_CARDS_NUMBER];
-        toolCards = new ToolCard[GameManager.TOOL_CARDS_NUMBER];
+        toolCards = new ArrayList<>();
     }
 
     public List<Player> getPlayers() {
@@ -40,8 +40,8 @@ public class Board {
         return toolCards;
     }
 
-    public void setToolCards(ToolCard[] toolCards) {
-        this.toolCards = toolCards;
+    public void setToolCards(List<ToolCard> toolCards) {
+        this.toolCards.addAll(toolCards);
     }
 
     public List<Die> getDraftPool() {

@@ -38,4 +38,9 @@ public interface RMIClientObjectInterface extends ClientObject, Remote {
     public  void answerLogin(boolean response)throws RemoteException;
     @Override
     public void notifyEndTimeOut() throws RemoteException;
+    @Override
+    public void notifyEndTurn(Player p) throws RemoteException;
+    @Override
+    public  void pushToolCards(List<ToolCard> tools)throws RemoteException;
+
 }

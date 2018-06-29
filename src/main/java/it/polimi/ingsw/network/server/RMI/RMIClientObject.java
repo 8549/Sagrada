@@ -172,7 +172,21 @@ public class RMIClientObject implements RMIClientObjectInterface {
 
     @Override
     public void notifyEndTimeOut() throws RemoteException {
+        client.moveTimeOut();
+    }
 
+    @Override
+    public void notifyEndTurn(Player p) throws RemoteException {
+        client.endCurrentTurn(p.getName());
+    }
+
+    @Override
+    public void pushToolCards(List<ToolCard> tools) throws RemoteException {
+        List<String> names = new ArrayList<>();
+        for(ToolCard tool: tools){
+            names.add(tool.getName());
+        }
+        client.initTools(names);
     }
 
 

@@ -159,6 +159,10 @@ public class ClientHandler implements Serializable {
         perform(task);
     }
 
+    public void setTools(){
+
+
+    }
     public void setPrivateObj(String name, ObjCard p) {
         Runnable task = new Runnable() {
             @Override
@@ -204,8 +208,6 @@ public class ClientHandler implements Serializable {
         Runnable task = new Runnable() {
             @Override
             public void run() {
-                proxyModel.setCurrentRound(round);
-                proxyModel.setCurrentTurn(turn);
                 if (proxyModel.getMyself().getName().equals(name)) {
                     proxyModel.setCurrentPlayer(proxyModel.getMyself());
 
@@ -214,6 +216,8 @@ public class ClientHandler implements Serializable {
                     proxyModel.setCurrentPlayer(proxyModel.getByName(name));
                     System.out.println("[DEBUG] Now it's " + name + " turn");
                 }
+                proxyModel.setCurrentRound(round);
+                proxyModel.setCurrentTurn(turn);
             }
         };
         perform(task);
@@ -229,6 +233,15 @@ public class ClientHandler implements Serializable {
 
     public void moveTimeIsOut(){
         System.out.println("Time is Out!!!!!!!");
+    }
+
+    public void endTurn(String name){
+        if(proxyModel.getMyself().equals(name)){
+            //code to stop selection if client is doing stuff
+            System.out.println("Your turn is ended ");
+        }else{
+            System.out.println("Player " + name + " has finished his/her turn");
+        }
     }
 }
 

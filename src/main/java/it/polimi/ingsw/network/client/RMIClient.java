@@ -135,6 +135,11 @@ public class RMIClient implements RMIClientInterface, Serializable {
     }
 
     @Override
+    public void initTools(List<String> names) throws RemoteException {
+
+    }
+
+    @Override
     public void setEndPoint(RMIServerInterface server) throws RemoteException {
         this.server = server;
     }
@@ -158,6 +163,11 @@ public class RMIClient implements RMIClientInterface, Serializable {
     @Override
     public void moveTimeOut() throws RemoteException {
         ch.moveTimeIsOut();
+    }
+
+    @Override
+    public void endCurrentTurn(String name) throws RemoteException {
+        ch.endTurn(name);
     }
 
 }
