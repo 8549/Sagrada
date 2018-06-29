@@ -159,9 +159,8 @@ public class ClientHandler implements Serializable {
         perform(task);
     }
 
-    public void setTools(){
-
-
+    public void setTools(List<ToolCard> tools){
+        proxyModel.addToolCard(tools);
     }
     public void setPrivateObj(String name, ObjCard p) {
         Runnable task = new Runnable() {

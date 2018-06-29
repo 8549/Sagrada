@@ -210,6 +210,15 @@ public class SocketClient implements ClientInterface {
                     case "endTurn": ch.endTurn(data);
                         break;
 
+                    case "tools": List<String> toolsnames = socketParserClient.parseData(data);
+                        List<ToolCard> tools = new ArrayList<>();
+                        CardsDeck toolDeck = new CardsDeck("ToolCards.json", new TypeToken<List<ToolCard>>() {
+                        }.getType());
+                        for(String t : toolsnames){
+                            tools.add((ToolCard) toolDeck.getByName(t));
+                        }
+                        ch.setTools(tools);
+
                     default: break;
 
 

@@ -10,6 +10,7 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -136,7 +137,13 @@ public class RMIClient implements RMIClientInterface, Serializable {
 
     @Override
     public void initTools(List<String> names) throws RemoteException {
-
+        List<ToolCard> tools = new ArrayList<>();
+        CardsDeck toolDeck = new CardsDeck("ToolCards.json", new TypeToken<List<ToolCard>>() {
+        }.getType());
+        for(String name : names){
+            tools.add((ToolCard) toolDeck.getByName(name));
+        }
+        ch.setTools(tools);
     }
 
     @Override
