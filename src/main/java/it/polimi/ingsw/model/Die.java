@@ -79,12 +79,6 @@ public class Die implements Serializable {
                 Objects.equals(color, die.color);
     }
 
-    public String toCLI() {
-        int unicodeNumber = 9856 + number - 1;
-        String s = color.escapeString() + (char) unicodeNumber + SagradaColor.RESET;
-        return s;
-    }
-
     @Override
     public int hashCode() {
 
