@@ -47,7 +47,7 @@ public class SocketClientObject implements ClientObject {
     }
 
     @Override
-    public void notifyGameStarted(List<Player> players) {
+    public void notifyGameStarted(List<Player> players, int timeout) {
         String data="";
         for (Player p :players){
             if (!p.getName().equals(this.player.getName())) {
@@ -55,7 +55,7 @@ public class SocketClientObject implements ClientObject {
             }
         }
 
-        socketHandler.send("update", "gameStarted", data);
+        socketHandler.send("update", "gameStarted", data  + timeout);
     }
 
     @Override
@@ -154,6 +154,11 @@ public class SocketClientObject implements ClientObject {
 
     @Override
     public void answerLogin(boolean response) {
+
+    }
+
+    @Override
+    public void chooseDieFromWindowPattern() throws IOException {
 
     }
 }

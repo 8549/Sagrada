@@ -94,8 +94,8 @@ public class RMIClient implements RMIClientInterface, Serializable {
     }
 
     @Override
-    public void initGame(List<Player> p ){
-        ch.handleGameStarted(p);
+    public void initGame(List<Player> p, int timeout ){
+        ch.handleGameStarted(p, timeout);
 
     }
 

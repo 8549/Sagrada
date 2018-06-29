@@ -25,7 +25,7 @@ public interface RMIClientInterface extends ClientInterface, Remote {
 
     void initPatternCardChoice(List<PatternCard> choices) throws RemoteException;
 
-    void initGame(List<Player> p) throws RemoteException;
+    void initGame(List<Player> p, int timeout) throws RemoteException;
 
     void setPrivateObj(String name) throws RemoteException;
 

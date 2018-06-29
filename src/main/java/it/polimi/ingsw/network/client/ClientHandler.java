@@ -99,12 +99,14 @@ public class ClientHandler implements Serializable {
         ui.showPatternCardsChooser(p1,p2);
 
     }
-    public void handleGameStarted(List<Player> players){
+    public void handleGameStarted(List<Player> players, int timeout){
         ui.startGame();
         Runnable task = new Runnable() {
             @Override
             public void run() {
                 proxyModel.resetPlayers(players);
+                proxyModel.setTimeout(timeout);
+                System.out.println("[DEBUG] TIMEOUT --> " + timeout);
             }
         };
         perform(task);
@@ -207,16 +209,20 @@ public class ClientHandler implements Serializable {
         Runnable task = new Runnable() {
             @Override
             public void run() {
+                boolean myTurn= false;
                 if (proxyModel.getMyself().getName().equals(name)) {
                     proxyModel.setCurrentPlayer(proxyModel.getMyself());
-
-                    ui.myTurnStarted();
+                    myTurn = true;
                 } else {
                     proxyModel.setCurrentPlayer(proxyModel.getByName(name));
                     System.out.println("[DEBUG] Now it's " + name + " turn");
                 }
                 proxyModel.setCurrentRound(round);
                 proxyModel.setCurrentTurn(turn);
+                if(myTurn){
+                    ui.myTurnStarted();
+                }
+
             }
         };
         perform(task);
@@ -231,7 +237,8 @@ public class ClientHandler implements Serializable {
     }
 
     public void moveTimeIsOut(){
-        System.out.println("Time is Out!!!!!!!");
+
+        ui.myTurnEnded();
     }
 
     public void endTurn(String name){

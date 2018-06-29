@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.server.RMI;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.server.ClientObject;
 
+import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -15,7 +16,7 @@ public interface RMIClientObjectInterface extends ClientObject, Remote {
     @Override
     void notifyPlayerDisconnection(Player p) throws RemoteException;
     @Override
-    void notifyGameStarted(List<Player> players) throws RemoteException;
+    void notifyGameStarted(List<Player> players, int timeout) throws RemoteException;
     @Override
     void requestPatternCardChoice(List<PatternCard> patternCards) throws RemoteException;
     @Override
@@ -42,5 +43,9 @@ public interface RMIClientObjectInterface extends ClientObject, Remote {
     public void notifyEndTurn(Player p) throws RemoteException;
     @Override
     public  void pushToolCards(List<String> tools)throws RemoteException;
+    @Override
+    public void chooseDieFromWindowPattern() throws RemoteException;
+
+
 
 }

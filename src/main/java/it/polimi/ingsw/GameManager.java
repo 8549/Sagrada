@@ -102,7 +102,7 @@ public class GameManager {
         }.getType());
 
         //confirm players
-        server.gameStartedProcedures(players);
+        server.gameStartedProcedures(players, MOVE_TIMEOUT);
 
         for (Player player : players) {
 

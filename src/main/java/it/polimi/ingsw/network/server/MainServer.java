@@ -228,12 +228,12 @@ public class MainServer {
         }
     }
 
-    public  void gameStartedProcedures(List<Player> players){
+    public  void gameStartedProcedures(List<Player> players, int timeoutMove){
         List<Player> p = new ArrayList<>(players);
         inGameClients.addAll(connectedClients); //todo:check for lobby
         for (ClientObject c : inGameClients){
             try {
-                c.notifyGameStarted(p);
+                c.notifyGameStarted(p, timeoutMove);
             } catch (IOException e) {
                 e.printStackTrace();
             }

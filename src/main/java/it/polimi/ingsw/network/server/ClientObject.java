@@ -9,7 +9,7 @@ public interface ClientObject  {
     public  void pushPlayers(List<Player> players) throws IOException;
     public  void pushLoggedPlayer(Player player)throws IOException;
     public  void notifyPlayerDisconnection(Player p)throws IOException;
-    public  void notifyGameStarted(List<Player> players)throws IOException;
+    public  void notifyGameStarted(List<Player> players, int timeout)throws IOException;
     public  void requestPatternCardChoice(List<PatternCard> patternCards)throws IOException;
     public  void pushPatternCardResponse(String name)throws IOException;
     public  void pushOpponentsInit(List<Player> thinPlayers)throws IOException;
@@ -25,4 +25,7 @@ public interface ClientObject  {
     public Player getPlayer()throws IOException;
 
     public  void answerLogin(boolean response)throws IOException;
+
+    public void chooseDieFromWindowPattern() throws IOException;
+
 }

@@ -18,6 +18,7 @@ public class ProxyModel  {
     private IntegerProperty currentTurn;
     private List<ObjCard> publicObjectiveCards = new ArrayList<>();
     private List<ToolCard> toolCards = new ArrayList<>();
+    private int timeout;
 
     public ObservableList<Die> getDraftPool() {
         return draftPool;
@@ -63,6 +64,10 @@ public class ProxyModel  {
 
     public void setPlayer(Player p){
         this.myself= p;
+    }
+
+    public void setTimeout(int timeout){
+        this.timeout= timeout;
     }
     public Player getMyself(){
         return myself;

@@ -143,10 +143,12 @@ public class SocketClient implements ClientInterface {
                     case "gameStarted":
                                         List<String> n = socketParserClient.parseData(data);
                                         List<Player> p = new ArrayList<>();
-                                        for (String s : n){
-                                            p.add(new Player(s));
+                                        int k=0;
+                                        for (int i=0; i<n.size()-1; i++){
+                                            p.add(new Player(n.get(i)));
+                                            k=i;
                                         }
-                                        ch.handleGameStarted(p);
+                                        ch.handleGameStarted(p, Integer.valueOf(n.get(k+1)));
                         break;
 
                     case "opponentsInfo": List<String> info = socketParserClient.parseData(data);

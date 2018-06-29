@@ -46,7 +46,7 @@ public class RMIClientObject implements RMIClientObjectInterface {
     }
 
     @Override
-    public void notifyGameStarted(List<Player> players) {
+    public void notifyGameStarted(List<Player> players, int timeout) {
         List<Player> playerstoSend = new ArrayList<>();
         for (Player p : players){
             if (!p.getName().equals(this.getPlayer().getName())){
@@ -56,7 +56,7 @@ public class RMIClientObject implements RMIClientObjectInterface {
         }
 
         try {
-            client.initGame(playerstoSend);
+            client.initGame(playerstoSend, timeout);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -187,6 +187,11 @@ public class RMIClientObject implements RMIClientObjectInterface {
             names.add(tool);
         }
         client.initTools(names);
+    }
+
+    @Override
+    public void chooseDieFromWindowPattern() throws RemoteException {
+
     }
 
 
