@@ -36,20 +36,20 @@ public class MoveValidator {
 
 
         if (turn.getPlayer().getPlayerWindow().isFirstPlacement()) {
-            if (!AdjacencyConstraint.testCheckAdjacencyFirstDie(row, column)) {
+            if (!AdjacencyConstraint.checkAdjacencyFirstDie(row, column)) {
                 return false;
             }
         } else if (adjacencyConstraint) {
-            if (!AdjacencyConstraint.testCheckCellAdjacency(turn.getPlayer().getPlayerWindow().getDiceGrid(), row, column)) {
+            if (!AdjacencyConstraint.checkCellAdjacency(turn.getPlayer().getPlayerWindow().getDiceGrid(), row, column)) {
                 return false;
             }
         }
 
-        if (!AdjacencyConstraint.testCheckAdjacency(turn.getPlayer().getPlayerWindow().getDiceGrid(), row, column, die)) {
+        if (!AdjacencyConstraint.checkAdjacency(turn.getPlayer().getPlayerWindow().getDiceGrid(), row, column, die)) {
             return false;
         }
 
-        if (!AdjacencyConstraint.testCheckEmptyCell(turn.getPlayer().getPlayerWindow().getDiceGrid(), row, column)){
+        if (!AdjacencyConstraint.checkEmptyCell(turn.getPlayer().getPlayerWindow().getDiceGrid(), row, column)){
             return false;
         }
 
