@@ -56,17 +56,10 @@ public class Board {
         return roundTrack;
     }
 
-    public void setRoundTrack(RoundTrack roundTrack) {
-        this.roundTrack = roundTrack;
-    }
-
     public ScoreTrack getScoreTrack() {
         return scoreTrack;
     }
 
-    public void setScoreTrack(ScoreTrack scoreTrack) {
-        this.scoreTrack = scoreTrack;
-    }
 
     public DiceBag getDiceBag() {
         return diceBag;
