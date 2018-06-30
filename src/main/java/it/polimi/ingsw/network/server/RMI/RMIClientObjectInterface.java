@@ -32,7 +32,7 @@ public interface RMIClientObjectInterface extends ClientObject, Remote {
     @Override
     void notifyTurn(Player p, int round, int turn) throws RemoteException;
     @Override
-    void notifyMoveResponse(boolean response, String type) throws RemoteException;
+    void notifyMoveResponse(boolean response, String name, Die d, int row, int column) throws RemoteException;
     @Override
     public Player getPlayer()throws RemoteException;
     @Override

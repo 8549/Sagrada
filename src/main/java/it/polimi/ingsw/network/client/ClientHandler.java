@@ -228,11 +228,22 @@ public class ClientHandler implements Serializable {
         perform(task);
     }
 
-    public void handleMoveResponse(boolean response){
+    public void handleMoveResponse(String name, boolean response, Die d, int row, int column){
+        Player player= null;
+        if(name.equals(proxyModel.getMyself().getName())){
+            player = proxyModel.getMyself();
+        }else{
+            for(Player p : proxyModel.getPlayers()){
+                if (p.getName().equals(name)){
+                    player = p;
+                }
+            }
+        }
         if(response) {
             System.out.println("[DEBUG] Server response: Correct move!");
+            player.getPlayerWindow().addDie(d, row, column);
         }else{
-            System.out.println("[DEBUG] Server response: Wrong Move!");
+            System.out.println("[DEBUG] Server response: Wrong Move of player : " + name);
             ui.wrongMove();
         }
     }

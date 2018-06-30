@@ -341,15 +341,12 @@ public class MainServer {
                 e.printStackTrace();
             }
         }
-        for (ClientObject c : inGameClients){
-            try {
-                if(c.getPlayer().getName().equals(p.getName())){
-                    c.notifyTurn(p,round,turn);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        try {
+            getClientByName(p.getName()).notifyTurn(p, round, turn);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
     }
 
     public void pushTools(List<ToolCard> toolCards){
@@ -367,17 +364,21 @@ public class MainServer {
         }
     }
 
-    public  void notifyPlacementResponse(boolean response, Player p){
+    public  void notifyPlacementResponse(boolean response, Player p, Die d, int row, int column){
         for(ClientObject c : inGameClients){
             try {
-                if (c.getPlayer().getName().equals(p.getName())){
-                    c.notifyMoveResponse(response, "response");
-                }else{
-                    c.notifyMoveResponse(response, "update");
+                if(!c.getPlayer().getName().equals(p.getName())){
+                    c.notifyMoveResponse(response, p.getName(), d, row, column);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+
+        try {
+            getClientByName(p.getName()).notifyMoveResponse(response, p.getName(),d , row, column);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -414,6 +415,18 @@ public class MainServer {
         return this.inGameClients;
     }
 
+    public ClientObject getClientByName(String name){
+        for(ClientObject c : inGameClients){
+            try {
+                if(c.getPlayer().getName().equals(name)){
+                    return c;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
 
 
     public void chooseDieFromRoundTrackForToolCard(List<Die> draftPool){

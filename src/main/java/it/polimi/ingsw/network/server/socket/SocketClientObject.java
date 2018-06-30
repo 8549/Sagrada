@@ -129,13 +129,14 @@ public class SocketClientObject implements ClientObject {
     }
 
     @Override
-    public void notifyMoveResponse(boolean response, String type) {
+    public void notifyMoveResponse(boolean response, String name , Die d, int row, int column) {
         if(response) {
-            socketHandler.send(type, "moveResponse","Move accepted");
+            socketHandler.send("response", "moveResponse",name + "/" + d.getNumber() + "/" + d.getColor() + "/" + row + "/" + column);
         }else{
-            socketHandler.send(type, "moveResponse", "Wrong move");
+            socketHandler.send("response", "moveResponse", "false");
 
-        }    }
+        }
+    }
 
     @Override
     public void notifyEndTimeOut() throws IOException {

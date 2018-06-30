@@ -19,7 +19,7 @@ public interface ClientObject  {
     public  void setPrivObj(String name, List<Player> players)throws IOException;
     public  void pushDraft(List<Die> draft)throws IOException;
     public  void notifyTurn(Player p, int round, int turn)throws IOException;
-    public  void notifyMoveResponse(boolean response, String type)throws IOException;
+    public  void notifyMoveResponse(boolean response, String name, Die d, int row, int column)throws IOException;
     public void notifyEndTimeOut() throws IOException;
     public void notifyEndTurn(Player p) throws IOException;
 

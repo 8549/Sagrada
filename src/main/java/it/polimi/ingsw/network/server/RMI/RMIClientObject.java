@@ -148,9 +148,9 @@ public class RMIClientObject implements RMIClientObjectInterface {
     }
 
     @Override
-    public void notifyMoveResponse(boolean response, String type) {
+    public void notifyMoveResponse(boolean response, String name, Die d, int row, int column) {
         try {
-            client.moveResponse(response);
+            client.moveResponse(name,response,d, row, column);
         } catch (RemoteException e) {
             e.printStackTrace();
         }

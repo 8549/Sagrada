@@ -38,7 +38,7 @@ public interface RMIClientInterface extends ClientInterface, Remote {
 
     void setEndPoint(RMIServerInterface server) throws RemoteException;
     void updateOpponentsInfo(List<Player> players) throws RemoteException;
-    void moveResponse(boolean response) throws RemoteException;
+    void moveResponse(String name, boolean response, Die d, int row, int column) throws RemoteException;
     void moveTimeOut()throws RemoteException;
     void endCurrentTurn(String name) throws RemoteException;
 

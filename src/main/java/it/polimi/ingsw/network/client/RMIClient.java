@@ -163,8 +163,8 @@ public class RMIClient implements RMIClientInterface, Serializable {
     }
 
     @Override
-    public void moveResponse(boolean response) throws RemoteException {
-        ch.handleMoveResponse(response);
+    public void moveResponse(String name , boolean response, Die d, int row, int column) throws RemoteException {
+        ch.handleMoveResponse(name, response, d, row, column);
     }
 
     @Override

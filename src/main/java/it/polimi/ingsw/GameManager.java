@@ -270,11 +270,11 @@ public class GameManager {
             round.getTurn().getPlayer().getPlayerWindow().addDie(die, row, column);
             round.removeDieFromDraftPool(die);
             round.getTurn().setDiePlaced();
-            server.notifyPlacementResponse(true, player);
+            server.notifyPlacementResponse(true, player, die , row, column);
             server.setDraft(round.getDraftPool());
             endCurrentTurn();
         } else {
-            server.notifyPlacementResponse(false, player);
+            server.notifyPlacementResponse(false, player, die, row, column);
             System.out.println("[DEBUG] Wrong move, should they try again or not?");
         }
     }

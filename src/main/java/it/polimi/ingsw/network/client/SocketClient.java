@@ -81,10 +81,13 @@ public class SocketClient implements ClientInterface {
                             break;
 
                 case "moveResponse":
-                            if (data.equals("Move accepted"))
-                                    ch.handleMoveResponse(true);
-                            else if (data.equals("Wrong move")){
-                                ch.handleMoveResponse(false);
+                            List<String> move = socketParserClient.parseData(data);
+                            Die d = new Die(SagradaColor.valueOf(move.get(2)));
+                            d.setNumber(Integer.valueOf(move.get(1)));
+                            if(!move.get(0).equals("false")){
+                                ch.handleMoveResponse(move.get(0),true, d, Integer.valueOf(move.get(3)), Integer.valueOf(move.get(4)));
+                            }else{
+                                ch.handleMoveResponse(move.get(0),false, d, Integer.valueOf(move.get(3)), Integer.valueOf(move.get(4)));
                             }
 
                     break;
@@ -196,10 +199,10 @@ public class SocketClient implements ClientInterface {
                         break;
 
                     case "turnStarted":
-                        List<String> value = socketParserClient.parseData(data);
-                        int round = Integer.parseInt(value.get(1));
-                        int turn = Integer.parseInt(value.get(1));
-                        ch.notifyTurnStarted(value.get(0), round, turn);
+                                List<String> value = socketParserClient.parseData(data);
+                                int round = Integer.parseInt(value.get(1));
+                                int turn = Integer.parseInt(value.get(1));
+                                ch.notifyTurnStarted(value.get(0), round, turn);
                         break;
 
                     case "moveTimer":
