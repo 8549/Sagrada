@@ -410,6 +410,10 @@ public class MainServer {
     }
     public void notifyEndRound(List<Player> players){}
 
+    public List<ClientObject> getInGameClients(){
+        return this.inGameClients;
+    }
+
 
 
     public void chooseDieFromRoundTrackForToolCard(List<Die> draftPool){
@@ -437,9 +441,7 @@ public class MainServer {
         // chooses if the player wants to place one or two dice,
         // if he chooses false he wants to move just one die, two otherwise
     }
-    public void chooseDieValueForToolCards(){
-        //after drafting from the dice bag the player can choose the value of the die
-    }
+
 
     public void notifyWinner(Optional<Player> winner) {
     }

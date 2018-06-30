@@ -63,7 +63,6 @@ public class ToolCard implements Card {
 */
     public void initReferences(GameManager gm){
         this.gameManager= gm;
-        toolCardHandler = new ToolCardHandler(gm, gm.getServer(),this);
     }
 
     public boolean isUsed() {
@@ -85,7 +84,7 @@ public class ToolCard implements Card {
     public void useTools(Player player, GameManager gameManager, MainServer server) {
         this.player=player;
         this.gameManager=gameManager;
-        toolCardHandler = new ToolCardHandler(gameManager, server, this);
+        toolCardHandler = new ToolCardHandler(player, gameManager, server, this);
         performEffect();
 
     }

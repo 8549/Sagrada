@@ -81,4 +81,57 @@ public interface UI {
     boolean isGUI();
 
     void wrongMove();
+
+    /**
+     * The following methods are effects of toolcards
+     */
+
+    /**
+     * This method must let the player choose a die from his/her windowPattern
+     */
+    public void chooseDieFromWindowPattern();
+
+    /**
+     * This method must let the player choose a die from current Draft Pool
+     */
+    public void chooseDieFromDraftPool() ;
+
+
+    /**
+     * This method must let the player choose a die from the current RoundTrack
+     */
+    public void chooseDieFromRoundTrack();
+
+    /**
+     * This method must let the player decides if he wants to increse the value of the chosen die, or decrease
+     * @return true if he wants to decrese, false if he wants to increase
+     */
+    public void chooseIfDecrease() ;
+
+    /**
+     * Chooses if the player wants to place the die or to put it back in the draft pool
+     * @return true if he chooses to place the die on the window pattern, @return false if he wants to put it back in the draft pool
+     */
+    public void chooseIfPlaceDie() ;
+
+    /**
+     * @return true if the player wants to move 2 dice, @return false if he wants to move just one die
+     */
+    public void chooseToMoveOneDie();
+
+    /**
+     * Choose a number value to give to one die (?)
+     * @return int
+     */
+    public void setValue() ;
+
+    /**
+     * @return old coordinate of a die
+     */
+    public void setOldCoordinates();
+
+    /**
+     * @return new coordinate
+     */
+    public void setNewCoordinates() ;
 }

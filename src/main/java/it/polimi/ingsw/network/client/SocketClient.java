@@ -71,8 +71,8 @@ public class SocketClient implements ClientInterface {
         if (type.equals("response")){
             switch(header) {
                 case "login":
-                            String response=data;
-                            if(data.equals("Login Accepted !")){
+
+                            if(data.equals("true")){
                                 ch.setPlayerToProxyModel(player.getName());
 
                             } else {
@@ -234,6 +234,35 @@ public class SocketClient implements ClientInterface {
                             ch.patternCardChooser(list.get(0), list.get(1));
                         }
                         break;
+
+                    case "chooseDieFromWindowPattern":
+                        ch.chooseDieFromWindowPattern();
+                        break;
+                    case "chooseDieFromDraftPool":
+                        ch.chooseDieFromDraftPool();
+                        break;
+                    case "chooseDieFromRoundTrack":
+                        ch.chooseDieFromRoundTrack();
+                        break;
+                    case "chooseIfDecrease":
+                        ch.chooseIfDecrease();
+                        break;
+                    case "chooseIfPlaceDie":
+                        ch.chooseIfPlaceDie();
+                        break;
+                    case "chooseToMoveOneDie":
+                        ch.chooseToMoveOneDie();
+                        break;
+                    case "setValue":
+                        ch.setValue();
+                        break;
+                    case "setOldCoordinates":
+                        ch.setOldCoordinates();
+                        break;
+                    case "setNewCoordinates":
+                        ch.setNewCoordinates();
+                        break;
+
                     default: break;
 
                 }

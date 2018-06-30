@@ -177,4 +177,49 @@ public class RMIClient implements RMIClientInterface, Serializable {
         ch.endTurn(name);
     }
 
+    @Override
+    public void chooseDieFromWindowPattern() throws RemoteException {
+        ch.chooseDieFromWindowPattern();
+    }
+
+    @Override
+    public void chooseDieFromDraftPool() throws RemoteException {
+        ch.chooseDieFromDraftPool();
+    }
+
+    @Override
+    public void chooseDieFromRoundTrack() throws RemoteException {
+        ch.chooseDieFromRoundTrack();
+    }
+
+    @Override
+    public void chooseIfDecrease() throws RemoteException {
+        ch.chooseIfDecrease();
+    }
+
+    @Override
+    public void chooseIfPlaceDie() throws RemoteException {
+        ch.chooseIfPlaceDie();
+    }
+
+    @Override
+    public void chooseToMoveOneDie() throws RemoteException {
+        ch.chooseToMoveOneDie();
+    }
+
+    @Override
+    public void setValue() throws RemoteException {
+        ch.setValue();
+    }
+
+    @Override
+    public void setOldCoordinates() throws RemoteException {
+        ch.setOldCoordinates();
+    }
+
+    @Override
+    public void setNewCoordinates() throws RemoteException {
+        ch.setNewCoordinates();
+    }
+
 }

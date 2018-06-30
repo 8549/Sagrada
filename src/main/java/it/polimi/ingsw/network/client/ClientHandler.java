@@ -250,5 +250,41 @@ public class ClientHandler implements Serializable {
             System.out.println("Player " + name + " has finished his/her turn");
         }
     }
+
+    public void chooseDieFromWindowPattern(){
+
+    }
+
+    public void chooseDieFromDraftPool() {
+
+    }
+
+    public void chooseDieFromRoundTrack(){
+
+    }
+
+    public void chooseIfDecrease() {
+
+    }
+
+    public void chooseIfPlaceDie() {
+
+    }
+
+    public void chooseToMoveOneDie(){
+
+    }
+
+    public void setValue() {
+
+    }
+
+    public void setOldCoordinates(){
+
+    }
+
+    public void setNewCoordinates() {
+
+    }
 }
 

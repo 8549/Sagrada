@@ -64,7 +64,7 @@ public class SocketServer implements ServerInterface {
             case "login":
                         SocketClientObject client = new SocketClientObject(new Player(data),this, s);
                         if(server.addClient(client)){
-                            s.send("response","login","Login Accepted !");
+                            s.send("response","login","true");
                             server.addAlreadyLoogedPlayers(client);
                             server.addLoggedPlayer(client.getPlayer());
                             s.setClient(client);

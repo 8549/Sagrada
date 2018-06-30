@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.server;
 
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import it.polimi.ingsw.model.*;
 
 import java.io.IOException;
@@ -27,5 +28,14 @@ public interface ClientObject  {
     public  void answerLogin(boolean response)throws IOException;
 
     public void chooseDieFromWindowPattern() throws IOException;
+    public void chooseDieFromDraftPool() throws IOException;
+    public void chooseDieFromRoundTrack() throws IOException;
+    public void chooseIfDecrease() throws IOException;
+    public void chooseIfPlaceDie() throws IOException;
+    public void chooseToMoveOneDie() throws IOException;
+    public void setValue() throws IOException;
+    public void setOldCoordinates() throws IOException;
+    public void setNewCoordinates() throws IOException;
 
-}
+
+    }

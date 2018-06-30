@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.client.RMIClientInterface;
 import it.polimi.ingsw.network.server.ServerInterface;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -191,6 +192,46 @@ public class RMIClientObject implements RMIClientObjectInterface {
 
     @Override
     public void chooseDieFromWindowPattern() throws RemoteException {
+
+    }
+
+    @Override
+    public void chooseDieFromDraftPool() throws RemoteException {
+
+    }
+
+    @Override
+    public void chooseDieFromRoundTrack() throws RemoteException {
+
+    }
+
+    @Override
+    public void chooseIfDecrease() throws RemoteException {
+
+    }
+
+    @Override
+    public void chooseIfPlaceDie() throws RemoteException {
+
+    }
+
+    @Override
+    public void chooseToMoveOneDie() throws RemoteException {
+
+    }
+
+    @Override
+    public void setValue() throws RemoteException {
+
+    }
+
+    @Override
+    public void setOldCoordinates() throws RemoteException {
+
+    }
+
+    @Override
+    public void setNewCoordinates() throws RemoteException {
 
     }
 

@@ -154,11 +154,60 @@ public class SocketClientObject implements ClientObject {
 
     @Override
     public void answerLogin(boolean response) {
-
+        socketHandler.send("response", "login", "true");
     }
 
     @Override
     public void chooseDieFromWindowPattern() throws IOException {
+        socketHandler.send("request", "chooseDieFromWindowPattern", "");
+
+    }
+
+    @Override
+    public void chooseDieFromDraftPool() throws IOException {
+        socketHandler.send("request", "chooseDieFromDraftPool", "");
+
+    }
+
+    @Override
+    public void chooseDieFromRoundTrack() throws IOException {
+        socketHandler.send("request", "chooseDieFromRoundTrack", "");
+
+    }
+
+    @Override
+    public void chooseIfDecrease() throws IOException {
+        socketHandler.send("request", "chooseIfDecrease", "");
+
+    }
+
+    @Override
+    public void chooseIfPlaceDie() throws IOException {
+        socketHandler.send("request", "chooseIfPlaceDie", "");
+
+    }
+
+    @Override
+    public void chooseToMoveOneDie() throws IOException {
+        socketHandler.send("request", "chooseToMoveOneDie", "");
+
+    }
+
+    @Override
+    public void setValue() throws IOException {
+        socketHandler.send("request", "setValue", "");
+
+    }
+
+    @Override
+    public void setOldCoordinates() throws IOException {
+        socketHandler.send("request", "setOldCoordinates", "");
+
+    }
+
+    @Override
+    public void setNewCoordinates() throws IOException {
+        socketHandler.send("request", "setNewCoordinates", "");
 
     }
 }
