@@ -263,19 +263,13 @@ public class GameManager {
         MoveValidator mv = new MoveValidator(round.getTurn(), round.getDraftPool(), true, true, true);
         boolean result = mv.validateMove(die, row, column, player);
         boolean diePlaced = round.getTurn().isDiePlaced();
-        if (result) {
+        if (result && !diePlaced) {
             timer.cancel();
             timerIsRunning = false;
             hasMoved = false;
-            if (!diePlaced) {
-                round.getTurn().getPlayer().getPlayerWindow().addDie(die, row, column);
-                round.removeDieFromDraftPool(die);
-                round.getTurn().setDiePlaced();
-            }
-        }
-        if (result && !diePlaced) {
-            player.getPlayerWindow().addDie(die, row, column);
-            round.getDraftPool().remove(die);
+            round.getTurn().getPlayer().getPlayerWindow().addDie(die, row, column);
+            round.removeDieFromDraftPool(die);
+            round.getTurn().setDiePlaced();
             server.notifyPlacementResponse(true, player);
             server.setDraft(round.getDraftPool());
             endCurrentTurn();
