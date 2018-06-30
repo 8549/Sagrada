@@ -4,6 +4,10 @@ import it.polimi.ingsw.model.Turn;
 
 public class CheckIsDiePlacedEffect extends Effect {
 
+    public CheckIsDiePlacedEffect(String name){
+        this.name = name;
+    }
+
     @Override
     public void perform(Object... args) {
         Turn turn = (Turn) args[0];

@@ -4,6 +4,10 @@ import it.polimi.ingsw.model.Round;
 
 public class CheckIsSecondTurnEffect extends Effect{
 
+    public CheckIsSecondTurnEffect(String name){
+        this.name = name;
+    }
+
     @Override
     public void perform(Object... args) {
         Round round = (Round) args[0];

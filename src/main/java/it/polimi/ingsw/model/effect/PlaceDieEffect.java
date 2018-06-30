@@ -6,7 +6,12 @@ import it.polimi.ingsw.model.MoveValidator;
 import it.polimi.ingsw.model.Player;
 
 public class PlaceDieEffect extends Effect {
-    @Override
+
+    public PlaceDieEffect (String name){
+        this.name = name;
+    }
+
+        @Override
     public void perform(Object... args) {
         toolCard.processMoveWithoutConstraints(true, true, true, true);
     }

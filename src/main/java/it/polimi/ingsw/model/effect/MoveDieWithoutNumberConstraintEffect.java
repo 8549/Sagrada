@@ -4,6 +4,11 @@ import it.polimi.ingsw.model.Die;
 import it.polimi.ingsw.model.Player;
 
 public class MoveDieWithoutNumberConstraintEffect extends Effect {
+
+    public MoveDieWithoutNumberConstraintEffect(String name){
+        this.name = name;
+    }
+
     @Override
     public void perform(Object... args) {
        toolCard.processMoveWithoutConstraints(false, true, true, false);

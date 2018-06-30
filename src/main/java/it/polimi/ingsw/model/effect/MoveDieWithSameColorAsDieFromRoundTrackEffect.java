@@ -5,6 +5,10 @@ import it.polimi.ingsw.model.Die;
 
 public class MoveDieWithSameColorAsDieFromRoundTrackEffect extends Effect {
 
+    public MoveDieWithSameColorAsDieFromRoundTrackEffect(String name){
+        this.name = name;
+    }
+
     @Override
     public void perform(Object... args) {
         Die die = (Die) args[0];

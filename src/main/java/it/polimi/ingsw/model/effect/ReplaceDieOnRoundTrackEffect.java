@@ -6,6 +6,10 @@ import it.polimi.ingsw.model.Round;
 
 public class ReplaceDieOnRoundTrackEffect extends Effect {
 
+    public ReplaceDieOnRoundTrackEffect(String name){
+        this.name = name;
+    }
+
     @Override
     public void perform(Object... args) {
         Die die = (Die) args[0];

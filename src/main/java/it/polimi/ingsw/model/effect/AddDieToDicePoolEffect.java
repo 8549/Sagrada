@@ -5,6 +5,9 @@ import it.polimi.ingsw.model.Die;
 
 public class AddDieToDicePoolEffect extends Effect {
 
+    public AddDieToDicePoolEffect(String name){
+        this.name = name;
+    }
 
     @Override
     public void perform(Object... args) {

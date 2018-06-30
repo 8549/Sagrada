@@ -5,7 +5,11 @@ import it.polimi.ingsw.model.Player;
 
 import java.util.List;
 
-public class MoveDieWithotColorConstraintEffect extends Effect{
+public class MoveDieWithoutColorConstraintEffect extends Effect{
+
+    public MoveDieWithoutColorConstraintEffect(String name) {
+        this.name = name;
+    }
 
     @Override
     public void perform(Object... args) {

@@ -3,7 +3,7 @@
     "name": "Grozing Pliers",
     "id": 1,
     "when": "always",
-    "features": [
+    "effects": [
       "chooseDieFromDraftPool",
       "chooseIfDecreaseOrIncreaseValue",
       "increaseValueDie",
@@ -14,7 +14,7 @@
     "name": "Eglomise Brush",
     "id": 2,
     "when": "always",
-    "features": [
+    "effects": [
       "chooseDieFromWindowPattern",
       "moveDieWithoutColorConstraint"
     ]
@@ -23,7 +23,7 @@
     "name": "Copper Foil Burnisher",
     "id": 3,
     "when": "always",
-    "features": [
+    "effects": [
       "chooseDieFromWindowPattern",
       "moveDieWithoutNumberConstraint"
     ]
@@ -32,7 +32,7 @@
     "name": "Lathekin",
     "id": 4,
     "when": "always",
-    "features": [
+    "effects": [
       "chooseDieFromWindowPattern",
       "moveDie",
       "chooseDieFromWindowPattern",
@@ -43,7 +43,7 @@
     "name": "Lens Cutter",
     "id": 5,
     "when": "always",
-    "features": [
+    "effects": [
       "chooseDieFromDraftPool",
       "replaceDieOnRoundTrack"
     ]
@@ -52,7 +52,7 @@
     "name": "Flux Brush",
     "id": 6,
     "when": "before",
-    "features": [
+    "effects": [
       "chooseDieFromDraftPool",
       "rollDie",
       "chooseIfPlaceDieOrPlaceDieInDraftPool",
@@ -64,7 +64,7 @@
     "name": "Glazing Hammer",
     "id": 7,
     "when": "before",
-    "features": [
+    "effects": [
       "checkIsSecondTurn",
       "rollAllDice",
       "checkIsDiePlaced"
@@ -74,7 +74,7 @@
     "name": "Running Pliers",
     "id": 8,
     "when": "after",
-    "features": [
+    "effects": [
       "changeTurnOrder"
     ]
   },
@@ -82,7 +82,7 @@
     "name": "Cork-backed Straightedge",
     "id": 9,
     "when": "before",
-    "features": [
+    "effects": [
       "chooseDieFromDraftPool",
       "placeDieWithoutAdjacencyConstraint"
     ]
@@ -91,7 +91,7 @@
     "name": "Grinding Stone",
     "id": 10,
     "when":"always",
-    "features": [
+    "effects": [
       "chooseDieFromDraftPool",
       "flipDie"
     ]
@@ -100,7 +100,7 @@
     "name": "Flux Remover",
     "id": 11,
     "when":"before",
-    "features": [
+    "effects": [
       "chooseDieFromDraftPool",
       "addDieToDicePool",
       "getDieFromDicePool",
@@ -112,10 +112,10 @@
     "name": "Tap Wheel",
     "id": 12,
     "when": "always",
-    "features": [
+    "effects": [
       "chooseDieFromRoundTrack",
       "chooseDieFromWindowPattern",
-      "moveDieWithSameColorAsDieFromRoundTracks",
+      "moveDieWithSameColorAsDieFromRoundTrack",
       "chooseToMoveOneOrTwoDice",
       "chooseDieFromWindowPattern",
       "moveDieWithSameColorAsDieFromRoundTrack"

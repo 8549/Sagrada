@@ -8,6 +8,7 @@ import it.polimi.ingsw.network.server.MainServer;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 //TODO
 public class ToolCard implements Card {
@@ -20,7 +21,6 @@ public class ToolCard implements Card {
     private String name;
     private int id;
     private String when;
-    private List<String> features;
     //attributes for effects
     private Die die;
     int turnForRoundTrack;
@@ -35,15 +35,32 @@ public class ToolCard implements Card {
     private Iterator effectIterator;
     private boolean everythingOk;
 
-    public ToolCard(String name, int id, String when, List<String> features) {
-        effectIterator = effects.iterator();
-        everythingOk=true;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ToolCard toolCard = (ToolCard) o;
+        return id == toolCard.id &&
+                Objects.equals(effects, toolCard.effects) &&
+                Objects.equals(name, toolCard.name) &&
+                Objects.equals(when, toolCard.when);
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(effects, name, id, when);
+    }
+
+ /*   public ToolCard(String name, int id, String when, List<Effect> effects) {
         this.name=name;
         this.id=id;
         this.when=when;
-        this.features=features;
+        this.effects= effects;
+        effectIterator = effects.iterator();
+        everythingOk=true;
     }
-
+*/
     public void initReferences(GameManager gm){
         this.gameManager= gm;
         toolCardHandler = new ToolCardHandler(gm, gm.getServer(),this);
@@ -270,5 +287,12 @@ public class ToolCard implements Card {
     @Override
     public String getName() {
         return this.name;
+    }
+
+    public void setParameters(String name, int id, String when, List<Effect> effects){
+        this.name=name;
+        this.id=id;
+        this.when=when;
+        this.effects= effects;
     }
 }

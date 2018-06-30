@@ -5,6 +5,10 @@ import it.polimi.ingsw.model.Die;
 
 public class PlaceDieInDraftPoolEffect extends Effect{
 
+    public PlaceDieInDraftPoolEffect(String name){
+        this.name = name;
+    }
+
     @Override
     public void perform(Object... args) {
         boolean placeDie = (boolean) args[0];

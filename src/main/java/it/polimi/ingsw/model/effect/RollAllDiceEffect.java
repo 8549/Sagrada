@@ -6,6 +6,10 @@ import it.polimi.ingsw.model.Round;
 
 public class RollAllDiceEffect extends Effect {
 
+    public RollAllDiceEffect(String name){
+        this.name = name;
+    }
+
     @Override
     public void perform(Object... args) {
         Round round = (Round) args[0];
