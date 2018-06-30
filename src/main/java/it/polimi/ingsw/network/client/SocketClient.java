@@ -198,7 +198,7 @@ public class SocketClient implements ClientInterface {
                     case "turnStarted":
                         List<String> value = socketParserClient.parseData(data);
                         int round = Integer.parseInt(value.get(1));
-                        int turn = Integer.parseInt(value.get(1));
+                        int turn = Integer.parseInt(value.get(2));
                         ch.notifyTurnStarted(value.get(0), round, turn);
                         break;
 

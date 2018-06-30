@@ -34,8 +34,8 @@ public class ProxyModel  {
 
 
     public ProxyModel() {
-        this.currentRound = new SimpleIntegerProperty();
-        this.currentTurn = new SimpleIntegerProperty();
+        this.currentRound = new SimpleIntegerProperty(-1);
+        this.currentTurn = new SimpleIntegerProperty(-1);
     }
 
     public int getCurrentRound() {

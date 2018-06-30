@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.ConnectionType;
 import it.polimi.ingsw.network.client.ClientHandler;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.beans.value.WeakChangeListener;
 import javafx.collections.ListChangeListener;
 import javafx.collections.WeakListChangeListener;
@@ -194,7 +193,7 @@ public class CLI implements UI {
         } else {
             System.out.println(String.format("%s is playing! ", model.getCurrentPlayer().getName()));
         }
-        System.out.println(String.format("It's turn %d of round %d", model.getCurrentTurn(), model.getCurrentRound()));
+        System.out.println(String.format("It's turn %d of round %d", model.getCurrentTurn() + 1, model.getCurrentRound()));
         for (Player p : model.getPlayers()) {
             System.out.println(p.getName());
             printWindowPattern(p.getPlayerWindow().getWindowPattern(), p.getPlayerWindow());
@@ -313,38 +312,12 @@ public class CLI implements UI {
         //printWindowPattern(model.getMyself().getPlayerWindow().getWindowPattern());
         System.out.println("Your private objective card will be: " + model.getMyself().getPrivateObjectiveCard().getName());
 
-        model.getDraftPool().addListener(new WeakListChangeListener<>(new ListChangeListener<Die>() {
-            @Override
-            public void onChanged(Change<? extends Die> c) {
-                while (c.next()) {
-                    //update();
-                    if (c.wasAdded()) {
-                        for (Die d : c.getAddedSubList()) {
-                            //System.out.println("Die " + printDie(d) + " was added");
-                        }
-                    } else if (c.wasRemoved()) {
-                        for (Die d : c.getRemoved()) {
-                            //System.out.println("Die " + printDie(d) + " was removed");
-                        }
-                    }
-                }
-            }
-        }));
-        ChangeListener listener1 = new WeakChangeListener<>(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                System.out.println(String.format("[DEBUG] Round changed %d --> %d", oldValue.intValue(), newValue.intValue()));
-            }
+        //ChangeListener<Number> listener1 = new WeakChangeListener<>((observable, oldValue, newValue) -> System.out.println(String.format("[DEBUG] Round changed %d --> %d", oldValue.intValue(), newValue.intValue())));
+        ChangeListener<Number> listener = new WeakChangeListener<>((observable, oldValue, newValue) -> {
+            update();
         });
-        ChangeListener listener2 = new WeakChangeListener<>(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                System.out.println(String.format("[DEBUG] Turn changed %d --> %d", oldValue.intValue(), newValue.intValue()));
-                update();
-            }
-        });
-        model.currentRoundProperty().addListener(listener1);
-        model.currentTurnProperty().addListener(listener2);
+        //model.currentRoundProperty().addListener(listener1);
+        model.currentTurnProperty().addListener(listener);
     }
 
     @Override
