@@ -274,6 +274,8 @@ public class GameManager {
             }
         }
         if (result && !diePlaced) {
+            player.getPlayerWindow().addDie(die, row, column);
+            round.getDraftPool().remove(die);
             server.notifyPlacementResponse(true, player);
             server.setDraft(round.getDraftPool());
             endCurrentTurn();
