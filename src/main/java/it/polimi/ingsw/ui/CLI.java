@@ -358,6 +358,51 @@ public class CLI implements UI {
         myTurnStarted();
     }
 
+    @Override
+    public void chooseDieFromWindowPattern() {
+        
+    }
+
+    @Override
+    public void chooseDieFromDraftPool() {
+
+    }
+
+    @Override
+    public void chooseDieFromRoundTrack() {
+
+    }
+
+    @Override
+    public void chooseIfDecrease() {
+
+    }
+
+    @Override
+    public void chooseIfPlaceDie() {
+
+    }
+
+    @Override
+    public void chooseToMoveOneDie() {
+
+    }
+
+    @Override
+    public void setValue() {
+
+    }
+
+    @Override
+    public void setOldCoordinates() {
+
+    }
+
+    @Override
+    public void setNewCoordinates() {
+
+    }
+
     private String printFavorTokens(int n) {
         String s = "";
         for (int i = 0; i < n; i++) {
