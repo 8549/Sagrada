@@ -312,11 +312,11 @@ public class CLI implements UI {
         //printWindowPattern(model.getMyself().getPlayerWindow().getWindowPattern());
         System.out.println("Your private objective card will be: " + model.getMyself().getPrivateObjectiveCard().getName());
 
-        //ChangeListener<Number> listener1 = new WeakChangeListener<>((observable, oldValue, newValue) -> System.out.println(String.format("[DEBUG] Round changed %d --> %d", oldValue.intValue(), newValue.intValue())));
+        ChangeListener<Number> listener1 = new WeakChangeListener<>((observable, oldValue, newValue) -> System.out.println(String.format("Round %d ended. round % is starting!", oldValue.intValue(), newValue.intValue())));
         ChangeListener<Number> listener = new WeakChangeListener<>((observable, oldValue, newValue) -> {
             update();
         });
-        //model.currentRoundProperty().addListener(listener1);
+        model.currentRoundProperty().addListener(listener1);
         model.currentTurnProperty().addListener(listener);
     }
 
@@ -402,7 +402,41 @@ public class CLI implements UI {
 
     @Override
     public void chooseDieFromRoundTrack() {
-
+        RoundTrack roundTrack = model.getRoundTrack();
+        // PRINT ROUNDTRACK
+        int i = -1;
+        System.out.print("Which round you want to pick a die from [1-" + roundTrack.getRoundCounter() + "]? ");
+        boolean validChoice = false;
+        while (!validChoice) {
+            if (scanner.hasNextInt()) {
+                i = scanner.nextInt();
+                if (i >= 1 && i <= roundTrack.getRoundCounter()) {
+                    validChoice = true;
+                } else {
+                    System.out.print("Please enter a valid choice. ");
+                }
+            } else {
+                System.out.print("Please enter a valid choice. ");
+                scanner.next();
+            }
+        }
+        System.out.print("Which die do you want? ");
+        validChoice = false;
+        int j;
+        while (!validChoice) {
+            if (scanner.hasNextInt()) {
+                j = scanner.nextInt();
+                if (j >= 0 && j <= model.getRoundTrack().getDiceNumberAtRound(i)) {
+                    validChoice = true;
+                    handler.sendDieFromRT(roundTrack.getDieAt(i, j), i);
+                } else {
+                    System.out.print("Please enter a valid choice. ");
+                }
+            } else {
+                System.out.print("Please enter a valid choice. ");
+                scanner.next();
+            }
+        }
     }
 
     @Override

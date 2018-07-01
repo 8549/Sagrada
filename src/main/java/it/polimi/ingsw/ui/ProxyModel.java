@@ -18,6 +18,11 @@ public class ProxyModel  {
     private IntegerProperty currentTurn;
     private List<ObjCard> publicObjectiveCards = new ArrayList<>();
     private List<ToolCard> toolCards = new ArrayList<>();
+
+    public RoundTrack getRoundTrack() {
+        return roundTrack;
+    }
+
     private RoundTrack roundTrack;
     private int timeout;
 

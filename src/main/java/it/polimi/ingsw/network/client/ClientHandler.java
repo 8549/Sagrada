@@ -256,14 +256,13 @@ public class ClientHandler implements Serializable {
     public void endTurn(String name){
         if(proxyModel.getMyself().equals(name)){
             //TODO:code to stop selection if client is doing stuff and notify user the end turn
-            System.out.println("Your turn is ended ");
+            System.out.println("[DEBUG] Your turn is ended ");
         }else{
-            System.out.println("Player " + name + " has finished his/her turn");
+            System.out.println("[DEBUG] Player " + name + " has finished his/her turn");
         }
     }
 
     public void endRound(List<Die> dice){
-        //TODO: notify user end round
         proxyModel.addDiceToRoundTrack(dice);
     }
 

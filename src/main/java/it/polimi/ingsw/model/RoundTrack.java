@@ -11,6 +11,10 @@ public class RoundTrack {
     private Map<Integer, List<Die>> dice;
     private int roundCounter;
 
+    public int getDiceNumberAtRound(int i) {
+        return dice.get(i).size();
+    }
+
     public RoundTrack() {
         roundCounter = 0;
         dice = new HashMap<>();
