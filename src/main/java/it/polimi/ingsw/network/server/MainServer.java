@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.server;
 
+import com.sun.security.ntlm.Client;
 import it.polimi.ingsw.GameManager;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.server.RMI.RMIServer;
@@ -399,7 +400,6 @@ public class MainServer {
         }
     }
 
-    //TODO
     public void notifyEndTurn(Player p){
         for(ClientObject c : inGameClients){
             try {
@@ -409,7 +409,15 @@ public class MainServer {
             }
         }
     }
-    public void notifyEndRound(List<Player> players){}
+    public void notifyEndRound( List<Die> dice){
+        for(ClientObject c: inGameClients){
+            try {
+                c.notifyEndRound(dice);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     public List<ClientObject> getInGameClients(){
         return this.inGameClients;

@@ -186,7 +186,7 @@ public class GameManager {
 
 
     public void completeRound(List<Die> dieForRoundTrack) {
-        server.notifyEndRound(players);
+        server.notifyEndRound( dieForRoundTrack);
         players.add(players.get(0));
         players.remove(0);
         board.getRoundTrack().addRound(dieForRoundTrack);

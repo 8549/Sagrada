@@ -1,6 +1,5 @@
 package it.polimi.ingsw.network.server;
 
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import it.polimi.ingsw.model.*;
 
 import java.io.IOException;
@@ -22,6 +21,7 @@ public interface ClientObject  {
     public  void notifyMoveResponse(boolean response, String name, Die d, int row, int column)throws IOException;
     public void notifyEndTimeOut() throws IOException;
     public void notifyEndTurn(Player p) throws IOException;
+    public void notifyEndRound(List<Die> dice) throws IOException;
 
     public Player getPlayer()throws IOException;
 

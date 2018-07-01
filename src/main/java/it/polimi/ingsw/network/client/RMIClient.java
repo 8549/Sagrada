@@ -178,6 +178,11 @@ public class RMIClient implements RMIClientInterface, Serializable {
     }
 
     @Override
+    public void endRound(List<Die> dice) throws RemoteException {
+
+    }
+
+    @Override
     public void chooseDieFromWindowPattern() throws RemoteException {
         ch.chooseDieFromWindowPattern();
     }

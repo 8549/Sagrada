@@ -182,6 +182,11 @@ public class RMIClientObject implements RMIClientObjectInterface {
     }
 
     @Override
+    public void notifyEndRound(List<Die> dice) throws RemoteException {
+        client.endRound(dice);
+    }
+
+    @Override
     public void pushToolCards(List<String> tools) throws RemoteException {
         List<String> names = new ArrayList<>();
         for(String tool: tools){

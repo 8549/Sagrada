@@ -18,6 +18,7 @@ public class ProxyModel  {
     private IntegerProperty currentTurn;
     private List<ObjCard> publicObjectiveCards = new ArrayList<>();
     private List<ToolCard> toolCards = new ArrayList<>();
+    private RoundTrack roundTrack;
     private int timeout;
 
     public ObservableList<Die> getDraftPool() {
@@ -34,8 +35,13 @@ public class ProxyModel  {
 
 
     public ProxyModel() {
+        roundTrack = new RoundTrack();
         this.currentRound = new SimpleIntegerProperty(-1);
         this.currentTurn = new SimpleIntegerProperty(-1);
+    }
+
+    public void addDiceToRoundTrack(List<Die> d){
+        roundTrack.addRound(d);
     }
 
     public int getCurrentRound() {

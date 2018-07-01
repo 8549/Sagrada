@@ -149,6 +149,15 @@ public class SocketClientObject implements ClientObject {
     }
 
     @Override
+    public void notifyEndRound(List<Die> dice) throws IOException {
+        String data = "";
+        for (Die d : dice){
+            data = data + d.getColor() + "/" + d.getNumber() + "/";
+        }
+        socketHandler.send("update", "endRound", data);
+    }
+
+    @Override
     public Player getPlayer() {
         return this.player;
     }

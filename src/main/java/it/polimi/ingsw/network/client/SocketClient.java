@@ -221,6 +221,18 @@ public class SocketClient implements ClientInterface {
                         }
                         ch.setTools(tools);
 
+                        break;
+
+                    case "endRound": List<String> roundTrackDice = socketParserClient.parseData(data);
+                        List<Die> d = new ArrayList<>();
+                        for (int i=0; i<roundTrackDice.size(); i= i+2){
+                            Die die = new Die(SagradaColor.valueOf(roundTrackDice.get(i).toUpperCase()));
+                            die.setNumber(Integer.valueOf(roundTrackDice.get(i + 1)));
+                            d.add(die);
+                        }
+
+
+
                     default: break;
 
 

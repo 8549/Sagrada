@@ -41,6 +41,7 @@ public interface RMIClientInterface extends ClientInterface, Remote {
     void moveResponse(String name, boolean response, Die d, int row, int column) throws RemoteException;
     void moveTimeOut()throws RemoteException;
     void endCurrentTurn(String name) throws RemoteException;
+    void endRound(List<Die> dice) throws RemoteException;
 
     public void chooseDieFromWindowPattern() throws RemoteException;
     public void chooseDieFromDraftPool() throws RemoteException ;

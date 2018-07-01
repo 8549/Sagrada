@@ -42,6 +42,8 @@ public interface RMIClientObjectInterface extends ClientObject, Remote {
     @Override
     public void notifyEndTurn(Player p) throws RemoteException;
     @Override
+    public void notifyEndRound(List<Die> dice) throws RemoteException;
+    @Override
     public  void pushToolCards(List<String> tools)throws RemoteException;
     @Override
     public void chooseDieFromWindowPattern() throws RemoteException;
