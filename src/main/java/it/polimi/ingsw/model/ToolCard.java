@@ -237,32 +237,41 @@ public class ToolCard implements Card {
     }
 
     public void chooseDieFromWindowPattern() {
+        toolCardHandler.chooseDieFromWindowPattern();
     }
 
     public void chooseDieFromDraftPool() {
-    } //TODO
+        toolCardHandler.chooseDieFromDraftPool();
+    }
 
     public void chooseDieFromRoundTrack() {
-    } //TODO
+        toolCardHandler.chooseDieFromRoundTrack();
+    }
 
     public void chooseIfDecrease() {
-    } //TODO
+        toolCardHandler.chooseIfDecrease();
+    }
 
     public void chooseIfPlaceDie() {
-    } //TODO
+        toolCardHandler.chooseIfPlaceDie();
+    }
 
     public void chooseToMoveOneDie() {
         //if he chooses to move just one die everythingIsOk is set to false so the tool card won't keep performing effects
-    }//TODO
+        toolCardHandler.chooseToMoveOneDie();
+    }
 
     public void setValue() {
-    } //TODO
+        toolCardHandler.setValue();
+    }
 
     public void setOldCoordinates() {
-    } //TODO
+        toolCardHandler.setOldCoordinates();
+    }
 
     public void setNewCoordinates() {
-    } //TODO
+        toolCardHandler.setNewCoordinates();
+    }
 
     public void completeProcessMove(int newRow, int newColumn, int oldRow, int oldColumn) {
         MoveValidator moveValidator = new MoveValidator(gameManager.getRound().getTurn(), gameManager.getRound().getDraftPool(), number, color, adjacency);

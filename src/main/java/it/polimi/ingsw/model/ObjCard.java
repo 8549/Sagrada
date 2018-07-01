@@ -3,12 +3,12 @@ package it.polimi.ingsw.model;
 import java.io.Serializable;
 
 public abstract class ObjCard implements Card, Serializable{
-    private String name;
+    String name;
     private int points;
-    private ObjectiveCardType type;
-    private ObjectiveCardWhere where;
-    private PatternConstraint[] rules;
-    private Prize prize;
+    ObjectiveCardType type;
+    ObjectiveCardWhere where;
+    PatternConstraint[] rules;
+    Prize prize;
 
     public abstract int checkObjective(Cell[][] grid);
 
