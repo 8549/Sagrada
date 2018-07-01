@@ -265,8 +265,15 @@ public class ClientHandler implements Serializable {
     public void chooseDieFromWindowPattern(){
 
     }
+    public void sendDieFromWP(Die d, int row, int column){
+
+    }
 
     public void chooseDieFromDraftPool() {
+
+    }
+
+    public void sendDieFromDP(Die d){
 
     }
 
@@ -274,7 +281,15 @@ public class ClientHandler implements Serializable {
 
     }
 
+    public void sendDieFromRT(Die d, int round){
+
+    }
+
     public void chooseIfDecrease() {
+
+    }
+
+    public void sendDecreaseChoice(boolean choice){
 
     }
 
@@ -282,7 +297,15 @@ public class ClientHandler implements Serializable {
 
     }
 
+    public void sendPlacementChoice(boolean choice){
+
+    }
+
     public void chooseToMoveOneDie(){
+
+    }
+
+    public void sendNumberDiceChoice(boolean choice){
 
     }
 
@@ -290,12 +313,33 @@ public class ClientHandler implements Serializable {
 
     }
 
+    public void sendValue(int value){
+
+    }
+
     public void setOldCoordinates(){
+
+    }
+
+    public void sendOldCoordinates(int row, int column){
 
     }
 
     public void setNewCoordinates() {
 
     }
+
+    public void sendNewCoordinates(int row, int column){
+
+    }
+
+
+
+
+
+
+
+
+
 }
 
