@@ -465,4 +465,6 @@ public class MainServer {
     public void notifyPlayerIfToolCardWorked(boolean toolCardWorked) {
     }
 
+    public void notifyPlayerAlreadyPlacedDie() {
+    }
 }

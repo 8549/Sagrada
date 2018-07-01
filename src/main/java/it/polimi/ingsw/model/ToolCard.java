@@ -52,17 +52,17 @@ public class ToolCard implements Card {
         return Objects.hash(effects, name, id, when);
     }
 
- /*   public ToolCard(String name, int id, String when, List<Effect> effects) {
-        this.name=name;
-        this.id=id;
-        this.when=when;
-        this.effects= effects;
-        effectIterator = effects.iterator();
-        everythingOk=true;
-    }
-*/
-    public void initReferences(GameManager gm){
-        this.gameManager= gm;
+    /*   public ToolCard(String name, int id, String when, List<Effect> effects) {
+           this.name=name;
+           this.id=id;
+           this.when=when;
+           this.effects= effects;
+           effectIterator = effects.iterator();
+           everythingOk=true;
+       }
+   */
+    public void initReferences(GameManager gm) {
+        this.gameManager = gm;
     }
 
     public boolean isUsed() {
@@ -82,8 +82,8 @@ public class ToolCard implements Card {
     }
 
     public void useTools(Player player, GameManager gameManager, MainServer server) {
-        this.player=player;
-        this.gameManager=gameManager;
+        this.player = player;
+        this.gameManager = gameManager;
         toolCardHandler = new ToolCardHandler(player, gameManager, server, this);
         performEffect();
 
@@ -102,8 +102,16 @@ public class ToolCard implements Card {
                     currentEffect.perform(gameManager.getRound());
                     checkHasNextEffect();
                     break;
+                case "checkIfDieHasBeenPlaced":
+                    currentEffect.perform(gameManager.getRound().getTurn());
+                    checkHasNextEffect();
+                    break;
                 case "checkIsDiePlaced":
                     currentEffect.perform(gameManager.getRound().getTurn());
+                    checkHasNextEffect();
+                    break;
+                case "checkIsFirstTurn":
+                    currentEffect.perform(gameManager.getRound());
                     checkHasNextEffect();
                     break;
                 case "checkIsSecondTurn":
@@ -122,13 +130,13 @@ public class ToolCard implements Card {
                 case "chooseDieValue":
                     currentEffect.perform(die);
                     break;
-                case "chooseIfDecreaseOrIncreaseValue" :
+                case "chooseIfDecreaseOrIncreaseValue":
                     currentEffect.perform();
                     break;
                 case "chooseIfPlaceDieOrPlaceDieInDraftPool":
                     currentEffect.perform();
                     break;
-                case "chooseToMoveOneOrTwoDice" :
+                case "chooseToMoveOneOrTwoDice":
                     currentEffect.perform();
                     break;
                 case "decreaseValueDie":
@@ -139,7 +147,7 @@ public class ToolCard implements Card {
                     currentEffect.perform(die);
                     checkHasNextEffect();
                     break;
-                case  "getDieFromDicePool":
+                case "getDieFromDicePool":
                     currentEffect.perform();
                     checkHasNextEffect();
                     break;
@@ -160,7 +168,7 @@ public class ToolCard implements Card {
                     currentEffect.perform();
                     break;
                 case "placeDie":
-                    currentEffect.perform();
+                    currentEffect.perform(gameManager.getRound().getTurn(), placeDie);
                     break;
                 case "placeDieInDraftPool":
                     currentEffect.perform(placeDie, gameManager.getBoard(), die);
@@ -186,16 +194,17 @@ public class ToolCard implements Card {
         }
     }
 
-    public void checkHasNextEffect(){
-        if(effectIterator.hasNext() && everythingOk){
-           performEffect();
+    public void checkHasNextEffect() {
+        if (effectIterator.hasNext() && everythingOk) {
+            performEffect();
+        } else {
+            endToolCard();
         }
-        else {endToolCard();}
     }
 
     private void endToolCard() {
-       // gameManager.getServer().notifyPlayerIfToolCardWorked(everythingOk);
-        if(everythingOk){
+        //toolCardHandler.notifyPlayerIfToolCardWorked(everythingOk);
+        if (everythingOk) {
             gameManager.getRound().getTurn().setToolCardUsed();
             player.removeTokens(getCost());
             addTokens();
@@ -215,12 +224,11 @@ public class ToolCard implements Card {
     }
 
 
-
     public void processMoveWithoutConstraints(boolean number, boolean color, boolean adjacency, boolean place) {
-        this.number=number;
-        this.color=color;
-        this.adjacency=adjacency;
-        this.place=place;
+        this.number = number;
+        this.color = color;
+        this.adjacency = adjacency;
+        this.place = place;
         setNewCoordinates();
     }
 
@@ -228,7 +236,8 @@ public class ToolCard implements Card {
         die = gameManager.getBoard().getDiceBag().draftDie();
     }
 
-    public void chooseDieFromWindowPattern() {}
+    public void chooseDieFromWindowPattern() {
+    }
 
     public void chooseDieFromDraftPool() {
     } //TODO
@@ -242,11 +251,12 @@ public class ToolCard implements Card {
     public void chooseIfPlaceDie() {
     } //TODO
 
-    public void chooseToMoveOneDie(){
+    public void chooseToMoveOneDie() {
         //if he chooses to move just one die everythingIsOk is set to false so the tool card won't keep performing effects
     }//TODO
 
-    public void setValue() {} //TODO
+    public void setValue() {
+    } //TODO
 
     public void setOldCoordinates() {
     } //TODO
@@ -254,7 +264,7 @@ public class ToolCard implements Card {
     public void setNewCoordinates() {
     } //TODO
 
-    public void completeProcessMove(int newRow, int newColumn, int oldRow, int oldColumn){
+    public void completeProcessMove(int newRow, int newColumn, int oldRow, int oldColumn) {
         MoveValidator moveValidator = new MoveValidator(gameManager.getRound().getTurn(), gameManager.getRound().getDraftPool(), number, color, adjacency);
         if (moveValidator.validateMove(die, newRow, newColumn, player)) {
             if (!adjacency || place) {
@@ -265,20 +275,20 @@ public class ToolCard implements Card {
             }
             everythingOk = true;
         } else {
-        everythingOk = false;
+            everythingOk = false;
         }
     }
 
-    public void completeChooseDieFromWindowPattern(int oldRow, int oldColumn){
+    public void completeChooseDieFromWindowPattern(int oldRow, int oldColumn) {
         die = player.getPlayerWindow().getCellAt(oldRow, oldColumn).getDie();
         everythingOk = true;
     }
 
-    public void setResponse(boolean resultEffect){
-        everythingOk=resultEffect;
+    public void setResponse(boolean resultEffect) {
+        everythingOk = resultEffect;
     }
 
-    public void completeChooseValue(int value){
+    public void completeChooseValue(int value) {
         die.setNumber(value);
         everythingOk = true;
     }
@@ -288,10 +298,14 @@ public class ToolCard implements Card {
         return this.name;
     }
 
-    public void setParameters(String name, int id, String when, List<Effect> effects){
-        this.name=name;
-        this.id=id;
-        this.when=when;
-        this.effects= effects;
+    public void setParameters(String name, int id, String when, List<Effect> effects) {
+        this.name = name;
+        this.id = id;
+        this.when = when;
+        this.effects = effects;
+    }
+
+    public ToolCardHandler getToolCardHandler() {
+        return toolCardHandler;
     }
 }

@@ -1,18 +1,21 @@
 package it.polimi.ingsw.model.effect;
 
-import it.polimi.ingsw.model.Board;
-import it.polimi.ingsw.model.Die;
-import it.polimi.ingsw.model.MoveValidator;
-import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.*;
 
 public class PlaceDieEffect extends Effect {
 
-    public PlaceDieEffect (String name){
+    public PlaceDieEffect(String name) {
         this.name = name;
     }
 
-        @Override
+    @Override
     public void perform(Object... args) {
-        toolCard.processMoveWithoutConstraints(true, true, true, true);
+        Turn turn = (Turn) args[0];
+        boolean placeDie = (boolean) args[1];
+        if (turn.isDiePlaced()) {
+            toolCard.getToolCardHandler().notifyPlayerDieAlreadyPlaced();
+        } else if (placeDie) {
+            toolCard.processMoveWithoutConstraints(true, true, true, true);
+        }
     }
 }

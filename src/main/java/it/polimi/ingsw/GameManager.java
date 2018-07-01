@@ -15,7 +15,7 @@ public class GameManager {
     private MainServer server;
     private List<Player> players;
     private PublicObjectiveCard[] publicObjectiveCards = new PublicObjectiveCard[PUBLIC_OBJ_CARDS_NUMBER];
-    private List<ToolCard> toolCard= new ArrayList<>();
+    private List<ToolCard> toolCard = new ArrayList<>();
     private Player firstPlayer;
     private Player currentPlayer;
     private Board board;
@@ -68,7 +68,6 @@ public class GameManager {
             toolCard.get(i).initReferences(this);
         }
         board.setToolCards(toolCard);
-
 
 
         //obj pub
@@ -131,7 +130,7 @@ public class GameManager {
 
     }
 
-    public MainServer getServer(){
+    public MainServer getServer() {
         return this.server;
     }
 
@@ -260,22 +259,27 @@ public class GameManager {
     }
 
     public void processMove(Die die, int row, int column, Player player) {
-        MoveValidator mv = new MoveValidator(round.getTurn(), round.getDraftPool(), true, true, true);
-        boolean result = mv.validateMove(die, row, column, player);
         boolean diePlaced = round.getTurn().isDiePlaced();
-        if (result && !diePlaced) {
-            timer.cancel();
-            timerIsRunning = false;
-            hasMoved = false;
-            round.getTurn().getPlayer().getPlayerWindow().addDie(die, row, column);
-            round.removeDieFromDraftPool(die);
-            round.getTurn().setDiePlaced();
-            server.notifyPlacementResponse(true, player, die , row, column);
-            server.setDraft(round.getDraftPool());
-            endCurrentTurn();
+        if (diePlaced) {
+            server.notifyPlayerAlreadyPlacedDie();
+            System.out.println("[DEBUG] Die already placed, can't place another");
         } else {
-            server.notifyPlacementResponse(false, player, die, row, column);
-            System.out.println("[DEBUG] Wrong move, should they try again or not?");
+            MoveValidator mv = new MoveValidator(round.getTurn(), round.getDraftPool(), true, true, true);
+            boolean result = mv.validateMove(die, row, column, player);
+            if (result) {
+                timer.cancel();
+                timerIsRunning = false;
+                hasMoved = false;
+                round.getTurn().getPlayer().getPlayerWindow().addDie(die, row, column);
+                round.removeDieFromDraftPool(die);
+                round.getTurn().setDiePlaced();
+                server.notifyPlacementResponse(true, player, die, row, column);
+                server.setDraft(round.getDraftPool());
+                endCurrentTurn();
+            } else {
+                server.notifyPlacementResponse(false, player, die, row, column);
+                System.out.println("[DEBUG] Wrong move, should they try again or not?");
+            }
         }
     }
 

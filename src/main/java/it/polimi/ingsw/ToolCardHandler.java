@@ -128,4 +128,8 @@ public class ToolCardHandler {
         }
     }
 
+    public void notifyPlayerDieAlreadyPlaced(){
+        server.notifyPlayerAlreadyPlacedDie();
+    }
+
 }

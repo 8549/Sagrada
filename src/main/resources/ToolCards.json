@@ -65,9 +65,9 @@
     "id": 7,
     "when": "before",
     "effects": [
+      "checkIsDiePlaced",
       "checkIsSecondTurn",
-      "rollAllDice",
-      "checkIsDiePlaced"
+      "rollAllDice"
     ]
   },
   {
@@ -75,6 +75,8 @@
     "id": 8,
     "when": "after",
     "effects": [
+      "checkIsFirstTurn",
+      "checkIfDieHasBeenPlaced",
       "changeTurnOrder"
     ]
   },
@@ -83,6 +85,7 @@
     "id": 9,
     "when": "before",
     "effects": [
+      "checkIsDiePlaced",
       "chooseDieFromDraftPool",
       "placeDieWithoutAdjacencyConstraint"
     ]
@@ -101,6 +104,7 @@
     "id": 11,
     "when":"before",
     "effects": [
+      "checkIsDiePlaced",
       "chooseDieFromDraftPool",
       "addDieToDicePool",
       "getDieFromDicePool",
