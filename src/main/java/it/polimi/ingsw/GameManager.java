@@ -293,6 +293,7 @@ public class GameManager {
                     if (!hasMoved) {
                         timerIsRunning = false;
                         server.moveTimeOut();
+                        endCurrentTurn();
                     }
                 }
             }, MOVE_TIMEOUT * 1000);

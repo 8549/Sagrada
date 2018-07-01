@@ -392,7 +392,6 @@ public class MainServer {
             try {
                 if(c.getPlayer().getName().equals(gm.getCurrentPlayer().getName())){
                    c.notifyEndTimeOut();
-                   gm.endCurrentTurn();
                 }
             } catch (IOException e) {
                 e.printStackTrace();
