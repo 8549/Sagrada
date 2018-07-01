@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.Die;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.ui.GUI;
 import it.polimi.ingsw.ui.ProxyModel;
+import javafx.animation.FadeTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -16,6 +17,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -59,7 +61,7 @@ public class MainController {
     public static Node drawDie(Die d, double size) {
         GridPane cont = new GridPane();
         cont.getStyleClass().add("die");
-        cont.setBackground(new Background(new BackgroundFill(d.getColor().getColor(), CornerRadii.EMPTY, Insets.EMPTY)));
+        cont.setBackground(new Background(new BackgroundFill(d.getColor().getColor(), new CornerRadii(10), Insets.EMPTY)));
         int spacer = 5;
         cont.setPrefHeight(size);
         cont.setPrefWidth(size);
@@ -157,6 +159,11 @@ public class MainController {
     }
 
     public void showMessage(String s) {
-
+        fxMessage.setText(s);
+        FadeTransition fadeTransition = new FadeTransition(Duration.seconds(5), fxMessage);
+        fadeTransition.setFromValue(0);
+        fadeTransition.setToValue(1.0);
+        fadeTransition.setCycleCount(1);
+        fadeTransition.play();
     }
 }

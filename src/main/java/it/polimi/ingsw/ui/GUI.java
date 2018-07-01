@@ -10,6 +10,9 @@ import it.polimi.ingsw.ui.controller.MainController;
 import it.polimi.ingsw.ui.controller.WindowPatternController;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.beans.value.WeakChangeListener;
 import javafx.collections.ListChangeListener;
 import javafx.collections.WeakListChangeListener;
 import javafx.event.EventHandler;
@@ -36,7 +39,7 @@ public class GUI extends Application implements UI {
     private ClientHandler handler;
     private ProxyModel model;
 
-    private void ShowMessage(String s) {
+    private void showMessage(String s) {
         Platform.runLater(() -> mainController.showMessage(s));
     }
 
@@ -221,6 +224,21 @@ public class GUI extends Application implements UI {
                         }
                     }
                 }));
+                ChangeListener<Number> listener1 = new WeakChangeListener<>(new ChangeListener<Number>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                        showMessage(String.format("Round %d ended. round %d is starting!", oldValue.intValue(), newValue.intValue()));
+                    }
+                });
+                ChangeListener<Number> listener2 = new WeakChangeListener<>(new ChangeListener<Number>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                        update();
+                        showMessage(String.format("It's turn %d of round %d", model.getCurrentTurn() + 1, model.getCurrentRound()));
+                    }
+                });
+                model.currentRoundProperty().addListener(listener1);
+                model.currentTurnProperty().addListener(listener2);
             } catch (IOException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText("Error while loading the main game GUI");

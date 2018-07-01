@@ -31,6 +31,7 @@ public class CLI implements UI {
     private ClientHandler handler;
     private ProxyModel model;
     private ListChangeListener listener;
+    private boolean timeUp;
 
 
     @Override
@@ -215,12 +216,31 @@ public class CLI implements UI {
         return d.getColor().escapeString() + (char) unicodeNumber + SagradaColor.RESET;
     }
 
+    private boolean isTimeUp() {
+        if (timeUp) {
+            flushConsole();
+            return true;
+        }
+        return false;
+    }
+
+    private void flushConsole() {
+        while (scanner.hasNext()) {
+            scanner.next();
+        }
+    }
+
     @Override
     public void myTurnStarted() {
+        timeUp = false;
         boolean validChoice = false;
         while (!validChoice) {
             System.out.print("You can place a Die, use a Tool card or Pass; enter the first character of your choice: ");
             String choice = scanner.next().toUpperCase();
+            if (timeUp) {
+                flushConsole();
+                return;
+            }
             switch (choice) {
                 case "D":
                     validChoice = true;
@@ -232,6 +252,9 @@ public class CLI implements UI {
                     while (!validDie) {
                         if (scanner.hasNextInt()) {
                             which = scanner.nextInt();
+                            if (isTimeUp()) {
+                                return;
+                            }
                             if (which > 0 && which <= model.getDraftPool().size()) {
                                 validDie = true;
                             } else {
@@ -247,6 +270,9 @@ public class CLI implements UI {
                     while (!validRow) {
                         if (scanner.hasNextInt()) {
                             i = scanner.nextInt();
+                            if (isTimeUp()) {
+                                return;
+                            }
                             if (i > 0 && i <= WindowPattern.ROWS) {
                                 validRow = true;
                             } else {
@@ -262,6 +288,9 @@ public class CLI implements UI {
                     while (!validCol) {
                         if (scanner.hasNextInt()) {
                             j = scanner.nextInt();
+                            if (isTimeUp()) {
+                                return;
+                            }
                             if (j > 0 && j <= WindowPattern.COLUMNS) {
                                 validCol = true;
                             } else {
@@ -292,6 +321,8 @@ public class CLI implements UI {
 
     @Override
     public void myTurnEnded() {
+        timeUp = true;
+        flushConsole();
         System.out.println("Time for your turn is up. Be quicker!");
     }
 
@@ -302,17 +333,16 @@ public class CLI implements UI {
 
     @Override
     public void initBoard() {
+        timeUp = false;
         System.out.println("The game is starting! You will play against:");
         for (Player p : model.getPlayers()) {
             System.out.println(String.format("%s (%s favor tokens)", p.getName(), printFavorTokens(p.getPlayerWindow().getWindowPattern().getDifficulty())));
-            //printWindowPattern(p.getPlayerWindow().getWindowPattern());
         }
         System.out.println("You:");
         System.out.println(String.format("%s (%s favor tokens)", model.getMyself().getName(), printFavorTokens(model.getMyself().getPlayerWindow().getWindowPattern().getDifficulty())));
-        //printWindowPattern(model.getMyself().getPlayerWindow().getWindowPattern());
         System.out.println("Your private objective card will be: " + model.getMyself().getPrivateObjectiveCard().getName());
 
-        ChangeListener<Number> listener1 = new WeakChangeListener<>((observable, oldValue, newValue) -> System.out.println(String.format("Round %d ended. round % is starting!", oldValue.intValue(), newValue.intValue())));
+        ChangeListener<Number> listener1 = new WeakChangeListener<>((observable, oldValue, newValue) -> System.out.println(String.format("Round %d ended. round %d is starting!", oldValue.intValue(), newValue.intValue())));
         ChangeListener<Number> listener = new WeakChangeListener<>((observable, oldValue, newValue) -> {
             update();
         });
@@ -341,6 +371,9 @@ public class CLI implements UI {
             while (!validRow) {
                 if (scanner.hasNextInt()) {
                     i = scanner.nextInt();
+                    if (isTimeUp()) {
+                        return;
+                    }
                     if (i > 0 && i <= WindowPattern.ROWS) {
                         validRow = true;
                     } else {
@@ -356,6 +389,9 @@ public class CLI implements UI {
             while (!validCol) {
                 if (scanner.hasNextInt()) {
                     j = scanner.nextInt();
+                    if (isTimeUp()) {
+                        return;
+                    }
                     if (j > 0 && j <= WindowPattern.COLUMNS) {
                         validCol = true;
                     } else {
@@ -387,6 +423,9 @@ public class CLI implements UI {
         while (!validDie) {
             if (scanner.hasNextInt()) {
                 which = scanner.nextInt();
+                if (isTimeUp()) {
+                    return;
+                }
                 if (which > 0 && which <= model.getDraftPool().size()) {
                     validDie = true;
                 } else {
@@ -403,13 +442,16 @@ public class CLI implements UI {
     @Override
     public void chooseDieFromRoundTrack() {
         RoundTrack roundTrack = model.getRoundTrack();
-        // PRINT ROUNDTRACK
+        printRoundTrack();
         int i = -1;
         System.out.print("Which round you want to pick a die from [1-" + roundTrack.getRoundCounter() + "]? ");
         boolean validChoice = false;
         while (!validChoice) {
             if (scanner.hasNextInt()) {
                 i = scanner.nextInt();
+                if (isTimeUp()) {
+                    return;
+                }
                 if (i >= 1 && i <= roundTrack.getRoundCounter()) {
                     validChoice = true;
                 } else {
@@ -426,6 +468,9 @@ public class CLI implements UI {
         while (!validChoice) {
             if (scanner.hasNextInt()) {
                 j = scanner.nextInt();
+                if (isTimeUp()) {
+                    return;
+                }
                 if (j >= 0 && j <= model.getRoundTrack().getDiceNumberAtRound(i)) {
                     validChoice = true;
                     handler.sendDieFromRT(roundTrack.getDieAt(i, j), i);
@@ -439,12 +484,26 @@ public class CLI implements UI {
         }
     }
 
+    private void printRoundTrack() {
+        System.out.println("Round Track: ");
+        for (int i = 0; i < model.getRoundTrack().getRoundCounter(); i++) {
+            System.out.print(i + ") ");
+            for (int j = 0; j < model.getRoundTrack().getDiceNumberAtRound(i); j++) {
+                System.out.print(printDie(model.getRoundTrack().getDieAt(i, j)) + " ");
+            }
+            System.out.print("\n");
+        }
+    }
+
     @Override
     public void chooseIfDecrease() {
         boolean validChoice = false;
         while (!validChoice) {
             System.out.print("Do you want to Increase or Decrease the die? Type the first letter of your choice: ");
             String s = scanner.next().toUpperCase();
+            if (isTimeUp()) {
+                return;
+            }
             switch (s) {
                 case "I":
                     validChoice = true;
@@ -466,6 +525,9 @@ public class CLI implements UI {
         while (!validChoice) {
             System.out.print("Do you want to Place the die or put it Back to the draft pool? Type the first letter of your choice: ");
             String s = scanner.next().toUpperCase();
+            if (isTimeUp()) {
+                return;
+            }
             switch (s) {
                 case "P":
                     validChoice = true;
@@ -489,6 +551,9 @@ public class CLI implements UI {
         while (!validChoice) {
             if (scanner.hasNextInt()) {
                 i = scanner.nextInt();
+                if (isTimeUp()) {
+                    return;
+                }
                 if (i == 1 || i == 2) {
                     validChoice = true;
                     if (i == 2) {
@@ -514,6 +579,9 @@ public class CLI implements UI {
         while (!validChoice) {
             if (scanner.hasNextInt()) {
                 i = scanner.nextInt();
+                if (isTimeUp()) {
+                    return;
+                }
                 if (i >= Die.MIN && i <= Die.MAX) {
                     validChoice = true;
                     handler.sendValue(i);
@@ -537,6 +605,9 @@ public class CLI implements UI {
             while (!validRow) {
                 if (scanner.hasNextInt()) {
                     i = scanner.nextInt();
+                    if (isTimeUp()) {
+                        return;
+                    }
                     if (i > 0 && i <= WindowPattern.ROWS) {
                         validRow = true;
                     } else {
@@ -552,6 +623,9 @@ public class CLI implements UI {
             while (!validCol) {
                 if (scanner.hasNextInt()) {
                     j = scanner.nextInt();
+                    if (isTimeUp()) {
+                        return;
+                    }
                     if (j > 0 && j <= WindowPattern.COLUMNS) {
                         validCol = true;
                     } else {
@@ -582,6 +656,9 @@ public class CLI implements UI {
             while (!validRow) {
                 if (scanner.hasNextInt()) {
                     i = scanner.nextInt();
+                    if (isTimeUp()) {
+                        return;
+                    }
                     if (i > 0 && i <= WindowPattern.ROWS) {
                         validRow = true;
                     } else {
@@ -597,6 +674,9 @@ public class CLI implements UI {
             while (!validCol) {
                 if (scanner.hasNextInt()) {
                     j = scanner.nextInt();
+                    if (isTimeUp()) {
+                        return;
+                    }
                     if (j > 0 && j <= WindowPattern.COLUMNS) {
                         validCol = true;
                     } else {

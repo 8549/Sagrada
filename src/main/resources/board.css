@@ -22,7 +22,10 @@
   -fx-background-image: url(images/pattern/dark.png)
 }
 .message {
-  font-size: 400%;
+  -fx-font-size: 400%;
   -fx-text-fill: white;
-
+}
+.message .text {
+  -fx-stroke: rgba(0, 0, 0, 0.50);
+  -fx-stroke-width: 1;
 }
