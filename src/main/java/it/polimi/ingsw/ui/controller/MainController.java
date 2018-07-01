@@ -1,32 +1,45 @@
 package it.polimi.ingsw.ui.controller;
 
+import it.polimi.ingsw.Utils;
 import it.polimi.ingsw.model.Die;
+import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.ui.GUI;
 import it.polimi.ingsw.ui.ProxyModel;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainController {
     private GUI gui;
+    private List<AnchorPane> anchorPanes;
+    private List<WindowPatternController> controllers;
 
     @FXML
     private BorderPane main;
 
     @FXML
-    private AnchorPane fxBoard1;
+    private VBox fxButtonContainer;
 
     @FXML
-    private AnchorPane fxBoard2;
+    private HBox fxBoardsContainer;
 
     @FXML
-    private AnchorPane fxBoard3;
+    private ImageView fxPrivObjCard;
 
     @FXML
-    private AnchorPane fxBoard4;
+    private Label fxMessage;
 
     @FXML
     private HBox fxDraftPool;
@@ -36,31 +49,21 @@ public class MainController {
         this.gui = gui;
     }
 
-    public void update() {
-        ProxyModel model = gui.getModel();
-
-        // Update Draft Pool
-        for (Die d : model.getDraftPool()) {
-            fxDraftPool.getChildren().add(drawDie(d, GUI.TILE_SIZE));
-        }
-
-    }
-
-    private Node getDieMark(double size) {
+    public static Node getDieMark(double size) {
         Circle mark = new Circle(size);
         mark.setFill(Color.BLACK);
         mark.setOpacity(0.84);
         return mark;
     }
 
-    private Node drawDie(Die d, double size) {
+    public static Node drawDie(Die d, double size) {
         GridPane cont = new GridPane();
         cont.getStyleClass().add("die");
         cont.setBackground(new Background(new BackgroundFill(d.getColor().getColor(), CornerRadii.EMPTY, Insets.EMPTY)));
         int spacer = 5;
         cont.setPrefHeight(size);
         cont.setPrefWidth(size);
-        //cont.setRotate(Utils.getRandom(-15, 15));
+        cont.setRotate(Utils.getRandom(-10, 10));
         switch (d.getNumber()) {
             case 1:
                 cont.add(getDieMark(spacer), 1, 1);
@@ -88,17 +91,72 @@ public class MainController {
                 cont.add(getDieMark(spacer), 1, 1);
                 break;
             case 6:
-                cont.add(getDieMark(spacer), 0, 2);
-                cont.add(getDieMark(spacer), 2, 0);
                 cont.add(getDieMark(spacer), 0, 0);
+                cont.add(getDieMark(spacer), 2, 0);
+                cont.add(getDieMark(spacer), 0, 1);
+                cont.add(getDieMark(spacer), 2, 1);
+                cont.add(getDieMark(spacer), 0, 2);
                 cont.add(getDieMark(spacer), 2, 2);
-                cont.add(getDieMark(spacer), 1, 0);
-                cont.add(getDieMark(spacer), 1, 2);
                 break;
 
             default:
                 break;
         }
         return cont;
+    }
+
+    public void initBoards() {
+        anchorPanes = new ArrayList<>();
+        controllers = new ArrayList<>();
+        ProxyModel model = gui.getModel();
+        List<Player> players = model.getPlayers();
+        players.add(model.getMyself());
+        for (int i = 0; i < model.getPlayers().size(); i++) {
+            FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("views/windowpattern.fxml"));
+            try {
+                Parent root = loader.load();
+                root.getStylesheets().add(getClass().getClassLoader().getResource("windowpattern.css").toExternalForm());
+                controllers.add(i, loader.getController());
+                controllers.get(i).setWindowPattern(players.get(i).getPlayerWindow().getWindowPattern());
+
+                Image img = new Image(getClass().getClassLoader().getResource("images/board/" + (i + 1) + ".png").toExternalForm());
+                ImageView imgView = new ImageView(img);
+                imgView.setPreserveRatio(true);
+                imgView.setSmooth(true);
+                imgView.setCache(true);
+                imgView.setFitHeight(GUI.BOARDS_RELATIVE_SIZE * gui.getHeight());
+                AnchorPane p = new AnchorPane();
+                p.getChildren().add(0, imgView);
+                AnchorPane.setBottomAnchor(root, GUI.BOARDS_RELATIVE_SIZE * imgView.getFitHeight());
+                p.getChildren().add(1, root);
+                anchorPanes.add(p);
+                fxBoardsContainer.getChildren().add(p);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void update() {
+        ProxyModel model = gui.getModel();
+
+        // Update Draft Pool
+        int n = fxDraftPool.getChildren().size();
+        if (n > 0) {
+            fxDraftPool.getChildren().remove(0, n - 1);
+        }
+        for (Die d : model.getDraftPool()) {
+            fxDraftPool.getChildren().add(drawDie(d, GUI.BASE_TILE_SIZE));
+        }
+
+        // Update players' PlayerWindow + tokens
+
+        // Update Tool Cards token used
+
+
+    }
+
+    public void showMessage(String s) {
+
     }
 }

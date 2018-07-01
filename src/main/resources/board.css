@@ -18,6 +18,11 @@
   -fx-graphic-text-gap: 0;
   /*-fx-content-display: graphic-only;*/
 }
-/*#main {
+#main {
   -fx-background-image: url(images/pattern/dark.png)
-}*/
+}
+.message {
+  font-size: 400%;
+  -fx-text-fill: white;
+
+}

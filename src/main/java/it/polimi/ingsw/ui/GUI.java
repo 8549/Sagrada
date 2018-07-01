@@ -27,13 +27,18 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class GUI extends Application implements UI {
-    public static final double TILE_SIZE = 70;
+    public static final double BASE_TILE_SIZE = 70;
+    public static final double BOARDS_RELATIVE_SIZE = 0.695;
     private Stage stage;
     private WindowPattern selected;
     private IntroController introController;
     private MainController mainController;
     private ClientHandler handler;
     private ProxyModel model;
+
+    private void ShowMessage(String s) {
+        Platform.runLater(() -> mainController.showMessage(s));
+    }
 
     @Override
     public void start(Stage primaryStage) {
@@ -200,8 +205,12 @@ public class GUI extends Application implements UI {
                 Parent root = boardLoader.load();
                 root.getStylesheets().add(getClass().getClassLoader().getResource("die.css").toExternalForm());
                 root.getStylesheets().add(getClass().getClassLoader().getResource("board.css").toExternalForm());
+                stage.setScene(new Scene(root));
+                stage.sizeToScene();
+                stage.centerOnScreen();
                 mainController = boardLoader.getController();
                 mainController.setGUI(this);
+                mainController.initBoards();
                 mainController.update();
                 // Init listeners
                 model.getDraftPool().addListener(new WeakListChangeListener<>(new ListChangeListener<Die>() {
@@ -212,10 +221,6 @@ public class GUI extends Application implements UI {
                         }
                     }
                 }));
-
-                stage.setScene(new Scene(root));
-                stage.sizeToScene();
-                stage.centerOnScreen();
             } catch (IOException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText("Error while loading the main game GUI");
@@ -281,4 +286,11 @@ public class GUI extends Application implements UI {
 
     }
 
+    public double getHeight() {
+        return stage.getHeight();
+    }
+
+    public double getWidth() {
+        return stage.getWidth();
+    }
 }

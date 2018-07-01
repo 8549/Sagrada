@@ -1,5 +1,6 @@
 package it.polimi.ingsw.ui.controller;
 
+import it.polimi.ingsw.model.Die;
 import it.polimi.ingsw.model.WindowPattern;
 import it.polimi.ingsw.ui.GUI;
 import javafx.fxml.FXML;
@@ -32,13 +33,21 @@ public class WindowPatternController {
         for (Node c : patternGrid.getChildren()) {
             int i = GridPane.getRowIndex(c);
             int j = GridPane.getColumnIndex(c);
-            Node graphic = p.getConstraints()[i][j].getAsGraphic(GUI.TILE_SIZE);
+            Node graphic = p.getConstraints()[i][j].getAsGraphic(GUI.BASE_TILE_SIZE);
             ((StackPane) c).getChildren().add(graphic);
         }
         for (int i = 0; i < p.getDifficulty(); i++) {
             Circle token = new Circle(7);
             token.getStyleClass().add("token");
             tokens.getChildren().add(token);
+        }
+    }
+
+    public void setDie(Die d, int i, int j) {
+        for (Node n : patternGrid.getChildren()) {
+            if (i == GridPane.getRowIndex(n) && j == GridPane.getColumnIndex(n)) {
+                ((StackPane) n).getChildren().add(MainController.drawDie(d, GUI.BASE_TILE_SIZE));
+            }
         }
     }
 }
