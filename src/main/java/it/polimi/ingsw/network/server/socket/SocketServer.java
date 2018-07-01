@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.server.socket;
 
+import it.polimi.ingsw.ToolCardHandler;
 import it.polimi.ingsw.model.Die;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.SagradaColor;
@@ -85,6 +86,28 @@ public class SocketServer implements ServerInterface {
                                 d.setNumber(Integer.valueOf(c.get(0)));
                                 server.handleMove(d, Integer.valueOf(c.get(2)),Integer.valueOf(c.get(3)), s.getClient().getPlayer());
                 break;
+
+            case "setDieFromWP": ToolCardHandler t= getActiveToolCardHandler();
+
+                break;
+
+            case "setDieFromDP":
+                break;
+            case "setDieFromRT":
+                break;
+            case "setDecrease":
+                break;
+            case "setPlacementChoice":
+                break;
+            case "setNumberDiceChoice":
+                break;
+            case "setValue":
+                break;
+            case "setOldCoordinates":
+                break;
+            case "setNewCoordinates":
+                break;
+
             default:
                 System.out.println("Wrong message!");
                 break;
@@ -100,6 +123,14 @@ public class SocketServer implements ServerInterface {
         server.disconnect(client);
     }
 
+    private ToolCardHandler getActiveToolCardHandler (){
+        for(ToolCardHandler t : server.getToolCardHandlers()){
+            if(t.isActive()){
+                return t;
+            }
+        }
+        return null;
+    }
 
 
     /**

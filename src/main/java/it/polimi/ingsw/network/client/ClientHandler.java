@@ -8,7 +8,6 @@ import javafx.application.Platform;
 
 import java.io.IOException;
 import java.io.Serializable;
-import java.rmi.RemoteException;
 import java.util.List;
 
 public class ClientHandler implements Serializable {
@@ -197,12 +196,9 @@ public class ClientHandler implements Serializable {
         perform(task);
     }
 
-    public void handlePlacement(Die d, int row, int column) {
-        try {
-            client.requestPlacement(d.getNumber(),d.getColor().toString(), row, column);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+    public void handlePlacement(Die d, int row, int column) throws IOException{
+        client.requestPlacement(d.getNumber(),d.getColor().toString(), row, column);
+
     }
 
     public void notifyTurnStarted(String name, int round, int turn) {

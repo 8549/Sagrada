@@ -231,7 +231,8 @@ public class SocketClient implements ClientInterface {
                             die.setNumber(Integer.valueOf(roundTrackDice.get(i + 1)));
                             d.add(die);
                         }
-
+                        ch.endRound(d);
+                        break;
 
 
                     default: break;
@@ -302,6 +303,73 @@ public class SocketClient implements ClientInterface {
     @Override
     public void requestPlacement(int number, String color, int row, int column){
         socketHandlerClient.send("request", "placement", number + "/" + color + "/" + row + "/" + column);
+    }
+
+    @Override
+    public void sendDieFromWP(Die d, int row, int column) throws IOException {
+        socketHandlerClient.send("response", "setDieFromWP", d.getNumber() + "/" + d.getColor() + "/" + row + "/" + column);
+
+    }
+
+    @Override
+    public void sendDieFromDP(Die d) throws IOException {
+        socketHandlerClient.send("response", "setDieFromDP", d.getNumber() + "/" + d.getColor() );
+
+    }
+
+    @Override
+    public void sendDieFromRT(Die d, int round) throws IOException {
+        socketHandlerClient.send("response", "setDieFromRT", d.getNumber() + "/" + d.getColor() + "/" + round);
+
+    }
+
+    @Override
+    public void sendDecreaseChoice(boolean choice) throws IOException {
+        if(choice){
+            socketHandlerClient.send("response", "setDecrease","true" );
+        }else{
+            socketHandlerClient.send("response", "setDecrease","false" );
+
+        }
+
+    }
+
+    @Override
+    public void sendPlacementChoice(boolean choice) throws IOException {
+        if(choice){
+            socketHandlerClient.send("response", "setPlacementChoice","true" );
+        }else{
+            socketHandlerClient.send("response", "setPlacementChoice","false" );
+
+        }
+    }
+
+    @Override
+    public void sendNumberDiceChoice(boolean choice) throws IOException {
+        if(choice){
+            socketHandlerClient.send("response", "setNumberDiceChoice","true" );
+        }else{
+            socketHandlerClient.send("response", "setNumberDiceChoice","false" );
+
+        }
+    }
+
+    @Override
+    public void sendValue(int value) throws IOException {
+        socketHandlerClient.send("response", "setValue", "" + value );
+
+    }
+
+    @Override
+    public void sendOldCoordinates(int row, int column) throws IOException {
+        socketHandlerClient.send("response", "setOldCoordinates", row + "/" + column );
+
+    }
+
+    @Override
+    public void sendNewCoordinates(int row, int column) throws IOException {
+        socketHandlerClient.send("response", "setNewCoordinates", row + "/" + column );
+
     }
 
     private class SocketHandlerClient extends Thread {

@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.client.RMIClientInterface;
 import it.polimi.ingsw.network.server.ServerInterface;
 
-import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Arrays;

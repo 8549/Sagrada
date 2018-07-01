@@ -8,10 +8,11 @@ import it.polimi.ingsw.network.server.MainServer;
 import java.io.IOException;
 
 public class ToolCardHandler {
-    GameManager gm;
-    MainServer server;
-    ToolCard toolcard;
-    Player player;
+    private GameManager gm;
+    private MainServer server;
+    private ToolCard toolcard;
+    private Player player;
+    private boolean isActive=false;
 
     public ToolCardHandler(Player p,GameManager gm, MainServer server, ToolCard toolCard){
         this.gm= gm;
@@ -19,6 +20,15 @@ public class ToolCardHandler {
         this.toolcard = toolCard;
         this.player = p;
     }
+
+    public void setActive(boolean active){
+        this.isActive= active;
+    }
+
+    public boolean isActive(){
+        return this.isActive;
+    }
+
     public void chooseDieFromWindowPattern() {
         for(ClientObject c : server.getInGameClients()){
             try {

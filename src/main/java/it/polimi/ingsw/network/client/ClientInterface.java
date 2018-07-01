@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.client;
 
+import it.polimi.ingsw.model.Die;
 import it.polimi.ingsw.model.WindowPattern;
 import javafx.collections.ObservableList;
 
@@ -17,5 +18,25 @@ public interface ClientInterface  {
     void connect(String serverAddress, int portNumber, String userName) throws IOException;
     void validatePatternCard(WindowPattern w) throws IOException;
 
-    void requestPlacement(int number, String color, int row, int column) throws RemoteException;
+    void requestPlacement(int number, String color, int row, int column) throws IOException;
+
+
+    public void sendDieFromWP(Die d, int row, int column) throws IOException;
+
+    public void sendDieFromDP(Die d) throws IOException;
+
+    public void sendDieFromRT(Die d, int round) throws IOException;
+
+    public void sendDecreaseChoice(boolean choice) throws IOException;
+
+    public void sendPlacementChoice(boolean choice) throws IOException;
+
+    public void sendNumberDiceChoice(boolean choice) throws IOException;
+
+    public void sendValue(int value) throws IOException;
+
+    public void sendOldCoordinates(int row, int column) throws IOException;
+
+    public void sendNewCoordinates(int row, int column) throws IOException;
+
 }

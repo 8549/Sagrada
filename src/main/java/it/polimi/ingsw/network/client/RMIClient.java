@@ -179,7 +179,7 @@ public class RMIClient implements RMIClientInterface, Serializable {
 
     @Override
     public void endRound(List<Die> dice) throws RemoteException {
-
+        ch.endRound(dice);
     }
 
     @Override
@@ -225,6 +225,51 @@ public class RMIClient implements RMIClientInterface, Serializable {
     @Override
     public void setNewCoordinates() throws RemoteException {
         ch.setNewCoordinates();
+    }
+
+    @Override
+    public void sendDieFromWP(Die d, int row, int column) throws RemoteException {
+
+    }
+
+    @Override
+    public void sendDieFromDP(Die d) throws RemoteException {
+
+    }
+
+    @Override
+    public void sendDieFromRT(Die d, int round) throws RemoteException {
+
+    }
+
+    @Override
+    public void sendDecreaseChoice(boolean choice) throws RemoteException {
+
+    }
+
+    @Override
+    public void sendPlacementChoice(boolean choice) throws RemoteException {
+
+    }
+
+    @Override
+    public void sendNumberDiceChoice(boolean choice) throws RemoteException {
+
+    }
+
+    @Override
+    public void sendValue(int value) throws RemoteException {
+
+    }
+
+    @Override
+    public void sendOldCoordinates(int row, int column) throws RemoteException {
+
+    }
+
+    @Override
+    public void sendNewCoordinates(int row, int column) throws RemoteException {
+
     }
 
 }

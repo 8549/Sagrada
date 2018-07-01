@@ -272,7 +272,11 @@ public class CLI implements UI {
                             scanner.next();
                         }
                     }
-                    handler.handlePlacement(model.getDraftPool().get(which - 1), i - 1, j - 1);
+                    try {
+                        handler.handlePlacement(model.getDraftPool().get(which - 1), i - 1, j - 1);
+                    }catch (IOException e){
+                        System.err.println("There was a connection error");
+                    }
                     break;
                 case "P":
                     validChoice = true;

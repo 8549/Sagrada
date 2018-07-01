@@ -5,7 +5,6 @@ import it.polimi.ingsw.ToolCardHandler;
 import it.polimi.ingsw.model.effect.Effect;
 import it.polimi.ingsw.network.server.MainServer;
 
-import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -21,6 +20,7 @@ public class ToolCard implements Card {
     private String name;
     private int id;
     private String when;
+
     //attributes for effects
     private Die die;
     int turnForRoundTrack;
@@ -85,6 +85,8 @@ public class ToolCard implements Card {
         this.player = player;
         this.gameManager = gameManager;
         toolCardHandler = new ToolCardHandler(player, gameManager, server, this);
+        server.addToolCardHandler(toolCardHandler);
+        toolCardHandler.setActive(true);
         performEffect();
 
     }
@@ -198,6 +200,7 @@ public class ToolCard implements Card {
         if (effectIterator.hasNext() && everythingOk) {
             performEffect();
         } else {
+            toolCardHandler.setActive(false);
             endToolCard();
         }
     }

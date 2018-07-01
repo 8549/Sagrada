@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.server;
 
-import com.sun.security.ntlm.Client;
 import it.polimi.ingsw.GameManager;
+import it.polimi.ingsw.ToolCardHandler;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.server.RMI.RMIServer;
 import it.polimi.ingsw.network.server.RMI.RMIServerInterface;
@@ -24,6 +24,7 @@ public class MainServer {
     private List<ClientObject> connectedClients = new ArrayList<>();
     private List<ClientObject> inGameClients = new ArrayList<>();
     private GameManager gm;
+    private List<ToolCardHandler> toolCardHandlers = new ArrayList<>();
 
 
     /** MainServer handles the two different type of connections
@@ -436,32 +437,13 @@ public class MainServer {
     }
 
 
-    public void chooseDieFromRoundTrackForToolCard(List<Die> draftPool){
-        //chooses the turn and the number of die
+    public void addToolCardHandler (ToolCardHandler toolCardHandlers){
+        this.toolCardHandlers.add(toolCardHandlers);
     }
 
-    public void chooseDieFromWindowPatternForToolCards(){}
-    public void chooseDieFromDraftPoolForToolCards(){}
-    public void chooseOldCoodinatesForToolCards(){
-        //chooses row and column of the die the player wants to move
+    public List<ToolCardHandler> getToolCardHandlers(){
+        return this.toolCardHandlers;
     }
-    public void chooseNewCoodinatesForToolCards(){
-        //chooses row and column of where the player wants to place the die
-    }
-    public void chooseIfDecreaseForToolCards(){
-        // chooses if the player wants to decrease or increase the value of the die
-        // if he chooses true he wants to decrease the value, otherwise increase
-    }
-    public void chooseIfPlaceDieFOrToolCards(){
-        //chooses if the player wants to place the die or to put it back in the draft pool
-        // if he chooses true he wants to place the die on the window pattern otherwise put it back in the draft pool
-    }
-
-    public void chooseToPlaceOneDie(){
-        // chooses if the player wants to place one or two dice,
-        // if he chooses false he wants to move just one die, two otherwise
-    }
-
 
     public void notifyWinner(Optional<Player> winner) {
     }
