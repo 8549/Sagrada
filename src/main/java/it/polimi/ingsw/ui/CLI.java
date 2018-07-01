@@ -219,7 +219,7 @@ public class CLI implements UI {
     public void myTurnStarted() {
         boolean validChoice = false;
         while (!validChoice) {
-            System.out.print("You can place a Die, use a Tool card or Pass; enter the initial character of your choice: ");
+            System.out.print("You can place a Die, use a Tool card or Pass; enter the first character of your choice: ");
             String choice = scanner.next().toUpperCase();
             switch (choice) {
                 case "D":
@@ -333,12 +333,71 @@ public class CLI implements UI {
 
     @Override
     public void chooseDieFromWindowPattern() {
-
+        int i = -1, j = -1;
+        boolean validDie = false;
+        while (!validDie) {
+            System.out.print("Please enter the chosen die row [1-" + WindowPattern.ROWS + "]: ");
+            boolean validRow = false;
+            while (!validRow) {
+                if (scanner.hasNextInt()) {
+                    i = scanner.nextInt();
+                    if (i > 0 && i <= WindowPattern.ROWS) {
+                        validRow = true;
+                    } else {
+                        System.out.print("Please choose a valid row [1-" + WindowPattern.ROWS + "]: ");
+                    }
+                } else {
+                    System.out.print("Please choose a valid row [1-" + WindowPattern.ROWS + "]: ");
+                    scanner.next();
+                }
+            }
+            System.out.print("Please enter the chosen die column [1-" + WindowPattern.COLUMNS + "]: ");
+            boolean validCol = false;
+            while (!validCol) {
+                if (scanner.hasNextInt()) {
+                    j = scanner.nextInt();
+                    if (j > 0 && j <= WindowPattern.COLUMNS) {
+                        validCol = true;
+                    } else {
+                        System.out.print("Please choose a valid column [1-" + WindowPattern.COLUMNS + "]: ");
+                    }
+                } else {
+                    System.out.print("Please choose a valid column [1-" + WindowPattern.COLUMNS + "]: ");
+                    scanner.next();
+                }
+            }
+            if (model.getMyself().getPlayerWindow().getCellAt(i, j).isEmpty()) {
+                System.err.println("There's no die at the given coordinates!");
+            } else {
+                validDie = true;
+            }
+        }
+        handler.sendDieFromWP(model.getMyself().getPlayerWindow().getCellAt(i, j).getDie(), i, j);
     }
 
     @Override
     public void chooseDieFromDraftPool() {
-
+        System.out.print("This is the current draft pool: ");
+        for (Die d : model.getDraftPool()) {
+            System.out.print(printDie(d));
+        }
+        int which = -1;
+        System.out.print("\nPlease choose a die [1-" + model.getDraftPool().size() + "]: ");
+        boolean validDie = false;
+        while (!validDie) {
+            if (scanner.hasNextInt()) {
+                which = scanner.nextInt();
+                if (which > 0 && which <= model.getDraftPool().size()) {
+                    validDie = true;
+                } else {
+                    System.out.print("Please choose a valid die [1-" + model.getDraftPool().size() + "]: ");
+                }
+            } else {
+                System.out.print("Please choose a valid die [1-" + model.getDraftPool().size() + "]: ");
+                scanner.next();
+            }
+        }
+        handler.sendDieFromDP(model.getDraftPool().get(which - 1));
     }
 
     @Override
@@ -348,32 +407,179 @@ public class CLI implements UI {
 
     @Override
     public void chooseIfDecrease() {
-
+        boolean validChoice = false;
+        while (!validChoice) {
+            System.out.print("Do you want to Increase or Decrease the die? Type the first letter of your choice: ");
+            String s = scanner.next().toUpperCase();
+            switch (s) {
+                case "I":
+                    validChoice = true;
+                    handler.sendDecreaseChoice(false);
+                    break;
+                case "D":
+                    validChoice = true;
+                    handler.sendDecreaseChoice(true);
+                    break;
+                default:
+                    System.err.println("Invalid choice!");
+            }
+        }
     }
 
     @Override
     public void chooseIfPlaceDie() {
-
+        boolean validChoice = false;
+        while (!validChoice) {
+            System.out.print("Do you want to Place the die or put it Back to the draft pool? Type the first letter of your choice: ");
+            String s = scanner.next().toUpperCase();
+            switch (s) {
+                case "P":
+                    validChoice = true;
+                    handler.sendPlacementChoice(true);
+                    break;
+                case "B":
+                    validChoice = true;
+                    handler.sendPlacementChoice(false);
+                    break;
+                default:
+                    System.err.println("Invalid choice!");
+            }
+        }
     }
 
     @Override
     public void chooseToMoveOneDie() {
-
+        int i;
+        System.out.print("Do you want to move 1 or 2 dice? ");
+        boolean validChoice = false;
+        while (!validChoice) {
+            if (scanner.hasNextInt()) {
+                i = scanner.nextInt();
+                if (i == 1 || i == 2) {
+                    validChoice = true;
+                    if (i == 2) {
+                        handler.sendNumberDiceChoice(true);
+                    } else {
+                        handler.sendNumberDiceChoice(false);
+                    }
+                } else {
+                    System.out.print("Please enter a valid choice. Do you want to move 1 or 2 dice? ");
+                }
+            } else {
+                System.out.print("Please enter a valid choice. Do you want to move 1 or 2 dice? ");
+                scanner.next();
+            }
+        }
     }
 
     @Override
     public void setValue() {
-
+        int i;
+        System.out.print("Choose the new die value [" + Die.MIN + "-" + Die.MAX + "]: ");
+        boolean validChoice = false;
+        while (!validChoice) {
+            if (scanner.hasNextInt()) {
+                i = scanner.nextInt();
+                if (i >= Die.MIN && i <= Die.MAX) {
+                    validChoice = true;
+                    handler.sendValue(i);
+                } else {
+                    System.out.print("Please enter a valid choice. ");
+                }
+            } else {
+                System.out.print("Please enter a valid choice. ");
+                scanner.next();
+            }
+        }
     }
 
     @Override
     public void setOldCoordinates() {
+        int i = -1, j = -1;
+        boolean validDie = false;
+        while (!validDie) {
+            System.out.print("Please enter the chosen die row [1-" + WindowPattern.ROWS + "]: ");
+            boolean validRow = false;
+            while (!validRow) {
+                if (scanner.hasNextInt()) {
+                    i = scanner.nextInt();
+                    if (i > 0 && i <= WindowPattern.ROWS) {
+                        validRow = true;
+                    } else {
+                        System.out.print("Please choose a valid row [1-" + WindowPattern.ROWS + "]: ");
+                    }
+                } else {
+                    System.out.print("Please choose a valid row [1-" + WindowPattern.ROWS + "]: ");
+                    scanner.next();
+                }
+            }
+            System.out.print("Please enter the chosen die column [1-" + WindowPattern.COLUMNS + "]: ");
+            boolean validCol = false;
+            while (!validCol) {
+                if (scanner.hasNextInt()) {
+                    j = scanner.nextInt();
+                    if (j > 0 && j <= WindowPattern.COLUMNS) {
+                        validCol = true;
+                    } else {
+                        System.out.print("Please choose a valid column [1-" + WindowPattern.COLUMNS + "]: ");
+                    }
+                } else {
+                    System.out.print("Please choose a valid column [1-" + WindowPattern.COLUMNS + "]: ");
+                    scanner.next();
+                }
+            }
+            if (model.getMyself().getPlayerWindow().getCellAt(i, j).isEmpty()) {
+                System.err.println("There's no die at the given coordinates!");
+            } else {
+                validDie = true;
+            }
+        }
+        handler.sendOldCoordinates(i, j);
 
     }
 
     @Override
     public void setNewCoordinates() {
-
+        int i = -1, j = -1;
+        boolean validDie = false;
+        while (!validDie) {
+            System.out.print("Please enter the chosen die row [1-" + WindowPattern.ROWS + "]: ");
+            boolean validRow = false;
+            while (!validRow) {
+                if (scanner.hasNextInt()) {
+                    i = scanner.nextInt();
+                    if (i > 0 && i <= WindowPattern.ROWS) {
+                        validRow = true;
+                    } else {
+                        System.out.print("Please choose a valid row [1-" + WindowPattern.ROWS + "]: ");
+                    }
+                } else {
+                    System.out.print("Please choose a valid row [1-" + WindowPattern.ROWS + "]: ");
+                    scanner.next();
+                }
+            }
+            System.out.print("Please enter the chosen die column [1-" + WindowPattern.COLUMNS + "]: ");
+            boolean validCol = false;
+            while (!validCol) {
+                if (scanner.hasNextInt()) {
+                    j = scanner.nextInt();
+                    if (j > 0 && j <= WindowPattern.COLUMNS) {
+                        validCol = true;
+                    } else {
+                        System.out.print("Please choose a valid column [1-" + WindowPattern.COLUMNS + "]: ");
+                    }
+                } else {
+                    System.out.print("Please choose a valid column [1-" + WindowPattern.COLUMNS + "]: ");
+                    scanner.next();
+                }
+            }
+            if (!model.getMyself().getPlayerWindow().getCellAt(i, j).isEmpty()) {
+                System.err.println("There's already a die at the given coordinates! Please choose an empty cell.");
+            } else {
+                validDie = true;
+            }
+        }
+        handler.sendNewCoordinates(i, j);
     }
 
     private String printFavorTokens(int n) {

@@ -263,14 +263,14 @@ public class ClientHandler implements Serializable {
     }
 
     public void chooseDieFromWindowPattern(){
-
+        ui.chooseDieFromWindowPattern();
     }
     public void sendDieFromWP(Die d, int row, int column){
 
     }
 
     public void chooseDieFromDraftPool() {
-
+        ui.chooseDieFromDraftPool();
     }
 
     public void sendDieFromDP(Die d){
@@ -278,7 +278,7 @@ public class ClientHandler implements Serializable {
     }
 
     public void chooseDieFromRoundTrack(){
-
+        ui.chooseDieFromRoundTrack();
     }
 
     public void sendDieFromRT(Die d, int round){
@@ -286,7 +286,7 @@ public class ClientHandler implements Serializable {
     }
 
     public void chooseIfDecrease() {
-
+        ui.chooseIfDecrease();
     }
 
     public void sendDecreaseChoice(boolean choice){
@@ -294,7 +294,7 @@ public class ClientHandler implements Serializable {
     }
 
     public void chooseIfPlaceDie() {
-
+        ui.chooseIfPlaceDie();
     }
 
     public void sendPlacementChoice(boolean choice){
@@ -302,7 +302,7 @@ public class ClientHandler implements Serializable {
     }
 
     public void chooseToMoveOneDie(){
-
+        ui.chooseToMoveOneDie();
     }
 
     public void sendNumberDiceChoice(boolean choice){
@@ -310,15 +310,14 @@ public class ClientHandler implements Serializable {
     }
 
     public void setValue() {
-
+        ui.setValue();
     }
 
     public void sendValue(int value){
-
     }
 
     public void setOldCoordinates(){
-
+        ui.setOldCoordinates();
     }
 
     public void sendOldCoordinates(int row, int column){
@@ -326,7 +325,7 @@ public class ClientHandler implements Serializable {
     }
 
     public void setNewCoordinates() {
-
+        ui.setNewCoordinates();
     }
 
     public void sendNewCoordinates(int row, int column){
