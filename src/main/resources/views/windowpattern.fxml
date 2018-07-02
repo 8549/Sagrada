@@ -23,46 +23,46 @@
                         <RowConstraints vgrow="NEVER"/>
                     </rowConstraints>
                     <children>
-                        <StackPane layoutX="15.0" layoutY="15.0" prefHeight="150.0" prefWidth="200.0"
-                                   styleClass="patternCardCell" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
-                        <StackPane layoutX="15.0" layoutY="15.0" prefHeight="150.0" prefWidth="200.0"
-                                   styleClass="patternCardCell" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
-                        <StackPane layoutX="15.0" layoutY="15.0" prefHeight="150.0" prefWidth="200.0"
-                                   styleClass="patternCardCell" GridPane.columnIndex="2" GridPane.rowIndex="0"/>
-                        <StackPane layoutX="15.0" layoutY="15.0" prefHeight="150.0" prefWidth="200.0"
-                                   styleClass="patternCardCell" GridPane.columnIndex="3" GridPane.rowIndex="0"/>
-                        <StackPane layoutX="15.0" layoutY="15.0" prefHeight="150.0" prefWidth="200.0"
-                                   styleClass="patternCardCell" GridPane.columnIndex="4" GridPane.rowIndex="0"/>
-                        <StackPane layoutX="15.0" layoutY="15.0" prefHeight="150.0" prefWidth="200.0"
-                                   styleClass="patternCardCell" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
-                        <StackPane layoutX="15.0" layoutY="15.0" prefHeight="150.0" prefWidth="200.0"
-                                   styleClass="patternCardCell" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                        <StackPane layoutX="15.0" layoutY="15.0" prefHeight="150.0" prefWidth="200.0"
-                                   styleClass="patternCardCell" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
-                        <StackPane layoutX="15.0" layoutY="15.0" prefHeight="150.0" prefWidth="200.0"
-                                   styleClass="patternCardCell" GridPane.columnIndex="3" GridPane.rowIndex="1"/>
-                        <StackPane layoutX="15.0" layoutY="15.0" prefHeight="150.0" prefWidth="200.0"
-                                   styleClass="patternCardCell" GridPane.columnIndex="4" GridPane.rowIndex="1"/>
-                        <StackPane layoutX="15.0" layoutY="15.0" prefHeight="150.0" prefWidth="200.0"
-                                   styleClass="patternCardCell" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
-                        <StackPane layoutX="15.0" layoutY="15.0" prefHeight="150.0" prefWidth="200.0"
-                                   styleClass="patternCardCell" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
-                        <StackPane layoutX="15.0" layoutY="15.0" prefHeight="150.0" prefWidth="200.0"
-                                   styleClass="patternCardCell" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
-                        <StackPane layoutX="15.0" layoutY="15.0" prefHeight="150.0" prefWidth="200.0"
-                                   styleClass="patternCardCell" GridPane.columnIndex="3" GridPane.rowIndex="2"/>
-                        <StackPane layoutX="15.0" layoutY="15.0" prefHeight="150.0" prefWidth="200.0"
-                                   styleClass="patternCardCell" GridPane.columnIndex="4" GridPane.rowIndex="2"/>
-                        <StackPane layoutX="15.0" layoutY="15.0" prefHeight="150.0" prefWidth="200.0"
-                                   styleClass="patternCardCell" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
-                        <StackPane layoutX="15.0" layoutY="15.0" prefHeight="150.0" prefWidth="200.0"
-                                   styleClass="patternCardCell" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
-                        <StackPane layoutX="15.0" layoutY="15.0" prefHeight="150.0" prefWidth="200.0"
-                                   styleClass="patternCardCell" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
-                        <StackPane layoutX="15.0" layoutY="15.0" prefHeight="150.0" prefWidth="200.0"
-                                   styleClass="patternCardCell" GridPane.columnIndex="3" GridPane.rowIndex="3"/>
-                        <StackPane layoutX="15.0" layoutY="15.0" prefHeight="150.0" prefWidth="200.0"
-                                   styleClass="patternCardCell" GridPane.columnIndex="4" GridPane.rowIndex="3"/>
+                        <StackPane layoutX="15.0" layoutY="15.0" styleClass="patternCardCell" GridPane.columnIndex="0"
+                                   GridPane.rowIndex="0"/>
+                        <StackPane layoutX="15.0" layoutY="15.0" styleClass="patternCardCell" GridPane.columnIndex="1"
+                                   GridPane.rowIndex="0"/>
+                        <StackPane layoutX="15.0" layoutY="15.0" styleClass="patternCardCell" GridPane.columnIndex="2"
+                                   GridPane.rowIndex="0"/>
+                        <StackPane layoutX="15.0" layoutY="15.0" styleClass="patternCardCell" GridPane.columnIndex="3"
+                                   GridPane.rowIndex="0"/>
+                        <StackPane layoutX="15.0" layoutY="15.0" styleClass="patternCardCell" GridPane.columnIndex="4"
+                                   GridPane.rowIndex="0"/>
+                        <StackPane layoutX="15.0" layoutY="15.0" styleClass="patternCardCell" GridPane.columnIndex="0"
+                                   GridPane.rowIndex="1"/>
+                        <StackPane layoutX="15.0" layoutY="15.0" styleClass="patternCardCell" GridPane.columnIndex="1"
+                                   GridPane.rowIndex="1"/>
+                        <StackPane layoutX="15.0" layoutY="15.0" styleClass="patternCardCell" GridPane.columnIndex="2"
+                                   GridPane.rowIndex="1"/>
+                        <StackPane layoutX="15.0" layoutY="15.0" styleClass="patternCardCell" GridPane.columnIndex="3"
+                                   GridPane.rowIndex="1"/>
+                        <StackPane layoutX="15.0" layoutY="15.0" styleClass="patternCardCell" GridPane.columnIndex="4"
+                                   GridPane.rowIndex="1"/>
+                        <StackPane layoutX="15.0" layoutY="15.0" styleClass="patternCardCell" GridPane.columnIndex="0"
+                                   GridPane.rowIndex="2"/>
+                        <StackPane layoutX="15.0" layoutY="15.0" styleClass="patternCardCell" GridPane.columnIndex="1"
+                                   GridPane.rowIndex="2"/>
+                        <StackPane layoutX="15.0" layoutY="15.0" styleClass="patternCardCell" GridPane.columnIndex="2"
+                                   GridPane.rowIndex="2"/>
+                        <StackPane layoutX="15.0" layoutY="15.0" styleClass="patternCardCell" GridPane.columnIndex="3"
+                                   GridPane.rowIndex="2"/>
+                        <StackPane layoutX="15.0" layoutY="15.0" styleClass="patternCardCell" GridPane.columnIndex="4"
+                                   GridPane.rowIndex="2"/>
+                        <StackPane layoutX="15.0" layoutY="15.0" styleClass="patternCardCell" GridPane.columnIndex="0"
+                                   GridPane.rowIndex="3"/>
+                        <StackPane layoutX="15.0" layoutY="15.0" styleClass="patternCardCell" GridPane.columnIndex="1"
+                                   GridPane.rowIndex="3"/>
+                        <StackPane layoutX="15.0" layoutY="15.0" styleClass="patternCardCell" GridPane.columnIndex="2"
+                                   GridPane.rowIndex="3"/>
+                        <StackPane layoutX="15.0" layoutY="15.0" styleClass="patternCardCell" GridPane.columnIndex="3"
+                                   GridPane.rowIndex="3"/>
+                        <StackPane layoutX="15.0" layoutY="15.0" styleClass="patternCardCell" GridPane.columnIndex="4"
+                                   GridPane.rowIndex="3"/>
                     </children>
                     <opaqueInsets>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
@@ -78,7 +78,7 @@
                         <Insets/>
                     </HBox.margin>
                 </Label>
-                <HBox fx:id="tokens" spacing="4.0"/>
+                <HBox fx:id="tokens" alignment="CENTER" spacing="4.0"/>
             </children>
             <VBox.margin>
                 <Insets bottom="10.0" left="10.0" right="10.0"/>

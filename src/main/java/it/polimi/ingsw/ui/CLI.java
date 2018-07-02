@@ -309,8 +309,8 @@ public class CLI implements UI {
                     break;
                 case "P":
                     validChoice = true;
-                    System.out.println("Ok, you're passing...");
-                    // handler.handlePass();
+                    System.out.println("Ending your turn...");
+                    handler.passTurn();
                     break;
                 case "T":
                     validChoice = true;
