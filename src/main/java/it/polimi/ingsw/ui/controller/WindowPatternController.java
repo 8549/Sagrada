@@ -27,17 +27,17 @@ public class WindowPatternController {
         return windowPattern;
     }
 
-    public void setWindowPattern(WindowPattern p) {
+    public void setWindowPattern(WindowPattern p, double size) {
         windowPattern = p;
         nameLabel.setText(p.getName());
         for (Node c : patternGrid.getChildren()) {
             int i = GridPane.getRowIndex(c);
             int j = GridPane.getColumnIndex(c);
-            Node graphic = p.getConstraints()[i][j].getAsGraphic(GUI.BASE_TILE_SIZE);
+            Node graphic = p.getConstraints()[i][j].getAsGraphic(size);
             ((StackPane) c).getChildren().add(graphic);
         }
         for (int i = 0; i < p.getDifficulty(); i++) {
-            Circle token = new Circle(7);
+            Circle token = new Circle(GUI.TOKEN_RELATIVE_SIZE * size);
             token.getStyleClass().add("token");
             tokens.getChildren().add(token);
         }
@@ -46,7 +46,9 @@ public class WindowPatternController {
     public void setDie(Die d, int i, int j) {
         for (Node n : patternGrid.getChildren()) {
             if (i == GridPane.getRowIndex(n) && j == GridPane.getColumnIndex(n)) {
-                ((StackPane) n).getChildren().add(MainController.drawDie(d, GUI.BASE_TILE_SIZE));
+                Node e = MainController.drawDie(d, GUI.BASE_TILE_SIZE);
+                ((StackPane) n).getChildren().add(e);
+                e.toFront();
             }
         }
     }

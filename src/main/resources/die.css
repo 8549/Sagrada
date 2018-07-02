@@ -1,6 +1,3 @@
 .die {
-  -fx-border-radius: 5;
-  -fx-vgap: 5;
-  -fx-hgap: 5;
   -fx-alignment: center;
 }
