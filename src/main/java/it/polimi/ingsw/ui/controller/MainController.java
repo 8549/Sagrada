@@ -6,7 +6,9 @@ import it.polimi.ingsw.model.WindowPattern;
 import it.polimi.ingsw.ui.GUI;
 import it.polimi.ingsw.ui.ProxyModel;
 import javafx.animation.FadeTransition;
+import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -15,6 +17,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -28,6 +31,7 @@ public class MainController {
     private GUI gui;
     private HashMap<Player, AnchorPane> anchorPanes;
     private HashMap<Player, WindowPatternController> controllers;
+    private Die selectedDie;
 
     @FXML
     private BorderPane main;
@@ -114,6 +118,36 @@ public class MainController {
         gui.endTurn();
     }
 
+    @FXML
+    void placeDie(ActionEvent event) {
+        for (Node n : fxDraftPool.getChildren()) {
+            n.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    for (Node n : fxDraftPool.getChildren()) {
+                        n.setScaleX(1.0);
+                        n.setScaleY(1.0);
+                    }
+                    int i = fxDraftPool.getChildren().indexOf(event.getSource());
+                    gui.selectDie(i);
+                    ScaleTransition transition = new ScaleTransition(Duration.seconds(0.5), n);
+                    transition.setByX(0.7);
+                    transition.setByY(0.7);
+                    transition.play();
+                }
+            });
+        }
+        WindowPatternController c = controllers.get(gui.getModel().getMyself());
+        c.setClickableCells(gui.getModel().isMyTurn(), new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                int i = GridPane.getRowIndex((Node) event.getSource());
+                int j = GridPane.getColumnIndex((Node) event.getSource());
+                gui.tryDiePlacement(i, j);
+            }
+        });
+    }
+
     public void initBoards() {
         anchorPanes = new HashMap<>();
         controllers = new HashMap<>();
@@ -152,11 +186,6 @@ public class MainController {
     public void update() {
         ProxyModel model = gui.getModel();
 
-        // Update Draft Pool
-        /*int max = fxDraftPool.getChildren().size();
-        if (max > 0) {
-            fxDraftPool.getChildren().remove(0, max - 1);
-        }*/
         fxDraftPool.getChildren().clear();
         for (Die d : model.getDraftPool()) {
             fxDraftPool.getChildren().add(drawDie(d, GUI.BASE_TILE_SIZE));
@@ -212,7 +241,7 @@ public class MainController {
             VBox c = ((VBox) p.getChildren().get(1));
             double offset = (v.getFitWidth() - c.getWidth()) / 2.0;
             AnchorPane.setLeftAnchor(c, offset);
-            AnchorPane.setLeftAnchor(c, offset); //TODO IS THIS NEEDED?
+            AnchorPane.setLeftAnchor(c, offset); //TODO FIX THIS
         }
     }
 
@@ -230,5 +259,12 @@ public class MainController {
         // Resize DraftPool
 
         // Resize PatternCard
+    }
+
+    public void cleanUI() {
+        //TODO IMPLEMENT THIS
+        for (WindowPatternController c : controllers.values()) {
+            c.setClickableCells(true, null);
+        }
     }
 }

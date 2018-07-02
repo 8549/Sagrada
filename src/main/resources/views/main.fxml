@@ -81,7 +81,8 @@
         <VBox fx:id="fxButtonContainer" alignment="CENTER" maxHeight="1.7976931348623157E308"
               BorderPane.alignment="CENTER">
             <children>
-                <Button disable="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Place die"/>
+                <Button disable="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#placeDie"
+                        text="Place die"/>
                 <Button disable="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Use tool card"/>
                 <Button disable="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#endTurn"
                         text="End turn"/>

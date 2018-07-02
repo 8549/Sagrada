@@ -26,6 +26,10 @@ public class ProxyModel  {
     private RoundTrack roundTrack;
     private int timeout;
 
+    public boolean isMyTurn() {
+        return myself.equals(currentPlayer);
+    }
+
     public ObservableList<Die> getDraftPool() {
         return draftPool;
     }

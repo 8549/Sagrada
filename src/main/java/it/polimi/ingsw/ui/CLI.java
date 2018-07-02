@@ -361,8 +361,10 @@ public class CLI implements UI {
 
     @Override
     public void wrongMove() {
-        System.err.println("Your move was incorrect! Please, try again");
-        myTurnStarted();
+        if (model.isMyTurn()) {
+            System.err.println("Your move was incorrect! Please, try again");
+            myTurnStarted();
+        }
     }
 
     @Override

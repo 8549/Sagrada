@@ -3,9 +3,11 @@ package it.polimi.ingsw.ui.controller;
 import it.polimi.ingsw.model.Die;
 import it.polimi.ingsw.model.WindowPattern;
 import it.polimi.ingsw.ui.GUI;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -50,6 +52,12 @@ public class WindowPatternController {
                 ((StackPane) n).getChildren().add(e);
                 e.toFront();
             }
+        }
+    }
+
+    public void setClickableCells(boolean b, EventHandler<MouseEvent> handler) {
+        for (Node stackPane : patternGrid.getChildren()) {
+            stackPane.setOnMouseClicked(handler);
         }
     }
 }

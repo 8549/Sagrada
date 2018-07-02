@@ -245,8 +245,13 @@ public class ClientHandler implements Serializable {
     }
 
     public void moveTimeIsOut(){
-
-        ui.myTurnEnded();
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                ui.myTurnEnded();
+            }
+        };
+        perform(task);
     }
 
     public void endTurn(String name){

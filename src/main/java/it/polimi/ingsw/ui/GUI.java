@@ -38,6 +38,7 @@ public class GUI extends Application implements UI {
     public static final double ROUND_CORNER_RADIUS = 10.0 / CHOOSER_TILE_SIZE * BASE_TILE_SIZE;
     public static final double DIE_RELATIVE_SPACER = 5.0 / CHOOSER_TILE_SIZE * BASE_TILE_SIZE;
     public static final double TOKEN_RELATIVE_SIZE = 7.0 / CHOOSER_TILE_SIZE;
+    public static final double DIE_RESCALE_FACTOR = 0.5;
     private Stage stage;
     private WindowPattern selected;
     private IntroController introController;
@@ -47,6 +48,9 @@ public class GUI extends Application implements UI {
     ChangeListener<Number> listener1;
     ChangeListener<Number> listener2;
     ChangeListener<Number> sizeListener;
+    private Die selectedDie;
+    private double initialWidth;
+    private double initialHeight;
 
     private void showMessage(String s) {
         Platform.runLater(() -> mainController.showMessage(s));
@@ -66,6 +70,8 @@ public class GUI extends Application implements UI {
             introController.setGui(this);
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
+            initialWidth = stage.getWidth();
+            initialHeight = stage.getHeight();
         } catch (IOException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Couldn't load GUI");
@@ -150,6 +156,7 @@ public class GUI extends Application implements UI {
                 }
             });
             VBox.setMargin(confirm, new Insets(20, 0, 20, 0));
+            VBox.setMargin(main, new Insets(20));
             stage.setScene(new Scene(main));
             stage.sizeToScene();
             stage.centerOnScreen();
@@ -194,19 +201,19 @@ public class GUI extends Application implements UI {
     @Override
     public void update() {
         Platform.runLater(() -> {
-            mainController.enableActions(model.getCurrentPlayer().equals(model.getMyself()));
             mainController.update();
         });
     }
 
     @Override
     public void myTurnStarted() {
-        // Intentionally left blank
+        mainController.enableActions(true);
     }
 
     @Override
     public void myTurnEnded() {
-
+        mainController.enableActions(false);
+        mainController.cleanUI();
     }
 
     @Override
@@ -238,7 +245,7 @@ public class GUI extends Application implements UI {
                 };
                 listener2 = (observable, oldValue, newValue) -> {
                     update();
-                    if (model.getCurrentPlayer().equals(model.getMyself())) {
+                    if (model.isMyTurn()) {
                         showMessage(String.format("It's turn %d of round %d. You're playing!", model.getCurrentTurn() + 1, model.getCurrentRound()));
                     } else {
                         showMessage(String.format("It's turn %d of round %d. %s is playing!", model.getCurrentTurn() + 1, model.getCurrentRound(), model.getCurrentPlayer().getName()));
@@ -253,9 +260,9 @@ public class GUI extends Application implements UI {
                 sizeListener = new ChangeListener<Number>() {
                     @Override
                     public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                        if (stage.getWidth() * stage.getHeight() < 800 * 600) {
-                            stage.setWidth(800);
-                            stage.setHeight(600);
+                        if (stage.getWidth() * stage.getHeight() < initialWidth * initialHeight) {
+                            stage.setWidth(initialWidth);
+                            stage.setHeight(initialHeight);
                         }
                         mainController.resizeAll();
                     }
@@ -337,6 +344,27 @@ public class GUI extends Application implements UI {
     }
 
     public void endTurn() {
-        handler.passTurn();
+        Platform.runLater(() -> {
+            handler.passTurn();
+        });
+    }
+
+    public void selectDie(int i) {
+        Platform.runLater(() -> {
+            selectedDie = model.getDraftPool().get(i);
+        });
+    }
+
+    public void tryDiePlacement(int i, int j) {
+        Platform.runLater(() -> {
+            if (selectedDie != null) {
+                try {
+                    handler.handlePlacement(selectedDie, i, j);
+                    selectedDie = null;
+                } catch (IOException e) {
+                    showMessage("Error while placing the die: " + e.getMessage());
+                }
+            }
+        });
     }
 }
