@@ -284,6 +284,16 @@ public class GameManager {
         }
     }
 
+    public void useTool(String name, String tool){
+        if(getCurrentPlayer().getName().equals(name)){
+            for(ToolCard t : board.getToolCards()){
+                if(t.getName().equals(tool)){
+                    t.useTools(getCurrentPlayer(),this);
+                }
+            }
+        }
+    }
+
     public void checkTimerMove() {
         if (!timerIsRunning) {
             timerIsRunning = true;

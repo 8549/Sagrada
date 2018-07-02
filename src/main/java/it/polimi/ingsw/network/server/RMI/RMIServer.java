@@ -114,6 +114,11 @@ public class RMIServer  implements RMIServerInterface {
     }
 
     @Override
+    public void requestTool(String name, String tool) throws RemoteException {
+        server.useTool(name, tool);
+    }
+
+    @Override
     public RMIServerInterface getNewStub() throws RemoteException {
         return getEndPoint();
     }

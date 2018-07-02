@@ -81,11 +81,11 @@ public class ToolCard implements Card {
         tokens = tokens + getCost();
     }
 
-    public void useTools(Player player, GameManager gameManager, MainServer server) {
+    public void useTools(Player player, GameManager gameManager) {
         this.player = player;
         this.gameManager = gameManager;
-        toolCardHandler = new ToolCardHandler(player, gameManager, server, this);
-        server.addToolCardHandler(toolCardHandler);
+        toolCardHandler = new ToolCardHandler(player, gameManager, gameManager.getServer(), this);
+        gameManager.getServer().addToolCardHandler(toolCardHandler);
         toolCardHandler.setActive(true);
         performEffect();
 

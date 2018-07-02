@@ -278,4 +278,9 @@ public class RMIClient implements RMIClientInterface, Serializable {
         server.setNewCoordinates(row, column);
     }
 
+    @Override
+    public void requestTool(ToolCard tool) throws IOException {
+        server.requestTool(getName(),tool.getName());
+    }
+
 }

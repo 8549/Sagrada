@@ -143,6 +143,8 @@ public class SocketServer implements ServerInterface {
                                     t9.setOldCoordinatesChoice(Integer.valueOf(newC.get(0)), Integer.valueOf(newC.get(1)));
                 break;
 
+            case "tool": server.useTool(s.client.getPlayer().getName(), data);
+
             default:
                 System.out.println("Wrong message!");
                 break;

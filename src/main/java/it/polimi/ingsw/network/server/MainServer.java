@@ -450,6 +450,9 @@ public class MainServer {
             gm.endCurrentTurn();
         }
     }
+    public void useTool(String name, String tool){
+        gm.useTool(name, tool);
+    }
 
 
     public void addToolCardHandler (ToolCardHandler toolCardHandlers){

@@ -20,6 +20,7 @@ public interface RMIServerInterface extends ServerInterface, Remote {
 
     void validateMove(Die d, int row, int column, Player p) throws RemoteException;
     void passTurn (String name) throws RemoteException;
+    void requestTool(String name, String tool) throws RemoteException;
 
     RMIServerInterface getNewStub() throws RemoteException;
 

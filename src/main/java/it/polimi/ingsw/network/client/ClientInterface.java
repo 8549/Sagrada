@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.model.Die;
+import it.polimi.ingsw.model.ToolCard;
 import it.polimi.ingsw.model.WindowPattern;
 import javafx.collections.ObservableList;
 
@@ -41,4 +42,5 @@ public interface ClientInterface  {
 
     public void sendNewCoordinates(int row, int column) throws IOException;
 
+    void requestTool(ToolCard tool) throws IOException;
 }

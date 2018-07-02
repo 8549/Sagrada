@@ -36,7 +36,7 @@ public class Board {
         this.publicObjectiveCards = publicObjectiveCards;
     }
 
-    public Object getToolCards() {
+    public List<ToolCard> getToolCards() {
         return toolCards;
     }
 

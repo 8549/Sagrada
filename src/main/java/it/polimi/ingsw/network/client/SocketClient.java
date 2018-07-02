@@ -377,6 +377,11 @@ public class SocketClient implements ClientInterface {
 
     }
 
+    @Override
+    public void requestTool(ToolCard tool) throws IOException {
+        socketHandlerClient.send("request","tool", tool.getName());
+    }
+
     private class SocketHandlerClient extends Thread {
         private BufferedReader in;
         private PrintWriter out;

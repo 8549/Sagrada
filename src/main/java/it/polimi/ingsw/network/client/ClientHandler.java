@@ -266,6 +266,14 @@ public class ClientHandler implements Serializable {
         }
     }
 
+    public void useTool(ToolCard tool){
+        try {
+            client.requestTool(tool);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void endRound(List<Die> dice){
         proxyModel.addDiceToRoundTrack(dice);
     }
@@ -273,6 +281,7 @@ public class ClientHandler implements Serializable {
     public void chooseDieFromWindowPattern(){
         ui.chooseDieFromWindowPattern();
     }
+
     public void sendDieFromWP(Die d, int row, int column){
 
     }
