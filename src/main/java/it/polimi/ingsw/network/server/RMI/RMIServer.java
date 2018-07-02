@@ -113,4 +113,49 @@ public class RMIServer  implements RMIServerInterface {
         return getEndPoint();
     }
 
+    @Override
+    public void setDieFromWP(int row, int column) throws RemoteException {
+        
+    }
+
+    @Override
+    public void setDieFromDP(Die d) throws RemoteException {
+
+    }
+
+    @Override
+    public void setDieFromRT(Die d, int round) throws RemoteException {
+
+    }
+
+    @Override
+    public void setDecrease(boolean choice) throws RemoteException {
+
+    }
+
+    @Override
+    public void setPlacementChoice(boolean choice) throws RemoteException {
+
+    }
+
+    @Override
+    public void setNumberDiceChoice(boolean choice) throws RemoteException {
+
+    }
+
+    @Override
+    public void setValue(int value) throws RemoteException {
+
+    }
+
+    @Override
+    public void setOldCoordinates(int row, int column) throws RemoteException {
+
+    }
+
+    @Override
+    public void setNewCoordinates(int row, int column) throws RemoteException {
+
+    }
+
 }

@@ -158,6 +158,11 @@ public class SocketClientObject implements ClientObject {
     }
 
     @Override
+    public void notifyMoveNotAvailable() throws IOException {
+        socketHandler.send("update", "moveNotAvailable","");
+    }
+
+    @Override
     public Player getPlayer() {
         return this.player;
     }

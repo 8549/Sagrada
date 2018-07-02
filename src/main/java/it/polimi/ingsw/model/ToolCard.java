@@ -9,7 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
-//TODO
+//TODO: code to reset all the parameters for the effects after the toolcarf has finished
 public class ToolCard implements Card {
     private List<Effect> effects;
     private GameManager gameManager;

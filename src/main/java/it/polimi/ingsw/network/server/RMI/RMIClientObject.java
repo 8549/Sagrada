@@ -239,5 +239,10 @@ public class RMIClientObject implements RMIClientObjectInterface {
 
     }
 
+    @Override
+    public void notifyMoveNotAvailable() throws RemoteException {
+
+    }
+
 
 }

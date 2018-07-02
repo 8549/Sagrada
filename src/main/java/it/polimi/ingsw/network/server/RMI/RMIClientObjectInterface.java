@@ -63,6 +63,8 @@ public interface RMIClientObjectInterface extends ClientObject, Remote {
     public void setOldCoordinates() throws RemoteException;
     @Override
     public void setNewCoordinates() throws RemoteException;
+    @Override
+    public void notifyMoveNotAvailable() throws RemoteException;
 
 
 

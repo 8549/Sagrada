@@ -87,7 +87,7 @@ public class SocketServer implements ServerInterface {
                                 server.handleMove(d, Integer.valueOf(c.get(2)),Integer.valueOf(c.get(3)), s.getClient().getPlayer());
                 break;
 
-            case "setDieFromWP": ToolCardHandler t= getActiveToolCardHandler();
+            case "setDieFromWP": ToolCardHandler t1;
 
                 break;
 
@@ -123,14 +123,6 @@ public class SocketServer implements ServerInterface {
         server.disconnect(client);
     }
 
-    private ToolCardHandler getActiveToolCardHandler (){
-        for(ToolCardHandler t : server.getToolCardHandlers()){
-            if(t.isActive()){
-                return t;
-            }
-        }
-        return null;
-    }
 
 
     /**

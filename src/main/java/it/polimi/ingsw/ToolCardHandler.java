@@ -1,5 +1,6 @@
 package it.polimi.ingsw;
 
+import it.polimi.ingsw.model.Die;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.ToolCard;
 import it.polimi.ingsw.network.server.ClientObject;
@@ -41,6 +42,10 @@ public class ToolCardHandler {
         }
     }
 
+    public void setDieFromWindowPattern(int row, int column){
+
+    }
+
     public void chooseDieFromDraftPool() {
         for(ClientObject c : server.getInGameClients()){
             try {
@@ -51,6 +56,10 @@ public class ToolCardHandler {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void setDieFromDraftPool(Die d){
+
     }
 
     public void chooseDieFromRoundTrack() {
@@ -65,6 +74,10 @@ public class ToolCardHandler {
         }
     }
 
+    public void setDieFromRoundTrack(Die d, int round){
+
+    }
+
     public void chooseIfDecrease() {
         for(ClientObject c : server.getInGameClients()){
             try {
@@ -77,6 +90,11 @@ public class ToolCardHandler {
         }
     }
 
+    public void setDecreaseChoice(boolean choice){
+
+    }
+
+
     public void chooseIfPlaceDie() {
         for(ClientObject c : server.getInGameClients()){
             try {
@@ -87,6 +105,10 @@ public class ToolCardHandler {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void setIfPlace(boolean choice){
+
     }
 
     public void chooseToMoveOneDie() {
@@ -102,6 +124,11 @@ public class ToolCardHandler {
         }
     }
 
+    public void setMovementChoice(boolean choice){
+
+    }
+
+
     public void setValue() {
         for(ClientObject c : server.getInGameClients()){
             try {
@@ -112,6 +139,10 @@ public class ToolCardHandler {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void choseValue(int value){
+
     }
 
     public void setOldCoordinates() {
@@ -126,6 +157,10 @@ public class ToolCardHandler {
         }
     }
 
+    public void setOldCoordinatesChoice(int row, int column){
+
+    }
+
     public void setNewCoordinates() {
         for(ClientObject c : server.getInGameClients()){
             try {
@@ -138,8 +173,12 @@ public class ToolCardHandler {
         }
     }
 
+    public void setNewCoordinatesChoice(int row, int column){
+
+    }
+
     public void notifyPlayerDieAlreadyPlaced(){
-        server.notifyPlayerAlreadyPlacedDie();
+        server.notifyMoveNotAvailable();
     }
 
 }

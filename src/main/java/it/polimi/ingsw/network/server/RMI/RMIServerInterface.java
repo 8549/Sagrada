@@ -21,4 +21,74 @@ public interface RMIServerInterface extends ServerInterface, Remote {
     void validateMove(Die d, int row, int column, Player p) throws RemoteException;
 
     RMIServerInterface getNewStub() throws RemoteException;
+
+    /**
+     * Response from client of effect of Toolcard
+     * @param row
+     * @param column
+     * @throws RemoteException
+     */
+    void setDieFromWP(int row, int column) throws RemoteException;
+
+    /**
+     * Response from client of effect of Toolcard
+     * @param d
+     * @throws RemoteException
+     */
+    void setDieFromDP(Die d) throws RemoteException;
+
+    /**
+     *Response from client of effect of Toolcard
+     * @param d
+     * @param round
+     * @throws RemoteException
+     */
+    void setDieFromRT(Die d, int round) throws RemoteException;
+
+    /**
+     * Response from client of effect of Toolcard
+     * @param choice
+     * @throws RemoteException
+     */
+    void setDecrease(boolean choice) throws RemoteException;
+
+    /**
+     * Response from client of effect of Toolcard
+     * @param choice
+     * @throws RemoteException
+     */
+    void setPlacementChoice(boolean choice) throws RemoteException;
+
+    /**
+     * Response from client of effect of Toolcard
+     * @param choice
+     * @throws RemoteException
+     */
+    void setNumberDiceChoice(boolean choice) throws RemoteException;
+
+    /**
+     * Response from client of effect of Toolcard
+     * @param value
+     * @throws RemoteException
+     */
+    void setValue(int value) throws RemoteException;
+
+    /**
+     * Response from client of effect of Toolcard
+     * @param row
+     * @param column
+     * @throws RemoteException
+     */
+    void setOldCoordinates(int row, int column) throws RemoteException;
+
+    /**
+     * Response from client of effect of Toolcard
+     * @param row
+     * @param column
+     * @throws RemoteException
+     */
+    void setNewCoordinates(int row, int column) throws RemoteException;
+
+
+
 }

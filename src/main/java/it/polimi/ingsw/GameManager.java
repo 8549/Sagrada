@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.server.ClientObject;
 import it.polimi.ingsw.network.server.MainServer;
 
+import javax.tools.Tool;
 import java.util.*;
 
 public class GameManager {
@@ -260,9 +261,9 @@ public class GameManager {
 
     public void processMove(Die die, int row, int column, Player player) {
         boolean diePlaced = round.getTurn().isDiePlaced();
-        if (diePlaced) {
-            server.notifyPlayerAlreadyPlacedDie();
-            System.out.println("[DEBUG] Die already placed, can't place another");
+        if (diePlaced || isToolActive()) {
+            server.notifyMoveNotAvailable();
+            System.out.println("[DEBUG] Die already placed, can't place another or a toolCard is in use");
         } else {
             MoveValidator mv = new MoveValidator(round.getTurn(), round.getDraftPool(), true, true, true);
             boolean result = mv.validateMove(die, row, column, player);
@@ -300,6 +301,15 @@ public class GameManager {
 
 
         }
+    }
+
+    public boolean isToolActive(){
+        if(server.getActiveToolCardHandler()==null){
+            return false;
+        }else{
+            return true;
+        }
+
     }
 
     public Board getBoard() {

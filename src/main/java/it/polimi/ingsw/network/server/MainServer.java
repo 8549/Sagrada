@@ -423,6 +423,15 @@ public class MainServer {
         return this.inGameClients;
     }
 
+    public ToolCardHandler getActiveToolCardHandler (){
+        for(ToolCardHandler t : toolCardHandlers){
+            if(t.isActive()){
+                return t;
+            }
+        }
+        return null;
+    }
+
     public ClientObject getClientByName(String name){
         for(ClientObject c : inGameClients){
             try {
@@ -441,10 +450,6 @@ public class MainServer {
         this.toolCardHandlers.add(toolCardHandlers);
     }
 
-    public List<ToolCardHandler> getToolCardHandlers(){
-        return this.toolCardHandlers;
-    }
-
     public void notifyWinner(Optional<Player> winner) {
     }
 
@@ -454,6 +459,11 @@ public class MainServer {
     public void notifyPlayerIfToolCardWorked(boolean toolCardWorked) {
     }
 
-    public void notifyPlayerAlreadyPlacedDie() {
+    public void notifyMoveNotAvailable() {
+        try {
+            getClientByName(gm.getCurrentPlayer().getName()).notifyMoveNotAvailable();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
