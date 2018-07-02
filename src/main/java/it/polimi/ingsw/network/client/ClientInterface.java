@@ -20,6 +20,8 @@ public interface ClientInterface  {
 
     void requestPlacement(int number, String color, int row, int column) throws IOException;
 
+    void passTurn() throws IOException;
+
 
     public void sendDieFromWP(Die d, int row, int column) throws IOException;
 

@@ -9,6 +9,7 @@ import it.polimi.ingsw.network.server.MainServer;
 import it.polimi.ingsw.network.server.ServerInterface;
 
 
+import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -87,25 +88,59 @@ public class SocketServer implements ServerInterface {
                                 server.handleMove(d, Integer.valueOf(c.get(2)),Integer.valueOf(c.get(3)), s.getClient().getPlayer());
                 break;
 
-            case "setDieFromWP": ToolCardHandler t1;
-
+            case "passTurn": server.passTurn(s.client.getPlayer().getName());
                 break;
 
-            case "setDieFromDP":
+            case "setDieFromWP": List<String> dieFromWP = socketParserServer.parseData(data);
+                                ToolCardHandler t1 = server.getActiveToolCardHandler();
+                                /*Die die = new Die(SagradaColor.valueOf(dieFromWP.get(1)));
+                                die.setNumber(Integer.valueOf(dieFromWP.get(0)));*/
+                                t1.setDieFromWindowPattern(Integer.valueOf(dieFromWP.get(2)), Integer.valueOf(dieFromWP.get(3)));
                 break;
-            case "setDieFromRT":
+
+            case "setDieFromDP": List<String> dieFromDP = socketParserServer.parseData(data);
+                                ToolCardHandler t2 = server.getActiveToolCardHandler();
+                                Die die = new Die(SagradaColor.valueOf(dieFromDP.get(1)));
+                                die.setNumber(Integer.valueOf(dieFromDP.get(0)));
+                                t2.setDieFromDraftPool(die);
                 break;
-            case "setDecrease":
+            case "setDieFromRT": List<String> dieFromRT = socketParserServer.parseData(data);
+                                ToolCardHandler t3 = server.getActiveToolCardHandler();
+                                Die die2 = new Die(SagradaColor.valueOf(dieFromRT.get(1)));
+                                die2.setNumber(Integer.valueOf(dieFromRT.get(0)));
+                                t3.setDieFromRoundTrack(die2, Integer.valueOf(dieFromRT.get(2)));
                 break;
-            case "setPlacementChoice":
+            case "setDecrease": ToolCardHandler t4 = server.getActiveToolCardHandler();
+                                if(data.equals("true")){
+                                    t4.setDecreaseChoice(true);
+                                }else{
+                                    t4.setDecreaseChoice(false);
+                                }
                 break;
-            case "setNumberDiceChoice":
+            case "setPlacementChoice": ToolCardHandler t5 = server.getActiveToolCardHandler();
+                                        if(data.equals("true")){
+                                            t5.setIfPlace(true);
+                                        }else{
+                                            t5.setIfPlace(false);
+                                        }
                 break;
-            case "setValue":
+            case "setNumberDiceChoice": ToolCardHandler t6 = server.getActiveToolCardHandler();
+                                        if(data.equals("true")){
+                                            t6.setMovementChoice(true);
+                                        }else{
+                                            t6.setMovementChoice(false);
+                                        }
                 break;
-            case "setOldCoordinates":
+            case "setValue": ToolCardHandler t7 = server.getActiveToolCardHandler();
+                            t7.chosenValue(Integer.valueOf(data));
                 break;
-            case "setNewCoordinates":
+            case "setOldCoordinates": List<String> oldC = socketParserServer.parseData(data);
+                                    ToolCardHandler t8 = server.getActiveToolCardHandler();
+                                    t8.setOldCoordinatesChoice(Integer.valueOf(oldC.get(0)), Integer.valueOf(oldC.get(1)));
+                break;
+            case "setNewCoordinates":List<String> newC = socketParserServer.parseData(data);
+                                    ToolCardHandler t9 = server.getActiveToolCardHandler();
+                                    t9.setOldCoordinatesChoice(Integer.valueOf(newC.get(0)), Integer.valueOf(newC.get(1)));
                 break;
 
             default:

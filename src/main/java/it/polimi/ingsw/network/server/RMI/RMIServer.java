@@ -115,47 +115,47 @@ public class RMIServer  implements RMIServerInterface {
 
     @Override
     public void setDieFromWP(int row, int column) throws RemoteException {
-        
+        server.getActiveToolCardHandler().setDieFromWindowPattern(row, column);
     }
 
     @Override
     public void setDieFromDP(Die d) throws RemoteException {
-
+        server.getActiveToolCardHandler().setDieFromDraftPool(d);
     }
 
     @Override
     public void setDieFromRT(Die d, int round) throws RemoteException {
-
+        server.getActiveToolCardHandler().setDieFromRoundTrack(d, round);
     }
 
     @Override
     public void setDecrease(boolean choice) throws RemoteException {
-
+        server.getActiveToolCardHandler().setDecreaseChoice(choice);
     }
 
     @Override
     public void setPlacementChoice(boolean choice) throws RemoteException {
-
+        server.getActiveToolCardHandler().setIfPlace(choice);
     }
 
     @Override
     public void setNumberDiceChoice(boolean choice) throws RemoteException {
-
+        server.getActiveToolCardHandler().setMovementChoice(choice);
     }
 
     @Override
     public void setValue(int value) throws RemoteException {
-
+        server.getActiveToolCardHandler().chosenValue(value);
     }
 
     @Override
     public void setOldCoordinates(int row, int column) throws RemoteException {
-
+        server.getActiveToolCardHandler().setOldCoordinatesChoice(row,column);
     }
 
     @Override
     public void setNewCoordinates(int row, int column) throws RemoteException {
-
+        server.getActiveToolCardHandler().setNewCoordinatesChoice(row, column);
     }
 
 }

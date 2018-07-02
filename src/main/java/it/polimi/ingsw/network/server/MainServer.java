@@ -445,6 +445,12 @@ public class MainServer {
         return null;
     }
 
+    public void passTurn(String name){
+        if(gm.getCurrentPlayer().getName().equals(name)){
+            gm.endCurrentTurn();
+        }
+    }
+
 
     public void addToolCardHandler (ToolCardHandler toolCardHandlers){
         this.toolCardHandlers.add(toolCardHandlers);
@@ -465,5 +471,9 @@ public class MainServer {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void notifyToolCardResponse(boolean response){
+
     }
 }

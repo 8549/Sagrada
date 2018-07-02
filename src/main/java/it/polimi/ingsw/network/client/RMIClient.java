@@ -4,6 +4,7 @@ import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.server.RMI.RMIServerInterface;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -62,6 +63,11 @@ public class RMIClient implements RMIClientInterface, Serializable {
         Die d = new Die(SagradaColor.valueOf(color));
         d.setNumber(number);
         server.validateMove(d,row, column, ch.getModel().getMyself());
+    }
+
+    @Override
+    public void passTurn() throws IOException {
+
     }
 
     @Override
@@ -229,47 +235,47 @@ public class RMIClient implements RMIClientInterface, Serializable {
 
     @Override
     public void sendDieFromWP(Die d, int row, int column) throws RemoteException {
-
+        server.setDieFromWP(row, column);
     }
 
     @Override
     public void sendDieFromDP(Die d) throws RemoteException {
-
+        server.setDieFromDP(d);
     }
 
     @Override
     public void sendDieFromRT(Die d, int round) throws RemoteException {
-
+        server.setDieFromRT(d, round);
     }
 
     @Override
     public void sendDecreaseChoice(boolean choice) throws RemoteException {
-
+        server.setDecrease(choice);
     }
 
     @Override
     public void sendPlacementChoice(boolean choice) throws RemoteException {
-
+        server.setPlacementChoice(choice);
     }
 
     @Override
     public void sendNumberDiceChoice(boolean choice) throws RemoteException {
-
+        server.setNumberDiceChoice(choice);
     }
 
     @Override
     public void sendValue(int value) throws RemoteException {
-
+        server.setValue(value);
     }
 
     @Override
     public void sendOldCoordinates(int row, int column) throws RemoteException {
-
+        server.setOldCoordinates(row, column);
     }
 
     @Override
     public void sendNewCoordinates(int row, int column) throws RemoteException {
-
+        server.setNewCoordinates(row, column);
     }
 
 }

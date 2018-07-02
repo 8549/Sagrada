@@ -196,52 +196,51 @@ public class RMIClientObject implements RMIClientObjectInterface {
 
     @Override
     public void chooseDieFromWindowPattern() throws RemoteException {
-
+        client.chooseDieFromWindowPattern();
     }
 
     @Override
     public void chooseDieFromDraftPool() throws RemoteException {
-
+        client.chooseDieFromDraftPool();
     }
 
     @Override
     public void chooseDieFromRoundTrack() throws RemoteException {
-
+        client.chooseDieFromRoundTrack();
     }
 
     @Override
     public void chooseIfDecrease() throws RemoteException {
-
+        client.chooseIfDecrease();
     }
 
     @Override
     public void chooseIfPlaceDie() throws RemoteException {
-
+        client.chooseIfPlaceDie();
     }
 
     @Override
     public void chooseToMoveOneDie() throws RemoteException {
-
+        client.chooseToMoveOneDie();
     }
 
     @Override
     public void setValue() throws RemoteException {
-
+        client.setValue();
     }
 
     @Override
     public void setOldCoordinates() throws RemoteException {
-
+        client.setOldCoordinates();
     }
 
     @Override
     public void setNewCoordinates() throws RemoteException {
-
+        client.setNewCoordinates();
     }
 
     @Override
     public void notifyMoveNotAvailable() throws RemoteException {
-
     }
 
 

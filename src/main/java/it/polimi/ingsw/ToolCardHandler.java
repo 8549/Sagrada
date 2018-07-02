@@ -141,7 +141,7 @@ public class ToolCardHandler {
         }
     }
 
-    public void choseValue(int value){
+    public void chosenValue(int value){
 
     }
 
