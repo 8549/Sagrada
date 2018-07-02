@@ -133,7 +133,7 @@ public class SocketClientObject implements ClientObject {
         if(response) {
             socketHandler.send("response", "moveResponse",name + "/" + d.getNumber() + "/" + d.getColor() + "/" + row + "/" + column);
         }else{
-            socketHandler.send("response", "moveResponse", "false");
+            socketHandler.send("response", "moveResponse", name + "/false");
 
         }
     }

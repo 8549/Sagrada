@@ -83,12 +83,12 @@ public class SocketClient implements ClientInterface {
                 case "moveResponse":
                             List<String> move = socketParserClient.parseData(data);
                             Die d;
-                            if(!move.get(0).equals("false")){
+                            if(!move.get(1).equals("false")){
                                 d = new Die(SagradaColor.valueOf(move.get(2)));
                                 d.setNumber(Integer.valueOf(move.get(1)));
                                 ch.handleMoveResponse(move.get(0),true, d, Integer.valueOf(move.get(3)), Integer.valueOf(move.get(4)));
                             }else{
-                                ch.handleMoveResponse(move.get(0),false, null, Integer.valueOf(move.get(3)), Integer.valueOf(move.get(4)));
+                                ch.handleMoveResponse(move.get(0),false, null, -1 , -1);
                             }
 
                     break;
