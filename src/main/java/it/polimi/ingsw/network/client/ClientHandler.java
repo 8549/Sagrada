@@ -258,7 +258,13 @@ public class ClientHandler implements Serializable {
         }
     }
 
-    public void passTurn(){}
+    public void passTurn(){
+        try {
+            client.passTurn();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void endRound(List<Die> dice){
         proxyModel.addDiceToRoundTrack(dice);

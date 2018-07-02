@@ -73,7 +73,7 @@ public class RMIClient implements RMIClientInterface, Serializable {
     @Override
     public void loginResponse(boolean response)throws RemoteException{
         if(response){
-            System.out.println("[DEBUG] Login succesful");
+             System.out.println("[DEBUG] Login succesful");
             ch.setPlayerToProxyModel(player.getName());
         }else{
             System.out.println("[DEBUG] Login failed");
