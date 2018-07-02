@@ -67,7 +67,7 @@ public class RMIClient implements RMIClientInterface, Serializable {
 
     @Override
     public void passTurn() throws IOException {
-
+        server.passTurn(getName());
     }
 
     @Override

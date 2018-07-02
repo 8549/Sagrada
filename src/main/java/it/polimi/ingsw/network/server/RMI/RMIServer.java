@@ -109,6 +109,11 @@ public class RMIServer  implements RMIServerInterface {
     }
 
     @Override
+    public void passTurn(String name) throws RemoteException {
+        server.passTurn(name);
+    }
+
+    @Override
     public RMIServerInterface getNewStub() throws RemoteException {
         return getEndPoint();
     }
