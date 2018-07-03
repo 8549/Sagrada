@@ -11,10 +11,6 @@ public class RoundTrack {
     private Map<Integer, List<Die>> dice;
     private int roundCounter;
 
-    public int getDiceNumberAtRound(int i) {
-        return dice.get(i).size();
-    }
-
     public RoundTrack() {
         roundCounter = 0;
         dice = new HashMap<>();
@@ -23,6 +19,9 @@ public class RoundTrack {
         }
     }
 
+    public int getDiceNumberAtRound(int i) {
+        return dice.get(i).size();
+    }
 
     public int getRoundCounter() {
         return roundCounter;
@@ -39,10 +38,6 @@ public class RoundTrack {
         roundCounter++;
     }
 
-    public SagradaColor getColorOfDieAtRound(int turn, int numberOfDie) {
-        return dice.get(turn - 1).get(numberOfDie).getColor();
-    }
-
     public Die replaceDie(Die die, int turn, int numberOfDie) {
         if (turn <= roundCounter) {
             Die oldDie = dice.get(turn - 1).remove(numberOfDie);
@@ -50,14 +45,5 @@ public class RoundTrack {
             return oldDie;
         }
         return null;
-    }
-
-    public void removeAllDice(){
-        dice.clear();
-        dice = new HashMap<>();
-        for (int i=0; i<GameManager.ROUNDS; i++){
-            dice.put(i, new ArrayList<>());
-        }
-        roundCounter=0;
     }
 }
