@@ -135,4 +135,17 @@ class DieTest {
             }
         }
     }
+
+    @Test
+    void testGetNumber() {
+        Die die = new Die(SagradaColor.RED);
+        die.setNumber(3);
+        assertEquals(3, die.getNumber());
+    }
+
+    @Test
+    void testGetColor() {
+        Die die = new Die(SagradaColor.RED);
+        assertEquals(SagradaColor.RED, die.getColor());
+    }
 }

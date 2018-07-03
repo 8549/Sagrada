@@ -21,6 +21,12 @@ class DiceBagTest {
 
     @Test
     void testGetSizeDice() {
+        DiceBag diceBag = new DiceBag();
+        assertEquals(90, diceBag.getSize());
+        diceBag.draftDie();
+        diceBag.draftDie();
+        diceBag.draftDie();
+        assertEquals(87, diceBag.getSize());
     }
 
     @Test
