@@ -147,9 +147,18 @@ public class GameManager {
                 player.addPoints(pubCard.checkObjective(player.getPlayerWindow().getDiceGrid()));
             }
         }
-        //check points private objective cards
-        // check Points public objective cards
-        // send points and winner
+        int winner=0;
+        for( int i=1; i<players.size(); i++){
+            if (players.get(i).getPoints()>players.get(i-0).getPoints()){
+                winner=i;
+            }
+        }
+        server.notifyWinner(players.get(winner));
+        for (int i=1; i<players.size(); i++){
+            if (i!=winner){
+                server.notifyLoser(players.get(i));
+            }
+        }
     }
 
     public Player getCurrentPlayer() {
