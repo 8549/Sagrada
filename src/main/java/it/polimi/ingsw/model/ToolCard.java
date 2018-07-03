@@ -9,13 +9,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
-//TODO: code to reset all the parameters for the effects after the toolcarf has finished
+//TODO: code to reset all the parameters for the effects after the tool card has finished
 public class ToolCard implements Card {
     private List<Effect> effects;
     private GameManager gameManager;
     private ToolCardHandler toolCardHandler;
     private Player player;
-    private int tokens;
+    private int tokens = 0;
     private boolean used;
     private String name;
     private int id;
@@ -83,7 +83,7 @@ public class ToolCard implements Card {
 
     public void useTools(Player player, GameManager gameManager) {
         if (!gameManager.getRound().getTurn().isToolCardUsed()) {
-            if (gameManager.getRound().getTurn().getPlayer().getTokens()<getCost()) {
+            if (gameManager.getRound().getTurn().getPlayer().getTokens() < getCost()) {
                 effectIterator = effects.iterator();
                 everythingOk = true;
                 this.player = player;
@@ -334,4 +334,6 @@ public class ToolCard implements Card {
     public ToolCardHandler getToolCardHandler() {
         return toolCardHandler;
     }
+
+    public boolean isEverythingOk(){return everythingOk;}
 }

@@ -37,7 +37,7 @@ class ToolCardTest {
     }
 
     @Test
-    void initReferences() {
+    void testInitReferences() {
     }
 
     @Test
@@ -63,15 +63,15 @@ class ToolCardTest {
     }
 
     @Test
-    void useTools() {
+    void testUseTools() {
     }
 
     @Test
-    void performEffect() {
+    void testPerformEffect() {
     }
 
     @Test
-    void checkHasNextEffect() {
+    void testCheckHasNextEffect() {
     }
 
     @Test
@@ -83,7 +83,7 @@ class ToolCardTest {
     }
 
     @Test
-    void addDieToDiceBag() {
+    void testAddDieToDiceBag() {
         ToolCard toolCard= new ToolCard();
         Board board =new Board();
         board.setDiceBag();
@@ -94,73 +94,73 @@ class ToolCardTest {
     }
 
     @Test
-    void processMoveWithoutConstraints() {
+    void testProcessMoveWithoutConstraints() {
     }
 
     @Test
-    void getDieFromDicePool() {
+    void testGetDieFromDicePool() {
     }
 
     @Test
-    void chooseDieFromWindowPattern() {
+    void testChooseDieFromWindowPattern() {
     }
 
     @Test
-    void chooseDieFromDraftPool() {
+    void testChooseDieFromDraftPool() {
     }
 
     @Test
-    void chooseDieFromRoundTrack() {
+    void testChooseDieFromRoundTrack() {
     }
 
     @Test
-    void chooseIfDecrease() {
+    void testChooseIfDecrease() {
     }
 
     @Test
-    void chooseIfPlaceDie() {
+    void testChooseIfPlaceDie() {
     }
 
     @Test
-    void chooseToMoveOneDie() {
+    void testChooseToMoveOneDie() {
     }
 
     @Test
-    void setValue() {
+    void testSetValue() {
     }
 
     @Test
-    void setOldCoordinates() {
+    void tesSetOldCoordinates() {
     }
 
     @Test
-    void setNewCoordinates() {
+    void testSetNewCoordinates() {
     }
 
     @Test
-    void completeProcessMove() {
+    void testCompleteProcessMove() {
     }
 
     @Test
-    void completeChooseDieFromWindowPattern() {
+    void testCompleteChooseDieFromWindowPattern() {
     }
 
     @Test
-    void setResponse() {
+    void testSetResponse() {
     }
 
     @Test
-    void completeChooseValue() {
+    void testCompleteChooseValue() {
         ToolCard toolCard= new ToolCard();
         toolCard.completeChooseValue(2);
         //assertTrue(toolCard.isEverythingOk());
     }
 
     @Test
-    void setParameters() {
+    void testSetParameters() {
     }
 
     @Test
-    void getToolCardHandler() {
+    void testGetToolCardHandler() {
     }
 }
