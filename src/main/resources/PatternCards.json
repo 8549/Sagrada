@@ -5,102 +5,106 @@
       "difficulty": 5,
       "patternConstraints": [
         [
-          "yellow",
-          "blue",
+          4,
           null,
-          null,
-          1
-        ],
-        [
-          "green",
-          null,
+          2,
           5,
-          null,
-          4
-        ],
-        [
-          3,
-          null,
-          "red",
-          null,
           "green"
         ],
         [
-          2,
           null,
           null,
-          "blue",
-          "yellow"
+          6,
+          "green",
+          2
+        ],
+        [
+          null,
+          3,
+          "green",
+          4,
+          null
+        ],
+        [
+          5,
+          "green",
+          1,
+          null,
+          null
         ]
       ]
     },
     "back": {
-      "name": "Symphony of Light",
       "difficulty": 6,
+      "name": "Symphony of Light",
       "patternConstraints": [
         [
-          "yellow",
-          "blue",
-          null,
-          null,
-          1
-        ],
-        [
-          "green",
-          null,
-          5,
-          null,
-          4
-        ],
-        [
-          3,
-          null,
-          "red",
-          null,
-          "green"
-        ],
-        [
-          2,
-          null,
-          null,
-          "blue",
-          "yellow"
+          [
+            2,
+            null,
+            5,
+            null,
+            1
+          ],
+          [
+            "yellow",
+            6,
+            "purple",
+            2,
+            "red"
+          ],
+          [
+            null,
+            "blue",
+            4,
+            "green",
+            null
+          ],
+          [
+            null,
+            3,
+            null,
+            5,
+            null
+          ]
         ]
       ]
     }
   },
   {
     "front": {
-      "name": "Firmitas",
       "difficulty": 5,
+      "name": "Firmitas",
       "patternConstraints": [
         [
-          "yellow",
-          "blue",
-          null,
-          null,
-          1
-        ],
-        [
-          "green",
-          null,
-          5,
-          null,
-          4
-        ],
-        [
-          3,
-          null,
-          "red",
-          null,
-          "green"
-        ],
-        [
-          2,
-          null,
-          null,
-          "blue",
-          "yellow"
+          [
+            "purple",
+            6,
+            null,
+            null,
+            3
+          ],
+          [
+            5,
+            "purple",
+            3,
+            null,
+            null
+          ],
+          [
+            null,
+            2,
+            "purple",
+            1,
+            null
+          ],
+          [
+            null,
+            1,
+            5,
+            "purple",
+            4
+          ]
         ]
       ]
     },
