@@ -242,7 +242,7 @@ public class GameManager {
 
             }
         } else {
-            System.out.println("Error, patterncard not found! ");
+            System.out.println("Error, patternCard not found! ");
         }
 
         if (everybodyHasChosen && round == null) {
@@ -276,7 +276,11 @@ public class GameManager {
                 round.getTurn().setDiePlaced();
                 server.notifyPlacementResponse(true, player, die, row, column);
                 server.setDraft(round.getDraftPool());
-                endCurrentTurn();
+                if (round.getTurn().isToolCardUsed()) {
+                    endCurrentTurn();
+                } else {
+                    server.askPlayerForNextMove();
+                }
             } else {
                 server.notifyPlacementResponse(false, player, die, row, column);
                 System.out.println("[DEBUG] Wrong move, should they try again or not?");

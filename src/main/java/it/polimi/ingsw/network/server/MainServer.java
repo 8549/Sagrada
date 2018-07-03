@@ -479,4 +479,10 @@ public class MainServer {
     public void notifyToolCardResponse(boolean response){
 
     }
+
+    public void askPlayerForNextMove() {
+    }
+
+    public void notifyPlayerToolCardAlreadyUsed() {
+    }
 }
