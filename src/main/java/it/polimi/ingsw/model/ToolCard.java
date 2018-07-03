@@ -25,6 +25,8 @@ public class ToolCard implements Card {
     private Die die;
     int turnForRoundTrack;
     int numberOfDieForRoundTrack;
+    int oldRow;
+    int oldColumn;
     private boolean decrease;
     private boolean placeDie;
     private boolean moveOneDie;
@@ -290,7 +292,7 @@ public class ToolCard implements Card {
         toolCardHandler.setNewCoordinates();
     }
 
-    public void completeProcessMove(int newRow, int newColumn, int oldRow, int oldColumn) {
+    public void completeProcessMove(int newRow, int newColumn) {
         MoveValidator moveValidator = new MoveValidator(gameManager.getRound().getTurn(), gameManager.getRound().getDraftPool(), number, color, adjacency);
         if (moveValidator.validateMove(die, newRow, newColumn, player)) {
             if (!adjacency || place) {
@@ -319,6 +321,27 @@ public class ToolCard implements Card {
         everythingOk = true;
     }
 
+    public void completeChooseDieFromDraftPool(Die die) {
+        this.die = die;
+    }
+
+    public void completeChoiceIfDecrease(boolean choice) {
+        decrease = choice;
+    }
+
+    public void completeChoiceIfPlaceDie(boolean choice) {
+        placeDie = choice;
+    }
+
+    public void completeChoiceIfMoveOneDie(boolean choice) {
+        moveOneDie = choice;
+    }
+
+    public void completeSetOldCoordinats(int row, int column) {
+        oldColumn = column;
+        oldRow = row;
+    }
+
     @Override
     public String getName() {
         return this.name;
@@ -335,5 +358,7 @@ public class ToolCard implements Card {
         return toolCardHandler;
     }
 
-    public boolean isEverythingOk(){return everythingOk;}
+    public boolean isEverythingOk() {
+        return everythingOk;
+    }
 }

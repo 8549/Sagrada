@@ -43,7 +43,7 @@ public class ToolCardHandler {
     }
 
     public void setDieFromWindowPattern(int row, int column){
-
+        toolcard.completeChooseDieFromWindowPattern(row, column);
     }
 
     public void chooseDieFromDraftPool() {
@@ -59,7 +59,7 @@ public class ToolCardHandler {
     }
 
     public void setDieFromDraftPool(Die d){
-
+        toolcard.completeChooseDieFromDraftPool(d);
     }
 
     public void chooseDieFromRoundTrack() {
@@ -91,7 +91,7 @@ public class ToolCardHandler {
     }
 
     public void setDecreaseChoice(boolean choice){
-
+        toolcard.completeChoiceIfDecrease(choice);
     }
 
 
@@ -108,7 +108,7 @@ public class ToolCardHandler {
     }
 
     public void setIfPlace(boolean choice){
-
+        toolcard.completeChoiceIfPlaceDie(choice);
     }
 
     public void chooseToMoveOneDie() {
@@ -125,7 +125,7 @@ public class ToolCardHandler {
     }
 
     public void setMovementChoice(boolean choice){
-
+        toolcard.completeChoiceIfMoveOneDie(choice);
     }
 
 
@@ -142,7 +142,7 @@ public class ToolCardHandler {
     }
 
     public void chosenValue(int value){
-
+        toolcard.completeChooseValue(value);
     }
 
     public void setOldCoordinates() {
@@ -158,7 +158,7 @@ public class ToolCardHandler {
     }
 
     public void setOldCoordinatesChoice(int row, int column){
-
+        toolcard.completeSetOldCoordinats(row, column);
     }
 
     public void setNewCoordinates() {
@@ -174,7 +174,7 @@ public class ToolCardHandler {
     }
 
     public void setNewCoordinatesChoice(int row, int column){
-
+        toolcard.completeProcessMove(row, column);
     }
 
     public void notifyPlayerDieAlreadyPlaced(){
