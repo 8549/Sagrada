@@ -83,14 +83,16 @@ public class ToolCard implements Card {
 
     public void useTools(Player player, GameManager gameManager) {
         if (!gameManager.getRound().getTurn().isToolCardUsed()) {
-            effectIterator = effects.iterator();
-            everythingOk = true;
-            this.player = player;
-            this.gameManager = gameManager;
-            toolCardHandler = new ToolCardHandler(player, gameManager, gameManager.getServer(), this);
-            gameManager.getServer().addToolCardHandler(toolCardHandler);
-            toolCardHandler.setActive(true);
-            performEffect();
+            if (gameManager.getRound().getTurn().getPlayer().getTokens()<getCost()) {
+                effectIterator = effects.iterator();
+                everythingOk = true;
+                this.player = player;
+                this.gameManager = gameManager;
+                toolCardHandler = new ToolCardHandler(player, gameManager, gameManager.getServer(), this);
+                gameManager.getServer().addToolCardHandler(toolCardHandler);
+                toolCardHandler.setActive(true);
+                performEffect();
+            }
         } else {
             gameManager.getServer().notifyPlayerToolCardAlreadyUsed();
         }

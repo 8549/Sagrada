@@ -64,6 +64,8 @@ public class Player implements Serializable {
         this.tokens = playerWindow.getWindowPattern().getDifficulty();
     }
 
+    public int getTokens(){ return tokens;}
+
     public void removeTokens(int numOfTokens) {
         tokens = tokens - numOfTokens;
     }
