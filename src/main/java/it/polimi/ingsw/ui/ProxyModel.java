@@ -18,14 +18,14 @@ public class ProxyModel  {
     private IntegerProperty currentTurn;
     private List<ObjCard> publicObjectiveCards = new ArrayList<>();
     private List<ToolCard> toolCards = new ArrayList<>();
-
-    public RoundTrack getRoundTrack() {
-        return roundTrack;
-    }
-
     private RoundTrack roundTrack;
     private int timeout;
 
+    public ProxyModel() {
+        roundTrack = new RoundTrack();
+        this.currentRound = new SimpleIntegerProperty(-1);
+        this.currentTurn = new SimpleIntegerProperty(-1);
+    }
     public boolean isMyTurn() {
         return myself.equals(currentPlayer);
     }
@@ -42,12 +42,10 @@ public class ProxyModel  {
         return publicObjectiveCards;
     }
 
-
-    public ProxyModel() {
-        roundTrack = new RoundTrack();
-        this.currentRound = new SimpleIntegerProperty(-1);
-        this.currentTurn = new SimpleIntegerProperty(-1);
+    public RoundTrack getRoundTrack() {
+        return roundTrack;
     }
+
 
     public void addDiceToRoundTrack(List<Die> d){
         roundTrack.addRound(d);

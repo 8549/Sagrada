@@ -92,6 +92,13 @@ public class SocketClient implements ClientInterface {
                             }
 
                     break;
+
+                case "tool": if(data.equals("true")){
+                                ch.toolAvailable(true);
+                            }else{
+                                ch.toolAvailable(false);
+                            }
+                    break;
                 default:
                             System.out.println("Wrong message!");
                             break;
@@ -234,6 +241,9 @@ public class SocketClient implements ClientInterface {
                         ch.endRound(d);
                         break;
 
+                    case "nextMove":
+                        ch.nextMove();
+                        break;
 
                     default: break;
 

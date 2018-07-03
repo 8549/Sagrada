@@ -279,6 +279,16 @@ public class RMIClient implements RMIClientInterface, Serializable {
     }
 
     @Override
+    public void nextMove() throws RemoteException {
+        ch.nextMove();
+    }
+
+    @Override
+    public void notifyToolCardResponse(boolean response) throws RemoteException {
+        ch.toolAvailable(response);
+    }
+
+    @Override
     public void requestTool(ToolCard tool) throws IOException {
         server.requestTool(getName(),tool.getName());
     }

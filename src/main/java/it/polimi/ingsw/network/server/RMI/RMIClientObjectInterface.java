@@ -3,7 +3,6 @@ package it.polimi.ingsw.network.server.RMI;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.server.ClientObject;
 
-import java.io.IOException;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
@@ -65,8 +64,13 @@ public interface RMIClientObjectInterface extends ClientObject, Remote {
     public void setNewCoordinates() throws RemoteException;
     @Override
     public void notifyMoveNotAvailable() throws RemoteException;
+    @Override
+    public void nextMove() throws RemoteException;
+    @Override
+    public void notifyToolCardResponse(boolean response) throws RemoteException;
 
 
 
 
-    }
+
+}

@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.client.RMIClientInterface;
 import it.polimi.ingsw.network.server.ServerInterface;
 
+import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -183,6 +184,16 @@ public class RMIClientObject implements RMIClientObjectInterface {
     @Override
     public void notifyEndRound(List<Die> dice) throws RemoteException {
         client.endRound(dice);
+    }
+
+    @Override
+    public void nextMove() throws RemoteException{
+        client.nextMove();
+    }
+
+    @Override
+    public void notifyToolCardResponse(boolean response) throws RemoteException {
+        client.notifyToolCardResponse(response);
     }
 
     @Override

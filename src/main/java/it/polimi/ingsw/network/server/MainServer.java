@@ -477,10 +477,19 @@ public class MainServer {
     }
 
     public void notifyToolCardResponse(boolean response){
-
+        try {
+            getClientByName(gm.getCurrentPlayer().getName()).notifyToolCardResponse(response);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void askPlayerForNextMove() {
+        try {
+            getClientByName(gm.getCurrentPlayer().getName()).nextMove();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void notifyPlayerToolCardAlreadyUsed() {

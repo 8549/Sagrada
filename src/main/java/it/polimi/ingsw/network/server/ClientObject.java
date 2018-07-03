@@ -22,6 +22,8 @@ public interface ClientObject  {
     public void notifyEndTimeOut() throws IOException;
     public void notifyEndTurn(Player p) throws IOException;
     public void notifyEndRound(List<Die> dice) throws IOException;
+    public void nextMove() throws IOException;
+    public void notifyToolCardResponse(boolean response) throws IOException;
 
     public void notifyMoveNotAvailable() throws IOException;
 

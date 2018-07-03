@@ -158,6 +158,21 @@ public class SocketClientObject implements ClientObject {
     }
 
     @Override
+    public void nextMove() throws IOException {
+        socketHandler.send("update", "nextMove", "");
+
+    }
+
+    @Override
+    public void notifyToolCardResponse(boolean response) throws IOException {
+        if(response){
+            socketHandler.send("response", "tool","true");
+        }else{
+            socketHandler.send("response", "tool", "false");
+        }
+    }
+
+    @Override
     public void notifyMoveNotAvailable() throws IOException {
         socketHandler.send("update", "moveNotAvailable","");
     }

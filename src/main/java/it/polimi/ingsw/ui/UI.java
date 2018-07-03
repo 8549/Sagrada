@@ -62,6 +62,20 @@ public interface UI {
     void myTurnEnded();
 
     /**
+     * This method is call when both the player has already placed the die (but not used the tool yet)
+     * and when he has used the tool card (but not already placed the die).
+     * It asks the user if he wants to to another move
+     */
+    void nextMove();
+
+    /**
+     * This method contains the response from server if the selected tool il available
+     * (checks the tokens)
+     * @param isAvailable
+     */
+    void toolAvailable(boolean isAvailable);
+
+    /**
      * Handles a player disconnection
      *
      * @param p The player that has disconnected from the game

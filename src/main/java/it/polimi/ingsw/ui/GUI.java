@@ -217,6 +217,16 @@ public class GUI extends Application implements UI {
     }
 
     @Override
+    public void nextMove() {
+
+    }
+
+    @Override
+    public void toolAvailable(boolean isAvailable) {
+
+    }
+
+    @Override
     public void playerDisconnected(Player p) {
         showMessage(String.format("%s has disconnected!", p.getName()));
     }

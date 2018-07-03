@@ -331,6 +331,16 @@ public class CLI implements UI {
     }
 
     @Override
+    public void nextMove() {
+
+    }
+
+    @Override
+    public void toolAvailable(boolean isAvailable) {
+
+    }
+
+    @Override
     public void playerDisconnected(Player p) {
         System.out.println(String.format("Player %s has disconnected", p.getName()));
     }

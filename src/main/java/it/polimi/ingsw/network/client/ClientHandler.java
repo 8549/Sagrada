@@ -288,7 +288,11 @@ public class ClientHandler implements Serializable {
     }
 
     public void sendDieFromWP(Die d, int row, int column){
-
+        try {
+            client.sendDieFromWP(d, row, column);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void chooseDieFromDraftPool() {
@@ -296,7 +300,11 @@ public class ClientHandler implements Serializable {
     }
 
     public void sendDieFromDP(Die d){
-
+        try {
+            client.sendDieFromDP(d);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void chooseDieFromRoundTrack(){
@@ -304,7 +312,11 @@ public class ClientHandler implements Serializable {
     }
 
     public void sendDieFromRT(Die d, int round){
-
+        try {
+            client.sendDieFromRT(d, round);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void chooseIfDecrease() {
@@ -312,7 +324,11 @@ public class ClientHandler implements Serializable {
     }
 
     public void sendDecreaseChoice(boolean choice){
-
+        try {
+            client.sendDecreaseChoice(choice);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void chooseIfPlaceDie() {
@@ -320,7 +336,11 @@ public class ClientHandler implements Serializable {
     }
 
     public void sendPlacementChoice(boolean choice){
-
+        try {
+            client.sendPlacementChoice(choice);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void chooseToMoveOneDie(){
@@ -328,7 +348,11 @@ public class ClientHandler implements Serializable {
     }
 
     public void sendNumberDiceChoice(boolean choice){
-
+        try {
+            client.sendNumberDiceChoice(choice);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setValue() {
@@ -336,6 +360,11 @@ public class ClientHandler implements Serializable {
     }
 
     public void sendValue(int value){
+        try {
+            client.sendValue(value);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setOldCoordinates(){
@@ -343,7 +372,11 @@ public class ClientHandler implements Serializable {
     }
 
     public void sendOldCoordinates(int row, int column){
-
+        try {
+            client.sendOldCoordinates(row, column);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setNewCoordinates() {
@@ -351,15 +384,20 @@ public class ClientHandler implements Serializable {
     }
 
     public void sendNewCoordinates(int row, int column){
-
+        try {
+            client.sendNewCoordinates(row, column);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
+    public void nextMove(){
+        ui.nextMove();
+    }
 
-
-
-
-
-
+    public void toolAvailable(boolean isAvailable){
+        ui.toolAvailable(isAvailable);
+    }
 
 
 }
