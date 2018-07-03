@@ -190,7 +190,8 @@ class BoardTest {
         Board board = new Board();
         board.setDiceBag();
         assertFalse(board.getDiceBag()==null);
-
+        Die die = board.getDiceBag().draftDie();
+        int i=board.getDiceBag().getSize();
     }
 
     @Test

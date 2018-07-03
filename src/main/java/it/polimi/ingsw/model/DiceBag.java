@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 public class DiceBag {
-    private static List<Die> dice;
+    private List<Die> dice;
 
     public DiceBag() {
         dice = new ArrayList<Die>();
