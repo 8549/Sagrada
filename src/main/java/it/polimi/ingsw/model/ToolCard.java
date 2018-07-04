@@ -12,14 +12,14 @@ import java.util.Objects;
 //TODO: code to reset all the parameters for the effects after the tool card has finished
 public class ToolCard implements Card {
     protected List<Effect> effects;
-    private GameManager gameManager;
-    private ToolCardHandler toolCardHandler;
-    private Player player;
-    private int tokens = 0;
-    private boolean used;
-    private String name;
-    private int id;
-    private String when;
+    protected GameManager gameManager;
+    protected ToolCardHandler toolCardHandler;
+    protected Player player;
+    protected int tokens = 0;
+    protected boolean used;
+    protected String name;
+    protected int id;
+    protected String when;
 
     //attributes for effects
     protected Die die;
@@ -93,6 +93,9 @@ public class ToolCard implements Card {
     }
 
     public void performEffect() {
+        for (Effect effect : effects) {
+            effect.setToolCard(this);
+        }
         Effect currentEffect;
         if (effectIterator.hasNext() && everythingOk) {
             currentEffect = (Effect) effectIterator.next();
@@ -283,10 +286,10 @@ public class ToolCard implements Card {
     public void completeProcessMove(int newRow, int newColumn) {
         MoveValidator moveValidator = new MoveValidator(getTurn(), getRound().getDraftPool(), number, color, adjacency);
         if (moveValidator.validateMove(die, newRow, newColumn, player)) {
-            if (!adjacency || place) {
+            if (!adjacency || !place) {
                 player.getPlayerWindow().addDie(die, newRow, newColumn);
                 getTurn().setDiePlaced();
-            } else {
+            } else if (adjacency || place) {
                 player.getPlayerWindow().moveDie(oldRow, oldColumn, newRow, newColumn);
             }
             everythingOk = true;
@@ -294,6 +297,7 @@ public class ToolCard implements Card {
             everythingOk = false;
         }
         checkHasNextEffect();
+
     }
 
     public void completeChooseDieFromWindowPattern(int oldRow, int oldColumn) {
@@ -353,40 +357,40 @@ public class ToolCard implements Card {
         return toolCardHandler;
     }
 
-    public Turn getTurn(){
+    public Turn getTurn() {
         return gameManager.getRound().getTurn();
     }
 
-    public Round getRound(){
+    public Round getRound() {
         return gameManager.getRound();
     }
 
-    public Board getBoard(){
+    public Board getBoard() {
         return gameManager.getBoard();
     }
 
-    public MainServer getServer(){
+    public MainServer getServer() {
         return gameManager.getServer();
     }
 
     public void clearData() {
-        die=null;
-        turnForRoundTrack=-1;
-        numberOfDieForRoundTrack=-1;
-        oldRow=-1;
-        oldColumn=-1;
-        decrease=true;
-        placeDie=true;
-        moveOneDie=false;
-        number=true;
-        color=true;
-        adjacency=true;
-        place=true;
-        effectIterator= null;
+        die = null;
+        turnForRoundTrack = -1;
+        numberOfDieForRoundTrack = -1;
+        oldRow = -1;
+        oldColumn = -1;
+        decrease = true;
+        placeDie = true;
+        moveOneDie = false;
+        number = true;
+        color = true;
+        adjacency = true;
+        place = true;
+        effectIterator = null;
         everythingOk = true;
     }
 
-    public Die getDie(){
+    public Die getDie() {
         return die;
     }
 }
