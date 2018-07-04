@@ -79,7 +79,7 @@ public class RMIServer  implements RMIServerInterface {
                     this.cancel();
                 }
             }
-        }, 4 * 1000, 1 * 1000 );
+        }, 4 * 1000, 5 * 1000 );
     }
 
     @Override

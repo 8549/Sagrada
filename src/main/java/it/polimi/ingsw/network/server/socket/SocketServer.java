@@ -90,54 +90,7 @@ public class SocketServer implements ServerInterface {
             case "passTurn": server.passTurn(s.client.getPlayer().getName());
                 break;
 
-            case "setDieFromWP": List<String> dieFromWP = socketParserServer.parseData(data);
-                                ToolCardHandler t1 = server.getActiveToolCardHandler();
-                                /*Die die = new Die(SagradaColor.valueOf(dieFromWP.get(1)));
-                                die.setNumber(Integer.valueOf(dieFromWP.get(0)));*/
-                                t1.setDieFromWindowPattern(Integer.valueOf(dieFromWP.get(2)), Integer.valueOf(dieFromWP.get(3)));
-                break;
 
-            case "setDieFromDP": List<String> dieFromDP = socketParserServer.parseData(data);
-                                ToolCardHandler t2 = server.getActiveToolCardHandler();
-                                Die die = new Die(SagradaColor.valueOf(dieFromDP.get(1)));
-                                die.setNumber(Integer.valueOf(dieFromDP.get(0)));
-                                t2.setDieFromDraftPool(die);
-                break;
-            case "setDieFromRT": List<String> dieFromRT = socketParserServer.parseData(data);
-                                ToolCardHandler t3 = server.getActiveToolCardHandler();
-                                Die die2 = new Die(SagradaColor.valueOf(dieFromRT.get(1)));
-                                die2.setNumber(Integer.valueOf(dieFromRT.get(0)));
-                                t3.setDieFromRoundTrack(die2, Integer.valueOf(dieFromRT.get(2)));
-                break;
-            case "setDecrease": ToolCardHandler t4 = server.getActiveToolCardHandler();
-                                if(data.equals("true")){
-                                    t4.setDecreaseChoice(true);
-                                }else{
-                                    t4.setDecreaseChoice(false);
-                                }
-                break;
-            case "setPlacementChoice": ToolCardHandler t5 = server.getActiveToolCardHandler();
-                                        if(data.equals("true")){
-                                            t5.setIfPlace(true);
-                                        }else{
-                                            t5.setIfPlace(false);
-                                        }
-                break;
-            case "setNumberDiceChoice": ToolCardHandler t6 = server.getActiveToolCardHandler();
-                                        if(data.equals("true")){
-                                            t6.setMovementChoice(true);
-                                        }else{
-                                            t6.setMovementChoice(false);
-                                        }
-                break;
-            case "setValue": ToolCardHandler t7 = server.getActiveToolCardHandler();
-                            t7.chosenValue(Integer.valueOf(data));
-                break;
-
-            case "setNewCoordinates":List<String> newC = socketParserServer.parseData(data);
-                                    ToolCardHandler t9 = server.getActiveToolCardHandler();
-                                    t9.setNewCoordinatesChoice(Integer.valueOf(newC.get(0)), Integer.valueOf(newC.get(1)));
-                break;
 
             case "tool": server.useTool(s.client.getPlayer().getName(), data);
 
@@ -146,7 +99,61 @@ public class SocketServer implements ServerInterface {
                 break;
         }
     }else{
-        System.out.println("Nothing for this command yet");
+        if(type.equals("response")){
+           switch (header){
+               case "setDieFromWP": List<String> dieFromWP = socketParserServer.parseData(data);
+                       ToolCardHandler t1 = server.getActiveToolCardHandler();
+                                        /*Die die = new Die(SagradaColor.valueOf(dieFromWP.get(1)));
+                                        die.setNumber(Integer.valueOf(dieFromWP.get(0)));*/
+                       t1.setDieFromWindowPattern(Integer.valueOf(dieFromWP.get(2)), Integer.valueOf(dieFromWP.get(3)));
+               break;
+               
+               case "setDieFromDP": List<String> dieFromDP = socketParserServer.parseData(data);
+                   ToolCardHandler t2 = server.getActiveToolCardHandler();
+                   Die die = new Die(SagradaColor.valueOf(dieFromDP.get(1)));
+                   die.setNumber(Integer.valueOf(dieFromDP.get(0)));
+                   t2.setDieFromDraftPool(die);
+                   break;
+               case "setDieFromRT": List<String> dieFromRT = socketParserServer.parseData(data);
+                   ToolCardHandler t3 = server.getActiveToolCardHandler();
+                   Die die2 = new Die(SagradaColor.valueOf(dieFromRT.get(1)));
+                   die2.setNumber(Integer.valueOf(dieFromRT.get(0)));
+                   t3.setDieFromRoundTrack(die2, Integer.valueOf(dieFromRT.get(2)));
+                   break;
+               case "setDecrease": ToolCardHandler t4 = server.getActiveToolCardHandler();
+                   if(data.equals("true")){
+                       t4.setDecreaseChoice(true);
+                   }else{
+                       t4.setDecreaseChoice(false);
+                   }
+                   break;
+               case "setPlacementChoice": ToolCardHandler t5 = server.getActiveToolCardHandler();
+                   if(data.equals("true")){
+                       t5.setIfPlace(true);
+                   }else{
+                       t5.setIfPlace(false);
+                   }
+                   break;
+               case "setNumberDiceChoice": ToolCardHandler t6 = server.getActiveToolCardHandler();
+                   if(data.equals("true")){
+                       t6.setMovementChoice(true);
+                   }else{
+                       t6.setMovementChoice(false);
+                   }
+                   break;
+               case "setValue": ToolCardHandler t7 = server.getActiveToolCardHandler();
+                   t7.chosenValue(Integer.valueOf(data));
+                   break;
+
+               case "setNewCoordinates":List<String> newC = socketParserServer.parseData(data);
+                   ToolCardHandler t9 = server.getActiveToolCardHandler();
+                   t9.setNewCoordinatesChoice(Integer.valueOf(newC.get(0)), Integer.valueOf(newC.get(1)));
+                   break;
+
+               default: System.out.println("Wrong message!");
+                   break;
+           }
+        }
     }
 
         return null;
