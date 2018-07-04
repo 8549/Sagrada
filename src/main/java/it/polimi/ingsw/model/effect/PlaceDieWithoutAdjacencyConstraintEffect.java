@@ -12,7 +12,7 @@ public class PlaceDieWithoutAdjacencyConstraintEffect extends Effect {
     @Override
     public void perform(Object... args) {
         for(Die die2 : toolCard.getBoard().getDraftPool()){
-            if (toolCard.getDie().getColor()==die2.getColor() & toolCard.getDie().getNumber()==die2.getNumber()){
+            if (toolCard.getDie().getColor().equals(die2.getColor()) & toolCard.getDie().getNumber()==die2.getNumber()){
                 toolCard.getBoard().getDraftPool().remove(toolCard.getDie());
                 break;
             }
