@@ -74,7 +74,7 @@ public class ToolCard implements Card {
         this.player = player;
         this.gameManager = gameManager;
         if (!getTurn().isToolCardUsed()) {
-            if (getTurn().getPlayer().getTokens() < getCost()) {
+            if (getTurn().getPlayer().getTokens() >= getCost()) {
                 effectIterator = effects.iterator();
                 everythingOk = true;
 
