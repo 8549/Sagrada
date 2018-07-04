@@ -258,6 +258,7 @@ public class ClientHandler implements Serializable {
         if(proxyModel.getMyself().equals(name)){
             //TODO:code to stop selection if client is doing stuff and notify user the end turn
             System.out.println("[DEBUG] Your turn is ended ");
+            ui.myTurnEnded();
         }else{
             System.out.println("[DEBUG] Player " + name + " has finished his/her turn");
         }

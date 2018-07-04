@@ -3,8 +3,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.*?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" styleClass="patternCardContainer" xmlns="http://javafx.com/javafx/9.0.1"
-      fx:controller="it.polimi.ingsw.ui.controller.WindowPatternController">
+<VBox xmlns:fx="http://javafx.com/fxml/1" fx:id="main" styleClass="patternCardContainer"
+      xmlns="http://javafx.com/javafx/9.0.1" fx:controller="it.polimi.ingsw.ui.controller.WindowPatternController">
     <children>
         <Pane styleClass="patternCardBase">
             <children>
@@ -70,7 +70,7 @@
                 </GridPane>
             </children>
         </Pane>
-        <HBox alignment="CENTER">
+        <HBox fx:id="bottom" alignment="CENTER">
             <children>
                 <Label fx:id="nameLabel" alignment="CENTER" maxWidth="1.7976931348623157E308"
                        styleClass="patternCardName" text="Label" HBox.hgrow="ALWAYS">

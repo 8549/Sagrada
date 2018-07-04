@@ -232,13 +232,13 @@ public class CLI implements UI {
 
     @Override
     public void myTurnStarted() {
+        //flushConsole();
         timeUp = false;
         boolean validChoice = false;
         while (!validChoice) {
             System.out.print("You can place a Die, use a Tool card or Pass; enter the first character of your choice: ");
             String choice = scanner.next().toUpperCase();
-            if (timeUp) {
-                flushConsole();
+            if (isTimeUp()) {
                 return;
             }
             switch (choice) {
@@ -332,12 +332,17 @@ public class CLI implements UI {
 
     @Override
     public void nextMove() {
-
+        System.out.println("Your move was correct. You can do something else!");
+        myTurnStarted();
     }
 
     @Override
     public void toolAvailable(boolean isAvailable) {
-
+        if (!isAvailable) {
+            System.err.println("You can't use that now!");
+        } else {
+            System.out.println("You can use that Tool Card.  Go on!");
+        }
     }
 
     @Override

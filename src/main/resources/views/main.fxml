@@ -2,7 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import java.lang.*?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" id="main" fx:id="main" maxHeight="-Infinity" maxWidth="-Infinity"
@@ -15,26 +15,14 @@
     <top>
         <HBox BorderPane.alignment="CENTER">
             <children>
-                <HBox spacing="10.0">
+                <HBox fx:id="fxToolCardsContainer" spacing="10.0">
                     <children>
-                        <Button mnemonicParsing="false" text="Tool Card 1">
-                            <styleClass>
-                                <String fx:value="card"/>
-                                <String fx:value="tool-card"/>
-                            </styleClass>
-                        </Button>
-                        <Button mnemonicParsing="false" text="Tool Card 2">
-                            <styleClass>
-                                <String fx:value="card"/>
-                                <String fx:value="tool-card"/>
-                            </styleClass>
-                        </Button>
-                        <Button mnemonicParsing="false" text="Tool Card 3">
-                            <styleClass>
-                                <String fx:value="card"/>
-                                <String fx:value="tool-card"/>
-                            </styleClass>
-                        </Button>
+                        <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"
+                                   styleClass="ToolCard"/>
+                        <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"
+                                   styleClass="ToolCard"/>
+                        <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"
+                                   styleClass="ToolCard"/>
                     </children>
                 </HBox>
                 <Region HBox.hgrow="ALWAYS"/>
@@ -45,23 +33,23 @@
                     </children>
                 </VBox>
                 <Region HBox.hgrow="ALWAYS"/>
-                <HBox alignment="CENTER" spacing="10.0">
+                <HBox fx:id="fxPublicObjectiveCardsContainer" alignment="CENTER" spacing="10.0">
                     <children>
-                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                             <styleClass>
-                                <String fx:value="public-objective-card"/>
+                                <String fx:value="PubObjCard"/>
                                 <String fx:value="card"/>
                             </styleClass>
                         </ImageView>
-                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                             <styleClass>
-                                <String fx:value="public-objective-card"/>
+                                <String fx:value="PubObjCard"/>
                                 <String fx:value="card"/>
                             </styleClass>
                         </ImageView>
-                        <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="200.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
                             <styleClass>
-                                <String fx:value="public-objective-card"/>
+                                <String fx:value="PubObjCard"/>
                                 <String fx:value="card"/>
                             </styleClass>
                         </ImageView>
@@ -73,17 +61,14 @@
     <padding>
         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
     </padding>
-    <left>
-        <ImageView fx:id="fxPrivObjCard" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true"
-                   BorderPane.alignment="CENTER"/>
-    </left>
     <right>
         <VBox fx:id="fxButtonContainer" alignment="CENTER" maxHeight="1.7976931348623157E308"
               BorderPane.alignment="CENTER">
             <children>
                 <Button disable="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#placeDie"
                         text="Place die"/>
-                <Button disable="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Use tool card"/>
+                <Button disable="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#useToolCard"
+                        text="Use tool card"/>
                 <Button disable="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#endTurn"
                         text="End turn"/>
             </children>
@@ -92,4 +77,14 @@
     <bottom>
         <Label fx:id="fxMessage" styleClass="message" BorderPane.alignment="CENTER"/>
     </bottom>
+    <left>
+        <VBox BorderPane.alignment="CENTER">
+            <children>
+                <Label fx:id="fxTimer" contentDisplay="CENTER" styleClass="message" VBox.vgrow="ALWAYS"/>
+                <Region VBox.vgrow="ALWAYS"/>
+                <ImageView id="PrivObjCard" fx:id="fxPrivateObjectiveCard" fitHeight="200.0" fitWidth="200.0"
+                           pickOnBounds="true" preserveRatio="true"/>
+            </children>
+        </VBox>
+    </left>
 </BorderPane>

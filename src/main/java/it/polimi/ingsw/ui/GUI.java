@@ -8,8 +8,12 @@ import it.polimi.ingsw.network.client.ClientHandler;
 import it.polimi.ingsw.ui.controller.IntroController;
 import it.polimi.ingsw.ui.controller.MainController;
 import it.polimi.ingsw.ui.controller.WindowPatternController;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ListChangeListener;
@@ -26,6 +30,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.io.IOException;
 
@@ -48,9 +53,19 @@ public class GUI extends Application implements UI {
     ChangeListener<Number> listener1;
     ChangeListener<Number> listener2;
     ChangeListener<Number> sizeListener;
-    private Die selectedDie;
     private double initialWidth;
     private double initialHeight;
+    private Die selectedDie;
+    private Timeline timer;
+    private IntegerProperty secondsRemaining;
+
+    public int getSecondsRemaining() {
+        return secondsRemaining.get();
+    }
+
+    public IntegerProperty secondsRemainingProperty() {
+        return secondsRemaining;
+    }
 
     private void showMessage(String s) {
         Platform.runLater(() -> mainController.showMessage(s));
@@ -60,6 +75,9 @@ public class GUI extends Application implements UI {
     public void start(Stage primaryStage) {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("views/intro.fxml"));
         try {
+            initialHeight = 0;
+            initialWidth = 0;
+            secondsRemaining = new SimpleIntegerProperty();
             stage = primaryStage;
             handler = new ClientHandler(this);
             //handler = RunClient.getClientHandler();
@@ -70,8 +88,6 @@ public class GUI extends Application implements UI {
             introController.setGui(this);
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
-            initialWidth = stage.getWidth();
-            initialHeight = stage.getHeight();
         } catch (IOException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setHeaderText("Couldn't load GUI");
@@ -207,23 +223,36 @@ public class GUI extends Application implements UI {
 
     @Override
     public void myTurnStarted() {
-        mainController.enableActions(true);
+        Platform.runLater(() -> {
+            mainController.enableActions(true);
+        });
     }
 
     @Override
     public void myTurnEnded() {
-        mainController.enableActions(false);
-        mainController.cleanUI();
+        Platform.runLater(() -> {
+            mainController.enableActions(false);
+            mainController.cleanUI();
+        });
     }
 
     @Override
     public void nextMove() {
-
+        Platform.runLater(() -> {
+            showMessage("Your move was correct. You can do something else!");
+            update();
+        });
     }
 
     @Override
     public void toolAvailable(boolean isAvailable) {
-
+        Platform.runLater(() -> {
+            if (!isAvailable) {
+                showMessage("You can't use that now!");
+            } else {
+                showMessage("You can use that Tool Card.  Go on!");
+            }
+        });
     }
 
     @Override
@@ -243,7 +272,6 @@ public class GUI extends Application implements UI {
                 mainController = boardLoader.getController();
                 mainController.setGUI(this);
                 mainController.initBoards();
-                mainController.update();
                 // Init listeners
                 model.getDraftPool().addListener((ListChangeListener<Die>) c -> {
                     while (c.next()) {
@@ -254,6 +282,7 @@ public class GUI extends Application implements UI {
                     //showMessage(String.format("Round %d ended. round %d is starting!", oldValue.intValue(), newValue.intValue()));
                 };
                 listener2 = (observable, oldValue, newValue) -> {
+                    startTimer();
                     update();
                     if (model.isMyTurn()) {
                         showMessage(String.format("It's turn %d of round %d. You're playing!", model.getCurrentTurn() + 1, model.getCurrentRound()));
@@ -263,14 +292,17 @@ public class GUI extends Application implements UI {
                 };
                 model.currentRoundProperty().addListener(listener1);
                 model.currentTurnProperty().addListener(listener2);
-
                 stage.setScene(new Scene(root));
                 stage.sizeToScene();
                 stage.centerOnScreen();
                 sizeListener = new ChangeListener<Number>() {
                     @Override
                     public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                        if (stage.getWidth() * stage.getHeight() < initialWidth * initialHeight) {
+                        double initialArea = initialWidth * initialHeight;
+                        if (initialArea == 0.0) {
+                            return;
+                        }
+                        if (stage.getWidth() * stage.getHeight() < initialArea) {
                             stage.setWidth(initialWidth);
                             stage.setHeight(initialHeight);
                         }
@@ -280,6 +312,7 @@ public class GUI extends Application implements UI {
                 stage.widthProperty().addListener(sizeListener);
                 stage.heightProperty().addListener(sizeListener);
                 mainController.repositionBoards();
+                mainController.update();
             } catch (IOException e) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setHeaderText("Error while loading the main game GUI");
@@ -290,6 +323,16 @@ public class GUI extends Application implements UI {
         });
     }
 
+    private void startTimer() {
+        if (timer != null) {
+            timer.stop();
+        }
+        secondsRemaining.set(model.getTimeout());
+        timer = new Timeline(new KeyFrame(Duration.seconds(1), e -> secondsRemaining.set(getSecondsRemaining() - 1)));
+        timer.setCycleCount(model.getTimeout());
+        timer.play();
+    }
+
     @Override
     public boolean isGUI() {
         return true;
@@ -297,17 +340,25 @@ public class GUI extends Application implements UI {
 
     @Override
     public void wrongMove() {
-
+        Platform.runLater(() -> {
+            if (model.isMyTurn()) {
+                showMessage("Your move was incorrect!");
+            }
+        });
     }
 
     @Override
     public void chooseDieFromWindowPattern() {
-
+        Platform.runLater(() -> {
+            mainController.toolChooseDieFromWindowPattern();
+        });
     }
 
     @Override
     public void chooseDieFromDraftPool() {
-
+        Platform.runLater(() -> {
+            mainController.toolChooseDieFromDraftPool();
+        });
     }
 
     @Override
@@ -317,22 +368,32 @@ public class GUI extends Application implements UI {
 
     @Override
     public void chooseIfDecrease() {
-
+        Platform.runLater(() -> {
+            mainController.toolChooseIfDecrease();
+        });
     }
 
     @Override
     public void chooseIfPlaceDie() {
+        Platform.runLater(() -> {
+            mainController.toolChooseIfPlaceDie();
+        });
 
     }
 
     @Override
     public void chooseToMoveOneDie() {
+        Platform.runLater(() -> {
+            mainController.toolChooseToMoveOneDie();
+        });
 
     }
 
     @Override
     public void setValue() {
-
+        Platform.runLater(() -> {
+            mainController.toolSetValue();
+        });
     }
 
     @Override
@@ -371,5 +432,11 @@ public class GUI extends Application implements UI {
                 }
             }
         });
+    }
+
+    public void setInitialSize() {
+        stage.sizeToScene();
+        initialWidth = stage.getWidth();
+        initialHeight = stage.getHeight();
     }
 }

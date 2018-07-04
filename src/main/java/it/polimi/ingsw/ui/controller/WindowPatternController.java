@@ -11,10 +11,17 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 
 public class WindowPatternController {
     private WindowPattern windowPattern;
+
+    @FXML
+    private VBox main;
+
+    @FXML
+    private HBox bottom;
 
     @FXML
     private GridPane patternGrid;
@@ -59,5 +66,9 @@ public class WindowPatternController {
         for (Node stackPane : patternGrid.getChildren()) {
             stackPane.setOnMouseClicked(handler);
         }
+    }
+
+    public void removeNameAndTokens() {
+        main.getChildren().remove(bottom);
     }
 }

@@ -109,9 +109,12 @@ public class IntroController {
         status.setText("Login successful!");
         connectBtn.setVisible(false);
         ListView<Player> listView = new ListView<>(gui.getModel().getPlayers());
+        listView.setPrefWidth(200);
+        listView.setPrefHeight(200);
         listView.setEditable(false);
         listView.setOrientation(Orientation.VERTICAL);
         bordPane.setCenter(listView);
         selfStage.sizeToScene();
+        selfStage.centerOnScreen();
     }
 }

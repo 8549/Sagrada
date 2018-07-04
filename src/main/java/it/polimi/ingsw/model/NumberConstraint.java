@@ -22,10 +22,13 @@ public class NumberConstraint implements PatternConstraint {
 
     @Override
     public Node getAsGraphic(double size) {
-        Image img = new Image("images/shades/" + number + ".png");
+        Image img = new Image("images/shades/" + number + "@4x.png");
         ImageView imageView = new ImageView(img);
+        imageView.setPreserveRatio(true);
+        imageView.setSmooth(true);
         imageView.setFitWidth(size);
         imageView.setFitHeight(size);
+        imageView.setCache(true);
         return imageView;
     }
 

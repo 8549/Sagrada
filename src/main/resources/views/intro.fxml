@@ -72,7 +72,7 @@
                                         <Label text="Host"/>
                                         <TextField fx:id="hostField" promptText="127.0.0.1" GridPane.columnIndex="1"/>
                                         <Label text="Port" GridPane.rowIndex="1"/>
-                                        <TextField fx:id="portField" promptText="3131" GridPane.columnIndex="1"
+                                        <TextField fx:id="portField" promptText="3130" GridPane.columnIndex="1"
                                                    GridPane.rowIndex="1"/>
                                     </children>
                                 </GridPane>

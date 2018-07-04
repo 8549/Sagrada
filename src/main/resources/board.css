@@ -1,6 +1,6 @@
 .board {
-  -fx-pref-width: 300;
-  -fx-fit-height: 750;
+  -fx-pref-width: 25em;
+  -fx-fit-height: 46.875em;
 }
 #fxBoard1 {
 }
@@ -11,15 +11,23 @@
 #fxBoard4 {
 }
 .card {
-  -fx-pref-width: 150;
-  -fx-pref-height: 200;
+  -fx-pref-width: 9.375em;
+  -fx-pref-height: 12.5em;
 }
-.tool-card {
-  -fx-graphic-text-gap: 0;
-  /*-fx-content-display: graphic-only;*/
+.ToolCard {
+  /* -fx-image: url(images/toolcards/ToolCardBack.png); */
 }
+
+#PrivObjCard {
+  /* -fx-image: url(images/objectivecards/private/PrivateObjectiveCardBack.png); */
+}
+
+.PubObjCard {
+  /* -fx-image: url(images/objectivecards/public/PublicObjetiveCardBack.png); */
+}
+
 #main {
-  -fx-background-image: url(images/pattern/dark.png)
+  -fx-background-image: url(images/pattern/dark.png);
 }
 .message {
   -fx-font-size: 400%;
