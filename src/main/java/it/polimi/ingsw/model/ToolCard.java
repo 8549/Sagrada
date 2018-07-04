@@ -90,6 +90,9 @@ public class ToolCard implements Card {
     }
 
     public void performEffect() {
+        for(Effect effect : effects){
+            effect.setToolCard(this);
+        }
         Effect currentEffect;
         if (effectIterator.hasNext() && everythingOk) {
             currentEffect = (Effect) effectIterator.next();

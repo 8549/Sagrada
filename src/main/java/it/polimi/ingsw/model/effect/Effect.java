@@ -15,6 +15,9 @@ public abstract class Effect {
 
     public String getName(){ return name;}
 
+    public void setToolCard(ToolCard toolCard){
+        this.toolCard= toolCard;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
