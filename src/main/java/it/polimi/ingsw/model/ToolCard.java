@@ -293,6 +293,7 @@ public class ToolCard implements Card {
         } else {
             everythingOk = false;
         }
+        checkHasNextEffect();
     }
 
     public void completeChooseDieFromWindowPattern(int oldRow, int oldColumn) {
@@ -307,27 +308,33 @@ public class ToolCard implements Card {
     public void completeChooseValue(int value) {
         die.setNumber(value);
         everythingOk = true;
+        checkHasNextEffect();
     }
 
     public void completeChooseDieFromDraftPool(Die die) {
         this.die = die;
+        checkHasNextEffect();
     }
 
     public void completeChoiceIfDecrease(boolean choice) {
         decrease = choice;
+        checkHasNextEffect();
     }
 
     public void completeChoiceIfPlaceDie(boolean choice) {
         placeDie = choice;
+        checkHasNextEffect();
     }
 
     public void completeChoiceIfMoveOneDie(boolean choice) {
         moveOneDie = choice;
+        checkHasNextEffect();
     }
 
     public void completeSetOldCoordinates(int row, int column) {
         oldColumn = column;
         oldRow = row;
+        checkHasNextEffect();
     }
 
     @Override
