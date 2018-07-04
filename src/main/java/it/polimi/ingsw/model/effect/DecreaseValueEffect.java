@@ -14,7 +14,7 @@ public class DecreaseValueEffect extends Effect {
         boolean decrease = (boolean) args[1];
         if (decrease) {
             for(Die die2 : toolCard.getBoard().getDraftPool()){
-                if (die.getColor().equals(die2.getColor()) & die.getNumber()==die2.getNumber()){
+                if (die.getColor().equals(die2.getColor()) && die.getNumber()==die2.getNumber()){
                     toolCard.getBoard().getDraftPool().remove(die);
                     break;
                 }

@@ -32,7 +32,7 @@ public class EffectAdapter extends TypeAdapter<Effect> {
                 effect = new CheckIsDiePlacedEffect(name);
                 break;
             case "checkIsFirstTurn":
-                effect= new CheckIsFirstTurnEffect(name);
+                effect = new CheckIsFirstTurnEffect(name);
                 break;
             case "checkIsSecondTurn":
                 effect = new CheckIsSecondTurnEffect(name);
@@ -57,6 +57,9 @@ public class EffectAdapter extends TypeAdapter<Effect> {
                 break;
             case "chooseToMoveOneOrTwoDice":
                 effect = new ChooseToMoveOneOrTwoDice(name);
+                break;
+            case "chooseTwoDiceFromWindowPattern":
+                effect = new ChooseTwoDiceFromWindowPatterEffect(name);
                 break;
             case "decreaseValueDie":
                 effect = new DecreaseValueEffect(name);

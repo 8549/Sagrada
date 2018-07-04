@@ -77,7 +77,8 @@ public class ToolCardHandler {
     }
 
     public void setDieFromRoundTrack(Die d, int round){
-
+       int r= toolcard.getBoard().getRoundTrack().getDiePosition(round, d);
+       toolcard.completeChooseDieRoundTrck(round, r);
     }
 
     public void chooseIfDecrease() {
@@ -167,4 +168,19 @@ public class ToolCardHandler {
         server.notifyMoveNotAvailable();
     }
 
+    public void chooseTwoDieFromWindowPatter() {
+    }
+    public void setTwoDiceFromWindowPattern(int row, int column, int secondRow, int secondColumn){
+            toolcard.completeChooseDieFromWindowPattern(row, column);
+            toolcard.completeChooseTwoDieFromWindowPattern(secondRow, secondColumn);
+            toolcard.completeSetOldCoordinates(row, column);
+
+        }
+
+    public void setTwoNewCoordinates() {
+    }
+
+    public void setTwoNewCoordinatesChoice(int row, int column, int secondRow, int secondColumn){
+            toolcard.completeProcessTwoMoves(row, column, secondRow, secondColumn);
+    }
 }

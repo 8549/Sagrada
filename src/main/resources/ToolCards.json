@@ -33,9 +33,7 @@
     "id": 4,
     "when": "always",
     "effects": [
-      "chooseDieFromWindowPattern",
-      "moveDie",
-      "chooseDieFromWindowPattern",
+      "chooseTwoDiceFromWindowPattern",
       "moveDie"
     ]
   },

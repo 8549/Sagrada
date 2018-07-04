@@ -46,4 +46,13 @@ public class RoundTrack {
         }
         return null;
     }
+
+    public int getDiePosition(int round, Die die){
+        for (int i=0; i<getDiceNumberAtRound(round); i++) {
+            if(dice.get(round).get(i).getColor().equals(die.getColor()) && dice.get(round).get(i).getNumber()==die.getNumber()){
+                return i;
+            }
+        }
+        return -1;
+    }
 }

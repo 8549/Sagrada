@@ -23,10 +23,13 @@ public class ToolCard implements Card {
 
     //attributes for effects
     protected Die die;
+    protected Die secondDie;
     protected int turnForRoundTrack;
     protected int numberOfDieForRoundTrack;
     protected int oldRow;
     protected int oldColumn;
+    protected int oldRowSecond;
+    protected int oldColumnSecond;
     protected boolean decrease;
     protected boolean placeDie;
     protected boolean moveOneDie;
@@ -36,6 +39,7 @@ public class ToolCard implements Card {
     protected boolean place;
     protected Iterator effectIterator;
     protected boolean everythingOk;
+    protected boolean firstChoice;
 
     @Override
     public boolean equals(Object o) {
@@ -73,14 +77,14 @@ public class ToolCard implements Card {
     public void useTools(Player player, GameManager gameManager) {
         this.player = player;
         this.gameManager = gameManager;
-        for(Effect effect : effects){
+        for (Effect effect : effects) {
             effect.setToolCard(this);
         }
         if (!getTurn().isToolCardUsed()) {
             if (getTurn().getPlayer().getTokens() >= getCost()) {
                 effectIterator = effects.iterator();
                 everythingOk = true;
-
+                firstChoice = true;
                 toolCardHandler = new ToolCardHandler(player, gameManager, getServer(), this);
                 getServer().addToolCardHandler(toolCardHandler);
                 toolCardHandler.setActive(true);
@@ -131,7 +135,7 @@ public class ToolCard implements Card {
                     currentEffect.perform();
                     break;
                 case "chooseDieFromWindowPattern":
-                    currentEffect.perform();
+                    currentEffect.perform(firstChoice, placeDie);
                     break;
                 case "chooseDieValue":
                     currentEffect.perform(die);
@@ -145,6 +149,8 @@ public class ToolCard implements Card {
                 case "chooseToMoveOneOrTwoDice":
                     currentEffect.perform();
                     break;
+                case "chooseTwoDiceFromWindowPattern":
+                    currentEffect.perform();
                 case "decreaseValueDie":
                     currentEffect.perform(die, decrease);
                     checkHasNextEffect();
@@ -246,12 +252,28 @@ public class ToolCard implements Card {
         setNewCoordinates();
     }
 
+    public void processTwoMoveWithoutConstraints(boolean number, boolean color, boolean adjacency, boolean place) {
+        this.number = number;
+        this.color = color;
+        this.adjacency = adjacency;
+        this.place = place;
+        setTwoNewCoordinates();
+    }
+
+    private void setTwoNewCoordinates() {
+        toolCardHandler.setTwoNewCoordinates();
+    }
+
     public void getDieFromDicePool() {
         die = getBoard().getDiceBag().draftDie();
     }
 
     public void chooseDieFromWindowPattern() {
         toolCardHandler.chooseDieFromWindowPattern();
+    }
+
+    public void chooseTwoDieFromWindowPatter() {
+        toolCardHandler.chooseTwoDieFromWindowPatter();
     }
 
     public void chooseDieFromDraftPool() {
@@ -295,7 +317,7 @@ public class ToolCard implements Card {
             everythingOk = true;
         } else {
             everythingOk = false;
-            if (adjacency||place){
+            if (adjacency || place) {
                 getBoard().getDraftPool().add(die);
             }
         }
@@ -306,6 +328,13 @@ public class ToolCard implements Card {
     public void completeChooseDieFromWindowPattern(int oldRow, int oldColumn) {
         die = player.getPlayerWindow().getCellAt(oldRow, oldColumn).getDie();
         everythingOk = true;
+        firstChoice = false;
+    }
+
+    public void completeChooseTwoDieFromWindowPattern(int oldRow, int oldColumn) {
+        secondDie = player.getPlayerWindow().getCellAt(oldRow, oldColumn).getDie();
+        oldColumnSecond = oldColumn;
+        oldRowSecond = oldRow;
     }
 
     public void setResponse(boolean resultEffect) {
@@ -342,6 +371,11 @@ public class ToolCard implements Card {
         oldColumn = column;
         oldRow = row;
         checkHasNextEffect();
+    }
+
+    public void completeChooseDieRoundTrck(int round, int numberOfDieForRoundTrack) {
+        turnForRoundTrack = round;
+        this.numberOfDieForRoundTrack = numberOfDieForRoundTrack;
     }
 
     @Override
@@ -395,5 +429,19 @@ public class ToolCard implements Card {
 
     public Die getDie() {
         return die;
+    }
+
+    public void completeProcessTwoMoves(int row, int column, int secondRow, int secondColumn) {
+        MoveValidator moveValidator = new MoveValidator(getTurn(), getRound().getDraftPool(), number, color, adjacency);
+        if (moveValidator.validateMove(die, row, column, player)) {
+            if (moveValidator.validateMove(secondDie, secondRow, secondColumn, player)) {
+                player.getPlayerWindow().moveDie(oldRow, oldColumn, row, column);
+                player.getPlayerWindow().moveDie(oldRowSecond, oldColumnSecond, secondRow, secondColumn);
+                everythingOk = true;
+            }
+        } else {
+            everythingOk = false;
+        }
+        checkHasNextEffect();
     }
 }
