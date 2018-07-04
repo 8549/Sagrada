@@ -38,8 +38,6 @@ public interface ClientInterface  {
 
     public void sendValue(int value) throws IOException;
 
-    public void sendOldCoordinates(int row, int column) throws IOException;
-
     public void sendNewCoordinates(int row, int column) throws IOException;
 
     void requestTool(ToolCard tool) throws IOException;

@@ -50,8 +50,8 @@ public interface RMIClientInterface extends ClientInterface, Remote {
     public void chooseIfPlaceDie() throws RemoteException;
     public void chooseToMoveOneDie() throws RemoteException;
     public void setValue() throws RemoteException;
-    public void setOldCoordinates() throws RemoteException;
     public void setNewCoordinates() throws RemoteException;
+    public void ping() throws RemoteException;
 
 
     public void sendDieFromWP(Die d, int row, int column) throws RemoteException;
@@ -61,7 +61,6 @@ public interface RMIClientInterface extends ClientInterface, Remote {
     public void sendPlacementChoice(boolean choice) throws RemoteException;
     public void sendNumberDiceChoice(boolean choice) throws RemoteException;
     public void sendValue(int value) throws RemoteException;
-    public void sendOldCoordinates(int row, int column) throws RemoteException;
     public void sendNewCoordinates(int row, int column) throws RemoteException;
 
     public void nextMove() throws RemoteException;

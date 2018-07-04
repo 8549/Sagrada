@@ -75,13 +75,6 @@ public interface RMIServerInterface extends ServerInterface, Remote {
      */
     void setValue(int value) throws RemoteException;
 
-    /**
-     * Response from client of effect of Toolcard
-     * @param row
-     * @param column
-     * @throws RemoteException
-     */
-    void setOldCoordinates(int row, int column) throws RemoteException;
 
     /**
      * Response from client of effect of Toolcard

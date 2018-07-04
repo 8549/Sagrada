@@ -139,10 +139,6 @@ public interface UI {
      */
     public void setValue() ;
 
-    /**
-     * @return old coordinate of a die
-     */
-    public void setOldCoordinates();
 
     /**
      * @return new coordinate

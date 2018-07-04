@@ -283,9 +283,6 @@ public class SocketClient implements ClientInterface {
                     case "setValue":
                         ch.setValue();
                         break;
-                    case "setOldCoordinates":
-                        ch.setOldCoordinates();
-                        break;
                     case "setNewCoordinates":
                         ch.setNewCoordinates();
                         break;
@@ -372,12 +369,6 @@ public class SocketClient implements ClientInterface {
     @Override
     public void sendValue(int value){
         socketHandlerClient.send("response", "setValue", "" + value );
-
-    }
-
-    @Override
-    public void sendOldCoordinates(int row, int column){
-        socketHandlerClient.send("response", "setOldCoordinates", row + "/" + column );
 
     }
 

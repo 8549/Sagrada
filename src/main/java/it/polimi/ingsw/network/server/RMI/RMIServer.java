@@ -66,29 +66,34 @@ public class RMIServer  implements RMIServerInterface {
         return stub;
     }
 
-    public void pingClient(){
+    public void pingClient(RMIClientObjectInterface client){
 
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-
+                try {
+                    client.ping();
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                    server.disconnect(client);
+                    this.cancel();
+                }
             }
-        }, 5 * 1000);
+        }, 4 * 1000, 1 * 1000 );
     }
 
     @Override
     public void login(Player p, RMIClientInterface c) throws RemoteException {
         RMIClientObjectInterface client = new RMIClientObject(p, c);
         RMIClientObjectInterface clientstub = (RMIClientObjectInterface) UnicastRemoteObject.exportObject(client,0);
-
         boolean result= server.addClient(clientstub);
 
         clientstub.answerLogin(result);
 
-
         if(result){
             server.addAlreadyLoogedPlayers(clientstub);
             server.addLoggedPlayer(clientstub.getPlayer());
+            pingClient(clientstub);
 
             server.checkTimer();
 
@@ -166,10 +171,7 @@ public class RMIServer  implements RMIServerInterface {
         server.getActiveToolCardHandler().chosenValue(value);
     }
 
-    @Override
-    public void setOldCoordinates(int row, int column) throws RemoteException {
-        server.getActiveToolCardHandler().setOldCoordinatesChoice(row,column);
-    }
+
 
     @Override
     public void setNewCoordinates(int row, int column) throws RemoteException {

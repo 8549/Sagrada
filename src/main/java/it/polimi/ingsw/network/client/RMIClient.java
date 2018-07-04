@@ -223,14 +223,15 @@ public class RMIClient implements RMIClientInterface, Serializable {
         ch.setValue();
     }
 
-    @Override
-    public void setOldCoordinates() throws RemoteException {
-        ch.setOldCoordinates();
-    }
 
     @Override
     public void setNewCoordinates() throws RemoteException {
         ch.setNewCoordinates();
+    }
+
+    @Override
+    public void ping() throws RemoteException {
+
     }
 
     @Override
@@ -268,10 +269,6 @@ public class RMIClient implements RMIClientInterface, Serializable {
         server.setValue(value);
     }
 
-    @Override
-    public void sendOldCoordinates(int row, int column) throws RemoteException {
-        server.setOldCoordinates(row, column);
-    }
 
     @Override
     public void sendNewCoordinates(int row, int column) throws RemoteException {

@@ -367,17 +367,6 @@ public class ClientHandler implements Serializable {
         }
     }
 
-    public void setOldCoordinates(){
-        ui.setOldCoordinates();
-    }
-
-    public void sendOldCoordinates(int row, int column){
-        try {
-            client.sendOldCoordinates(row, column);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void setNewCoordinates() {
         ui.setNewCoordinates();

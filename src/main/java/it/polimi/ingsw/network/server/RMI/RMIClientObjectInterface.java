@@ -58,8 +58,7 @@ public interface RMIClientObjectInterface extends ClientObject, Remote {
     public void chooseToMoveOneDie() throws RemoteException;
     @Override
     public void setValue() throws RemoteException;
-    @Override
-    public void setOldCoordinates() throws RemoteException;
+
     @Override
     public void setNewCoordinates() throws RemoteException;
     @Override
@@ -68,6 +67,8 @@ public interface RMIClientObjectInterface extends ClientObject, Remote {
     public void nextMove() throws RemoteException;
     @Override
     public void notifyToolCardResponse(boolean response) throws RemoteException;
+
+    public void ping() throws RemoteException;
 
 
 

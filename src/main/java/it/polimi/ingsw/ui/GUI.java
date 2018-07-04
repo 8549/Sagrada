@@ -336,11 +336,6 @@ public class GUI extends Application implements UI {
     }
 
     @Override
-    public void setOldCoordinates() {
-
-    }
-
-    @Override
     public void setNewCoordinates() {
 
     }

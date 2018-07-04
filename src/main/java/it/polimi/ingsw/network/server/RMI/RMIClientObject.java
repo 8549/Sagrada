@@ -197,6 +197,11 @@ public class RMIClientObject implements RMIClientObjectInterface {
     }
 
     @Override
+    public void ping() throws RemoteException {
+        client.ping();
+    }
+
+    @Override
     public void pushToolCards(List<String> tools) throws RemoteException {
         List<String> names = new ArrayList<>();
         for(String tool: tools){
@@ -239,11 +244,7 @@ public class RMIClientObject implements RMIClientObjectInterface {
     public void setValue() throws RemoteException {
         client.setValue();
     }
-
-    @Override
-    public void setOldCoordinates() throws RemoteException {
-        client.setOldCoordinates();
-    }
+    
 
     @Override
     public void setNewCoordinates() throws RemoteException {

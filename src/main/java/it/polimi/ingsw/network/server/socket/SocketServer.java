@@ -133,13 +133,10 @@ public class SocketServer implements ServerInterface {
             case "setValue": ToolCardHandler t7 = server.getActiveToolCardHandler();
                             t7.chosenValue(Integer.valueOf(data));
                 break;
-            case "setOldCoordinates": List<String> oldC = socketParserServer.parseData(data);
-                                    ToolCardHandler t8 = server.getActiveToolCardHandler();
-                                    t8.setOldCoordinatesChoice(Integer.valueOf(oldC.get(0)), Integer.valueOf(oldC.get(1)));
-                break;
+
             case "setNewCoordinates":List<String> newC = socketParserServer.parseData(data);
                                     ToolCardHandler t9 = server.getActiveToolCardHandler();
-                                    t9.setOldCoordinatesChoice(Integer.valueOf(newC.get(0)), Integer.valueOf(newC.get(1)));
+                                    t9.setNewCoordinatesChoice(Integer.valueOf(newC.get(0)), Integer.valueOf(newC.get(1)));
                 break;
 
             case "tool": server.useTool(s.client.getPlayer().getName(), data);

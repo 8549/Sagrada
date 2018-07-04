@@ -178,8 +178,11 @@ public class MainServer {
                 }
                 connectedClients.remove(client);
                 checkTimer();
+
             }else{
                 try {
+                    connectedClients.remove(client);
+                    checkTimer();
                     gm.disconnectPlayer(client.getPlayer());
                 } catch (IOException e) {
                     e.printStackTrace();

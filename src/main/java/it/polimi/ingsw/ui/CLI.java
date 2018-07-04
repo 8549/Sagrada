@@ -612,57 +612,6 @@ public class CLI implements UI {
     }
 
     @Override
-    public void setOldCoordinates() {
-        int i = -1, j = -1;
-        boolean validDie = false;
-        while (!validDie) {
-            System.out.print("Please enter the chosen die row [1-" + WindowPattern.ROWS + "]: ");
-            boolean validRow = false;
-            while (!validRow) {
-                if (scanner.hasNextInt()) {
-                    i = scanner.nextInt();
-                    if (isTimeUp()) {
-                        return;
-                    }
-                    if (i > 0 && i <= WindowPattern.ROWS) {
-                        validRow = true;
-                    } else {
-                        System.out.print("Please choose a valid row [1-" + WindowPattern.ROWS + "]: ");
-                    }
-                } else {
-                    System.out.print("Please choose a valid row [1-" + WindowPattern.ROWS + "]: ");
-                    scanner.next();
-                }
-            }
-            System.out.print("Please enter the chosen die column [1-" + WindowPattern.COLUMNS + "]: ");
-            boolean validCol = false;
-            while (!validCol) {
-                if (scanner.hasNextInt()) {
-                    j = scanner.nextInt();
-                    if (isTimeUp()) {
-                        return;
-                    }
-                    if (j > 0 && j <= WindowPattern.COLUMNS) {
-                        validCol = true;
-                    } else {
-                        System.out.print("Please choose a valid column [1-" + WindowPattern.COLUMNS + "]: ");
-                    }
-                } else {
-                    System.out.print("Please choose a valid column [1-" + WindowPattern.COLUMNS + "]: ");
-                    scanner.next();
-                }
-            }
-            if (model.getMyself().getPlayerWindow().getCellAt(i, j).isEmpty()) {
-                System.err.println("There's no die at the given coordinates!");
-            } else {
-                validDie = true;
-            }
-        }
-        handler.sendOldCoordinates(i, j);
-
-    }
-
-    @Override
     public void setNewCoordinates() {
         int i = -1, j = -1;
         boolean validDie = false;

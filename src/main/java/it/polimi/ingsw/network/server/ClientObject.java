@@ -38,7 +38,6 @@ public interface ClientObject  {
     public void chooseIfPlaceDie() throws IOException;
     public void chooseToMoveOneDie() throws IOException;
     public void setValue() throws IOException;
-    public void setOldCoordinates() throws IOException;
     public void setNewCoordinates() throws IOException;
 
 

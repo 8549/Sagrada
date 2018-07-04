@@ -229,11 +229,6 @@ public class SocketClientObject implements ClientObject {
 
     }
 
-    @Override
-    public void setOldCoordinates() throws IOException {
-        socketHandler.send("request", "setOldCoordinates", "");
-
-    }
 
     @Override
     public void setNewCoordinates() throws IOException {
