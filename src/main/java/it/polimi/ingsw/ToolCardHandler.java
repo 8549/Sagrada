@@ -158,7 +158,7 @@ public class ToolCardHandler {
     }
 
     public void setOldCoordinatesChoice(int row, int column){
-        toolcard.completeSetOldCoordinats(row, column);
+        toolcard.completeSetOldCoordinates(row, column);
     }
 
     public void setNewCoordinates() {
