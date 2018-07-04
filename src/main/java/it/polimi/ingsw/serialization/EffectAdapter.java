@@ -25,8 +25,14 @@ public class EffectAdapter extends TypeAdapter<Effect> {
             case "changeTurnOrder":
                 effect = new ChangeTurnOrderEffect(name);
                 break;
+            case "checkIfDieHasBeenPlaced":
+                effect = new CheckIfDieHasBeenPlacedEffect(name);
+                break;
             case "checkIsDiePlaced":
                 effect = new CheckIsDiePlacedEffect(name);
+                break;
+            case "checkIsFirstTurn":
+                effect= new CheckIsFirstTurnEffect(name);
                 break;
             case "checkIsSecondTurn":
                 effect = new CheckIsSecondTurnEffect(name);
