@@ -244,7 +244,7 @@ public class RMIClientObject implements RMIClientObjectInterface {
     public void setValue() throws RemoteException {
         client.setValue();
     }
-    
+
 
     @Override
     public void setNewCoordinates() throws RemoteException {
