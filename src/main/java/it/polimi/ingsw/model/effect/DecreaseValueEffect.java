@@ -13,7 +13,9 @@ public class DecreaseValueEffect extends Effect {
         Die die = (Die) args[0];
         boolean decrease = (boolean) args[1];
         if (decrease) {
+            toolCard.getBoard().getDraftPool().remove(die);
             die.decrease();
+            toolCard.getBoard().getDraftPool().add(die);
         }
         toolCard.setResponse(true);
     }

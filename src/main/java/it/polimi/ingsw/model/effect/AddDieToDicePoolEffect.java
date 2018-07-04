@@ -12,6 +12,7 @@ public class AddDieToDicePoolEffect extends Effect {
     @Override
     public void perform(Object... args) {
         Die die = (Die) args[0];
+        toolCard.getBoard().getDraftPool().remove(die);
         toolCard.setResponse(toolCard.addDieToDiceBag(die));
     }
 }

@@ -12,6 +12,7 @@ public class RollDieEffect extends Effect{
     public void perform(Object... args) {
         Die die = (Die) args[0];
         die.roll();
+        toolCard.getBoard().getDraftPool().remove(die);
         toolCard.setResponse(true);
     }
 }

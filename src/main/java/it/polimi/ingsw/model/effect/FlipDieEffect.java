@@ -11,7 +11,9 @@ public class FlipDieEffect extends Effect{
     @Override
     public void perform(Object... args) {
         Die die = (Die) args[0];
+        toolCard.getBoard().getDraftPool().remove(die);
         die.flip();
+        toolCard.getBoard().getDraftPool().add(die);
         toolCard.setResponse(true);
     }
 }

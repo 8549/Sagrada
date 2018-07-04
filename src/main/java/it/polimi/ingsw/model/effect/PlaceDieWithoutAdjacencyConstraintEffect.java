@@ -11,6 +11,7 @@ public class PlaceDieWithoutAdjacencyConstraintEffect extends Effect {
 
     @Override
     public void perform(Object... args) {
+        toolCard.getBoard().getDraftPool().remove(toolCard.getDie());
         toolCard.processMoveWithoutConstraints(true, true, false, false);
     }
 }

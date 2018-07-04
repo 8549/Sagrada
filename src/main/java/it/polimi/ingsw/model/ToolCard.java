@@ -22,20 +22,20 @@ public class ToolCard implements Card {
     private String when;
 
     //attributes for effects
-    private Die die;
-    int turnForRoundTrack;
-    int numberOfDieForRoundTrack;
-    int oldRow;
-    int oldColumn;
-    private boolean decrease;
-    private boolean placeDie;
-    private boolean moveOneDie;
-    private boolean number;
-    private boolean color;
-    private boolean adjacency;
-    private boolean place;
-    private Iterator effectIterator;
-    private boolean everythingOk;
+    protected Die die;
+    protected int turnForRoundTrack;
+    protected int numberOfDieForRoundTrack;
+    protected int oldRow;
+    protected int oldColumn;
+    protected boolean decrease;
+    protected boolean placeDie;
+    protected boolean moveOneDie;
+    protected boolean number;
+    protected boolean color;
+    protected boolean adjacency;
+    protected boolean place;
+    protected Iterator effectIterator;
+    protected boolean everythingOk;
 
     @Override
     public boolean equals(Object o) {
@@ -53,17 +53,6 @@ public class ToolCard implements Card {
 
         return Objects.hash(effects, name, id, when);
     }
-
-    /*   public ToolCard(String name, int id, String when, List<Effect> effects) {
-           this.name=name;
-           this.id=id;
-           this.when=when;
-           this.effects= effects;
-           effectIterator = effects.iterator();
-           everythingOk=true;
-       }
-   */
-
 
     public boolean isUsed() {
         return used;
@@ -189,7 +178,7 @@ public class ToolCard implements Card {
                     currentEffect.perform();
                     break;
                 case "replaceDieOnRoundTrack":
-                    currentEffect.perform(die, turnForRoundTrack, numberOfDieForRoundTrack, getBoard());
+                    currentEffect.perform(die, turnForRoundTrack, numberOfDieForRoundTrack);
                     checkHasNextEffect();
                     break;
                 case "rollAllDice":
@@ -227,6 +216,7 @@ public class ToolCard implements Card {
                 getServer().askPlayerForNextMove();
             }
         }
+        clearData();
 
     }
 
@@ -336,7 +326,7 @@ public class ToolCard implements Card {
         moveOneDie = choice;
     }
 
-    public void completeSetOldCoordinats(int row, int column) {
+    public void completeSetOldCoordinates(int row, int column) {
         oldColumn = column;
         oldRow = row;
     }
@@ -357,10 +347,6 @@ public class ToolCard implements Card {
         return toolCardHandler;
     }
 
-    public boolean isEverythingOk() {
-        return everythingOk;
-    }
-
     public Turn getTurn(){
         return gameManager.getRound().getTurn();
     }
@@ -375,5 +361,26 @@ public class ToolCard implements Card {
 
     public MainServer getServer(){
         return gameManager.getServer();
+    }
+
+    public void clearData() {
+        die=null;
+        turnForRoundTrack=-1;
+        numberOfDieForRoundTrack=-1;
+        oldRow=-1;
+        oldColumn=-1;
+        decrease=true;
+        placeDie=true;
+        moveOneDie=false;
+        number=true;
+        color=true;
+        adjacency=true;
+        place=true;
+        effectIterator= null;
+        everythingOk = true;
+    }
+
+    public Die getDie(){
+        return die;
     }
 }
