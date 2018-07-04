@@ -90,12 +90,7 @@ public class SocketServer implements ServerInterface {
             case "passTurn": server.passTurn(s.client.getPlayer().getName());
                 break;
 
-            case "setDieFromWP": List<String> dieFromWP = socketParserServer.parseData(data);
-                                ToolCardHandler t1 = server.getActiveToolCardHandler();
-                                /*Die die = new Die(SagradaColor.valueOf(dieFromWP.get(1)));
-                                die.setNumber(Integer.valueOf(dieFromWP.get(0)));*/
-                                t1.setDieFromWindowPattern(Integer.valueOf(dieFromWP.get(2)), Integer.valueOf(dieFromWP.get(3)));
-                break;
+
 
             case "tool": server.useTool(s.client.getPlayer().getName(), data);
 
@@ -106,6 +101,13 @@ public class SocketServer implements ServerInterface {
     }else{
         if(type.equals("response")){
            switch (header){
+               case "setDieFromWP": List<String> dieFromWP = socketParserServer.parseData(data);
+                       ToolCardHandler t1 = server.getActiveToolCardHandler();
+                                        /*Die die = new Die(SagradaColor.valueOf(dieFromWP.get(1)));
+                                        die.setNumber(Integer.valueOf(dieFromWP.get(0)));*/
+                       t1.setDieFromWindowPattern(Integer.valueOf(dieFromWP.get(2)), Integer.valueOf(dieFromWP.get(3)));
+               break;
+               
                case "setDieFromDP": List<String> dieFromDP = socketParserServer.parseData(data);
                    ToolCardHandler t2 = server.getActiveToolCardHandler();
                    Die die = new Die(SagradaColor.valueOf(dieFromDP.get(1)));
