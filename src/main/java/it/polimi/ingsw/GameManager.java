@@ -145,15 +145,18 @@ public class GameManager {
                 player.addPoints(pubCard.checkObjective(player.getPlayerWindow().getDiceGrid()));
             }
         }
-        int winner=0;
-        for( int i=1; i<players.size(); i++){
-            if (players.get(i).getPoints()>players.get(i-0).getPoints()){
-                winner=i;
+        int pointWinner = 0;
+        for (int i = 0; i < players.size(); i++) {
+            if (players.get(i).getPoints() > players.get(i + 1).getPoints()) {
+                pointWinner = players.get(i).getPoints();
+            } else {
+                pointWinner = players.get(i + 1).getPoints();
             }
         }
-        server.notifyWinner(players.get(winner));
-        for (int i=1; i<players.size(); i++){
-            if (i!=winner){
+        for (int i = 1; i < players.size(); i++) {
+            if (players.get(i).getPoints() == pointWinner) {
+                server.notifyWinner(players.get(i));
+            } else {
                 server.notifyLoser(players.get(i));
             }
         }
@@ -194,7 +197,7 @@ public class GameManager {
 
 
     public void completeRound(List<Die> dieForRoundTrack) {
-        server.notifyEndRound( dieForRoundTrack);
+        server.notifyEndRound(dieForRoundTrack);
         players.add(players.get(0));
         players.remove(0);
         board.getRoundTrack().addRound(dieForRoundTrack);
@@ -295,11 +298,11 @@ public class GameManager {
         }
     }
 
-    public void useTool(String name, String tool){
-        if(getCurrentPlayer().getName().equals(name)){
-            for(ToolCard t : board.getToolCards()){
-                if(t.getName().equals(tool)){
-                    t.useTools(getCurrentPlayer(),this);
+    public void useTool(String name, String tool) {
+        if (getCurrentPlayer().getName().equals(name)) {
+            for (ToolCard t : board.getToolCards()) {
+                if (t.getName().equals(tool)) {
+                    t.useTools(getCurrentPlayer(), this);
                 }
             }
         }
@@ -324,10 +327,10 @@ public class GameManager {
         }
     }
 
-    public boolean isToolActive(){
-        if(server.getActiveToolCardHandler()==null){
+    public boolean isToolActive() {
+        if (server.getActiveToolCardHandler() == null) {
             return false;
-        }else{
+        } else {
             return true;
         }
 
