@@ -13,7 +13,12 @@ public class IncreaseValueEffect extends Effect {
         Die die = (Die) args[0];
         boolean decrease = (boolean) args[1];
         if (!decrease) {
-            toolCard.getBoard().getDraftPool().remove(die);
+            for(Die die2 : toolCard.getBoard().getDraftPool()){
+                if (die.getColor()==die2.getColor() & die.getNumber()==die2.getNumber()){
+                    toolCard.getBoard().getDraftPool().remove(die);
+                    break;
+                }
+            }
             die.increase();
             toolCard.getBoard().getDraftPool().add(die);
         }

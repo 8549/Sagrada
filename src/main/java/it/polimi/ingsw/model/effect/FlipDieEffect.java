@@ -11,7 +11,12 @@ public class FlipDieEffect extends Effect{
     @Override
     public void perform(Object... args) {
         Die die = (Die) args[0];
-        toolCard.getBoard().getDraftPool().remove(die);
+        for(Die die2 : toolCard.getBoard().getDraftPool()){
+            if (die.getColor()==die2.getColor() & die.getNumber()==die2.getNumber()){
+                toolCard.getBoard().getDraftPool().remove(die);
+                break;
+            }
+        }
         die.flip();
         toolCard.getBoard().getDraftPool().add(die);
         toolCard.setResponse(true);

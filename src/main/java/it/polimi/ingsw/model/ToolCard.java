@@ -11,7 +11,7 @@ import java.util.Objects;
 
 //TODO: code to reset all the parameters for the effects after the tool card has finished
 public class ToolCard implements Card {
-    private List<Effect> effects;
+    protected List<Effect> effects;
     private GameManager gameManager;
     private ToolCardHandler toolCardHandler;
     private Player player;
@@ -274,10 +274,6 @@ public class ToolCard implements Card {
 
     public void setValue() {
         toolCardHandler.setValue();
-    }
-
-    public void setOldCoordinates() {
-        toolCardHandler.setOldCoordinates();
     }
 
     public void setNewCoordinates() {

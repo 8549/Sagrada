@@ -44,6 +44,8 @@ public class ToolCardHandler {
 
     public void setDieFromWindowPattern(int row, int column){
         toolcard.completeChooseDieFromWindowPattern(row, column);
+        toolcard.completeSetOldCoordinates(row, column);
+
     }
 
     public void chooseDieFromDraftPool() {
@@ -143,22 +145,6 @@ public class ToolCardHandler {
 
     public void chosenValue(int value){
         toolcard.completeChooseValue(value);
-    }
-
-    public void setOldCoordinates() {
-        for(ClientObject c : server.getInGameClients()){
-            try {
-                if(c.getPlayer().getName().equals(player.getName())){
-                    c.setOldCoordinates();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public void setOldCoordinatesChoice(int row, int column){
-        toolcard.completeSetOldCoordinates(row, column);
     }
 
     public void setNewCoordinates() {
