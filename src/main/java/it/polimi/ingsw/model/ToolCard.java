@@ -73,6 +73,9 @@ public class ToolCard implements Card {
     public void useTools(Player player, GameManager gameManager) {
         this.player = player;
         this.gameManager = gameManager;
+        for(Effect effect : effects){
+            effect.setToolCard(this);
+        }
         if (!getTurn().isToolCardUsed()) {
             if (getTurn().getPlayer().getTokens() >= getCost()) {
                 effectIterator = effects.iterator();
@@ -90,9 +93,6 @@ public class ToolCard implements Card {
     }
 
     public void performEffect() {
-        for(Effect effect : effects){
-            effect.setToolCard(this);
-        }
         Effect currentEffect;
         if (effectIterator.hasNext() && everythingOk) {
             currentEffect = (Effect) effectIterator.next();
