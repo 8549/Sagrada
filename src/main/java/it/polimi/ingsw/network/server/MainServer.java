@@ -33,7 +33,7 @@ public class MainServer {
      * @param args are the parameter from command line
      *
      */
-    public MainServer(String[] args){
+    public void start(String[] args){
 
         //RMI Server
         try {
