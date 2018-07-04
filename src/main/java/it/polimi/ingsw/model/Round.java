@@ -24,6 +24,7 @@ public class Round {
         draftPool = new ArrayList<>();
         for (int i = 0; i < (players.size() * 2 + 1); i++)
             draftPool.add(board.getDiceBag().draftDie());
+        board.setDraftPool(draftPool);
     }
 
     public Turn getTurn() {

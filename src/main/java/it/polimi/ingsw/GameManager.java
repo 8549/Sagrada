@@ -46,6 +46,7 @@ public class GameManager {
         this.players = players;
         board = new Board();
         board.setDiceBag();
+        board.setPlayers(players);
     }
 
     /**

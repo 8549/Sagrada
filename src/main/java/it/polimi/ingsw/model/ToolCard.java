@@ -295,6 +295,9 @@ public class ToolCard implements Card {
             everythingOk = true;
         } else {
             everythingOk = false;
+            if (adjacency||place){
+                getBoard().getDraftPool().add(die);
+            }
         }
         checkHasNextEffect();
 
