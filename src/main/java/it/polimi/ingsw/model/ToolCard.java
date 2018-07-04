@@ -63,9 +63,7 @@ public class ToolCard implements Card {
            everythingOk=true;
        }
    */
-    public void initReferences(GameManager gm) {
-        this.gameManager = gm;
-    }
+
 
     public boolean isUsed() {
         return used;
@@ -84,19 +82,20 @@ public class ToolCard implements Card {
     }
 
     public void useTools(Player player, GameManager gameManager) {
-        if (!gameManager.getRound().getTurn().isToolCardUsed()) {
-            if (gameManager.getRound().getTurn().getPlayer().getTokens() < getCost()) {
+        this.player = player;
+        this.gameManager = gameManager;
+        if (!getTurn().isToolCardUsed()) {
+            if (getTurn().getPlayer().getTokens() < getCost()) {
                 effectIterator = effects.iterator();
                 everythingOk = true;
-                this.player = player;
-                this.gameManager = gameManager;
-                toolCardHandler = new ToolCardHandler(player, gameManager, gameManager.getServer(), this);
-                gameManager.getServer().addToolCardHandler(toolCardHandler);
+
+                toolCardHandler = new ToolCardHandler(player, gameManager, getServer(), this);
+                getServer().addToolCardHandler(toolCardHandler);
                 toolCardHandler.setActive(true);
                 performEffect();
             }
         } else {
-            gameManager.getServer().notifyPlayerToolCardAlreadyUsed();
+            getServer().notifyPlayerToolCardAlreadyUsed();
         }
 
     }
@@ -111,23 +110,23 @@ public class ToolCard implements Card {
                     checkHasNextEffect();
                     break;
                 case "changeTurnOrder":
-                    currentEffect.perform(gameManager.getRound());
+                    currentEffect.perform(getRound());
                     checkHasNextEffect();
                     break;
                 case "checkIfDieHasBeenPlaced":
-                    currentEffect.perform(gameManager.getRound().getTurn());
+                    currentEffect.perform(getTurn());
                     checkHasNextEffect();
                     break;
                 case "checkIsDiePlaced":
-                    currentEffect.perform(gameManager.getRound().getTurn());
+                    currentEffect.perform(getTurn());
                     checkHasNextEffect();
                     break;
                 case "checkIsFirstTurn":
-                    currentEffect.perform(gameManager.getRound());
+                    currentEffect.perform(getRound());
                     checkHasNextEffect();
                     break;
                 case "checkIsSecondTurn":
-                    currentEffect.perform(gameManager.getRound());
+                    currentEffect.perform(getRound());
                     checkHasNextEffect();
                     break;
                 case "chooseDieFromDraftPool":
@@ -180,21 +179,21 @@ public class ToolCard implements Card {
                     currentEffect.perform();
                     break;
                 case "placeDie":
-                    currentEffect.perform(gameManager.getRound().getTurn(), placeDie);
+                    currentEffect.perform(getTurn(), placeDie);
                     break;
                 case "placeDieInDraftPool":
-                    currentEffect.perform(placeDie, gameManager.getBoard(), die);
+                    currentEffect.perform(placeDie, getBoard(), die);
                     checkHasNextEffect();
                     break;
                 case "placeDieWithoutAdjacencyConstraint":
                     currentEffect.perform();
                     break;
                 case "replaceDieOnRoundTrack":
-                    currentEffect.perform(die, turnForRoundTrack, numberOfDieForRoundTrack, gameManager.getBoard());
+                    currentEffect.perform(die, turnForRoundTrack, numberOfDieForRoundTrack, getBoard());
                     checkHasNextEffect();
                     break;
                 case "rollAllDice":
-                    currentEffect.perform(gameManager.getRound());
+                    currentEffect.perform(getRound());
                     checkHasNextEffect();
                     break;
                 case "rollDie":
@@ -216,16 +215,16 @@ public class ToolCard implements Card {
     }
 
     private void endToolCard() {
-        gameManager.getServer().notifyPlayerIfToolCardWorked(everythingOk);
+        getServer().notifyPlayerIfToolCardWorked(everythingOk);
         if (everythingOk) {
-            gameManager.getRound().getTurn().setToolCardUsed();
+            getTurn().setToolCardUsed();
             player.removeTokens(getCost());
             addTokens();
             used = true;
-            if (gameManager.getRound().getTurn().isDiePlaced()) {
+            if (getTurn().isDiePlaced()) {
                 gameManager.endCurrentTurn();
             } else {
-                gameManager.getServer().askPlayerForNextMove();
+                getServer().askPlayerForNextMove();
             }
         }
 
@@ -239,7 +238,7 @@ public class ToolCard implements Card {
 
     //METHODS FOR EFFECTS
     public boolean addDieToDiceBag(Die die) {
-        return gameManager.getBoard().getDiceBag().addDie(die);
+        return getBoard().getDiceBag().addDie(die);
     }
 
 
@@ -252,7 +251,7 @@ public class ToolCard implements Card {
     }
 
     public void getDieFromDicePool() {
-        die = gameManager.getBoard().getDiceBag().draftDie();
+        die = getBoard().getDiceBag().draftDie();
     }
 
     public void chooseDieFromWindowPattern() {
@@ -293,11 +292,11 @@ public class ToolCard implements Card {
     }
 
     public void completeProcessMove(int newRow, int newColumn) {
-        MoveValidator moveValidator = new MoveValidator(gameManager.getRound().getTurn(), gameManager.getRound().getDraftPool(), number, color, adjacency);
+        MoveValidator moveValidator = new MoveValidator(getTurn(), getRound().getDraftPool(), number, color, adjacency);
         if (moveValidator.validateMove(die, newRow, newColumn, player)) {
             if (!adjacency || place) {
                 player.getPlayerWindow().addDie(die, newRow, newColumn);
-                gameManager.getRound().getTurn().setDiePlaced();
+                getTurn().setDiePlaced();
             } else {
                 player.getPlayerWindow().moveDie(oldRow, oldColumn, newRow, newColumn);
             }
@@ -360,5 +359,21 @@ public class ToolCard implements Card {
 
     public boolean isEverythingOk() {
         return everythingOk;
+    }
+
+    public Turn getTurn(){
+        return gameManager.getRound().getTurn();
+    }
+
+    public Round getRound(){
+        return gameManager.getRound();
+    }
+
+    public Board getBoard(){
+        return gameManager.getBoard();
+    }
+
+    public MainServer getServer(){
+        return gameManager.getServer();
     }
 }

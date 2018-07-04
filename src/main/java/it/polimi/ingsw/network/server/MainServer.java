@@ -163,7 +163,7 @@ public class MainServer {
     }
 
 
-    public  void disconnect(ClientObject client){
+    public void disconnect(ClientObject client){
             if(!isGameStarted){
                 if(connectedClients.size()>1) {
                     for (ClientObject c : connectedClients) {

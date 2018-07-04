@@ -14,6 +14,8 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class RMIServer  implements RMIServerInterface {
     List<ClientObject> users ;
@@ -58,14 +60,20 @@ public class RMIServer  implements RMIServerInterface {
     }
 
     public RMIServerInterface getEndPoint() throws RemoteException {
-        RMIServerInterface obj = new RMIServerInstance(users, server);
+        RMIServerInterface obj = new RMIServer(users, server);
         RMIServerInterface  stub = (RMIServerInterface) UnicastRemoteObject.exportObject(obj, 0);
         objs.add(stub);
         return stub;
     }
 
-    public RMIServerInterface getStub(){
-        return this.stub;
+    public void pingClient(){
+
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+
+            }
+        }, 5 * 1000);
     }
 
     @Override

@@ -9,7 +9,6 @@ import it.polimi.ingsw.network.server.MainServer;
 import it.polimi.ingsw.network.server.ServerInterface;
 
 
-import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -37,7 +36,7 @@ public class SocketServer implements ServerInterface {
     @Override
     public  void start(String[] args) throws IOException {
         ServerSocket listener = new ServerSocket(DEFAULT_SOCKET_PORT);
-        System.out.println("[DEBUG] Socket server is listening on port " + DEFAULT_SOCKET_PORT);
+        System.out.println("[DEBUG] Socket socketServer is listening on port " + DEFAULT_SOCKET_PORT);
 
         try {
             while (true) {
@@ -50,11 +49,11 @@ public class SocketServer implements ServerInterface {
 
             }
         } catch (IOException e){
-            System.err.println("[System]Socket server failed " + e);
+            System.err.println("[System]Socket socketServer failed " + e);
             e.printStackTrace();
         }finally {
             listener.close();
-            System.out.println("Socket server closed");
+            System.out.println("Socket socketServer closed");
         }
     }
 
@@ -171,10 +170,10 @@ public class SocketServer implements ServerInterface {
         private BufferedReader in;
         private PrintWriter out;
         private ClientObject client;
-        private SocketServer server;
+        private SocketServer socketServer;
 
         public SocketHandler(Socket socket, SocketServer server) throws IOException {
-            this.server = server;
+            this.socketServer = server;
             this.socket = socket;
             log("New connection at " + socket);
             socketParser = new SocketParser();
@@ -188,7 +187,7 @@ public class SocketServer implements ServerInterface {
                 out = new PrintWriter(socket.getOutputStream(), true);
 
                 // Send a welcome message to the client.
-                out.println("Hello from server");
+                out.println("Hello from socketServer");
 
                 // Get messages from the client, line by line;
                 while (true) {
@@ -207,7 +206,7 @@ public class SocketServer implements ServerInterface {
             } finally {
                 try {
                     log("Connection with " + client.getPlayer().getName() + " closed");
-                    server.removeClient(client);
+                    socketServer.removeClient(client);
                     socket.close();
                 } catch (IOException e) {
                     log("Couldn't close a socket, what's going on?");
@@ -217,7 +216,7 @@ public class SocketServer implements ServerInterface {
         }
 
         /**
-         * Log writes the message on server's standard output
+         * Log writes the message on socketServer's standard output
          */
         private void log(String message) {
             System.out.println(message);

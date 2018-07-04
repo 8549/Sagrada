@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.server.ClientObject;
 import it.polimi.ingsw.network.server.MainServer;
 
-import javax.tools.Tool;
 import java.util.*;
 
 public class GameManager {
@@ -66,7 +65,6 @@ public class GameManager {
         }.getType());
         for (int i = 0; i < TOOL_CARDS_NUMBER; i++) {
             toolCard.add((ToolCard) toolDeck.getRandomCard());
-            toolCard.get(i).initReferences(this);
         }
         board.setToolCards(toolCard);
 

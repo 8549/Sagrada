@@ -139,6 +139,8 @@ class ToolCardTest {
 
     @Test
     void testCompleteProcessMove() {
+        ToolCard tool = new ToolCard();
+
     }
 
     @Test
@@ -162,5 +164,24 @@ class ToolCardTest {
 
     @Test
     void testGetToolCardHandler() {
+    }
+
+
+
+    private class ToolCardMock extends ToolCard {
+
+        @Override
+        public Round getRound() {
+            List<Player> players = new ArrayList<>();
+            Player marco = new Player("marco");
+            players.add(marco);
+            Player giulia = new Player("giulia");
+            players.add(giulia);
+            Player andrea = new Player("andrea");
+            players.add(andrea);
+            Player francesca = new Player("francesca");
+            players.add(francesca);
+            return null;
+        }
     }
 }
