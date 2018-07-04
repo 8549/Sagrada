@@ -85,7 +85,7 @@ class BoardTest {
         }.getType());
         for (int i = 0; i < GameManager.TOOL_CARDS_NUMBER; i++) {
             toolCard.add((ToolCard) toolDeck.getRandomCard());
-            toolCard.get(i).initReferences(gameManager);
+
         }
         Board board = new Board();
         board.setToolCards(toolCard);
@@ -107,7 +107,6 @@ class BoardTest {
         }.getType());
         for (int i = 0; i < GameManager.TOOL_CARDS_NUMBER; i++) {
             toolCard.add((ToolCard) toolDeck.getRandomCard());
-            toolCard.get(i).initReferences(gameManager);
         }
         Board board = new Board();
         board.setToolCards(toolCard);
