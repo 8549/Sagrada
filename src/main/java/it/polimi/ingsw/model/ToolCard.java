@@ -315,15 +315,18 @@ public class ToolCard implements Card {
         if (moveValidator.validateMove(die, newRow, newColumn, player)) {
             if (!adjacency || !place) {
                 player.getPlayerWindow().addDie(die, newRow, newColumn);
+                toolCardHandler.notifyAddDie(player, die, newRow, newColumn);
                 getTurn().setDiePlaced();
             } else if (adjacency || place) {
                 player.getPlayerWindow().moveDie(oldRow, oldColumn, newRow, newColumn);
+                toolCardHandler.notifyMoveDie(player, die, oldRow, oldColumn, newRow, newColumn);
             }
             everythingOk = true;
         } else {
             everythingOk = false;
             if (adjacency || place) {
                 getBoard().getDraftPool().add(die);
+                toolCardHandler.updateDraftPool(getBoard().getDraftPool());
             }
             if (!firstChoice && !moveOneDie){
                 everythingOk=true;
@@ -445,7 +448,9 @@ public class ToolCard implements Card {
         if (moveValidator.validateMove(die, row, column, player)) {
             if (moveValidator.validateMove(secondDie, secondRow, secondColumn, player)) {
                 player.getPlayerWindow().moveDie(oldRow, oldColumn, row, column);
+                toolCardHandler.notifyMoveDie(player, die, oldRow, oldColumn, row, column);
                 player.getPlayerWindow().moveDie(oldRowSecond, oldColumnSecond, secondRow, secondColumn);
+                toolCardHandler.notifyMoveDie(player,secondDie, oldRowSecond, oldColumnSecond, secondRow, secondColumn);
                 everythingOk = true;
             }
         } else {

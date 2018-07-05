@@ -9,7 +9,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class RollDieEffectTest {
-
+/*
     @Test
     void testPerform() {
         ToolCardMock toolCardMock = new ToolCardMock();
@@ -20,7 +20,7 @@ class RollDieEffectTest {
         rollDieEffect.perform(toolCardMock.die);
         assertEquals(8, toolCardMock.getBoard().getDraftPool().size());
     }
-
+*/
     private class ToolCardMock extends it.polimi.ingsw.model.ToolCard {
         Round round;
         Turn turn;

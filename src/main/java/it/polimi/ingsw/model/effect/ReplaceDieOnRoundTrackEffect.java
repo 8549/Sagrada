@@ -16,6 +16,8 @@ public class ReplaceDieOnRoundTrackEffect extends Effect {
         int turn = (int) args[1];
         int numberOfDie = (int) args[2];
         toolCard.getBoard().getDraftPool().add(toolCard.getBoard().getRoundTrack().replaceDie(die, turn, numberOfDie));
+        toolCard.getToolCardHandler().updateDraftPool(toolCard.getBoard().getDraftPool());
+        toolCard.getToolCardHandler().updateRoundTrack(die, numberOfDie, turn);
         toolCard.setResponse(true);
     }
 }

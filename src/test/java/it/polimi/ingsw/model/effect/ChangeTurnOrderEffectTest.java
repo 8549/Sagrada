@@ -9,7 +9,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ChangeTurnOrderEffectTest {
-
+/*
     @Test
     void testPerform() {
         ToolCardMock toolCardMock = new ToolCardMock();
@@ -19,7 +19,7 @@ class ChangeTurnOrderEffectTest {
         changeTurnOrderEffect.perform(toolCardMock.getRound());
         assertEquals(toolCardMock.getBoard().getPlayers().get(0), toolCardMock.getRound().getTurns().get(1).getPlayer());
     }
-
+*/
     private class ToolCardMock extends it.polimi.ingsw.model.ToolCard {
         Round round;
         Turn turn;

@@ -12,6 +12,7 @@ public class ChangeTurnOrderEffect extends Effect {
     public void perform(Object... args) {
         Round round = (Round) args[0];
         round.doubledTurn(round.getCurrentTurn());
+        toolCard.getToolCardHandler().notifyChangeTurn(round.getTurn().getPlayer());
         toolCard.setResponse(true);
     }
 }

@@ -9,7 +9,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DecreaseValueEffectTest {
-
+/*
     @Test
     void testPerform() {
         ToolCardMock toolCardMock = new ToolCardMock();
@@ -22,7 +22,7 @@ class DecreaseValueEffectTest {
         decreaseValueEffect.perform(toolCardMock.getDie(), false);
         assertEquals(3, toolCardMock.getDie().getNumber());
     }
-
+*/
     private class ToolCardMock extends it.polimi.ingsw.model.ToolCard {
         Round round;
         Turn turn;

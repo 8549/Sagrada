@@ -10,7 +10,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AddDieToDicePoolEffectTest {
-
+/*
     @Test
     void testPerform() {
         ToolCardMock toolCardMock = new ToolCardMock();
@@ -22,7 +22,7 @@ class AddDieToDicePoolEffectTest {
         assertEquals(82, toolCardMock.getBoard().getDiceBag().getSize());
         assertEquals(8, toolCardMock.getBoard().getDraftPool().size());
     }
-
+*/
     private class ToolCardMock extends it.polimi.ingsw.model.ToolCard {
         Round round;
         Turn turn;

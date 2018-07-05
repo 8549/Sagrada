@@ -9,7 +9,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ReplaceDieOnRoundTrackEffectTest {
-
+/*
     @Test
     void testPerform() {
         ToolCardMock toolCardMock = new ToolCardMock();
@@ -21,7 +21,7 @@ class ReplaceDieOnRoundTrackEffectTest {
         assertEquals(die, toolCardMock.board.getRoundTrack().getDieAt(0, 0));
         assertTrue(toolCardMock.board.getDraftPool().contains(toolCardMock.de));
     }
-
+*/
     private class ToolCardMock extends it.polimi.ingsw.model.ToolCard {
         Round round;
         Turn turn;
