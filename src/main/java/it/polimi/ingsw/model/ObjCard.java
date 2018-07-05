@@ -10,6 +10,7 @@ public abstract class ObjCard implements Card, Serializable{
     ObjectiveCardType type;
     ObjectiveCardWhere where;
     PatternConstraint[] rules;
+    boolean repeat;
     Prize prize;
     int numberOfDice;
     int numberOfTimes;

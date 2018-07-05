@@ -25,7 +25,7 @@ class PatternConstraintAdapterTest {
     @Test
     void testWrite() {
         List<PatternCard> patternCards = getSamplePatternCards();
-        System.out.println(gson.toJson(patternCards));
+        //System.out.println(gson.toJson(patternCards));
     }
 
     @Test
