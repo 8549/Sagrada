@@ -70,6 +70,34 @@ class PublicObjectiveCardTest {
         PublicObjectiveCard publicObjectiveCard = (PublicObjectiveCard)card;
 
         assertEquals(16, publicObjectiveCard.checkObjective(grid));
+
+        Card card1= publicObjectiveCardsDeck.getByName("Color Variety");
+        PublicObjectiveCard publicObjectiveCard1 = (PublicObjectiveCard)card1;
+        assertEquals(12,publicObjectiveCard1.checkObjective(grid));
+        Card card2= publicObjectiveCardsDeck.getByName("Shade Variety");
+        PublicObjectiveCard publicObjectiveCard2 = (PublicObjectiveCard)card2;
+        assertEquals(15,publicObjectiveCard2.checkObjective(grid) );
+        Card card3= publicObjectiveCardsDeck.getByName("Deep Shades");
+        PublicObjectiveCard publicObjectiveCard3 = (PublicObjectiveCard)card3;
+        assertEquals(6, publicObjectiveCard3.checkObjective(grid));
+        Card card4= publicObjectiveCardsDeck.getByName("Medium Shades");
+        PublicObjectiveCard publicObjectiveCard14 = (PublicObjectiveCard)card4;
+        assertEquals(6, publicObjectiveCard14.checkObjective(grid));
+        Card card15= publicObjectiveCardsDeck.getByName("Light Shades");
+        PublicObjectiveCard publicObjectiveCard15 = (PublicObjectiveCard)card15;
+        assertEquals(6, publicObjectiveCard15.checkObjective(grid));
+        Card card18= publicObjectiveCardsDeck.getByName("Column Shade Variety");
+        PublicObjectiveCard publicObjectiveCard18 = (PublicObjectiveCard)card18;
+        assertEquals(12, publicObjectiveCard18.checkObjective(grid));
+        Card card19= publicObjectiveCardsDeck.getByName("Row Shade Variety");
+        PublicObjectiveCard publicObjectiveCard19 = (PublicObjectiveCard)card19;
+        assertEquals(10, publicObjectiveCard19.checkObjective(grid));
+        Card card10= publicObjectiveCardsDeck.getByName("Column Color Variety");
+        PublicObjectiveCard publicObjectiveCard10 = (PublicObjectiveCard)card10;
+        assertEquals(15, publicObjectiveCard10.checkObjective(grid));
+        Card card11= publicObjectiveCardsDeck.getByName("Row Color Variety");
+        PublicObjectiveCard publicObjectiveCard11 = (PublicObjectiveCard)card11;
+        assertEquals(0,publicObjectiveCard11.checkObjective(grid));
     }
 
 }

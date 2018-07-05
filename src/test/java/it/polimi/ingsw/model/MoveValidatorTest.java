@@ -90,5 +90,11 @@ class MoveValidatorTest {
         assertTrue(moveValidator1.validateMove(draftPool.get(0),0, 4, marco));
         MoveValidator moveValidator = new MoveValidator(turnMarco, draftPool, true, true, true);
         assertTrue(moveValidator.validateMove(draftPool.get(3), 3, 4, marco));
+        MoveValidator moveValidator2 = new MoveValidator(turnMarco, draftPool, false, true,  true);
+        assertFalse(moveValidator2.validateMove(draftPool.get(0),0, 4, marco));
+        MoveValidator moveValidator6 = new MoveValidator(turnMarco, draftPool, true, false, true);
+        assertFalse(moveValidator6.validateMove(draftPool.get(0),6, 4, marco));
         }
+
+
     }
