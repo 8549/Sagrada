@@ -131,15 +131,19 @@ public class MainController {
 
     @FXML
     void useToolCard(ActionEvent event) {
+
         for (Node n : fxToolCardsContainer.getChildren()) {
-            n.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            EventHandler<MouseEvent> handler = new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
                     int i = fxToolCardsContainer.getChildren().indexOf(event.getSource());
-                    n.removeEventHandler(MouseEvent.MOUSE_CLICKED, this);
+                    for (Node n : fxToolCardsContainer.getChildren()) {
+                        n.setOnMouseClicked(null);
+                    }
                     gui.getClientHandler().useTool(gui.getModel().getToolCards().get(i));
                 }
-            });
+            };
+            n.setOnMouseClicked(handler);
         }
     }
 
@@ -173,7 +177,14 @@ public class MainController {
             public void handle(MouseEvent event) {
                 int i = GridPane.getRowIndex((Node) event.getSource());
                 int j = GridPane.getColumnIndex((Node) event.getSource());
+                for (Node n : fxDraftPool.getChildren()) {
+                    n.setScaleX(1.0);
+                    n.setScaleY(1.0);
+                }
                 gui.tryDiePlacement(i, j);
+                for (Node n : fxDraftPool.getChildren()) {
+                    n.setOnMouseClicked(null);
+                }
             }
         });
     }
@@ -399,18 +410,18 @@ public class MainController {
             transition.setAutoReverse(true);
             transition.setCycleCount(2);
             transition.play();
-            n.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            EventHandler<MouseEvent> handler = new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
                     transition.stop();
                     int i = fxDraftPool.getChildren().indexOf(event.getSource());
                     for (Node n : fxDraftPool.getChildren()) {
-                        n.removeEventHandler(MouseEvent.MOUSE_CLICKED, this);
-                        // TODO CHECK WHY THE HANDLER ISNT ACTuALLY REMOVED
+                        n.setOnMouseClicked(null);
                     }
                     gui.getClientHandler().sendDieFromDP(gui.getModel().getDraftPool().get(i));
                 }
-            });
+            };
+            n.setOnMouseClicked(handler);
         }
     }
 
@@ -436,7 +447,9 @@ public class MainController {
                     int row = GridPane.getRowIndex(source);
                     int col = GridPane.getColumnIndex(source);
                     Die d = gui.getModel().getMyself().getPlayerWindow().getCellAt(row, col).getDie();
-                    n.removeEventHandler(MouseEvent.MOUSE_CLICKED, this);
+                    for (Node n : root.getChildren()) {
+                        n.setOnMouseClicked(null);
+                    }
                     gui.getClientHandler().sendDieFromWP(d, row, col);
                 }
             });
