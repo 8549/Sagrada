@@ -1,9 +1,11 @@
 package it.polimi.ingsw.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ScoreTrack {
-
-
-    public ScoreTrack(){}
-    ;
-
+    private List<Integer> results;
+    public ScoreTrack(){
+        results = new ArrayList<>();
+    }
 }

@@ -12,7 +12,7 @@ import java.util.List;
 
 public class CardsDeck  {
 
-    private List<? extends Card> cardsDeck; // card da fare
+    private List<? extends Card> cardsDeck;
 
     public CardsDeck(String file, Type type) {
         try (JsonReader reader = new JsonReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream(file)))) {

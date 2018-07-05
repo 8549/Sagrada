@@ -320,6 +320,10 @@ public class ToolCard implements Card {
             if (adjacency || place) {
                 getBoard().getDraftPool().add(die);
             }
+            if (!firstChoice && !moveOneDie){
+                everythingOk=true;
+                //todo notify Player only one die was successfully moved
+            }
         }
         checkHasNextEffect();
 
@@ -443,5 +447,9 @@ public class ToolCard implements Card {
             everythingOk = false;
         }
         checkHasNextEffect();
+    }
+
+    public boolean isEverythingOk() {
+        return everythingOk;
     }
 }

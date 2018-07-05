@@ -66,12 +66,23 @@ class PrivateObjectiveCardTest {
         }.getType());
         Card card = privateObjectiveCardsDeck.getByName(name);
         PrivateObjectiveCard privateObjectiveCard = (PrivateObjectiveCard)card;
-        int num=privateObjectiveCard.checkObjective(grid);
         assertEquals(17, privateObjectiveCard.checkObjective(grid));
+        Card card2 = privateObjectiveCardsDeck.getByName("Shades of Green");
+        Card card1 = privateObjectiveCardsDeck.getByName("Shades of Blue");
+        Card card3 = privateObjectiveCardsDeck.getByName("Shades of Purple");
+        Card card4 = privateObjectiveCardsDeck.getByName("Shades of Yellow");
+        PrivateObjectiveCard privateObjectiveCard1 = (PrivateObjectiveCard)card1;
+        PrivateObjectiveCard privateObjectiveCard2 = (PrivateObjectiveCard)card2;
+        PrivateObjectiveCard privateObjectiveCard3 = (PrivateObjectiveCard)card3;
+        PrivateObjectiveCard privateObjectiveCard4 = (PrivateObjectiveCard)card4;
+        assertEquals(14, privateObjectiveCard1.checkObjective(grid));
+        assertEquals(14, privateObjectiveCard2.checkObjective(grid));
+        assertEquals(14, privateObjectiveCard3.checkObjective(grid));
+        assertEquals(8, privateObjectiveCard4.checkObjective(grid));
+
+
+
     }
 
-    @Test
-    void testGetPoints() {
-    }
 
 }
