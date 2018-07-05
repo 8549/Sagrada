@@ -16,12 +16,12 @@ public class IncreaseValueEffect extends Effect {
             for(Die die2 : toolCard.getBoard().getDraftPool()){
                 if (die.getColor().equals(die2.getColor()) && die.getNumber()==die2.getNumber()){
                     toolCard.getBoard().getDraftPool().remove(die);
-                    toolCard.getToolCardHandler().updateDraftPool(toolCard.getBoard().getDraftPool());
                     break;
                 }
             }
             die.increase();
             toolCard.getBoard().getDraftPool().add(die);
+            toolCard.getToolCardHandler().updateDraftPool(toolCard.getBoard().getDraftPool());
         }
         toolCard.setResponse(true);
     }
