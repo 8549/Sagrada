@@ -8,7 +8,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PrivateObjectiveCardTest {
-/*
+
     @Test
     void testCheckObjective() {
         Cell[][] grid = new Cell[WindowPattern.ROWS][WindowPattern.COLUMNS];
@@ -73,5 +73,5 @@ class PrivateObjectiveCardTest {
     @Test
     void testGetPoints() {
     }
-    */
+
 }

@@ -3,7 +3,7 @@
     "name": "Shades of Red",
     "type": "color",
     "where": "everywhere",
-    "patternConstraints": [
+    "rules": [
       "red"
     ],
     "prize": {
@@ -15,7 +15,7 @@
     "name": "Shades of Yellow",
     "type": "color",
     "where": "everywhere",
-    "patternConstraints": [
+    "rules": [
       "yellow"
     ],
     "prize": {
@@ -27,7 +27,7 @@
     "name": "Shades of Green",
     "type": "color",
     "where": "everywhere",
-    "patternConstraints": [
+    "rules": [
       "green"
     ],
     "prize": {
@@ -39,7 +39,7 @@
     "name": "Shades of Blue",
     "type": "color",
     "where": "everywhere",
-    "patternConstraints": [
+    "rules": [
       "blue"
     ],
     "prize": {
@@ -51,7 +51,7 @@
     "name": "Shades of Purple",
     "type": "color",
     "where": "everywhere",
-    "patternConstraints": [
+    "rules": [
       "purple"
     ],
     "prize": {
