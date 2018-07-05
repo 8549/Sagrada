@@ -24,9 +24,6 @@ public class RMIClient implements RMIClientInterface, Serializable {
         this.ch = ch;
     }
 
-    public RMIClient() {
-
-    }
 
     @Override
     public String getName() throws RemoteException {
@@ -278,6 +275,32 @@ public class RMIClient implements RMIClientInterface, Serializable {
     @Override
     public void nextMove() throws RemoteException {
         ch.nextMove();
+    }
+
+    @Override
+    public void pushTokens(String name, String tool, int cost) throws RemoteException {
+        ch.updateTokens(name, tool, cost);
+    }
+
+    @Override
+    public void notifyMoveDie(Player player, Die d, int row, int column, int newRow, int newColumn) throws RemoteException {
+        ch.handleMoveDie(player.getName(), d, row, column, newRow, newColumn);
+    }
+
+    @Override
+    public void notifyAddDie(Player player, Die d, int row, int column) throws RemoteException {
+        ch.handleAddDie(player.getName(), d, row, column);
+    }
+
+
+    @Override
+    public void changeTurn(Player first) throws RemoteException {
+        ch.handleChangeTurn(first.getName());
+    }
+
+    @Override
+    public void updateRoundTrack(Die d, int diePosition, int round) throws RemoteException {
+        ch.handleUpdateRoundTrack(d, diePosition, round);
     }
 
     @Override

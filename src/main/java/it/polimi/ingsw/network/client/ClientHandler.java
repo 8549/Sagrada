@@ -122,6 +122,7 @@ public class ClientHandler implements Serializable {
                 for (Player p : proxyModel.getPlayers()) {
                     if (p.getName().equals(name)) {
                         p.getPlayerWindow().setWindowPattern(CardsDeck.getWindowPatternByName(windowPatternName));
+                        p.setInitialTokens();
                     }
                 }
                 boolean finish = true;
@@ -145,6 +146,7 @@ public class ClientHandler implements Serializable {
             @Override
             public void run() {
                 proxyModel.getMyself().getPlayerWindow().setWindowPattern(CardsDeck.getWindowPatternByName(name));
+                proxyModel.getMyself().setInitialTokens();
             }
         };
         perform(task);
@@ -161,7 +163,17 @@ public class ClientHandler implements Serializable {
     }
 
     public void setTools(List<ToolCard> tools){
-        proxyModel.addToolCard(tools);
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                proxyModel.addToolCard(tools);
+                for(ToolCard t : proxyModel.getToolCards()){
+                    t.setIsUsed(false);
+                }
+
+            }
+        };
+        perform(task);
     }
     public void setPrivateObj(String name, ObjCard p) {
         Runnable task = new Runnable() {
@@ -191,6 +203,8 @@ public class ClientHandler implements Serializable {
             @Override
             public void run() {
                 proxyModel.setDraftPool(draft);
+                System.out.println("[DEBUG] Draft updated" );
+
             }
         };
         perform(task);
@@ -225,23 +239,31 @@ public class ClientHandler implements Serializable {
     }
 
     public void handleMoveResponse(String name, boolean response, Die d, int row, int column){
-        Player player= null;
-        if(name.equals(proxyModel.getMyself().getName())){
-            player = proxyModel.getMyself();
-        }else{
-            for(Player p : proxyModel.getPlayers()){
-                if (p.getName().equals(name)){
-                    player = p;
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                Player player= null;
+                if(name.equals(proxyModel.getMyself().getName())){
+                    player = proxyModel.getMyself();
+                }else{
+                    for(Player p : proxyModel.getPlayers()){
+                        if (p.getName().equals(name)){
+                            player = p;
+                        }
+                    }
+                }
+                if(response) {
+                    System.out.println("[DEBUG] Server response: Correct move!");
+                    player.getPlayerWindow().addDie(d, row, column);
+                }else{
+                    System.out.println("[DEBUG] Server response: Wrong Move of player : " + name);
+                    ui.wrongMove();
                 }
             }
-        }
-        if(response) {
-            System.out.println("[DEBUG] Server response: Correct move!");
-            player.getPlayerWindow().addDie(d, row, column);
-        }else{
-            System.out.println("[DEBUG] Server response: Wrong Move of player : " + name);
-            ui.wrongMove();
-        }
+        };
+        perform(task);
+
+
     }
 
     public void moveTimeIsOut(){
@@ -255,13 +277,19 @@ public class ClientHandler implements Serializable {
     }
 
     public void endTurn(String name){
-        if(proxyModel.getMyself().equals(name)){
-            //TODO:code to stop selection if client is doing stuff and notify user the end turn
-            System.out.println("[DEBUG] Your turn is ended ");
-            ui.myTurnEnded();
-        }else{
-            System.out.println("[DEBUG] Player " + name + " has finished his/her turn");
-        }
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                if(proxyModel.getMyself().equals(name)){
+                    //TODO:code to stop selection if client is doing stuff and notify user the end turn
+                    System.out.println("[DEBUG] Your turn is ended ");
+                    ui.myTurnEnded();
+                }else{
+                    System.out.println("[DEBUG] Player " + name + " has finished his/her turn");
+                }            }
+        };
+        perform(task);
+
     }
 
     public void passTurn(){
@@ -281,7 +309,13 @@ public class ClientHandler implements Serializable {
     }
 
     public void endRound(List<Die> dice){
-        proxyModel.addDiceToRoundTrack(dice);
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                proxyModel.addDiceToRoundTrack(dice);
+            }
+        };
+        perform(task);
     }
 
     public void chooseDieFromWindowPattern(){
@@ -382,13 +416,92 @@ public class ClientHandler implements Serializable {
     }
 
     public void nextMove(){
-        ui.nextMove();
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                ui.nextMove();
+            }
+        };
+        perform(task);
     }
 
     public void toolAvailable(boolean isAvailable){
-        ui.toolAvailable(isAvailable);
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                ui.toolAvailable(isAvailable);
+            }
+        };
+        perform(task);
     }
 
+    public void updateTokens(String name, String tool, int tokens){
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                //todo: if name = myself print something like "Tool card successfully used"
+                proxyModel.getByName(name).removeTokens(tokens);
+                for(ToolCard t : proxyModel.getToolCards()){
+                    if(t.getName().equals(tool)){
+                        t.addTokens();
+                        if(!t.isUsed()){
+                            t.setIsUsed(true);
+                        }
+                    }
+                }
+                ui.update();
+            }
+        };
+        perform(task);
 
+    }
+
+    public void handleMoveDie(String name, Die d, int row, int column, int newRow, int newColumn){
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                proxyModel.getByName(name).getPlayerWindow().getCellAt(row,column).removeDie();
+                proxyModel.getByName(name).getPlayerWindow().getCellAt(newRow, newColumn).setDie(d);
+                System.out.println("[DEBUG] Die Moved" );            }
+        };
+        perform(task);
+
+
+    }
+
+    public void handleAddDie(String name, Die d, int row, int column){
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                proxyModel.getByName(name).getPlayerWindow().getCellAt(row,column).setDie(d);
+                System.out.println("[DEBUG] Die Added" );            }
+        };
+        perform(task);
+
+
+    }
+
+    public void handleChangeTurn(String name){
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                //TODO: print "the first plauer now will be ... "
+                System.out.println("[DEBUG] First Player will be " + name);
+            }
+        };
+        perform(task);
+
+    }
+
+    public void handleUpdateRoundTrack(Die d, int diePosition, int round){
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                proxyModel.getRoundTrack().replaceDie(d, round, diePosition);
+                System.out.println("[DEBUG] RoundTrack updated" );            }
+        };
+        perform(task);
+
+    }
 }
 

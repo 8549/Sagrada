@@ -107,7 +107,7 @@ public class SocketServer implements ServerInterface {
                                         die.setNumber(Integer.valueOf(dieFromWP.get(0)));*/
                        t1.setDieFromWindowPattern(Integer.valueOf(dieFromWP.get(2)), Integer.valueOf(dieFromWP.get(3)));
                break;
-               
+
                case "setDieFromDP": List<String> dieFromDP = socketParserServer.parseData(data);
                    ToolCardHandler t2 = server.getActiveToolCardHandler();
                    Die die = new Die(SagradaColor.valueOf(dieFromDP.get(1)));

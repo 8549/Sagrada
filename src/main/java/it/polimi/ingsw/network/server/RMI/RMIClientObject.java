@@ -98,7 +98,6 @@ public class RMIClientObject implements RMIClientObjectInterface {
             if (!p.getName().equals(this.getPlayer().getName())){
                 playerstoSend.add(p);
             }
-
         }
         try {
             client.updateOpponentsInfo(playerstoSend);
@@ -194,6 +193,32 @@ public class RMIClientObject implements RMIClientObjectInterface {
     @Override
     public void notifyToolCardResponse(boolean response) throws RemoteException {
         client.notifyToolCardResponse(response);
+    }
+
+    @Override
+    public void pushTokens(String name, String tool, int cost) throws RemoteException {
+        client.pushTokens(name, tool, cost);
+    }
+
+    @Override
+    public void moveDie(Player player, Die d, int row, int column, int newRow, int newColumn) throws RemoteException {
+        client.notifyMoveDie(player, d, row, column, newRow, newColumn);
+    }
+
+    @Override
+    public void addDie(Player player, Die d, int row, int column) throws RemoteException {
+        client.notifyAddDie(player, d, row, column);
+    }
+
+    @Override
+    public void changeTurn(Player first) throws RemoteException {
+        client.changeTurn(first);
+    }
+
+
+    @Override
+    public void updateRoundTrack(Die d, int diePosition, int round) throws RemoteException {
+        client.updateRoundTrack(d, diePosition, round);
     }
 
     @Override

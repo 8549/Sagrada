@@ -64,6 +64,14 @@ public interface RMIClientInterface extends ClientInterface, Remote {
     public void sendNewCoordinates(int row, int column) throws RemoteException;
 
     public void nextMove() throws RemoteException;
+    public void pushTokens(String name, String tool, int cost) throws RemoteException;
+
+    public void notifyMoveDie(Player player,Die d, int row, int column, int newRow, int newColumn) throws RemoteException;
+    public void notifyAddDie(Player player, Die d, int rowm, int column) throws RemoteException;
+    public void changeTurn(Player first) throws RemoteException;
+    public void updateRoundTrack(Die d, int diePosition, int round) throws RemoteException;
+
+
 
     public void notifyToolCardResponse(boolean response) throws RemoteException;
 

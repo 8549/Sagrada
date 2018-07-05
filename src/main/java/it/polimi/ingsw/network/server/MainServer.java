@@ -300,6 +300,7 @@ public class MainServer {
         Player player = new Player(p.getName());
         player.getPlayerWindow().setWindowPattern(p.getPlayerWindow().getWindowPattern());
         player.setPrivateObjectiveCard(null);
+        player.setInitialTokens();
         return player;
     }
 

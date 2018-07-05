@@ -5,6 +5,7 @@ import it.polimi.ingsw.network.server.ClientObject;
 import it.polimi.ingsw.network.server.ServerInterface;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
 
 import static it.polimi.ingsw.GameManager.PUBLIC_OBJ_CARDS_NUMBER;
@@ -77,7 +78,7 @@ public class SocketClientObject implements ClientObject {
         String data = "";
         for (Player p : thinPlayers){
             if (!p.getName().equals(this.player.getName())) {
-                data = data + p.getName() + "/" + p.getPlayerWindow().getWindowPattern().getName() + "/";
+                data = data + p.getName() + "/" + p.getPlayerWindow().getWindowPattern().getName() + "/" + p.getTokens();
             }
         }
 
@@ -173,6 +174,11 @@ public class SocketClientObject implements ClientObject {
     }
 
     @Override
+    public void pushTokens(String name, String tool, int cost) throws IOException {
+        socketHandler.send("update", "toolTokens", name + "/" + tool + "/" + cost);
+    }
+
+    @Override
     public void notifyMoveNotAvailable() throws IOException {
         socketHandler.send("update", "moveNotAvailable","");
     }
@@ -234,5 +240,28 @@ public class SocketClientObject implements ClientObject {
     public void setNewCoordinates() throws IOException {
         socketHandler.send("request", "setNewCoordinates", "");
 
+    }
+
+    @Override
+    public void moveDie(Player player, Die d, int row, int column, int newRow, int newColumn) throws IOException {
+        socketHandler.send("update", "moveDieTool", player.getName() + "/" + d.getColor() + "/" + d.getNumber() + "/" + row + "/" + column + "/" + newRow + "/" + newColumn);
+    }
+
+    @Override
+    public void addDie(Player player, Die d, int row, int column) throws IOException {
+        socketHandler.send("update", "addDieTool", player.getName() + "/" + d.getColor() + "/" + d.getNumber() + "/" + row + "/" + column );
+
+    }
+
+    @Override
+    public void changeTurn(Player p) throws IOException {
+        socketHandler.send("update", "changeTurn", p.getName());
+    }
+
+
+    @Override
+    public void updateRoundTrack(Die d, int diePosition, int round) {
+
+        socketHandler.send("update", "updateRoundTrack", round + "/" +   d.getColor() + "/" + d.getNumber() + "/" + diePosition);
     }
 }

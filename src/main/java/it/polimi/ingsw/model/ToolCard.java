@@ -62,6 +62,10 @@ public class ToolCard implements Card {
         return used;
     }
 
+    public void setIsUsed(boolean isUsed){
+        this.used = isUsed;
+    }
+
     public int getCost() {
         if (used) {
             return 2;
@@ -221,6 +225,7 @@ public class ToolCard implements Card {
             getTurn().setToolCardUsed();
             player.removeTokens(getCost());
             addTokens();
+            toolCardHandler.pushNewTokens(getCost(), player, getName());
             used = true;
             if (getTurn().isDiePlaced()) {
                 gameManager.endCurrentTurn();

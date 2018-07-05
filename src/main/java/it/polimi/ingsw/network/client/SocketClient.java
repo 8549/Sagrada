@@ -161,7 +161,7 @@ public class SocketClient implements ClientInterface {
                         break;
 
                     case "opponentsInfo": List<String> info = socketParserClient.parseData(data);
-                                            for(int i=0; i<info.size(); i= i+2){
+                                            for(int i=0; i<info.size(); i= i+3){
                                                 ch.initPlayer(info.get(i), info.get(i+1));
                                             }
                         break;
@@ -232,17 +232,46 @@ public class SocketClient implements ClientInterface {
                         break;
 
                     case "endRound": List<String> roundTrackDice = socketParserClient.parseData(data);
-                        List<Die> d = new ArrayList<>();
-                        for (int i=0; i<roundTrackDice.size(); i= i+2){
-                            Die die = new Die(SagradaColor.valueOf(roundTrackDice.get(i).toUpperCase()));
-                            die.setNumber(Integer.valueOf(roundTrackDice.get(i + 1)));
-                            d.add(die);
-                        }
-                        ch.endRound(d);
+                            List<Die> d = new ArrayList<>();
+                            for (int i=0; i<roundTrackDice.size(); i= i+2){
+                                Die die = new Die(SagradaColor.valueOf(roundTrackDice.get(i).toUpperCase()));
+                                die.setNumber(Integer.valueOf(roundTrackDice.get(i + 1)));
+                                d.add(die);
+                            }
+                            ch.endRound(d);
                         break;
 
                     case "nextMove":
-                        ch.nextMove();
+                            ch.nextMove();
+                        break;
+
+                    case "toolTokens": List<String> tokensUsed = socketParserClient.parseData(data);
+                                    ch.updateTokens(tokensUsed.get(0), tokensUsed.get(1), Integer.valueOf(tokensUsed.get(2)));
+                        break;
+                    case "moveDieTool": List<String> dieMove = socketParserClient.parseData(data);
+                                        String playerMove = dieMove.get(0);
+                                        Die dieMoved = new Die(SagradaColor.valueOf(dieMove.get(1)));
+                                        dieMoved.setNumber(Integer.valueOf(dieMove.get(2)));
+                                        int oldRow = Integer.valueOf(dieMove.get(3));
+                                        int oldColumn = Integer.valueOf(dieMove.get(4));
+                                        int newRow = Integer.valueOf(dieMove.get(5));
+                                        int newColumn = Integer.valueOf(dieMove.get(6));
+                                        ch.handleMoveDie(playerMove, dieMoved, oldRow, oldColumn, newRow, newColumn);
+
+                        break;
+                    case "addDieTool": List<String> addDie = socketParserClient.parseData(data);
+                                        Die dieAdded = new Die(SagradaColor.valueOf(addDie.get(1)));
+                                        dieAdded.setNumber(Integer.valueOf(addDie.get(2)));
+                                        ch.handleAddDie(addDie.get(0), dieAdded,Integer.valueOf(addDie.get(3)), Integer.valueOf(addDie.get(4)));
+
+                        break;
+                    case "changeTurn": ch.handleChangeTurn(data);
+
+                        break;
+                    case "updateRoundTrack": List<String> newRoundTrack = socketParserClient.parseData(data);
+                                        Die dieRound = new Die(SagradaColor.valueOf(newRoundTrack.get(1)));
+                                        dieRound.setNumber(Integer.valueOf(newRoundTrack.get(2)));
+                                        ch.handleUpdateRoundTrack(dieRound, Integer.valueOf(newRoundTrack.get(3)), Integer.valueOf(newRoundTrack.get(0)));
                         break;
 
                     default: break;

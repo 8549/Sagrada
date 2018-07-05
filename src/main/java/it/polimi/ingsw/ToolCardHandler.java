@@ -1,12 +1,11 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.model.Die;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.ToolCard;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.server.ClientObject;
 import it.polimi.ingsw.network.server.MainServer;
 
 import java.io.IOException;
+import java.util.List;
 
 public class ToolCardHandler {
     private GameManager gm;
@@ -182,5 +181,64 @@ public class ToolCardHandler {
 
     public void setTwoNewCoordinatesChoice(int row, int column, int secondRow, int secondColumn){
             toolcard.completeProcessTwoMoves(row, column, secondRow, secondColumn);
+    }
+    public void pushNewTokens(int cost, Player player, String tool) {
+        for(ClientObject c : server.getInGameClients()){
+            try {
+                c.pushTokens(player.getName(), tool, cost);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+
+    public void updateDraftPool(List<Die> draft){
+        for(ClientObject c : server.getInGameClients()){
+            try {
+                c.pushDraft(draft);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+    public void notifyAddDie(Player player, Die d, int row, int column){
+        for(ClientObject c : server.getInGameClients()){
+            try {
+                c.addDie(player, d, row, column);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void notifyMoveDie(Player player, Die d, int row, int column, int newRow, int newColumn){
+        for(ClientObject c : server.getInGameClients()){
+            try {
+                c.moveDie(player, d, row, column, newRow, newColumn);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public void notifyChangeTurn(Player first){
+        for(ClientObject c : server.getInGameClients()){
+            try {
+                c.changeTurn(first);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+    public void updateRoundTrack(Die d, int diePosition, int round){
+        for(ClientObject c : server.getInGameClients()){
+            try {
+                c.updateRoundTrack(d, diePosition, round);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
