@@ -169,9 +169,7 @@ public class ClientHandler implements Serializable {
             @Override
             public void run() {
                 proxyModel.addToolCard(tools);
-                for (ToolCard t : proxyModel.getToolCards()) {
-                    t.setIsUsed(false);
-                }
+
             }
         };
         perform(task);
@@ -222,6 +220,9 @@ public class ClientHandler implements Serializable {
             @Override
             public void run() {
                 boolean myTurn = false;
+                for (ToolCard t : proxyModel.getToolCards()) {
+                    t.setIsUsed(false);
+                }
                 if (proxyModel.getMyself().getName().equals(name)) {
                     proxyModel.setCurrentPlayer(proxyModel.getMyself());
                     myTurn = true;
@@ -490,6 +491,23 @@ public class ClientHandler implements Serializable {
         };
         perform(task);
 
+    }
+
+    public void handleToolEnd(boolean response, String name){
+        if(name.equals(proxyModel.getMyself().getName())){
+            if(response){
+                System.out.println("[DEBUG] Your tool worked correctly!");
+            }else{
+                System.out.println("[DEBUG] Something went wrong with your tool");
+            }
+        }else{
+            if(response){
+                System.out.println("[DEBUG] Player " + name +"'s tool worked correctly!");
+            }else{
+                System.out.println("[DEBUG] Something went wrong with " + name + "'s your tool");
+            }
+
+        }
     }
 }
 

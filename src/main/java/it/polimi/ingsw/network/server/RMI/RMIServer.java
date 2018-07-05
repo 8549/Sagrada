@@ -68,11 +68,26 @@ public class RMIServer  implements RMIServerInterface {
 
     public void pingClient(RMIClientObjectInterface client){
 
+        final boolean[] isTimerRunning = {false};
+        final boolean[] isAlive = {false};
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
                 try {
-                    client.ping();
+                    if(!isTimerRunning[0]){
+                        isAlive[0] = client.ping();
+                        System.out.println("[DEBUG] Ping Sent");
+                        isTimerRunning[0] = true;
+                    }else{
+                        if(isAlive[0]){
+                            isAlive[0] = client.ping();
+                        }else{
+                            server.disconnect(client);
+                            System.out.println("[DEBUG] Client disconnected");
+                            this.cancel();
+                        }
+                    }
+
                 } catch (RemoteException e) {
                     e.printStackTrace();
                     server.disconnect(client);

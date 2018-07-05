@@ -11,7 +11,7 @@ public class GameManager {
     public static final int PATTERN_CARDS_PER_PLAYER = 2;
     public static final int PUBLIC_OBJ_CARDS_NUMBER = 3;
     public static final int TOOL_CARDS_NUMBER = 3;
-    public static final int MOVE_TIMEOUT = 80;
+    public static final int MOVE_TIMEOUT = 880;
     private MainServer server;
     private List<Player> players;
     private PublicObjectiveCard[] publicObjectiveCards = new PublicObjectiveCard[PUBLIC_OBJ_CARDS_NUMBER];

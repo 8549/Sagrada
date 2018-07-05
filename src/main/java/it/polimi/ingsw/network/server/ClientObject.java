@@ -66,6 +66,8 @@ public interface ClientObject {
 
     public void setNewCoordinates() throws IOException;
 
+    public void notifyToolUsed(boolean result, String name) throws IOException;
+
 
     public void moveDie(Player player, Die d, int row, int column, int newRow, int newColumn) throws IOException;
     public void addDie(Player player, Die d, int rowm, int column) throws IOException;

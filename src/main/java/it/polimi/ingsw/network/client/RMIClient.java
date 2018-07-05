@@ -227,8 +227,8 @@ public class RMIClient implements RMIClientInterface, Serializable {
     }
 
     @Override
-    public void ping() throws RemoteException {
-
+    public boolean ping() throws RemoteException {
+        return true;
     }
 
     @Override
@@ -301,6 +301,11 @@ public class RMIClient implements RMIClientInterface, Serializable {
     @Override
     public void updateRoundTrack(Die d, int diePosition, int round) throws RemoteException {
         ch.handleUpdateRoundTrack(d, diePosition, round);
+    }
+
+    @Override
+    public void notifyEndTool(boolean response, String name) throws RemoteException {
+        ch.handleToolEnd(response, name);
     }
 
     @Override

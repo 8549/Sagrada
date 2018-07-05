@@ -51,7 +51,7 @@ public interface RMIClientInterface extends ClientInterface, Remote {
     public void chooseToMoveOneDie() throws RemoteException;
     public void setValue() throws RemoteException;
     public void setNewCoordinates() throws RemoteException;
-    public void ping() throws RemoteException;
+    public boolean ping() throws RemoteException;
 
 
     public void sendDieFromWP(Die d, int row, int column) throws RemoteException;
@@ -70,6 +70,8 @@ public interface RMIClientInterface extends ClientInterface, Remote {
     public void notifyAddDie(Player player, Die d, int rowm, int column) throws RemoteException;
     public void changeTurn(Player first) throws RemoteException;
     public void updateRoundTrack(Die d, int diePosition, int round) throws RemoteException;
+
+    public void notifyEndTool(boolean response, String name) throws RemoteException;
 
 
 

@@ -274,6 +274,14 @@ public class SocketClient implements ClientInterface {
                                         ch.handleUpdateRoundTrack(dieRound, Integer.valueOf(newRoundTrack.get(3)), Integer.valueOf(newRoundTrack.get(0)));
                         break;
 
+                    case "toolEnd": List<String> toolresult = socketParserClient.parseData(data);
+                                    if(toolresult.get(0).equals("true")){
+                                        ch.handleToolEnd(true, toolresult.get(1));
+                                    }else{
+                                        ch.handleToolEnd(false, toolresult.get(1));
+                                    }
+                        break;
+
                     default: break;
 
 

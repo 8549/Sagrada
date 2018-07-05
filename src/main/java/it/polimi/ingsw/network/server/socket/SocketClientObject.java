@@ -243,6 +243,17 @@ public class SocketClientObject implements ClientObject {
     }
 
     @Override
+    public void notifyToolUsed(boolean result,String name) throws IOException {
+        if(result){
+            socketHandler.send("update", "toolEnd", "true"+ "/" + name);
+        }else{
+            socketHandler.send("update", "toolEnd", "false" + "/" + name);
+
+        }
+
+    }
+
+    @Override
     public void moveDie(Player player, Die d, int row, int column, int newRow, int newColumn) throws IOException {
         socketHandler.send("update", "moveDieTool", player.getName() + "/" + d.getColor() + "/" + d.getNumber() + "/" + row + "/" + column + "/" + newRow + "/" + newColumn);
     }

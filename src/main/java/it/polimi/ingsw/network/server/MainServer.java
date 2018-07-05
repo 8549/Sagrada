@@ -470,6 +470,19 @@ public class MainServer {
     }
 
     public void notifyPlayerIfToolCardWorked(boolean toolCardWorked) {
+        for(ClientObject c : inGameClients){
+            try {
+                if(!c.getPlayer().getName().equals(gm.getCurrentPlayer().getName()))
+                    c.notifyToolUsed(toolCardWorked, gm.getCurrentPlayer().getName());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            getClientByName(gm.getCurrentPlayer().getName()).notifyToolUsed(toolCardWorked, gm.getCurrentPlayer().getName());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void notifyMoveNotAvailable() {

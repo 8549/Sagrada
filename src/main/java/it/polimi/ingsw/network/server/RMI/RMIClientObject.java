@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.client.RMIClientInterface;
 import it.polimi.ingsw.network.server.ServerInterface;
 
-import java.io.IOException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -201,6 +200,11 @@ public class RMIClientObject implements RMIClientObjectInterface {
     }
 
     @Override
+    public void notifyToolUsed(boolean result, String name) throws RemoteException {
+        client.notifyEndTool(result, name);
+    }
+
+    @Override
     public void moveDie(Player player, Die d, int row, int column, int newRow, int newColumn) throws RemoteException {
         client.notifyMoveDie(player, d, row, column, newRow, newColumn);
     }
@@ -222,8 +226,8 @@ public class RMIClientObject implements RMIClientObjectInterface {
     }
 
     @Override
-    public void ping() throws RemoteException {
-        client.ping();
+    public boolean ping() throws RemoteException {
+        return client.ping();
     }
 
     @Override
