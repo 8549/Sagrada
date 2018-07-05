@@ -9,6 +9,6 @@ public class MoveDieEffect extends Effect{
 
     @Override
     public void perform(Object... args) {
-        toolCard.processMoveWithoutConstraints(true, true, true, false);
+        toolCard.processTwoMoveWithoutConstraints(true, true, true, false);
     }
 }

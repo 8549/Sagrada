@@ -46,7 +46,6 @@ public class GameManager {
         this.players = players;
         board = new Board();
         board.setDiceBag();
-        board.setPlayers(players);
     }
 
     /**
@@ -102,6 +101,7 @@ public class GameManager {
 
         //confirm players
         server.gameStartedProcedures(players, MOVE_TIMEOUT);
+        board.setPlayers(players);
 
         for (Player player : players) {
 
