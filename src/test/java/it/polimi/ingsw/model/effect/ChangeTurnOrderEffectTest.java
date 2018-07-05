@@ -1,6 +1,9 @@
 package it.polimi.ingsw.model.effect;
 
+import it.polimi.ingsw.GameManager;
+import it.polimi.ingsw.ToolCardHandler;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.network.server.MainServer;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -9,17 +12,18 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ChangeTurnOrderEffectTest {
-/*
-    @Test
-    void testPerform() {
-        ToolCardMock toolCardMock = new ToolCardMock();
-        toolCardMock.setToolCardMock();
-        ChangeTurnOrderEffect changeTurnOrderEffect = new ChangeTurnOrderEffect("changeTurnOrder");
-        changeTurnOrderEffect.setToolCard(toolCardMock);
-        changeTurnOrderEffect.perform(toolCardMock.getRound());
-        assertEquals(toolCardMock.getBoard().getPlayers().get(0), toolCardMock.getRound().getTurns().get(1).getPlayer());
-    }
-*/
+
+        @Test
+        void testPerform() {
+            ToolCardMock toolCardMock = new ToolCardMock();
+            toolCardMock.setToolCardMock();
+            toolCardMock.setToolCardHandlerbis(toolCardMock);
+            ChangeTurnOrderEffect changeTurnOrderEffect = new ChangeTurnOrderEffect("changeTurnOrder");
+            changeTurnOrderEffect.setToolCard(toolCardMock);
+            changeTurnOrderEffect.perform(toolCardMock.getRound());
+            assertEquals(toolCardMock.getBoard().getPlayers().get(0), toolCardMock.getRound().getTurns().get(1).getPlayer());
+        }
+
     private class ToolCardMock extends it.polimi.ingsw.model.ToolCard {
         Round round;
         Turn turn;
@@ -52,7 +56,7 @@ class ChangeTurnOrderEffectTest {
             Effect effect4 = new ChangeTurnOrderEffect("changeTurnOrder");
             Effect effect5 = new CheckIfDieHasBeenPlacedEffect("checkIfDieHasBeenPlaced");
             Effect effect6 = new CheckIsDiePlacedEffect("checkIsDiePlaced");
-            Effect effect7= new CheckIsFirstTurnEffect("checkIsFirstTurn");
+            Effect effect7 = new CheckIsFirstTurnEffect("checkIsFirstTurn");
             Effect effect8 = new CheckIsSecondTurnEffect("checkIsSecondTurn");
             Effect effect = new DecreaseValueEffect("decreaseValueDie");
             Effect effect1 = new FlipDieEffect("flipDie");
@@ -79,7 +83,13 @@ class ChangeTurnOrderEffectTest {
             features.add(effect10);
             features.add(effect12);
             effectIterator = features.iterator();
-            everythingOk=true;
+            everythingOk = true;
+        }
+
+        public void setToolCardHandlerbis(ToolCard toolCard) {
+            MainServerMock mainServerMock = new MainServerMock();
+            GameManager gm = new GameManager(board.getPlayers());
+            toolCardHandler = new ToolCardHandlerMock(player, gm, mainServerMock, toolCard);
         }
 
 
@@ -97,9 +107,45 @@ class ChangeTurnOrderEffectTest {
         public Turn getTurn() {
             return turn;
         }
+    }
 
 
+    private class MainServerMock extends MainServer {
+        public MainServerMock() {
+            super();
+        }
 
+        @Override
+        public void askPlayerForNextMove() {
+
+        }
+
+    }
+
+    private class ToolCardHandlerMock extends ToolCardHandler {
+        public ToolCardHandlerMock(Player p, GameManager gm, MainServer server, ToolCard toolCard) {
+            super(p, gm, server, toolCard);
+        }
+
+        @Override
+        public void updateDraftPool(List<Die> draft) {
+        }
+
+        @Override
+        public void notifyAddDie(Player player, Die d, int row, int column) {
+        }
+
+        @Override
+        public void notifyMoveDie(Player player, Die d, int row, int column, int newRow, int newColumn) {
+        }
+
+        @Override
+        public void notifyChangeTurn(Player first) {
+        }
+
+        @Override
+        public void updateRoundTrack(Die d, int diePosition, int round) {
+        }
     }
 
 }

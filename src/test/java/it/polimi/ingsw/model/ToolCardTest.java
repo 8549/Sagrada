@@ -249,19 +249,24 @@ class ToolCardTest {
         assertFalse(toolCardMock.moveOneDie);
 
     }
-/*
+
     @Test
     void testCompleteProcessMove() {
         ToolCardMock toolCardMock = new ToolCardMock();
         toolCardMock.setToolCardMock();
+        toolCardMock.setToolCardHandlerbis(toolCardMock);
         Die die = toolCardMock.getBoard().getDraftPool().get(2);
         toolCardMock.completeChooseDieFromDraftPool(die);
         toolCardMock.processMoveWithoutConstraints(true, true, true, true);
         toolCardMock.completeProcessMove(0, 1);
         assertTrue(toolCardMock.everythingOk);
 
+
+        toolCardMock.completeProcessMove(0, 4);
+        assertTrue(toolCardMock.everythingOk);
+
     }
-*/
+
     @Test
     void testCheckHasNextEffect() {
         ToolCardMock toolCardMock = new ToolCardMock();
@@ -276,20 +281,30 @@ class ToolCardTest {
         assertFalse(toolCardMock.toolCardHandler.isActive());
     }
 
-    @Test
-    void processTwoMoveWithoutConstraints() {
-    }
-
-    @Test
-    void getDie() {
-    }
 
     @Test
     void completeProcessTwoMoves() {
+        ToolCardMock toolCardMock = new ToolCardMock();
+        toolCardMock.setToolCardMock();
+        toolCardMock.setToolCardHandlerbis(toolCardMock);
+        Die die = toolCardMock.getBoard().getDraftPool().get(2);
+        toolCardMock.completeChooseDieFromDraftPool(die);
+        toolCardMock.processTwoMoveWithoutConstraints(true, true, true, true);
+        toolCardMock.completeProcessTwoMoves(7, 1, 5, 3);
+        assertFalse(toolCardMock.everythingOk);
+
+        toolCardMock.completeChoiceIfMoveOneDie(true);
+        toolCardMock.completeProcessTwoMoves(0, 1, 3, 4);
+        assertTrue(toolCardMock.isEverythingOk());
     }
 
     @Test
-    void isEverythingOk() {
+    void testIsEverythingOk() {
+        ToolCardMock toolCardMock = new ToolCardMock();
+        toolCardMock.setToolCardMock();
+        assertTrue(toolCardMock.isEverythingOk());
+        toolCardMock.setResponse(false);
+        assertFalse(toolCardMock.isEverythingOk());
     }
 
     private class ToolCardMock extends it.polimi.ingsw.model.ToolCard {
@@ -377,6 +392,7 @@ class ToolCardTest {
             name = "Tap Wheel";
             id = 12;
             when = "always";
+            secondDie= board.getDraftPool().get(3);
             List<Effect> features = new ArrayList<>();
             Effect effect = new ChooseToMoveOneOrTwoDice("chooseToMoveOneOrTwoDice");
             Effect effect1;
@@ -391,6 +407,13 @@ class ToolCardTest {
             features.add(effect3);
             effectIterator = features.iterator();
             everythingOk=true;
+        }
+
+
+        public void setToolCardHandlerbis(ToolCard toolCard){
+            MainServerMock mainServerMock = new MainServerMock();
+            GameManager gm = new GameManager(board.getPlayers());
+            toolCardHandler = new ToolCardHandlerMock(player, gm, mainServerMock, toolCard);
         }
 
 
@@ -450,6 +473,28 @@ class ToolCardTest {
 
         }
 
+    }
+
+
+    private class ToolCardHandlerMock extends ToolCardHandler {
+        public ToolCardHandlerMock(Player p, GameManager gm, MainServer server, ToolCard toolCard) {
+            super(p, gm, server, toolCard);
+        }
+
+        @Override
+        public void updateDraftPool(List<Die> draft){}
+
+        @Override
+        public void notifyAddDie(Player player, Die d, int row, int column){}
+
+        @Override
+        public void notifyMoveDie(Player player, Die d, int row, int column, int newRow, int newColumn){}
+
+        @Override
+        public void notifyChangeTurn(Player first){}
+
+        @Override
+        public void updateRoundTrack(Die d, int diePosition, int round){}
     }
 
 }
