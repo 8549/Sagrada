@@ -276,6 +276,22 @@ class ToolCardTest {
         assertFalse(toolCardMock.toolCardHandler.isActive());
     }
 
+    @Test
+    void processTwoMoveWithoutConstraints() {
+    }
+
+    @Test
+    void getDie() {
+    }
+
+    @Test
+    void completeProcessTwoMoves() {
+    }
+
+    @Test
+    void isEverythingOk() {
+    }
+
     private class ToolCardMock extends it.polimi.ingsw.model.ToolCard {
         Round round;
         Turn turn;

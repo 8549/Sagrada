@@ -40,8 +40,8 @@ public class RoundTrack {
 
     public Die replaceDie(Die die, int turn, int numberOfDie) {
         if (turn <= roundCounter) {
-            Die oldDie = dice.get(turn - 1).remove(numberOfDie);
-            dice.get(turn - 1).add(die);
+            Die oldDie = dice.get(turn).remove(numberOfDie);
+            dice.get(turn).add(die);
             return oldDie;
         }
         return null;

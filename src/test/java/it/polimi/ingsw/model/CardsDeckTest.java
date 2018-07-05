@@ -16,7 +16,8 @@ class CardsDeckTest {
 
     @Test
     void testGetRandomCard() {
-        CardsDeck expectedDeck = new CardsDeck("SamplePatternCards.json", new TypeToken<List<PatternCard>>(){}.getType());
+        CardsDeck expectedDeck = new CardsDeck("SamplePatternCards.json", new TypeToken<List<PatternCard>>() {
+        }.getType());
         List<PatternCard> actualCards = getSamplePatternCards();
         assertEquals(expectedDeck.getAsList(), actualCards);
     }
@@ -121,5 +122,44 @@ class CardsDeckTest {
         cards.add(card2);
 
         return cards;
+    }
+
+    @Test
+    void testGetWindowPatternByName() {
+        PatternConstraint[][] patternConstraints = new PatternConstraint[WindowPattern.ROWS][WindowPattern.COLUMNS];        patternConstraints[0][0] = new ColorConstraint(SagradaColor.YELLOW);
+        patternConstraints[0][1] = new ColorConstraint(SagradaColor.BLUE);
+        patternConstraints[0][2] = new BlankConstraint();
+        patternConstraints[0][3] = new BlankConstraint();
+        patternConstraints[0][4] = new NumberConstraint(1);
+        patternConstraints[1][0] = new ColorConstraint(SagradaColor.GREEN);
+        patternConstraints[1][1] = new BlankConstraint();
+        patternConstraints[1][2] = new NumberConstraint(5);
+        patternConstraints[1][3] = new BlankConstraint();
+        patternConstraints[1][4] = new NumberConstraint(4);
+        patternConstraints[2][0] = new NumberConstraint(3);
+        patternConstraints[2][1] = new BlankConstraint();
+        patternConstraints[2][2] = new ColorConstraint(SagradaColor.RED);
+        patternConstraints[2][3] = new BlankConstraint();
+        patternConstraints[2][4] = new ColorConstraint(SagradaColor.GREEN);
+        patternConstraints[3][0] = new NumberConstraint(2);
+        patternConstraints[3][1] = new BlankConstraint();
+        patternConstraints[3][2] = new BlankConstraint();
+        patternConstraints[3][3] = new ColorConstraint(SagradaColor.BLUE);
+        patternConstraints[3][4] = new ColorConstraint(SagradaColor.YELLOW);
+        WindowPattern kaleidoscopicDream = new WindowPattern(4, "Kaleidoscopic Dream", patternConstraints);
+
+        CardsDeck expectedDeck = new CardsDeck("SamplePatternCards.json", new TypeToken<List<PatternCard>>() {
+        }.getType());
+
+        assertEquals(kaleidoscopicDream, expectedDeck.getWindowPatternByName("Kaleidoscopic Dream"));
+
+    }
+
+    @Test
+    void testGetAsList() {
+        CardsDeck expectedDeck = new CardsDeck("SamplePatternCards.json", new TypeToken<List<PatternCard>>() {
+        }.getType());
+
+        assertTrue(expectedDeck != null);
     }
 }
