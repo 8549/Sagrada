@@ -169,22 +169,6 @@ class BoardTest {
     }
 
     @Test
-    void testSetScoreTrack() {
-        Board board = new Board();
-        assertTrue(board.getScoreTrack()== null);
-        board.setScoreTrack();
-        assertFalse(board.getScoreTrack() == null);
-    }
-
-    @Test
-    void testGetScoreTrack() {
-        Board board = new Board();
-        assertTrue(board.getScoreTrack()== null);
-        board.setScoreTrack();
-        assertFalse(board.getScoreTrack() == null);
-    }
-
-    @Test
     void testGetDiceBag() {
         Board board = new Board();
         board.setDiceBag();

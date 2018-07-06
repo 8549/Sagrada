@@ -28,10 +28,6 @@ class NumberConstraintTest {
     }
 
     @Test
-    void testGetAsGraphic() {
-    }
-
-    @Test
     void testToCLI() {
         NumberConstraint constraint = new NumberConstraint(3);
         assertEquals("" + 3, constraint.toCLI());

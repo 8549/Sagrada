@@ -23,10 +23,6 @@ class ColorConstraintTest {
     }
 
     @Test
-    void testGetAsGraphic() {
-    }
-
-    @Test
     void testToCLI() {
         ColorConstraint constraint = new ColorConstraint(SagradaColor.BLUE);
         int unicodeNumber = 9632;

@@ -12,7 +12,6 @@ public class Board {
     private List<Die> draftPool;
     private RoundTrack roundTrack;
     private List<Player> players;
-    private ScoreTrack scoreTrack;
     private DiceBag diceBag;
 
     public Board() {
@@ -56,10 +55,6 @@ public class Board {
         return roundTrack;
     }
 
-    public ScoreTrack getScoreTrack() {
-        return scoreTrack;
-    }
-
 
     public DiceBag getDiceBag() {
         return diceBag;
@@ -68,10 +63,6 @@ public class Board {
     public void setRoundTrack() {
         roundTrack = new RoundTrack();
         roundTrack.getRoundCounter();
-    }
-
-    public void setScoreTrack() {
-        scoreTrack = new ScoreTrack();
     }
 
     public void setDiceBag() {

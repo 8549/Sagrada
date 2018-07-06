@@ -10,7 +10,7 @@ import java.util.List;
 public class ToolCardHandler {
     private GameManager gm;
     private MainServer server;
-    private ToolCard toolcard;
+    protected ToolCard toolcard;
     private Player player;
     private boolean isActive=false;
     private SagradaColor colorOfPickedDie;

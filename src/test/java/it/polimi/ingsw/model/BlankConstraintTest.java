@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.BlankConstraint;
 import it.polimi.ingsw.model.CheckModifier;
 import it.polimi.ingsw.model.Die;
 import it.polimi.ingsw.model.SagradaColor;
+import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import org.junit.Ignore;
@@ -24,16 +25,6 @@ class BlankConstraintTest {
         }
     }
 
-    @Ignore
-    void testGetAsGraphic() {
-        Double size= 1.2;
-        Rectangle rect = new Rectangle();
-        rect.setWidth(size);
-        rect.setHeight(size);
-        rect.setFill(Color.TRANSPARENT);
-        BlankConstraint constraint = new BlankConstraint();
-        assertEquals(rect, constraint.getAsGraphic(size));
-    }
 
     @Test
     void testToCLI() {
@@ -48,7 +39,5 @@ class BlankConstraintTest {
 
     }
 
-    @Test
-    void equals() {
-    }
+
 }

@@ -20,7 +20,7 @@ public class GameManager {
     private Player firstPlayer;
     private Player currentPlayer;
     private Board board;
-    public static final int ROUNDS = 10;
+    public static final int ROUNDS = 5;
     public static final int FIRSTROUND = 1;
     public static final int SECONDROUND = 2;
     private int numberCurrentRound;
@@ -50,16 +50,13 @@ public class GameManager {
     }
 
     /**
-     * This method performs the initial game setup following Sagrada's rules: places roundtrack, places scoretrack,
-     * drafts 3 tool cards, drafts 3 public objective cards, selects randomly the first player
+     * This method performs the initial game setup following Sagrada's rules: places roundtrack,
+     * * drafts 3 tool cards, drafts 3 public objective cards, selects randomly the first player
      */
     private void gameSetup() {
 
         //place round track
         board.setRoundTrack();
-
-        //init scoretrack
-        board.setScoreTrack();
 
         //place toolcard
         CardsDeck toolDeck = new CardsDeck("ToolCards.json", new TypeToken<List<ToolCard>>() {
@@ -142,6 +139,8 @@ public class GameManager {
             for (ObjCard pubCard : publicObjectiveCards) {
                 player.addPoints(pubCard.checkObjective(player.getPlayerWindow().getDiceGrid()));
             }
+            player.addPoints(player.getTokens());
+            player.subPoints(player.getPlayerWindow().emptyCount());
         }
         int pointWinner = 0;
         for (int i = 0; i < players.size(); i++) {
@@ -153,9 +152,9 @@ public class GameManager {
         }
         for (int i = 1; i < players.size(); i++) {
             if (players.get(i).getPoints() == pointWinner) {
-                server.notifyWinner(players.get(i));
+                server.notifyWinner(players.get(i), players.get(i).getPoints());
             } else {
-                server.notifyLoser(players.get(i));
+                server.notifyLoser(players.get(i), players.get(i).getPoints());
             }
         }
     }

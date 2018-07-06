@@ -475,10 +475,10 @@ public class MainServer {
         this.toolCardHandlers.add(toolCardHandlers);
     }
 
-    public void notifyWinner(Player winner) {
+    public void notifyWinner(Player winner, int points) {
     }
 
-    public void notifyLoser(Player players) {
+    public void notifyLoser(Player players, int points) {
     }
 
     public void notifyPlayerIfToolCardWorked(boolean toolCardWorked) {
