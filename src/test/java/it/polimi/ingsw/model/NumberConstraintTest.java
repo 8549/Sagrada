@@ -1,13 +1,11 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.CheckModifier;
-import it.polimi.ingsw.model.Die;
-import it.polimi.ingsw.model.NumberConstraint;
-import it.polimi.ingsw.model.SagradaColor;
+
 import org.junit.jupiter.api.Test;
 
 import java.util.Random;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -27,5 +25,21 @@ class NumberConstraintTest {
                 assertFalse(constraint.checkConstraint(die, CheckModifier.NORMAL));
             }
         }
+    }
+
+    @Test
+    void testGetAsGraphic() {
+    }
+
+    @Test
+    void testToCLI() {
+        NumberConstraint constraint = new NumberConstraint(3);
+        assertEquals("" + 3, constraint.toCLI());
+    }
+
+    @Test
+    void testGetNumber() {
+        NumberConstraint constraint = new NumberConstraint(3);
+        assertEquals(3, constraint.getNumber());
     }
 }

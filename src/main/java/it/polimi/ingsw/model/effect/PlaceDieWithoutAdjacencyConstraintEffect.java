@@ -17,6 +17,6 @@ public class PlaceDieWithoutAdjacencyConstraintEffect extends Effect {
                 break;
             }
         }
-        toolCard.processMoveWithoutConstraints(true, true, false, false);
+        toolCard.processMoveWithoutConstraints(true, true, false, true);
     }
 }

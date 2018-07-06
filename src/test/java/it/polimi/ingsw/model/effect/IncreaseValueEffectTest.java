@@ -25,6 +25,9 @@ class IncreaseValueEffectTest {
         assertEquals(5, toolCardMock.getDie().getNumber());
         increaseValueEffect.perform(toolCardMock.getDie(), true);
         assertEquals(5, toolCardMock.getDie().getNumber());
+        toolCardMock.getDie().setNumber(6);
+        increaseValueEffect.perform(toolCardMock.getDie(), false);
+        assertFalse(toolCardMock.isEverythingOk());
     }
 
     private class ToolCardMock extends it.polimi.ingsw.model.ToolCard {

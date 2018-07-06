@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model.effect;
 
-public class ChooseDieFromWindowPattern extends Effect {
+public class ChooseDieFromWindowPatternEffect extends Effect {
 
-    public ChooseDieFromWindowPattern(String name){
+    public ChooseDieFromWindowPatternEffect(String name){
         this.name = name;
     }
     @Override

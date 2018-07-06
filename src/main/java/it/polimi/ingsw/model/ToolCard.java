@@ -62,7 +62,7 @@ public class ToolCard implements Card {
         return used;
     }
 
-    public void setIsUsed(boolean isUsed){
+    public void setIsUsed(boolean isUsed) {
         this.used = isUsed;
     }
 
@@ -315,22 +315,28 @@ public class ToolCard implements Card {
         if (moveValidator.validateMove(die, newRow, newColumn, player)) {
             if (!adjacency || !place) {
                 player.getPlayerWindow().addDie(die, newRow, newColumn);
+                getTurn().setDiePlaced();
                 toolCardHandler.notifyAddDie(player, die, newRow, newColumn);
                 getTurn().setDiePlaced();
             } else if (adjacency || place) {
+                if (player.getPlayerWindow().dieCount() == 1) {
+                    player.getPlayerWindow().setOneDie(true);
+                }
                 player.getPlayerWindow().moveDie(oldRow, oldColumn, newRow, newColumn);
                 toolCardHandler.notifyMoveDie(player, die, oldRow, oldColumn, newRow, newColumn);
+                player.getPlayerWindow().setOneDie(false);
             }
             everythingOk = true;
         } else {
             everythingOk = false;
-            if (adjacency || place) {
+
+            if (place) {
                 getBoard().getDraftPool().add(die);
                 toolCardHandler.updateDraftPool(getBoard().getDraftPool());
             }
-            if (!firstChoice && !moveOneDie){
-                everythingOk=true;
-                //todo notify Player only one die was successfully moved
+            if (!firstChoice && !moveOneDie) {
+                everythingOk = true;
+                toolCardHandler.notifyPLayerOnlyOneDieWasMoved();
             }
         }
         checkHasNextEffect();
@@ -448,10 +454,15 @@ public class ToolCard implements Card {
         if (moveValidator.validateMove(die, row, column, player)) {
             if (moveValidator.validateMove(secondDie, secondRow, secondColumn, player)) {
                 player.getPlayerWindow().moveDie(oldRow, oldColumn, row, column);
-                toolCardHandler.notifyMoveDie(player, die, oldRow, oldColumn, row, column);
-                player.getPlayerWindow().moveDie(oldRowSecond, oldColumnSecond, secondRow, secondColumn);
-                toolCardHandler.notifyMoveDie(player,secondDie, oldRowSecond, oldColumnSecond, secondRow, secondColumn);
-                everythingOk = true;
+                if (moveValidator.validateMove(secondDie, secondRow, secondColumn, player)) {
+                    player.getPlayerWindow().moveDie(oldRowSecond, oldColumnSecond, secondRow, secondColumn);
+                    toolCardHandler.notifyMoveDie(player, die, oldRow, oldColumn, row, column);
+                    toolCardHandler.notifyMoveDie(player, secondDie, oldRowSecond, oldColumnSecond, secondRow, secondColumn);
+                    everythingOk = true;
+                } else {
+                    player.getPlayerWindow().moveDie(row, column, oldRow, oldColumn);
+                    everythingOk = false;
+                }
             }
         } else {
             everythingOk = false;

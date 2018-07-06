@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model.effect;
 
-public class ChooseToMoveOneOrTwoDice extends Effect{
+public class ChooseToMoveOneOrTwoDiceEffect extends Effect{
 
-    public ChooseToMoveOneOrTwoDice(String name){
+    public ChooseToMoveOneOrTwoDiceEffect(String name){
         this.name = name;
     }
 

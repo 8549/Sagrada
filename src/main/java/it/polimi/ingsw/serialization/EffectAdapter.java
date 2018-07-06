@@ -44,19 +44,19 @@ public class EffectAdapter extends TypeAdapter<Effect> {
                 effect = new ChooseDieFromRoundTrackEffect(name);
                 break;
             case "chooseDieFromWindowPattern":
-                effect = new ChooseDieFromWindowPattern(name);
+                effect = new ChooseDieFromWindowPatternEffect(name);
                 break;
             case "chooseDieValue":
                 effect = new ChooseDieValueEffect(name);
                 break;
             case "chooseIfDecreaseOrIncreaseValue":
-                effect = new ChooseIfDecreaseOrIncreaseValue(name);
+                effect = new ChooseIfDecreaseOrIncreaseValueEffect(name);
                 break;
             case "chooseIfPlaceDieOrPlaceDieInDraftPool":
                 effect = new ChooseIfPlaceDieOrPlaceDieInDraftPoolEffect(name);
                 break;
             case "chooseToMoveOneOrTwoDice":
-                effect = new ChooseToMoveOneOrTwoDice(name);
+                effect = new ChooseToMoveOneOrTwoDiceEffect(name);
                 break;
             case "chooseTwoDiceFromWindowPattern":
                 effect = new ChooseTwoDiceFromWindowPatterEffect(name);

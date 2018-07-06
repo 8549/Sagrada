@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.Die;
 import it.polimi.ingsw.model.SagradaColor;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ColorConstraintTest {
@@ -19,5 +20,24 @@ class ColorConstraintTest {
             ColorConstraint constraint = new ColorConstraint(sagradaColor);
             assertTrue(constraint.checkConstraint(new Die(sagradaColor), CheckModifier.NORMAL));
         }
+    }
+
+    @Test
+    void testGetAsGraphic() {
+    }
+
+    @Test
+    void testToCLI() {
+        ColorConstraint constraint = new ColorConstraint(SagradaColor.BLUE);
+        int unicodeNumber = 9632;
+        assertEquals(SagradaColor.BLUE.escapeString() + (char) unicodeNumber + SagradaColor.RESET, constraint.toCLI());
+    }
+
+
+
+    @Test
+    void testGetColor() {
+        ColorConstraint constraint = new ColorConstraint(SagradaColor.BLUE);
+        assertEquals(SagradaColor.BLUE, constraint.getColor());
     }
 }

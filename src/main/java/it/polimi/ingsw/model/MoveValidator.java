@@ -35,7 +35,7 @@ public class MoveValidator {
         }
 
 
-        if (turn.getPlayer().getPlayerWindow().isFirstPlacement()) {
+        if (turn.getPlayer().getPlayerWindow().isFirstPlacement() || turn.getPlayer().getPlayerWindow().isOneDie()) {
             if (!AdjacencyConstraint.checkAdjacencyFirstDie(row, column)) {
                 return false;
             }
@@ -44,6 +44,7 @@ public class MoveValidator {
                 return false;
             }
         }
+
 
         if (!AdjacencyConstraint.checkAdjacency(turn.getPlayer().getPlayerWindow().getDiceGrid(), row, column, die)) {
             return false;

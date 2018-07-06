@@ -1,9 +1,6 @@
 package it.polimi.ingsw.model.effect;
 
-import it.polimi.ingsw.GameManager;
-import it.polimi.ingsw.ToolCardHandler;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.network.server.MainServer;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -11,20 +8,39 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AddDieToDicePoolEffectTest {
+class EffectTest {
 
     @Test
-    void testPerform() {
+    void testSetName() {
+        Effect effect = new ChooseToMoveOneOrTwoDiceEffect("chooseToMoveOneOrTwoDice");
+        effect.setName("chooseToMoveOneOrTwoDice");
+        assertEquals("chooseToMoveOneOrTwoDice", effect.getName());
+    }
+
+    @Test
+    void testGetName() {
+        Effect effect = new ChooseToMoveOneOrTwoDiceEffect("chooseToMoveOneOrTwoDice");
+        effect.setName("chooseToMoveOneOrTwoDice");
+        assertEquals("chooseToMoveOneOrTwoDice", effect.getName());
+    }
+
+    @Test
+    void testSetToolCard() {
+        Effect effect = new ChooseToMoveOneOrTwoDiceEffect("chooseToMoveOneOrTwoDice");
         ToolCardMock toolCardMock = new ToolCardMock();
         toolCardMock.setToolCardMock();
-        toolCardMock.setToolCardHandlerbis(toolCardMock);
-        Die die = toolCardMock.getBoard().getDraftPool().get(2);
-        AddDieToDicePoolEffect addDieToDicePoolEffect = new AddDieToDicePoolEffect("addDieToDicePool");
-        addDieToDicePoolEffect.setToolCard(toolCardMock);
-        addDieToDicePoolEffect.perform(die);
-        assertEquals(82, toolCardMock.getBoard().getDiceBag().getSize());
-        assertEquals(8, toolCardMock.getBoard().getDraftPool().size());
+        effect.setToolCard(toolCardMock);
+        assertEquals(toolCardMock, effect.toolCard);
     }
+
+    @Test
+    void testEquals() {
+        Effect effect = new ChooseToMoveOneOrTwoDiceEffect("chooseToMoveOneOrTwoDice");
+        Effect effect1 =new ChooseDieFromRoundTrackEffect("chooseDieFromRoundTrack");
+        assertFalse(effect.equals(effect1));
+        assertTrue(effect.equals(effect));
+    }
+
 
     private class ToolCardMock extends it.polimi.ingsw.model.ToolCard {
         Round round;
@@ -71,12 +87,6 @@ class AddDieToDicePoolEffectTest {
 
         }
 
-        public void setToolCardHandlerbis(ToolCard toolCard){
-            MainServerMock mainServerMock = new MainServerMock();
-            GameManager gm = new GameManager(board.getPlayers());
-            toolCardHandler = new ToolCardHandlerMock(player, gm, mainServerMock, toolCard);
-        }
-
 
         @Override
         public Round getRound() {
@@ -95,37 +105,5 @@ class AddDieToDicePoolEffectTest {
     }
 
 
-    private class MainServerMock extends MainServer {
-        public MainServerMock() {
-            super();
-        }
-
-        @Override
-        public void askPlayerForNextMove() {
-
-        }
-
-    }
-
-    private class ToolCardHandlerMock extends ToolCardHandler{
-        public ToolCardHandlerMock(Player p, GameManager gm, MainServer server, ToolCard toolCard) {
-            super(p, gm, server, toolCard);
-        }
-
-        @Override
-        public void updateDraftPool(List<Die> draft){}
-
-        @Override
-        public void notifyAddDie(Player player, Die d, int row, int column){}
-
-        @Override
-        public void notifyMoveDie(Player player, Die d, int row, int column, int newRow, int newColumn){}
-
-        @Override
-        public void notifyChangeTurn(Player first){}
-
-        @Override
-        public void updateRoundTrack(Die d, int diePosition, int round){}
-    }
 
 }

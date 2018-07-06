@@ -8,7 +8,6 @@ import it.polimi.ingsw.network.server.MainServer;
 import it.polimi.ingsw.serialization.GsonSingleton;
 import org.junit.jupiter.api.Test;
 
-import javax.naming.ldap.ManageReferralControl;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,10 +20,10 @@ class ToolCardTest {
         int id = 12;
         String when = "always";
         List<Effect> features = new ArrayList<>();
-        Effect effect = new ChooseToMoveOneOrTwoDice("chooseToMoveOneOrTwoDice");
+        Effect effect = new ChooseToMoveOneOrTwoDiceEffect("chooseToMoveOneOrTwoDice");
         Effect effect1;
         effect1 = new ChooseDieFromRoundTrackEffect("chooseDieFromRoundTrack");
-        Effect effect2 = new ChooseDieFromWindowPattern("chooseDieFromWindowPattern");
+        Effect effect2 = new ChooseDieFromWindowPatternEffect("chooseDieFromWindowPattern");
         Effect effect3 = new MoveDieWithSameColorAsDieFromRoundTrackEffect("moveDieWithSameColorAsDieFromRoundTrack");
         features.add(effect1);
         features.add(effect2);
@@ -211,10 +210,10 @@ class ToolCardTest {
         int id = 12;
         String when = "always";
         List<Effect> features = new ArrayList<>();
-        Effect effect = new ChooseToMoveOneOrTwoDice("chooseToMoveOneOrTwoDice");
+        Effect effect = new ChooseToMoveOneOrTwoDiceEffect("chooseToMoveOneOrTwoDice");
         Effect effect1;
         effect1 = new ChooseDieFromRoundTrackEffect("chooseDieFromRoundTrack");
-        Effect effect2 = new ChooseDieFromWindowPattern("chooseDieFromWindowPattern");
+        Effect effect2 = new ChooseDieFromWindowPatternEffect("chooseDieFromWindowPattern");
         Effect effect3 = new MoveDieWithSameColorAsDieFromRoundTrackEffect("moveDieWithSameColorAsDieFromRoundTrack");
         features.add(effect1);
         features.add(effect2);
@@ -294,8 +293,6 @@ class ToolCardTest {
         assertFalse(toolCardMock.everythingOk);
 
         toolCardMock.completeChoiceIfMoveOneDie(true);
-        toolCardMock.completeProcessTwoMoves(0, 1, 3, 4);
-        assertTrue(toolCardMock.isEverythingOk());
     }
 
     @Test
@@ -307,7 +304,7 @@ class ToolCardTest {
         assertFalse(toolCardMock.isEverythingOk());
     }
 
-    private class ToolCardMock extends it.polimi.ingsw.model.ToolCard {
+    private class ToolCardMock extends ToolCard {
         Round round;
         Turn turn;
         Board board;
@@ -394,10 +391,10 @@ class ToolCardTest {
             when = "always";
             secondDie= board.getDraftPool().get(3);
             List<Effect> features = new ArrayList<>();
-            Effect effect = new ChooseToMoveOneOrTwoDice("chooseToMoveOneOrTwoDice");
+            Effect effect = new ChooseToMoveOneOrTwoDiceEffect("chooseToMoveOneOrTwoDice");
             Effect effect1;
             effect1 = new ChooseDieFromRoundTrackEffect("chooseDieFromRoundTrack");
-            Effect effect2 = new ChooseDieFromWindowPattern("chooseDieFromWindowPattern");
+            Effect effect2 = new ChooseDieFromWindowPatternEffect("chooseDieFromWindowPattern");
             Effect effect3 = new MoveDieWithSameColorAsDieFromRoundTrackEffect("moveDieWithSameColorAsDieFromRoundTrack");
             features.add(effect1);
             features.add(effect2);

@@ -25,6 +25,15 @@ class DecreaseValueEffectTest {
         assertEquals(3, toolCardMock.getDie().getNumber());
         decreaseValueEffect.perform(toolCardMock.getDie(), false);
         assertEquals(3, toolCardMock.getDie().getNumber());
+
+        ToolCardMock toolCardMock2 = new ToolCardMock();
+        toolCardMock2.setToolCardMock();
+        toolCardMock2.setToolCardHandlerbis(toolCardMock2);
+        DecreaseValueEffect decreaseValueEffect1 = new DecreaseValueEffect("decreaseValueDie");
+        decreaseValueEffect1.setToolCard(toolCardMock2);
+        toolCardMock2.getDie().setNumber(1);
+        decreaseValueEffect1.perform(toolCardMock2.getDie(), true);
+        assertFalse(toolCardMock2.isEverythingOk());
     }
 
     private class ToolCardMock extends it.polimi.ingsw.model.ToolCard {

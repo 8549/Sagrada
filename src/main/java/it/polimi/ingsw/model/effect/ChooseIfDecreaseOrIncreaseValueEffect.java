@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model.effect;
 
-public class ChooseIfDecreaseOrIncreaseValue extends Effect{
+public class ChooseIfDecreaseOrIncreaseValueEffect extends Effect{
 
-    public ChooseIfDecreaseOrIncreaseValue(String name){
+    public ChooseIfDecreaseOrIncreaseValueEffect(String name){
         this.name = name;
     }
 

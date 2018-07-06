@@ -9,9 +9,11 @@ public class PlayerWindow implements Serializable {
     private WindowPattern windowPattern;
     //if the array is empty the value of the cell is a Die with number equal to 0
     private Cell[][] diceGrid;
+    private boolean oneDie;
 
     public PlayerWindow() {
         diceGrid = new Cell[WindowPattern.ROWS][WindowPattern.COLUMNS];
+        oneDie= false;
         for (int i = 0; i < WindowPattern.ROWS; i++)
             for (int j = 0; j < WindowPattern.COLUMNS; j++)
                 diceGrid[i][j] = new Cell();
@@ -27,6 +29,12 @@ public class PlayerWindow implements Serializable {
             }
         }
         return true;
+    }
+
+    public void setOneDie(boolean one) {oneDie=one;}
+
+    public boolean isOneDie() {
+        return oneDie;
     }
 
     /**
