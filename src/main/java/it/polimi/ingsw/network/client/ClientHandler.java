@@ -312,6 +312,7 @@ public class ClientHandler implements Serializable {
             @Override
             public void run() {
                 proxyModel.addDiceToRoundTrack(dice);
+                ui.update();
             }
         };
         perform(task);
@@ -449,7 +450,9 @@ public class ClientHandler implements Serializable {
             public void run() {
                 proxyModel.getByName(name).getPlayerWindow().getCellAt(row,column).removeDie();
                 proxyModel.getByName(name).getPlayerWindow().getCellAt(newRow, newColumn).setDie(d);
-                System.out.println("[DEBUG] Die Moved" );            }
+                System.out.println("[DEBUG] Die Moved" );
+                ui.update();
+            }
         };
         perform(task);
 
@@ -461,7 +464,9 @@ public class ClientHandler implements Serializable {
             @Override
             public void run() {
                 proxyModel.getByName(name).getPlayerWindow().getCellAt(row,column).setDie(d);
-                System.out.println("[DEBUG] Die Added" );            }
+                System.out.println("[DEBUG] Die Added" );
+                ui.update();
+            }
         };
         perform(task);
 
@@ -485,7 +490,9 @@ public class ClientHandler implements Serializable {
             @Override
             public void run() {
                 proxyModel.getRoundTrack().replaceDie(d, round, diePosition);
-                System.out.println("[DEBUG] RoundTrack updated" );            }
+                System.out.println("[DEBUG] RoundTrack updated" );
+                ui.update();
+            }
         };
         perform(task);
 
