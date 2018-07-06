@@ -16,7 +16,7 @@ public class ToolCard implements Card {
     protected ToolCardHandler toolCardHandler;
     protected Player player;
     protected int tokens = 0;
-    protected boolean used;
+    protected boolean used = false;
     protected String name;
     protected int id;
     protected String when;
