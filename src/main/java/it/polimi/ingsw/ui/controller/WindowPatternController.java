@@ -55,9 +55,21 @@ public class WindowPatternController {
     public void setDie(Die d, int i, int j) {
         for (Node n : patternGrid.getChildren()) {
             if (i == GridPane.getRowIndex(n) && j == GridPane.getColumnIndex(n)) {
-                Node e = MainController.drawDie(d, GUI.BASE_TILE_SIZE);
-                ((StackPane) n).getChildren().add(e);
-                e.toFront();
+                if (((StackPane) n).getChildren().size() < 2) {
+                    Node e = MainController.drawDie(d, GUI.BASE_TILE_SIZE);
+                    ((StackPane) n).getChildren().add(1, e);
+                    e.toFront();
+                }
+            }
+        }
+    }
+
+    public void removeDie(int i, int j) {
+        for (Node n : patternGrid.getChildren()) {
+            if (i == GridPane.getRowIndex(n) && j == GridPane.getColumnIndex(n)) {
+                if (((StackPane) n).getChildren().size() > 1) {
+                    ((StackPane) n).getChildren().remove(1);
+                }
             }
         }
     }
