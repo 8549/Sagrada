@@ -21,7 +21,7 @@ public class Player implements Serializable {
         this.playerWindow = new PlayerWindow();
         this.privateObjectiveCardSet = false;
         this.choices = new ArrayList<>();
-        status = PlayerStatus.PASSIVE;
+        status = PlayerStatus.ACTIVE;
         points=0;
     }
 

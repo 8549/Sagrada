@@ -4,6 +4,7 @@ import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.server.ClientObject;
 import it.polimi.ingsw.network.server.MainServer;
+import jdk.net.SocketFlow;
 
 import java.util.*;
 
@@ -181,8 +182,12 @@ public class GameManager {
 
     public void startCurrentTurn() {
         currentPlayer = round.getTurn().getPlayer();
-        checkTimerMove();
-        server.notifyBeginTurn(round.getTurn().getPlayer(), numberCurrentRound, getRound().getCurrentTurn());
+        if (currentPlayer.getStatus().equals(PlayerStatus.ACTIVE)) {
+            checkTimerMove();
+            server.notifyBeginTurn(round.getTurn().getPlayer(), numberCurrentRound, getRound().getCurrentTurn());
+        } else {
+            endCurrentTurn();
+        }
     }
 
     public void endCurrentTurn() {
@@ -212,11 +217,21 @@ public class GameManager {
 
 
     public void disconnectPlayer(Player player) {
-        player.setStatus(PlayerStatus.DISCONNECTED);
+        for (Player player1 : players){
+            if(player1.equals(player)) {
+                player1.setStatus(PlayerStatus.DISCONNECTED);
+                break;
+            }
+        }
     }
 
     public void reconnectPlayer(Player player) {
-        player.setStatus(PlayerStatus.ACTIVE);
+        for (Player player1 : players){
+            if(player1.equals(player)) {
+                player1.setStatus(PlayerStatus.ACTIVE);
+                break;
+            }
+        }
     }
 
 
