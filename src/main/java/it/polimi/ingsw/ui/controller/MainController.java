@@ -1,8 +1,6 @@
 package it.polimi.ingsw.ui.controller;
 
-import it.polimi.ingsw.model.Die;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.WindowPattern;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.ui.GUI;
 import it.polimi.ingsw.ui.ProxyModel;
 import javafx.animation.FadeTransition;
@@ -12,6 +10,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -38,8 +38,9 @@ public class MainController {
     private HashMap<Player, AnchorPane> anchorPanes;
     private HashMap<Player, WindowPatternController> controllers;
     int newValue;
-    Die selectedFromTool;
+    Die selectedFromRT;
     private boolean firstUpdate;
+    private int theRound;
 
     @FXML
     private BorderPane main;
@@ -74,7 +75,7 @@ public class MainController {
         GridPane cont = new GridPane();
         cont.getStyleClass().add("die");
         cont.setBackground(new Background(new BackgroundFill(d.getColor().getColor(), new CornerRadii(GUI.ROUND_CORNER_RADIUS), Insets.EMPTY)));
-        double spacer = GUI.DIE_RELATIVE_SPACER;
+        double spacer = GUI.DIE_RELATIVE_SPACER * GUI.BASE_TILE_SIZE;
         //cont.setOpacity(0.7);
         cont.setHgap(spacer);
         cont.setVgap(spacer);
@@ -129,6 +130,88 @@ public class MainController {
         return mark;
     }
 
+    public void showRoundTrackWrapper(MouseEvent event) {
+        showRoundTrack(false);
+    }
+
+    private void showRoundTrack(boolean canChooseFromRoundTrack) {
+        RoundTrack roundTrack = gui.getModel().getRoundTrack();
+        Stage dieChooser = new Stage(StageStyle.UNDECORATED);
+        BorderPane valueMain = new BorderPane();
+        valueMain.getStylesheets().add("die.css");
+        valueMain.getStylesheets().add("board.css");
+
+        Label l = new Label();
+        Button confirm = new Button();
+        if (canChooseFromRoundTrack) {
+            l.setText("Choose a die from the round track");
+            confirm.setText("Use the selected die");
+            confirm.setDisable(true);
+            confirm.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    dieChooser.hide();
+                    gui.getClientHandler().sendDieFromRT(selectedFromRT, theRound);
+                    selectedFromRT = null;
+                    theRound = -1;
+                }
+            });
+        } else {
+            l.setText("This is the current round track:");
+            confirm.setText("Ok");
+            confirm.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    dieChooser.hide();
+                }
+            });
+        }
+
+        VBox rounds = new VBox();
+        for (int i = 0; i < roundTrack.getRoundCounter(); i++) {
+            HBox round = new HBox();
+            round.setAlignment(Pos.CENTER);
+            Label label = new Label(String.valueOf(i));
+            label.getStyleClass().add("roundTrackLabel");
+            round.getChildren().add(label);
+            for (int j = 0; j < roundTrack.getDiceNumberAtRound(i); j++) {
+                Die d = roundTrack.getDieAt(i, j);
+                Node e = drawDie(d, GUI.BASE_TILE_SIZE);
+                if (canChooseFromRoundTrack) {
+                    e.setCursor(Cursor.HAND);
+                    e.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent event) {
+                            confirm.setDisable(false);
+                            Node source = (Node) event.getSource();
+                            int whichRound = rounds.getChildren().indexOf(source.getParent());
+                            int whichDie = round.getChildren().indexOf(source);
+                            selectedFromRT = roundTrack.getDieAt(whichRound, whichDie);
+                            theRound = whichRound;
+                        }
+                    });
+                }
+                round.getChildren().add(e);
+            }
+            round.setFillHeight(true);
+            rounds.getChildren().add(round);
+        }
+        rounds.setFillWidth(true);
+        Insets spacing = new Insets(20);
+        BorderPane.setMargin(rounds, spacing);
+        BorderPane.setMargin(l, spacing);
+        BorderPane.setMargin(confirm, spacing);
+        valueMain.setPadding(spacing);
+        valueMain.setTop(l);
+        valueMain.setCenter(rounds);
+        valueMain.setBottom(confirm);
+
+        dieChooser.initModality(Modality.APPLICATION_MODAL);
+        dieChooser.setScene(new Scene(valueMain));
+        dieChooser.sizeToScene();
+        dieChooser.showAndWait();
+    }
+
     public void setGUI(GUI gui) {
         this.gui = gui;
     }
@@ -142,12 +225,14 @@ public class MainController {
                 public void handle(MouseEvent event) {
                     int i = fxToolCardsContainer.getChildren().indexOf(event.getSource());
                     for (Node n : fxToolCardsContainer.getChildren()) {
+                        n.setCursor(Cursor.DEFAULT);
                         n.setOnMouseClicked(null);
                     }
                     gui.getClientHandler().useTool(gui.getModel().getToolCards().get(i));
                 }
             };
             n.setOnMouseClicked(handler);
+            n.setCursor(Cursor.HAND);
         }
     }
 
@@ -356,7 +441,7 @@ public class MainController {
         }
     }
 
-    public void toolSetValue() {
+    public void toolSetValue(SagradaColor color) {
         newValue = 0;
         Stage valueChooser = new Stage(StageStyle.UNDECORATED);
         BorderPane valueMain = new BorderPane();
@@ -390,7 +475,7 @@ public class MainController {
             values.getChildren().add(view);
         }
 
-        Label l = new Label("Choose a new value for the die:");
+        Label l = new Label("Choose a new value for the chosen " + color.toString().toLowerCase() + " die:");
 
         Insets spacing = new Insets(20);
         BorderPane.setMargin(values, spacing);
@@ -606,5 +691,9 @@ public class MainController {
                 }
             });
         }
+    }
+
+    public void toolChooseDieFromRoundTrack() {
+        showRoundTrack(true);
     }
 }

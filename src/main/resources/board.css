@@ -16,7 +16,6 @@
 }
 .ToolCard {
   /* -fx-image: url(images/toolcards/ToolCardBack.png); */
-  -fx-cursor: hand;
 }
 
 #PrivObjCard {
@@ -41,4 +40,7 @@
 .message .text {
   -fx-stroke: rgba(0, 0, 0, 0.50);
   -fx-stroke-width: 1;
+}
+.roundTrackLabel {
+  -fx-font-size: 600%;
 }

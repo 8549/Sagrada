@@ -2,6 +2,7 @@ package it.polimi.ingsw.ui;
 
 import it.polimi.ingsw.model.PatternCard;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.SagradaColor;
 import it.polimi.ingsw.network.client.ClientHandler;
 
 public interface UI {
@@ -138,7 +139,7 @@ public interface UI {
      * Choose a number value to give to one die
      *
      */
-    void setValue();
+    void setValue(SagradaColor color);
 
 
     /**

@@ -357,7 +357,8 @@ public class CLI implements UI {
 
     @Override
     public void nextMove() {
-        System.out.println("Your move was correct. You can do something else!");
+        System.out.println("You can do something else!");
+        update();
         askChoice();
     }
 
@@ -616,9 +617,9 @@ public class CLI implements UI {
     }
 
     @Override
-    public void setValue() {
+    public void setValue(SagradaColor color) {
         int i;
-        System.out.print("Choose the new die value [" + Die.MIN + "-" + Die.MAX + "]: ");
+        System.out.print("Choose the new value for the " + color.toString().toLowerCase() + " die [" + Die.MIN + "-" + Die.MAX + "]: ");
         boolean validChoice = false;
         while (!validChoice) {
             if (scanner.hasNextInt()) {

@@ -391,7 +391,7 @@ public class ClientHandler implements Serializable {
     }
 
     public void setValue(SagradaColor color) {
-        ui.setValue();
+        ui.setValue(color);
     }
 
     public void sendValue(int value) {
@@ -525,6 +525,7 @@ public class ClientHandler implements Serializable {
 
     //todo: print with gui
     public void handleToolEnd(boolean response, String name){
+        ui.update();
         if(name.equals(proxyModel.getMyself().getName())){
             if(response){
                 System.out.println("[DEBUG] Your tool worked correctly!");

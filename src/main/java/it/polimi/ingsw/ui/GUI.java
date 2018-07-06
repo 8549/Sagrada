@@ -1,9 +1,6 @@
 package it.polimi.ingsw.ui;
 
-import it.polimi.ingsw.model.Die;
-import it.polimi.ingsw.model.PatternCard;
-import it.polimi.ingsw.model.Player;
-import it.polimi.ingsw.model.WindowPattern;
+import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.client.ClientHandler;
 import it.polimi.ingsw.ui.controller.IntroController;
 import it.polimi.ingsw.ui.controller.MainController;
@@ -41,7 +38,7 @@ public class GUI extends Application implements UI {
     public static final double BOARD_RELATIVE_HEIGHT = 600.0 / 1080.0;
     public static final double BOARD_RELATIVE_WIDTH = 350.0 / 1920.0;
     public static final double ROUND_CORNER_RADIUS = 10.0 / CHOOSER_TILE_SIZE * BASE_TILE_SIZE;
-    public static final double DIE_RELATIVE_SPACER = 5.0 / CHOOSER_TILE_SIZE * BASE_TILE_SIZE;
+    public static final double DIE_RELATIVE_SPACER = 5.0 / CHOOSER_TILE_SIZE;
     public static final double TOKEN_RELATIVE_SIZE = 7.0 / CHOOSER_TILE_SIZE;
     public static final double DIE_RESCALE_FACTOR = 0.5;
     private Stage stage;
@@ -239,7 +236,7 @@ public class GUI extends Application implements UI {
     @Override
     public void nextMove() {
         Platform.runLater(() -> {
-            showMessage("Your move was correct. You can do something else!");
+            showMessage("You can do something else!");
             update();
         });
     }
@@ -363,7 +360,9 @@ public class GUI extends Application implements UI {
 
     @Override
     public void chooseDieFromRoundTrack() {
-
+        Platform.runLater(() -> {
+            mainController.toolChooseDieFromRoundTrack();
+        });
     }
 
     @Override
@@ -390,9 +389,9 @@ public class GUI extends Application implements UI {
     }
 
     @Override
-    public void setValue() {
+    public void setValue(SagradaColor color) {
         Platform.runLater(() -> {
-            mainController.toolSetValue();
+            mainController.toolSetValue(color);
         });
     }
 

@@ -28,8 +28,8 @@
                 <Region HBox.hgrow="ALWAYS"/>
                 <VBox>
                     <children>
-                        <ImageView fx:id="fxRoundTrack" fitHeight="150.0" fitWidth="500.0" pickOnBounds="true"
-                                   preserveRatio="true">
+                        <ImageView fx:id="fxRoundTrack" fitHeight="150.0" fitWidth="500.0"
+                                   onMouseClicked="#showRoundTrackWrapper" pickOnBounds="true" preserveRatio="true">
                             <image>
                                 <Image url="@../images/roundtrack.png"/>
                             </image>
