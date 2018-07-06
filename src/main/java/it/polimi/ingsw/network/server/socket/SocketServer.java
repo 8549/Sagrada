@@ -179,6 +179,7 @@ public class SocketServer implements ServerInterface {
         public SocketHandler(Socket socket, SocketServer server) throws IOException {
             this.socketServer = server;
             this.socket = socket;
+            this.socket.setSoTimeout(200000);
             log("New connection at " + socket);
             socketParser = new SocketParser();
         }

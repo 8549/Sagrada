@@ -13,12 +13,16 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
 
 
 public class RMIClient implements RMIClientInterface, Serializable {
     Player player;
     RMIServerInterface server;
     ClientHandler ch;
+    boolean ping= false;
+    Timer timer = new Timer();
+    boolean isTimeRunning= false;
 
     public RMIClient(ClientHandler ch) throws RemoteException{
         this.ch = ch;
@@ -228,6 +232,8 @@ public class RMIClient implements RMIClientInterface, Serializable {
 
     @Override
     public boolean ping() throws RemoteException {
+        ping =true;
+        //todo:handle disconnection
         return true;
     }
 

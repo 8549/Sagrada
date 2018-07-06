@@ -70,28 +70,43 @@ public class RMIServer  implements RMIServerInterface {
 
         final boolean[] isTimerRunning = {false};
         final boolean[] isAlive = {false};
-        new Timer().schedule(new TimerTask() {
+        Timer timer1 = new Timer();
+        Timer timer2 = new Timer();
+
+        timer1.schedule(new TimerTask() {
             @Override
             public void run() {
                 try {
-                    if(!isTimerRunning[0]){
-                        isAlive[0] = client.ping();
-                        System.out.println("[DEBUG] Ping Sent");
+                    if(!isTimerRunning[0]) {
                         isTimerRunning[0] = true;
-                    }else{
-                        if(isAlive[0]){
-                            isAlive[0] = client.ping();
-                        }else{
-                            server.disconnect(client);
-                            System.out.println("[DEBUG] Client disconnected");
-                            this.cancel();
-                        }
-                    }
+                        //System.out.println("[DEBUG] Ping Sent");
+                        isAlive[0] = client.ping();
 
+                    }else{
+                        isAlive[0] = false;
+                        //System.out.println("[DEBUG] Ping sent");
+                        timer2.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                if (!isAlive[0]) {
+                                    System.out.println("[DEBUG] Client disconnected");
+                                    this.cancel();
+                                    timer1.cancel();
+                                    isTimerRunning[0] = false;
+                                    server.disconnect(client);
+
+                                }
+                            }
+                        }, 8*1000);
+                        isAlive[0] = client.ping();
+
+                    }
                 } catch (RemoteException e) {
                     e.printStackTrace();
+                    isTimerRunning[0] = false;
+                    timer1.cancel();
+                    timer2.cancel();
                     server.disconnect(client);
-                    this.cancel();
                 }
             }
         }, 4 * 1000, 5 * 1000 );

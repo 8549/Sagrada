@@ -220,9 +220,7 @@ public class ClientHandler implements Serializable {
             @Override
             public void run() {
                 boolean myTurn = false;
-                for (ToolCard t : proxyModel.getToolCards()) {
-                    t.setIsUsed(false);
-                }
+
                 if (proxyModel.getMyself().getName().equals(name)) {
                     proxyModel.setCurrentPlayer(proxyModel.getMyself());
                     myTurn = true;
@@ -493,6 +491,7 @@ public class ClientHandler implements Serializable {
 
     }
 
+    //todo: print with gui
     public void handleToolEnd(boolean response, String name){
         if(name.equals(proxyModel.getMyself().getName())){
             if(response){
@@ -508,6 +507,10 @@ public class ClientHandler implements Serializable {
             }
 
         }
+    }
+
+    public void handleDisconnection(){
+        //todo prompt login after disconnection
     }
 }
 

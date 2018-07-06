@@ -430,6 +430,7 @@ public class SocketClient implements ClientInterface {
         private SocketHandlerClient(SocketClient client, Socket socket) throws IOException {
             this.client = client;
             this.socket = socket;
+            this.socket.setSoTimeout(200000);
             socketParser = new SocketParser();
                 in = new BufferedReader(
                         new InputStreamReader(socket.getInputStream()));
@@ -453,6 +454,7 @@ public class SocketClient implements ClientInterface {
                 }
             }catch (IOException e){
                 System.out.println("Error while handlig client socket");
+                ch.handleDisconnection();
             }
         }
 

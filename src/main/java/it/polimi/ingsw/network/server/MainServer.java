@@ -8,6 +8,7 @@ import it.polimi.ingsw.network.server.RMI.RMIServerInterface;
 import it.polimi.ingsw.network.server.socket.SocketServer;
 
 import java.io.IOException;
+import java.net.ServerSocket;
 import java.rmi.RemoteException;
 import java.util.*;
 
@@ -19,8 +20,7 @@ public class MainServer {
     private ServerInterface socketServer;
     private Timer timer;
     private boolean timerIsRunning=false;
-    private boolean isGameStarted = false;
-
+    ServerState state = ServerState.WAITINGPLAYERS;
     private List<ClientObject> connectedClients = new ArrayList<>();
     private List<ClientObject> inGameClients = new ArrayList<>();
     private GameManager gm;
@@ -75,29 +75,42 @@ public class MainServer {
 
 
     public  boolean addClient(ClientObject client){
-        if(isGameStarted){
-            return false;
-        }
-        if(connectedClients == null ){
-            connectedClients.add(client);
-            return true;
-
-        }else{
-
-            for (ClientObject clients : connectedClients){
+        if(state.equals(ServerState.GAMESTARTED)){
+            for(Player p : gm.getPlayers()){
                 try {
-                    if (clients.getPlayer().getName().equals(client.getPlayer().getName())){
-                        return false;
+                    if(p.getName().equals(client.getPlayer().getName()) && p.getStatus().equals(PlayerStatus.DISCONNECTED)){
+                        inGameClients.add(client);
+                        //todo: gm
+                        return true;
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
             }
-            connectedClients.add(client);
-            return true;
-        }
+            return false;
 
+
+        } else {
+            if(connectedClients == null ){
+                connectedClients.add(client);
+                return true;
+
+            }else{
+
+                for (ClientObject clients : connectedClients){
+                    try {
+                        if (clients.getPlayer().getName().equals(client.getPlayer().getName())){
+                            return false;
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                connectedClients.add(client);
+                return true;
+            }
+        }
     }
 
     public  boolean checkTimer() {
@@ -121,11 +134,11 @@ public class MainServer {
                             if (connectedClients.size() >= 2) {
                                 System.out.println("Let the game begin !");
                                 timerIsRunning = false;
-                                if(!isGameStarted) {
+                                if(state.equals(ServerState.WAITINGPLAYERS)) {
                                     new Thread(){
                                         public void run(){
                                             initGame(getPlayersFromClients(connectedClients));
-                                            isGameStarted = true;
+                                            state = ServerState.GAMESTARTED;
                                         }
                                     }.start();
 
@@ -147,9 +160,9 @@ public class MainServer {
                     System.out.println("Timer stopped");
                 }
                 System.out.println("Let the game begin !");
-                if(!isGameStarted) {
+                if(state.equals(ServerState.WAITINGPLAYERS)) {
                     initGame(getPlayersFromClients(connectedClients));
-                    isGameStarted = true;
+                    state = ServerState.GAMESTARTED;
                 }
 
 
@@ -164,7 +177,7 @@ public class MainServer {
 
 
     public void disconnect(ClientObject client){
-            if(!isGameStarted){
+            if(state.equals(ServerState.WAITINGPLAYERS)){
                 if(connectedClients.size()>1) {
                     for (ClientObject c : connectedClients) {
                         try {
@@ -179,15 +192,14 @@ public class MainServer {
                 connectedClients.remove(client);
                 checkTimer();
 
-            }else{
-                try {
-                    connectedClients.remove(client);
-                    checkTimer();
-                    gm.disconnectPlayer(client.getPlayer());
-                } catch (IOException e) {
-                    e.printStackTrace();
+            }else if (state.equals(ServerState.GAMESTARTED)){
+                    try {
+                        connectedClients.remove(client);
+                        gm.disconnectPlayer(client.getPlayer());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
     }
 
     public  void initGame(List<Player> players){
