@@ -3,7 +3,6 @@ package it.polimi.ingsw.model;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.GameManager;
 import org.junit.jupiter.api.Test;
-import sun.java2d.loops.DrawGlyphListAA;
 
 import java.util.ArrayList;
 import java.util.List;

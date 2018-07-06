@@ -129,6 +129,7 @@ class ToolCardTest {
     void testGetDieFromDicePool() {
         ToolCardMock toolCardMock = new ToolCardMock();
         toolCardMock.setToolCardMock();
+        toolCardMock.setToolCardHandlerbis(toolCardMock);
         toolCardMock.getDieFromDicePool();
         assertFalse(toolCardMock.die == null);
     }
@@ -304,12 +305,95 @@ class ToolCardTest {
         assertFalse(toolCardMock.isEverythingOk());
     }
 
+    @Test
+    void testChooseDieFromWindowPattern() {
+        ToolCardMock toolCardMock = new ToolCardMock();
+        toolCardMock.setToolCardMock();
+        toolCardMock.setToolCardHandlerbis(toolCardMock);
+        toolCardMock.chooseDieFromWindowPattern();
+        assertTrue(toolCardMock.everythingOk);
+    }
+
+
+    @Test
+    void testChooseDieFromDraftPool() {
+        ToolCardMock toolCardMock = new ToolCardMock();
+        toolCardMock.setToolCardMock();
+        toolCardMock.setToolCardHandlerbis(toolCardMock);
+        toolCardMock.chooseDieFromDraftPool();
+        assertEquals(toolCardMock.getBoard().getDraftPool().get(1), toolCardMock.die );
+    }
+
+
+    @Test
+    void testChooseIfDecrease() {
+        ToolCardMock toolCardMock = new ToolCardMock();
+        toolCardMock.setToolCardMock();
+        toolCardMock.setToolCardHandlerbis(toolCardMock);
+        toolCardMock.chooseIfDecrease();
+        assertTrue(toolCardMock.decrease);
+    }
+
+    @Test
+    void testChooseIfPlaceDie() {
+        ToolCardMock toolCardMock = new ToolCardMock();
+        toolCardMock.setToolCardMock();
+        toolCardMock.setToolCardHandlerbis(toolCardMock);
+        toolCardMock.chooseIfPlaceDie();
+        assertFalse(toolCardMock.place);
+    }
+
+    @Test
+    void testChooseToMoveOneDie() {
+        ToolCardMock toolCardMock = new ToolCardMock();
+        toolCardMock.setToolCardMock();
+        toolCardMock.setToolCardHandlerbis(toolCardMock);
+        toolCardMock.chooseToMoveOneDie();
+        assertTrue(toolCardMock.moveOneDie);
+    }
+
+
+    @Test
+    void testChooseDieFromRoundTrack() {
+        ToolCardMock toolCardMock = new ToolCardMock();
+        toolCardMock.setToolCardMock();
+        toolCardMock.setToolCardHandlerbis(toolCardMock);
+        toolCardMock.chooseDieFromRoundTrack();
+        assertEquals(1, toolCardMock.turnForRoundTrack);
+        assertEquals(0, toolCardMock.numberOfDieForRoundTrack);
+    }
+
+
+    @Test
+    void testSetValue() {
+        ToolCardMock toolCardMock = new ToolCardMock();
+        toolCardMock.setToolCardMock();
+        toolCardMock.setToolCardHandlerbis(toolCardMock);
+        toolCardMock.die= toolCardMock.getBoard().getDraftPool().get(2);
+        toolCardMock.setValue();
+        assertEquals(1, toolCardMock.die.getNumber());
+
+    }
+
+    @Test
+    void testCompleteChooseDieRoundTrck(){
+        ToolCardMock toolCardMock = new ToolCardMock();
+        toolCardMock.setToolCardMock();
+        toolCardMock.completeChooseDieRoundTrck(0, 0);
+        assertEquals(0, toolCardMock.numberOfDieForRoundTrack);
+        assertEquals(0, toolCardMock.turnForRoundTrack);
+    }
+
+
+
+
     private class ToolCardMock extends ToolCard {
         Round round;
         Turn turn;
         Board board;
         Cell[][] grid;
         Die[] dice;
+        int value;
 
         public void setToolCardMock() {
             PatternConstraint[][] patternConstraints = new PatternConstraint[WindowPattern.ROWS][WindowPattern.COLUMNS];
@@ -342,6 +426,7 @@ class ToolCardTest {
                     w++;
                 }
             }
+
             dice = new Die[8];
             dice[0] = new Die(SagradaColor.PURPLE);
             dice[0].setNumber(1);
@@ -407,7 +492,7 @@ class ToolCardTest {
         }
 
 
-        public void setToolCardHandlerbis(ToolCard toolCard){
+        public void setToolCardHandlerbis(ToolCardMock toolCard){
             MainServerMock mainServerMock = new MainServerMock();
             GameManager gm = new GameManager(board.getPlayers());
             toolCardHandler = new ToolCardHandlerMock(player, gm, mainServerMock, toolCard);
@@ -474,6 +559,7 @@ class ToolCardTest {
 
 
     private class ToolCardHandlerMock extends ToolCardHandler {
+
         public ToolCardHandlerMock(Player p, GameManager gm, MainServer server, ToolCard toolCard) {
             super(p, gm, server, toolCard);
         }
@@ -492,7 +578,54 @@ class ToolCardTest {
 
         @Override
         public void updateRoundTrack(Die d, int diePosition, int round){}
+
+        @Override
+        public void chooseDieFromWindowPattern() {
+            toolcard.setResponse(true);
+        }
+
+        @Override
+        public void chooseDieFromDraftPool() {
+            toolcard.completeChooseDieFromDraftPool(toolcard.getBoard().getDraftPool().get(1));
+        }
+
+        @Override
+        public void chooseDieFromRoundTrack() {
+            toolcard.turnForRoundTrack=1;
+            toolcard.numberOfDieForRoundTrack=0;
+        }
+
+        @Override
+        public void chooseIfDecrease() {
+            toolcard.completeChoiceIfDecrease(true);
+        }
+
+        @Override
+        public void chooseIfPlaceDie() {
+            toolcard.completeChoiceIfPlaceDie(false);
+        }
+
+        @Override
+        public void chooseToMoveOneDie() { toolcard.completeChoiceIfMoveOneDie(true);
+
+        }
+
+
+
+        @Override
+        public void setValue() {
+            toolcard.completeChooseValue(1);
+        }
+
+        public void setNewCoordinates() {}
+
+        public void chooseTwoDieFromWindowPatter() {
+        }
+
     }
+
+
+
 
 }
 

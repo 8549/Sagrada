@@ -1,13 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.BlankConstraint;
-import it.polimi.ingsw.model.CheckModifier;
-import it.polimi.ingsw.model.Die;
-import it.polimi.ingsw.model.SagradaColor;
-import javafx.scene.Node;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

@@ -1,6 +1,9 @@
 package it.polimi.ingsw.model.effect;
 
+import it.polimi.ingsw.GameManager;
+import it.polimi.ingsw.ToolCardHandler;
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.network.server.MainServer;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -14,6 +17,7 @@ class GetDieFromDicePoolEffectTest {
     void testPerform() {
         ToolCardMock toolCardMock = new ToolCardMock();
         toolCardMock.setToolCardMock();
+        toolCardMock.setToolCardHandlerbis(toolCardMock);
         GetDieFromDicePoolEffect getDieFromDicePoolEffect = new GetDieFromDicePoolEffect("getDieFromDicePool");
         getDieFromDicePoolEffect.setToolCard(toolCardMock);
         getDieFromDicePoolEffect.perform();
@@ -83,6 +87,13 @@ class GetDieFromDicePoolEffectTest {
         }
 
 
+        public void setToolCardHandlerbis(ToolCardMock toolCard){
+            MainServerMock mainServerMock = new MainServerMock();
+            GameManager gm = new GameManager(board.getPlayers());
+            toolCardHandler = new ToolCardHandlerMock(player, gm, mainServerMock, toolCard);
+        }
+
+
         @Override
         public Round getRound() {
             return round;
@@ -98,7 +109,112 @@ class GetDieFromDicePoolEffectTest {
             return turn;
         }
 
+        @Override
+        public void processMoveWithoutConstraints(boolean number, boolean color, boolean adjacency, boolean place) {
+            this.number = number;
+            this.color = color;
+            this.adjacency = adjacency;
+            this.place = place;
+        }
 
+        @Override
+        public void completeChooseDieFromWindowPattern(int oldRow, int oldColumn) {
+            die = grid[oldRow][oldColumn].getDie();
+            everythingOk = true;
+        }
+
+        @Override
+        public void performEffect() {
+
+        }
+
+        @Override
+        public MainServer getServer() {
+            MainServerMock mainserver = new MainServerMock();
+            return mainserver;
+        }
+
+        @Override
+        public void checkHasNextEffect() {
+        }
+
+    }
+
+    private class MainServerMock extends MainServer {
+        public MainServerMock() {
+            super();
+        }
+
+        @Override
+        public void askPlayerForNextMove() {
+
+        }
+
+    }
+
+
+    private class ToolCardHandlerMock extends ToolCardHandler {
+
+        public ToolCardHandlerMock(Player p, GameManager gm, MainServer server, ToolCard toolCard) {
+            super(p, gm, server, toolCard);
+        }
+
+        @Override
+        public void updateDraftPool(List<Die> draft){}
+
+        @Override
+        public void notifyAddDie(Player player, Die d, int row, int column){}
+
+        @Override
+        public void notifyMoveDie(Player player, Die d, int row, int column, int newRow, int newColumn){}
+
+        @Override
+        public void notifyChangeTurn(Player first){}
+
+        @Override
+        public void updateRoundTrack(Die d, int diePosition, int round){}
+
+        @Override
+        public void chooseDieFromWindowPattern() {
+            toolcard.setResponse(true);
+        }
+
+        @Override
+        public void chooseDieFromDraftPool() {
+            toolcard.completeChooseDieFromDraftPool(toolcard.getBoard().getDraftPool().get(1));
+        }
+
+        @Override
+        public void chooseDieFromRoundTrack() {
+            toolcard.setResponse(true);
+        }
+
+
+        @Override
+        public void chooseIfDecrease() {
+            toolcard.setResponse(true);
+        }
+
+        @Override
+        public void chooseIfPlaceDie() {
+            toolcard.setResponse(true);
+        }
+
+        @Override
+        public void chooseToMoveOneDie() {
+
+        }
+
+
+
+        public void setValue() { }
+
+        public void chosenValue(int value){}
+
+        public void setNewCoordinates() {}
+
+        public void chooseTwoDieFromWindowPatter() {
+        }
 
     }
 

@@ -1,9 +1,8 @@
 package it.polimi.ingsw.model.effect;
 
-import it.polimi.ingsw.GameManager;
+
 import it.polimi.ingsw.ToolCardHandler;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.network.server.MainServer;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
