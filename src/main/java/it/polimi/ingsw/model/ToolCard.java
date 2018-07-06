@@ -311,6 +311,11 @@ public class ToolCard implements Card {
     }
 
     public void completeProcessMove(int newRow, int newColumn) {
+        if (!place){
+            if (player.getPlayerWindow().dieCount() == 1) {
+                player.getPlayerWindow().setOneDie(true);
+            }
+        }
         MoveValidator moveValidator = new MoveValidator(getTurn(), getRound().getDraftPool(), number, color, adjacency);
         if (moveValidator.validateMove(die, newRow, newColumn, player)) {
             if (!adjacency || place) {
@@ -319,9 +324,6 @@ public class ToolCard implements Card {
                 toolCardHandler.notifyAddDie(player, die, newRow, newColumn);
                 getTurn().setDiePlaced();
             } else if (!place) {
-                if (player.getPlayerWindow().dieCount() == 1) {
-                    player.getPlayerWindow().setOneDie(true);
-                }
                 player.getPlayerWindow().moveDie(oldRow, oldColumn, newRow, newColumn);
                 toolCardHandler.notifyMoveDie(player, die, oldRow, oldColumn, newRow, newColumn);
                 player.getPlayerWindow().setOneDie(false);
