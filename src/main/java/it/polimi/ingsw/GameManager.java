@@ -135,10 +135,6 @@ public class GameManager {
         return this.server;
     }
 
-    public Player getFirstPlayer() {
-
-        return firstPlayer;
-    }
 
     public void endGame() {
         for (Player player : players) {
@@ -182,11 +178,21 @@ public class GameManager {
 
     public void startCurrentTurn() {
         currentPlayer = round.getTurn().getPlayer();
-        if (currentPlayer.getStatus().equals(PlayerStatus.ACTIVE)) {
-            checkTimerMove();
-            server.notifyBeginTurn(round.getTurn().getPlayer(), numberCurrentRound, getRound().getCurrentTurn());
-        } else {
-            endCurrentTurn();
+        int activePlayer=0;
+        for(Player player : players){
+            if (player.getStatus().equals(PlayerStatus.ACTIVE)){
+                activePlayer++;
+            }
+        }
+        if (activePlayer>1) {
+            if (currentPlayer.getStatus().equals(PlayerStatus.ACTIVE)) {
+                checkTimerMove();
+                server.notifyBeginTurn(round.getTurn().getPlayer(), numberCurrentRound, getRound().getCurrentTurn());
+            } else {
+                endCurrentTurn();
+            }
+        }else {
+            endGame();
         }
     }
 

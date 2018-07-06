@@ -16,6 +16,7 @@ public class RollAllDiceEffect extends Effect {
         for (Die die : round.getDraftPool()) {
             die.roll();
         }
+        toolCard.getToolCardHandler().updateDraftPool(toolCard.getBoard().getDraftPool());
         toolCard.setResponse(true);
     }
 }
