@@ -1,9 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.CheckModifier;
-import it.polimi.ingsw.model.ColorConstraint;
-import it.polimi.ingsw.model.Die;
-import it.polimi.ingsw.model.SagradaColor;
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

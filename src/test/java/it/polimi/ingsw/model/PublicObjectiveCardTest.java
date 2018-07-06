@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model;
 
 import com.google.gson.reflect.TypeToken;
-import it.polimi.ingsw.model.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

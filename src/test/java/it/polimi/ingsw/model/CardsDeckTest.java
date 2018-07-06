@@ -1,12 +1,8 @@
 package it.polimi.ingsw.model;
 
 import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
-import it.polimi.ingsw.serialization.GsonSingleton;
 import org.junit.jupiter.api.Test;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 

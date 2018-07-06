@@ -1,15 +1,6 @@
 package it.polimi.ingsw.model;
 
-import com.sun.javafx.scene.control.ReadOnlyUnbackedObservableList;
-import it.polimi.ingsw.GameManager;
-import it.polimi.ingsw.network.server.ServerInterface;
-import javafx.beans.InvalidationListener;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import org.junit.jupiter.api.Test;
-
-import java.io.IOException;
-import java.rmi.RemoteException;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
