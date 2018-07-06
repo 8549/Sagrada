@@ -202,10 +202,19 @@ public class RMIServer  implements RMIServerInterface {
     }
 
 
-
     @Override
     public void setNewCoordinates(int row, int column) throws RemoteException {
         server.getActiveToolCardHandler().setNewCoordinatesChoice(row, column);
+    }
+
+    @Override
+    public void setTwoDice(int row1, int col1, int row2, int col2) throws RemoteException {
+        server.getActiveToolCardHandler().setTwoDiceFromWindowPattern(row1, col1, row2, col2);
+    }
+
+    @Override
+    public void setTwoNewCoordinates(int row1, int col1, int row2, int col2) throws RemoteException {
+        server.getActiveToolCardHandler().setTwoNewCoordinatesChoice(row1, col1, row2, col2);
     }
 
 }

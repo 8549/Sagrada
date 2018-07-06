@@ -415,6 +415,30 @@ public class ClientHandler implements Serializable {
         }
     }
 
+    public void chooseTwoDice(){
+        ui.chooseTwoDice();
+    }
+
+    public void sendTwoDice(int row1, int col1, int row2, int col2){
+        try {
+            client.sendTwoDice(row1, col1, row2, col2);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void chooseTwoNewCoordinates(){
+        ui.chooseTwoCoordinates();
+    }
+
+    public void setTwoNewCoordinates(int row1, int col1, int row2, int col2){
+        try {
+            client.sendTwoNewCoordinates(row1, col1, row2, col2);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void nextMove() {
         ui.nextMove();
     }

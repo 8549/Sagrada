@@ -66,6 +66,10 @@ public interface ClientObject {
 
     public void setNewCoordinates() throws IOException;
 
+    public void chooseTwoDice() throws IOException;
+    public void chooseTwoNewCoordinates() throws IOException;
+
+
     public void notifyToolUsed(boolean result, String name) throws IOException;
 
 

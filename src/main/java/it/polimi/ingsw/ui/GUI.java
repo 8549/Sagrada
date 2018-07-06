@@ -403,6 +403,16 @@ public class GUI extends Application implements UI {
         });
     }
 
+    @Override
+    public void chooseTwoDice() {
+
+    }
+
+    @Override
+    public void chooseTwoCoordinates() {
+
+    }
+
     public double getHeight() {
         return Screen.getPrimary().getVisualBounds().getHeight();
     }

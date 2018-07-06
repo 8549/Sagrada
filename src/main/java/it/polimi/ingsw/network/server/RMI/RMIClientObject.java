@@ -200,6 +200,16 @@ public class RMIClientObject implements RMIClientObjectInterface {
     }
 
     @Override
+    public void chooseTwoDice() throws RemoteException {
+        client.chooseTwoDice();
+    }
+
+    @Override
+    public void chooseTwoNewCoordinates() throws RemoteException {
+        client.chooseTwoNewCoordinates();
+    }
+
+    @Override
     public void notifyToolUsed(boolean result, String name) throws RemoteException {
         client.notifyEndTool(result, name);
     }

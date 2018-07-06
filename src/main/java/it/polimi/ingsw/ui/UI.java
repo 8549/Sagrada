@@ -119,30 +119,39 @@ public interface UI {
 
     /**
      * This method must let the player decides if he wants to increse the value of the chosen die, or decrease
-     * @return true if he wants to decrease, false if he wants to increase
+     *
      */
     void chooseIfDecrease();
 
     /**
      * Chooses if the player wants to place the die or to put it back in the draft pool
-     * @return true if he chooses to place the die on the window pattern, @return false if he wants to put it back in the draft pool
+     *
      */
     void chooseIfPlaceDie();
 
     /**
-     * @return true if the player wants to move 2 dice, @return false if he wants to move just one die
+     * Let the user choose if he wants to place the die or put i back in the draft pool
      */
     void chooseToMoveOneDie();
 
     /**
-     * Choose a number value to give to one die (?)
-     * @return int
+     * Choose a number value to give to one die
+     *
      */
     void setValue();
 
 
     /**
-     * @return new coordinate
+     * Let user choose a new position for a die
      */
     void setNewCoordinates();
+
+    /**
+     * Let the user choose two dice to move
+     */
+    void chooseTwoDice();
+    /**
+     * Let the user choose two new position
+     */
+    void chooseTwoCoordinates();
 }

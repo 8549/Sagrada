@@ -51,6 +51,8 @@ public interface RMIClientInterface extends ClientInterface, Remote {
     public void chooseToMoveOneDie() throws RemoteException;
     public void setValue(String color) throws RemoteException;
     public void setNewCoordinates() throws RemoteException;
+    public void chooseTwoDice() throws RemoteException;
+    public void chooseTwoNewCoordinates() throws  RemoteException;
     public boolean ping() throws RemoteException;
 
 
@@ -62,6 +64,9 @@ public interface RMIClientInterface extends ClientInterface, Remote {
     public void sendNumberDiceChoice(boolean choice) throws RemoteException;
     public void sendValue(int value) throws RemoteException;
     public void sendNewCoordinates(int row, int column) throws RemoteException;
+    public void sendTwoDice(int row1, int col1, int row2, int col2) throws RemoteException;
+    public void sendTwoNewCoordinates(int row1, int col1, int row2, int col2) throws RemoteException;
+
 
     public void nextMove() throws RemoteException;
     public void pushTokens(String name, String tool, int cost) throws RemoteException;

@@ -173,6 +173,16 @@ public class ToolCardHandler {
     }
 
     public void chooseTwoDieFromWindowPatter() {
+        for(ClientObject c : server.getInGameClients()){
+            try {
+                if(c.getPlayer().getName().equals(player.getName())){
+                    c.chooseTwoDice();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
     public void setTwoDiceFromWindowPattern(int row, int column, int secondRow, int secondColumn){
             toolcard.completeChooseDieFromWindowPattern(row, column);
@@ -182,6 +192,15 @@ public class ToolCardHandler {
         }
 
     public void setTwoNewCoordinates() {
+        for(ClientObject c : server.getInGameClients()){
+            try {
+                if(c.getPlayer().getName().equals(player.getName())){
+                    c.chooseTwoNewCoordinates();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void setTwoNewCoordinatesChoice(int row, int column, int secondRow, int secondColumn){

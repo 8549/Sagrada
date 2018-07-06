@@ -224,10 +224,19 @@ public class RMIClient implements RMIClientInterface, Serializable {
         ch.setValue(SagradaColor.valueOf(color));
     }
 
-
     @Override
     public void setNewCoordinates() throws RemoteException {
         ch.setNewCoordinates();
+    }
+
+    @Override
+    public void chooseTwoDice() throws RemoteException {
+        ch.chooseTwoDice();
+    }
+
+    @Override
+    public void chooseTwoNewCoordinates() throws RemoteException {
+        ch.chooseTwoNewCoordinates();
     }
 
     @Override
@@ -276,6 +285,16 @@ public class RMIClient implements RMIClientInterface, Serializable {
     @Override
     public void sendNewCoordinates(int row, int column) throws RemoteException {
         server.setNewCoordinates(row, column);
+    }
+
+    @Override
+    public void sendTwoDice(int row1, int col1, int row2, int col2) throws RemoteException {
+        server.setTwoDice(row1, col1, row2, col2);
+    }
+
+    @Override
+    public void sendTwoNewCoordinates(int row1, int col1, int row2, int col2) throws RemoteException {
+        server.setTwoNewCoordinates(row1, col1,row2, col2);
     }
 
     @Override

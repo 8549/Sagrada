@@ -323,6 +323,12 @@ public class SocketClient implements ClientInterface {
                     case "setNewCoordinates":
                         ch.setNewCoordinates();
                         break;
+                    case "choooseTwoDice":
+                        ch.chooseTwoDice();
+                        break;
+                    case "chooseTwoNewCoordinates":
+                        ch.chooseTwoNewCoordinates();
+                        break;
 
                     default: break;
 
@@ -413,6 +419,16 @@ public class SocketClient implements ClientInterface {
     public void sendNewCoordinates(int row, int column) {
         socketHandlerClient.send("response", "setNewCoordinates", row + "/" + column );
 
+    }
+
+    @Override
+    public void sendTwoDice(int row1, int col1, int row2, int col2) throws IOException {
+        socketHandlerClient.send("response", "setTwoDice", row1 + "/" + col1 + "/" + row2 + "/" + col2 );
+    }
+
+    @Override
+    public void sendTwoNewCoordinates(int row1, int col1, int row2, int col2) throws IOException {
+        socketHandlerClient.send("response", "setTwoNewCoordinates", row1 + "/" + col1 + "/" + row2 + "/" + col2 );
     }
 
     @Override

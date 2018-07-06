@@ -69,6 +69,11 @@ public interface RMIClientObjectInterface extends ClientObject, Remote {
     public void notifyToolCardResponse(boolean response) throws RemoteException;
     @Override
     public void pushTokens(String name,String tool, int cost) throws RemoteException;
+    @Override
+    public void chooseTwoDice() throws RemoteException;
+    @Override
+    public void chooseTwoNewCoordinates() throws RemoteException;
+
 
     public void notifyToolUsed(boolean result, String name) throws RemoteException;
 

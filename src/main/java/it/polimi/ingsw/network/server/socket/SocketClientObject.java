@@ -243,6 +243,16 @@ public class SocketClientObject implements ClientObject {
     }
 
     @Override
+    public void chooseTwoDice() throws IOException {
+        socketHandler.send("request", "choooseTwoDice", "");
+    }
+
+    @Override
+    public void chooseTwoNewCoordinates() throws IOException {
+        socketHandler.send("request", "chooseTwoNewCoordinates", "");
+    }
+
+    @Override
     public void notifyToolUsed(boolean result,String name) throws IOException {
         if(result){
             socketHandler.send("update", "toolEnd", "true"+ "/" + name);

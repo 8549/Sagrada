@@ -153,6 +153,25 @@ public class SocketServer implements ServerInterface {
                         t9.setNewCoordinatesChoice(Integer.valueOf(newC.get(0)), Integer.valueOf(newC.get(1)));
                         break;
 
+                    case "setTwoDice":
+                                List<String> twoD = socketParserServer.parseData(data);
+                                ToolCardHandler t10 = server.getActiveToolCardHandler();
+                                int val1 = Integer.valueOf(twoD.get(0));
+                                int val2 = Integer.valueOf(twoD.get(1));
+                                int val3 = Integer.valueOf(twoD.get(2));
+                                int val4 = Integer.valueOf(twoD.get(3));
+                                t10.setTwoDiceFromWindowPattern(val1, val2, val3, val4);
+                        break;
+                    case "setTwoNewCoordinates":
+                                List<String> twoC = socketParserServer.parseData(data);
+                                ToolCardHandler t11 = server.getActiveToolCardHandler();
+                                int c1 = Integer.valueOf(twoC.get(0));
+                                int c2 = Integer.valueOf(twoC.get(1));
+                                int c3 = Integer.valueOf(twoC.get(2));
+                                int c4 = Integer.valueOf(twoC.get(3));
+                                t11.setTwoNewCoordinatesChoice(c1, c2, c3, c4);
+                        break;
+
                     default:
                         System.out.println("Wrong message!");
                         break;

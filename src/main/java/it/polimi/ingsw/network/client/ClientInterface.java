@@ -3,13 +3,8 @@ package it.polimi.ingsw.network.client;
 import it.polimi.ingsw.model.Die;
 import it.polimi.ingsw.model.ToolCard;
 import it.polimi.ingsw.model.WindowPattern;
-import javafx.collections.ObservableList;
 
 import java.io.IOException;
-import java.rmi.NotBoundException;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.util.List;
 
 public interface ClientInterface  {
     String getName() throws IOException;
@@ -39,6 +34,11 @@ public interface ClientInterface  {
     public void sendValue(int value) throws IOException;
 
     public void sendNewCoordinates(int row, int column) throws IOException;
+
+    public void sendTwoDice(int row1, int col1, int row2, int col2) throws IOException;
+
+    public void sendTwoNewCoordinates(int row1, int col1, int row2, int col2) throws IOException;
+
 
     void requestTool(ToolCard tool) throws IOException;
 }

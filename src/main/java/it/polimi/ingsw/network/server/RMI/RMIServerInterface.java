@@ -84,6 +84,26 @@ public interface RMIServerInterface extends ServerInterface, Remote {
      */
     void setNewCoordinates(int row, int column) throws RemoteException;
 
+    /**
+     *Response from client of effect of Toolcard
+     * @param row1
+     * @param col1
+     * @param row2
+     * @param col2
+     * @throws RemoteException
+     */
+    public void setTwoDice(int row1, int col1, int row2, int col2) throws RemoteException;
+
+    /**
+     *Response from client of effect of Toolcard
+     * @param row1
+     * @param col1
+     * @param row2
+     * @param col2
+     * @throws RemoteException
+     */
+    public void setTwoNewCoordinates(int row1, int col1, int row2, int col2) throws RemoteException;
+
 
 
 }

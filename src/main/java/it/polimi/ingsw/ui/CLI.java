@@ -689,6 +689,16 @@ public class CLI implements UI {
         handler.sendNewCoordinates(i - 1, j - 1);
     }
 
+    @Override
+    public void chooseTwoDice() {
+
+    }
+
+    @Override
+    public void chooseTwoCoordinates() {
+
+    }
+
     private String printFavorTokens(int n) {
         String s = "";
         for (int i = 0; i < n; i++) {
