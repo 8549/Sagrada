@@ -95,6 +95,16 @@ public class PlayerWindow implements Serializable {
                 .count();
     }
 
+
+    public int emptyCount() {
+        return (int) Arrays.stream(diceGrid)
+                .flatMap(Arrays::stream)
+                .filter(cell -> cell.isEmpty())
+                .count();
+
+    }
+
+
     public boolean setWindowPattern(WindowPattern windowPattern){
         if(windowPattern!=null) {
             this.windowPattern = windowPattern;

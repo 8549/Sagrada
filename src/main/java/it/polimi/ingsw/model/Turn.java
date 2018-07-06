@@ -34,6 +34,8 @@ public class Turn {
         return diePlaced = true;
     }
 
+    public boolean setDieNotPlaced() {return  diePlaced=false;}
+
     public boolean setToolCardUsed() {
         return toolCardUsed = true;
     }

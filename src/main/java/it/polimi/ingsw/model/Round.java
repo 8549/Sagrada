@@ -51,6 +51,7 @@ public class Round {
         if (turn < players.size()) {
             turns.add(turn + 1, turns.get(turn));
             turns.get(turn + 1).modifyTurn();
+            turns.get(turn + 1).setDieNotPlaced();
             turns.remove(turns.size() - 1 - turn);
         }
     }

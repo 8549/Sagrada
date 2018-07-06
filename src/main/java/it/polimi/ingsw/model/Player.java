@@ -89,6 +89,8 @@ public class Player implements Serializable {
         this.points=+points;
     }
 
+    public void subPoints(int points) {this.points=-points; }
+
     @Override
     public String toString() {
         return name;
