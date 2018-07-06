@@ -313,12 +313,12 @@ public class ToolCard implements Card {
     public void completeProcessMove(int newRow, int newColumn) {
         MoveValidator moveValidator = new MoveValidator(getTurn(), getRound().getDraftPool(), number, color, adjacency);
         if (moveValidator.validateMove(die, newRow, newColumn, player)) {
-            if (!adjacency || !place) {
+            if (!adjacency || place) {
                 player.getPlayerWindow().addDie(die, newRow, newColumn);
                 getTurn().setDiePlaced();
                 toolCardHandler.notifyAddDie(player, die, newRow, newColumn);
                 getTurn().setDiePlaced();
-            } else if (adjacency || place) {
+            } else if (!place) {
                 if (player.getPlayerWindow().dieCount() == 1) {
                     player.getPlayerWindow().setOneDie(true);
                 }
