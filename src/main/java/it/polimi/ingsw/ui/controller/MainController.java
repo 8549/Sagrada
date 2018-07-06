@@ -67,11 +67,15 @@ public class MainController {
     @FXML
     private HBox fxDraftPool;
 
+    @FXML
+    private ImageView fxRoundTrack;
+
     public static Node drawDie(Die d, double size) {
         GridPane cont = new GridPane();
         cont.getStyleClass().add("die");
         cont.setBackground(new Background(new BackgroundFill(d.getColor().getColor(), new CornerRadii(GUI.ROUND_CORNER_RADIUS), Insets.EMPTY)));
         double spacer = GUI.DIE_RELATIVE_SPACER;
+        //cont.setOpacity(0.7);
         cont.setHgap(spacer);
         cont.setVgap(spacer);
         cont.setPrefHeight(size);
@@ -278,6 +282,8 @@ public class MainController {
                 for (int j = 0; j < WindowPattern.COLUMNS; j++) {
                     if (!p.getPlayerWindow().getCellAt(i, j).isEmpty()) {
                         controllers.get(p).setDie(p.getPlayerWindow().getCellAt(i, j).getDie(), i, j);
+                    } else {
+                        controllers.get(p).removeDie(i, j);
                     }
                 }
             }
@@ -433,8 +439,8 @@ public class MainController {
             if (((StackPane) n).getChildren().size() < 2) {
                 continue;
             }
-            //TODO transition onto child not n
-            ScaleTransition transition = new ScaleTransition(Duration.seconds(0.3), n);
+            Node dieNode = ((StackPane) n).getChildren().get(1);
+            ScaleTransition transition = new ScaleTransition(Duration.seconds(0.3), dieNode);
             transition.setByX(0.7);
             transition.setByY(0.7);
             transition.setAutoReverse(true);
@@ -592,7 +598,6 @@ public class MainController {
                     Node source = (Node) event.getSource();
                     int row = GridPane.getRowIndex(source);
                     int col = GridPane.getColumnIndex(source);
-                    Die d = gui.getModel().getMyself().getPlayerWindow().getCellAt(row, col).getDie();
                     for (Node n : root.getChildren()) {
                         n.setOnMouseClicked(null);
                         n.getStyleClass().remove("chosen");

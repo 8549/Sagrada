@@ -16,6 +16,7 @@
 }
 .ToolCard {
   /* -fx-image: url(images/toolcards/ToolCardBack.png); */
+  -fx-cursor: hand;
 }
 
 #PrivObjCard {
@@ -26,8 +27,12 @@
   /* -fx-image: url(images/objectivecards/public/PublicObjetiveCardBack.png); */
 }
 
+#fxRoundTrack {
+  -fx-cursor: hand;
+}
+
 #main {
-  -fx-background-image: url(images/pattern/dark.png);
+  -fx-background-image: url(images/pattern/retina_wood_@2X.png);
 }
 .message {
   -fx-font-size: 400%;

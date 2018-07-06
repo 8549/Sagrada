@@ -50,9 +50,9 @@ public class GUI extends Application implements UI {
     private MainController mainController;
     private ClientHandler handler;
     private ProxyModel model;
-    ChangeListener<Number> listener1;
-    ChangeListener<Number> listener2;
-    ChangeListener<Number> sizeListener;
+    private ChangeListener<Number> listener1;
+    private ChangeListener<Number> listener2;
+    private ChangeListener<Number> sizeListener;
     private double initialWidth;
     private double initialHeight;
     private Die selectedDie;

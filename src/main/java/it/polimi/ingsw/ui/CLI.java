@@ -198,6 +198,7 @@ public class CLI implements UI {
             System.out.println(p.getName());
             printWindowPattern(p.getPlayerWindow().getWindowPattern(), p.getPlayerWindow());
         }
+        printRoundTrack();
         System.out.print("Draft pool:");
         for (Die d : model.getDraftPool()) {
             System.out.print(" " + printDie(d));
@@ -242,7 +243,7 @@ public class CLI implements UI {
     private void askChoice() {
         boolean validChoice = false;
         while (!validChoice) {
-            System.out.print("You can place a Die, use a Tool card or Pass; enter the first character of your choice: ");
+            System.out.print("You can place a Die, use a Tool card or End your turn; enter the first character of your choice: ");
             String choice = scanner.next().toUpperCase();
             if (isTimeUp()) {
                 return;
@@ -313,7 +314,7 @@ public class CLI implements UI {
                         System.err.println("There was a connection error");
                     }
                     break;
-                case "P":
+                case "E":
                     validChoice = true;
                     System.out.println("Ending your turn...");
                     handler.passTurn();
@@ -458,7 +459,7 @@ public class CLI implements UI {
     public void chooseDieFromDraftPool() {
         System.out.print("This is the current draft pool: ");
         for (Die d : model.getDraftPool()) {
-            System.out.print(printDie(d));
+            System.out.print(printDie(d) + " ");
         }
         int which = -1;
         System.out.print("\nPlease choose a die [1-" + model.getDraftPool().size() + "]: ");
@@ -530,7 +531,7 @@ public class CLI implements UI {
     private void printRoundTrack() {
         System.out.println("Round Track: ");
         for (int i = 0; i < model.getRoundTrack().getRoundCounter(); i++) {
-            System.out.print(i + ") ");
+            System.out.print((i + 1) + ") ");
             for (int j = 0; j < model.getRoundTrack().getDiceNumberAtRound(i); j++) {
                 System.out.print(printDie(model.getRoundTrack().getDieAt(i, j)) + " ");
             }
