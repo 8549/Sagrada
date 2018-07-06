@@ -14,6 +14,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -181,7 +182,11 @@ public class SocketServer implements ServerInterface {
         public SocketHandler(Socket socket, SocketServer server) {
             this.socketServer = server;
             this.socket = socket;
-            this.socket.setSoTimeout(200000);
+            try {
+                this.socket.setSoTimeout(200000);
+            } catch (SocketException e) {
+                e.printStackTrace();
+            }
             log("New connection at " + socket);
             socketParser = new SocketParser();
         }
