@@ -57,7 +57,7 @@ public interface RMIClientObjectInterface extends ClientObject, Remote {
     @Override
     public void chooseToMoveOneDie() throws RemoteException;
     @Override
-    public void setValue() throws RemoteException;
+    public void setValue(String color) throws RemoteException;
 
     @Override
     public void setNewCoordinates() throws RemoteException;

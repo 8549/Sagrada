@@ -49,7 +49,7 @@ public interface RMIClientInterface extends ClientInterface, Remote {
     public void chooseIfDecrease() throws RemoteException;
     public void chooseIfPlaceDie() throws RemoteException;
     public void chooseToMoveOneDie() throws RemoteException;
-    public void setValue() throws RemoteException;
+    public void setValue(String color) throws RemoteException;
     public void setNewCoordinates() throws RemoteException;
     public boolean ping() throws RemoteException;
 

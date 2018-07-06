@@ -270,8 +270,8 @@ public class RMIClientObject implements RMIClientObjectInterface {
     }
 
     @Override
-    public void setValue() throws RemoteException {
-        client.setValue();
+    public void setValue(String color) throws RemoteException {
+        client.setValue(color);
     }
 
 

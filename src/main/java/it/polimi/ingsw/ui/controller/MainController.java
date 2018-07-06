@@ -378,7 +378,7 @@ public class MainController {
                 @Override
                 public void handle(MouseEvent event) {
                     confirm.setDisable(false);
-                    newValue = values.getChildren().indexOf(event.getSource());
+                    newValue = values.getChildren().indexOf(event.getSource())+1;
                 }
             });
             values.getChildren().add(view);

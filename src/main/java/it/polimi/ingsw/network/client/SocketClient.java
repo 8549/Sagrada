@@ -317,8 +317,8 @@ public class SocketClient implements ClientInterface {
                     case "chooseToMoveOneDie":
                         ch.chooseToMoveOneDie();
                         break;
-                    case "setValue":
-                        ch.setValue();
+                    case "setValue": List<String> color = socketParserClient.parseData(data);
+                        ch.setValue(SagradaColor.valueOf(color.get(0)));
                         break;
                     case "setNewCoordinates":
                         ch.setNewCoordinates();
@@ -430,7 +430,7 @@ public class SocketClient implements ClientInterface {
         private SocketHandlerClient(SocketClient client, Socket socket) throws IOException {
             this.client = client;
             this.socket = socket;
-            this.socket.setSoTimeout(200000);
+            //this.socket.setSoTimeout(200000);
             socketParser = new SocketParser();
                 in = new BufferedReader(
                         new InputStreamReader(socket.getInputStream()));

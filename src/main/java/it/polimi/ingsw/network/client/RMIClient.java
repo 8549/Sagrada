@@ -220,8 +220,8 @@ public class RMIClient implements RMIClientInterface, Serializable {
     }
 
     @Override
-    public void setValue() throws RemoteException {
-        ch.setValue();
+    public void setValue(String color) throws RemoteException {
+        ch.setValue(SagradaColor.valueOf(color));
     }
 
 

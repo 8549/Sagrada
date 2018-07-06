@@ -26,9 +26,6 @@ public class MoveValidator {
         if (column < 0 || column > WindowPattern.COLUMNS) {
             return false;
         }
-        if (!draftPool.contains(die)) {
-            return false;
-        }
 
         if (!turn.getPlayer().getName().equals(player.getName())) {
             return false;

@@ -79,6 +79,7 @@ public class ToolCard implements Card {
     }
 
     public void useTools(Player player, GameManager gameManager) {
+
         this.player = player;
         this.gameManager = gameManager;
         for (Effect effect : effects) {
@@ -271,6 +272,7 @@ public class ToolCard implements Card {
 
     public void getDieFromDicePool() {
         die = getBoard().getDiceBag().draftDie();
+        toolCardHandler.setColorOfPickedDie(die.getColor());
     }
 
     public void chooseDieFromWindowPattern() {
@@ -364,6 +366,7 @@ public class ToolCard implements Card {
     public void completeChooseValue(int value) {
         die.setNumber(value);
         everythingOk = true;
+        placeDie=true;
         checkHasNextEffect();
     }
 

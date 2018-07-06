@@ -13,6 +13,7 @@ public class ToolCardHandler {
     private ToolCard toolcard;
     private Player player;
     private boolean isActive=false;
+    private SagradaColor colorOfPickedDie;
 
     public ToolCardHandler(Player p,GameManager gm, MainServer server, ToolCard toolCard){
         this.gm= gm;
@@ -27,6 +28,10 @@ public class ToolCardHandler {
 
     public boolean isActive(){
         return this.isActive;
+    }
+
+    public void setColorOfPickedDie(SagradaColor color){
+        this.colorOfPickedDie = color;
     }
 
     public void chooseDieFromWindowPattern() {
@@ -135,7 +140,7 @@ public class ToolCardHandler {
         for(ClientObject c : server.getInGameClients()){
             try {
                 if(c.getPlayer().getName().equals(player.getName())){
-                    c.setValue();
+                    c.setValue(colorOfPickedDie.toString());
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -225,10 +230,17 @@ public class ToolCardHandler {
     public void notifyChangeTurn(Player first){
         for(ClientObject c : server.getInGameClients()){
             try {
-                c.changeTurn(first);
+                if(!first.getName().equals(c.getPlayer().getName())){
+                    c.changeTurn(first);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+        try {
+            server.getClientByName(first.getName()).changeTurn(first);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
     }

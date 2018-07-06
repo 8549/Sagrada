@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.effect;
 
+import it.polimi.ingsw.model.SagradaColor;
+
 public class GetDieFromDicePoolEffect extends Effect{
 
     public GetDieFromDicePoolEffect(String name){

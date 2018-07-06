@@ -230,8 +230,8 @@ public class SocketClientObject implements ClientObject {
     }
 
     @Override
-    public void setValue() throws IOException {
-        socketHandler.send("request", "setValue", "");
+    public void setValue(String color) throws IOException {
+        socketHandler.send("request", "setValue", color);
 
     }
 
@@ -256,7 +256,7 @@ public class SocketClientObject implements ClientObject {
     @Override
     public void moveDie(Player player, Die d, int row, int column, int newRow, int newColumn) throws IOException {
         socketHandler.send("update", "moveDieTool", player.getName() + "/" + d.getColor() + "/" + d.getNumber() + "/" + row + "/" + column + "/" + newRow + "/" + newColumn);
-    }
+     }
 
     @Override
     public void addDie(Player player, Die d, int row, int column) throws IOException {

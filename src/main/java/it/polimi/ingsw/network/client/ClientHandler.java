@@ -390,7 +390,7 @@ public class ClientHandler implements Serializable {
         }
     }
 
-    public void setValue() {
+    public void setValue(SagradaColor color) {
         ui.setValue();
     }
 
@@ -477,8 +477,9 @@ public class ClientHandler implements Serializable {
         Runnable task = new Runnable() {
             @Override
             public void run() {
-                //TODO: print "the first plauer now will be ... "
-                System.out.println("[DEBUG] First Player will be " + name);
+                if(name.equals(proxyModel.getMyself().getName())){
+
+                }
             }
         };
         perform(task);

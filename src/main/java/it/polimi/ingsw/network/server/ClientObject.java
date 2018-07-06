@@ -62,7 +62,7 @@ public interface ClientObject {
 
     public void chooseToMoveOneDie() throws IOException;
 
-    public void setValue() throws IOException;
+    public void setValue(String color) throws IOException;
 
     public void setNewCoordinates() throws IOException;
 

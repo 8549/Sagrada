@@ -84,6 +84,7 @@ public class GameManager {
         board.setDiceBag();
 
         numberCurrentRound = 1;
+
     }
 
     /**
@@ -127,7 +128,6 @@ public class GameManager {
             server.choosePatternCard(p.getChoices(), p);
         }
         server.setPublicObj(publicObjectiveCards);
-        server.pushTools(toolCard);
 
     }
 
@@ -281,7 +281,10 @@ public class GameManager {
             //token
             for (Player player : players) {
                 player.setInitialTokens();
+
             }
+            server.pushTools(toolCard);
+
             List<Player> updatedPlayer = new ArrayList<>(players);
             server.initPlayersData(updatedPlayer);
             startRound();
