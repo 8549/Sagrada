@@ -428,11 +428,12 @@ public class MainController {
     public void toolChooseDieFromWindowPattern() {
         showMessage("Choose a die from your window!");
         Player myself = gui.getModel().getMyself();
-        GridPane root = (GridPane) anchorPanes.get(myself).getChildren().get(1);
+        GridPane root = (GridPane) ((Pane) ((VBox) anchorPanes.get(myself).getChildren().get(1)).getChildren().get(0)).getChildren().get(0);
         for (Node n : root.getChildren()) {
             if (((StackPane) n).getChildren().size() < 2) {
                 continue;
             }
+            //TODO transition onto child not n
             ScaleTransition transition = new ScaleTransition(Duration.seconds(0.3), n);
             transition.setByX(0.7);
             transition.setByY(0.7);
@@ -574,5 +575,31 @@ public class MainController {
         dialog.setScene(new Scene(valueMain));
         dialog.sizeToScene();
         dialog.showAndWait();
+    }
+
+    public void toolSetNewCoordinates() {
+        showMessage("Choose an empty cell where to place the die!");
+        Player myself = gui.getModel().getMyself();
+        GridPane root = (GridPane) ((Pane) ((VBox) anchorPanes.get(myself).getChildren().get(1)).getChildren().get(0)).getChildren().get(0);
+        for (Node n : root.getChildren()) {
+            if (((StackPane) n).getChildren().size() > 1) {
+                continue;
+            }
+            n.getStyleClass().add("chosen");
+            n.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    Node source = (Node) event.getSource();
+                    int row = GridPane.getRowIndex(source);
+                    int col = GridPane.getColumnIndex(source);
+                    Die d = gui.getModel().getMyself().getPlayerWindow().getCellAt(row, col).getDie();
+                    for (Node n : root.getChildren()) {
+                        n.setOnMouseClicked(null);
+                        n.getStyleClass().remove("chosen");
+                    }
+                    gui.getClientHandler().sendNewCoordinates(row, col);
+                }
+            });
+        }
     }
 }

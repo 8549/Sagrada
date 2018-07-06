@@ -47,7 +47,8 @@ public interface UI {
     void startGame();
 
     /**
-     * This method refreshes the currently drawn game board
+     * This method triggers an update of the user interface (e.g. something in the model has changed after using a tool card
+     * or after placing a die)
      */
     void update();
 
@@ -103,45 +104,45 @@ public interface UI {
     /**
      * This method must let the player choose a die from his/her windowPattern
      */
-    public void chooseDieFromWindowPattern();
+    void chooseDieFromWindowPattern();
 
     /**
      * This method must let the player choose a die from current Draft Pool
      */
-    public void chooseDieFromDraftPool() ;
+    void chooseDieFromDraftPool();
 
 
     /**
      * This method must let the player choose a die from the current RoundTrack
      */
-    public void chooseDieFromRoundTrack();
+    void chooseDieFromRoundTrack();
 
     /**
      * This method must let the player decides if he wants to increse the value of the chosen die, or decrease
-     * @return true if he wants to decrese, false if he wants to increase
+     * @return true if he wants to decrease, false if he wants to increase
      */
-    public void chooseIfDecrease() ;
+    void chooseIfDecrease();
 
     /**
      * Chooses if the player wants to place the die or to put it back in the draft pool
      * @return true if he chooses to place the die on the window pattern, @return false if he wants to put it back in the draft pool
      */
-    public void chooseIfPlaceDie() ;
+    void chooseIfPlaceDie();
 
     /**
      * @return true if the player wants to move 2 dice, @return false if he wants to move just one die
      */
-    public void chooseToMoveOneDie();
+    void chooseToMoveOneDie();
 
     /**
      * Choose a number value to give to one die (?)
      * @return int
      */
-    public void setValue() ;
+    void setValue();
 
 
     /**
      * @return new coordinate
      */
-    public void setNewCoordinates() ;
+    void setNewCoordinates();
 }

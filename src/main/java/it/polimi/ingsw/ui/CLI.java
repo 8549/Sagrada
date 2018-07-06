@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.ConnectionType;
 import it.polimi.ingsw.network.client.ClientHandler;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.WeakChangeListener;
 import javafx.collections.ListChangeListener;
 import javafx.collections.WeakListChangeListener;
 
@@ -207,6 +206,10 @@ public class CLI implements UI {
         for (ObjCard c : model.getPublicObjectiveCards()) {
             System.out.print(String.format("%s, ", c.getName()));
         }
+        System.out.println("\nTool cards: ");
+        for (ToolCard c : model.getToolCards()) {
+            System.out.println(String.format("%s (cost: %d, has %d tokens on it)", c.getName(), c.getCost(), c.getTokens()));
+        }
         System.out.println("\nYour private objective card: " + model.getMyself().getPrivateObjectiveCard().getName());
         printWindowPattern(model.getMyself().getPlayerWindow().getWindowPattern(), model.getMyself().getPlayerWindow());
     }
@@ -232,8 +235,11 @@ public class CLI implements UI {
 
     @Override
     public void myTurnStarted() {
-        //flushConsole();
         timeUp = false;
+        askChoice();
+    }
+
+    private void askChoice() {
         boolean validChoice = false;
         while (!validChoice) {
             System.out.print("You can place a Die, use a Tool card or Pass; enter the first character of your choice: ");
@@ -314,8 +320,26 @@ public class CLI implements UI {
                     break;
                 case "T":
                     validChoice = true;
-                    System.out.println("Coming soon...");
-                    // handler.handleToolCard();
+                    int whichTool = -1;
+                    System.out.print("Which tool card [1-" + model.getToolCards().size() + "]? ");
+                    boolean validTool = false;
+                    while (!validTool) {
+                        if (scanner.hasNextInt()) {
+                            whichTool = scanner.nextInt();
+                            if (isTimeUp()) {
+                                return;
+                            }
+                            if (whichTool > 0 && whichTool <= model.getToolCards().size()) {
+                                validTool = true;
+                            } else {
+                                System.out.print("Please choose a valid tool card [1-" + model.getToolCards().size() + "]: ");
+                            }
+                        } else {
+                            System.out.print("Please choose a valid tool card [1-" + model.getToolCards().size() + "]: ");
+                            scanner.next();
+                        }
+                    }
+                    handler.useTool(model.getToolCards().get(whichTool - 1));
                     break;
                 default:
                     System.err.println("Invalid choice!");
@@ -333,7 +357,7 @@ public class CLI implements UI {
     @Override
     public void nextMove() {
         System.out.println("Your move was correct. You can do something else!");
-        myTurnStarted();
+        askChoice();
     }
 
     @Override
@@ -361,10 +385,8 @@ public class CLI implements UI {
         System.out.println(String.format("%s (%s favor tokens)", model.getMyself().getName(), printFavorTokens(model.getMyself().getPlayerWindow().getWindowPattern().getDifficulty())));
         System.out.println("Your private objective card will be: " + model.getMyself().getPrivateObjectiveCard().getName());
 
-        ChangeListener<Number> listener1 = new WeakChangeListener<>((observable, oldValue, newValue) -> System.out.println(String.format("Round %d ended. round %d is starting!", oldValue.intValue(), newValue.intValue())));
-        ChangeListener<Number> listener = new WeakChangeListener<>((observable, oldValue, newValue) -> {
-            update();
-        });
+        ChangeListener<Number> listener1 = (observable, oldValue, newValue) -> System.out.println(String.format("Round %d ended. round %d is starting!", oldValue.intValue(), newValue.intValue()));
+        ChangeListener<Number> listener = (observable, oldValue, newValue) -> update();
         model.currentRoundProperty().addListener(listener1);
         model.currentTurnProperty().addListener(listener);
     }
@@ -378,7 +400,7 @@ public class CLI implements UI {
     public void wrongMove() {
         if (model.isMyTurn()) {
             System.err.println("Your move was incorrect! Please, try again");
-            myTurnStarted();
+            askChoice();
         }
     }
 
@@ -423,13 +445,13 @@ public class CLI implements UI {
                     scanner.next();
                 }
             }
-            if (model.getMyself().getPlayerWindow().getCellAt(i, j).isEmpty()) {
+            if (model.getMyself().getPlayerWindow().getCellAt(i - 1, j - 1).isEmpty()) {
                 System.err.println("There's no die at the given coordinates!");
             } else {
                 validDie = true;
             }
         }
-        handler.sendDieFromWP(model.getMyself().getPlayerWindow().getCellAt(i, j).getDie(), i, j);
+        handler.sendDieFromWP(model.getMyself().getPlayerWindow().getCellAt(i - 1, j - 1).getDie(), i - 1, j - 1);
     }
 
     @Override
@@ -494,7 +516,7 @@ public class CLI implements UI {
                 }
                 if (j >= 0 && j <= model.getRoundTrack().getDiceNumberAtRound(i)) {
                     validChoice = true;
-                    handler.sendDieFromRT(roundTrack.getDieAt(i, j), i);
+                    handler.sendDieFromRT(roundTrack.getDieAt(i - 1, j - 1), i - 1);
                 } else {
                     System.out.print("Please enter a valid choice. ");
                 }
@@ -621,7 +643,7 @@ public class CLI implements UI {
         int i = -1, j = -1;
         boolean validDie = false;
         while (!validDie) {
-            System.out.print("Please enter the chosen die row [1-" + WindowPattern.ROWS + "]: ");
+            System.out.print("Please enter the new coordinate row [1-" + WindowPattern.ROWS + "]: ");
             boolean validRow = false;
             while (!validRow) {
                 if (scanner.hasNextInt()) {
@@ -639,7 +661,7 @@ public class CLI implements UI {
                     scanner.next();
                 }
             }
-            System.out.print("Please enter the chosen die column [1-" + WindowPattern.COLUMNS + "]: ");
+            System.out.print("Please enter the new coordinate column [1-" + WindowPattern.COLUMNS + "]: ");
             boolean validCol = false;
             while (!validCol) {
                 if (scanner.hasNextInt()) {
@@ -657,13 +679,13 @@ public class CLI implements UI {
                     scanner.next();
                 }
             }
-            if (!model.getMyself().getPlayerWindow().getCellAt(i, j).isEmpty()) {
+            if (!model.getMyself().getPlayerWindow().getCellAt(i - 1, j - 1).isEmpty()) {
                 System.err.println("There's already a die at the given coordinates! Please choose an empty cell.");
             } else {
                 validDie = true;
             }
         }
-        handler.sendNewCoordinates(i, j);
+        handler.sendNewCoordinates(i - 1, j - 1);
     }
 
     private String printFavorTokens(int n) {
