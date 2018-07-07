@@ -28,6 +28,9 @@ public class EffectAdapter extends TypeAdapter<Effect> {
             case "checkIfDieHasBeenPlaced":
                 effect = new CheckIfDieHasBeenPlacedEffect(name);
                 break;
+            case "checkIfRoundTrackHasAnyDie":
+                effect = new CheckIfRoundTrackHasAnyDieEffect(name);
+                break;
             case "checkIsDiePlaced":
                 effect = new CheckIsDiePlacedEffect(name);
                 break;

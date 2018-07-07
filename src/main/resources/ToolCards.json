@@ -42,6 +42,7 @@
     "id": 5,
     "when": "always",
     "effects": [
+      "checkIfRoundTrackHasAnyDie",
       "chooseDieFromDraftPool",
       "replaceDieOnRoundTrack"
     ]
@@ -79,7 +80,7 @@
     ]
   },
   {
-    "name": "Cork-backed Straightedge",
+    "name": "Corkbacked Straightedge",
     "id": 9,
     "when": "before",
     "effects": [
@@ -115,6 +116,7 @@
     "id": 12,
     "when": "always",
     "effects": [
+      "checkIfRoundTrackHasAnyDie",
       "chooseDieFromRoundTrack",
       "chooseDieFromWindowPattern",
       "moveDieWithSameColorAsDieFromRoundTrack",
