@@ -886,7 +886,7 @@ public class MainController {
                             n.setOnMouseClicked(null);
                         }
                         if (chosenCoords == 2) {
-                            gui.getClientHandler().sendTwoNewCoordinates(firstDieRow, firstDieColumn, secondDieRow, secondDieColumn);
+                            gui.getClientHandler().sendTwoNewCoordinates(firstCellRow, firstCellColumn, secondCellRow, secondCellColumn);
                         } else {
                             showMessage("Something went terribly wrong.");
                         }
