@@ -325,7 +325,7 @@ public class SocketClient implements ClientInterface {
                         ch.chooseIfDecrease();
                         break;
                     case "chooseIfPlaceDie":
-                        ch.chooseIfPlaceDie();
+                        ch.chooseIfPlaceDie(Integer.valueOf(data));
                         break;
                     case "chooseToMoveOneDie":
                         ch.chooseToMoveOneDie();

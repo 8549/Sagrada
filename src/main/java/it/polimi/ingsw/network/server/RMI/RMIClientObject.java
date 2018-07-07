@@ -281,8 +281,8 @@ public class RMIClientObject implements RMIClientObjectInterface {
     }
 
     @Override
-    public void chooseIfPlaceDie() throws RemoteException {
-        client.chooseIfPlaceDie();
+    public void chooseIfPlaceDie(int number) throws RemoteException {
+        client.chooseIfPlaceDie(number);
     }
 
     @Override

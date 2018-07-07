@@ -17,6 +17,7 @@ public class ToolCardHandler {
     private Player player;
     private boolean isActive=false;
     private SagradaColor colorOfPickedDie;
+    private int numberOfPickedDie;
 
     public ToolCardHandler(Player p,GameManager gm, MainServer server, ToolCard toolCard){
         this.gm= gm;
@@ -35,6 +36,10 @@ public class ToolCardHandler {
 
     public void setColorOfPickedDie(SagradaColor color){
         this.colorOfPickedDie = color;
+    }
+
+    public void setNumberOfPickedDie(int value){
+        this.numberOfPickedDie= value;
     }
 
     public void chooseDieFromWindowPattern() {
@@ -110,7 +115,7 @@ public class ToolCardHandler {
         for(ClientObject c : server.getInGameClients()){
             try {
                 if(c.getPlayer().getName().equals(player.getName())){
-                    c.chooseIfPlaceDie();
+                    c.chooseIfPlaceDie(numberOfPickedDie);
                 }
             } catch (IOException e) {
                 e.printStackTrace();

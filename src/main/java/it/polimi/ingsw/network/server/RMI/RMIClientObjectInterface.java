@@ -53,7 +53,7 @@ public interface RMIClientObjectInterface extends ClientObject, Remote {
     @Override
     public void chooseIfDecrease() throws RemoteException;
     @Override
-    public void chooseIfPlaceDie() throws RemoteException;
+    public void chooseIfPlaceDie(int number) throws RemoteException;
     @Override
     public void chooseToMoveOneDie() throws RemoteException;
     @Override

@@ -47,7 +47,7 @@ public interface RMIClientInterface extends ClientInterface, Remote {
     public void chooseDieFromDraftPool() throws RemoteException ;
     public void chooseDieFromRoundTrack() throws RemoteException;
     public void chooseIfDecrease() throws RemoteException;
-    public void chooseIfPlaceDie() throws RemoteException;
+    public void chooseIfPlaceDie(int number) throws RemoteException;
     public void chooseToMoveOneDie() throws RemoteException;
     public void setValue(String color) throws RemoteException;
     public void setNewCoordinates() throws RemoteException;

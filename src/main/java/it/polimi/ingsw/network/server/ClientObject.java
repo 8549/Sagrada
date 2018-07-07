@@ -57,7 +57,7 @@ public interface ClientObject {
 
     public void chooseIfDecrease() throws IOException;
 
-    public void chooseIfPlaceDie() throws IOException;
+    public void chooseIfPlaceDie(int number) throws IOException;
 
     public void chooseToMoveOneDie() throws IOException;
 

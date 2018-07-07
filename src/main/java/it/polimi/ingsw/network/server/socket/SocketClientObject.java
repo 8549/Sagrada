@@ -208,8 +208,8 @@ public class SocketClientObject implements ClientObject {
     }
 
     @Override
-    public void chooseIfPlaceDie() throws IOException {
-        socketHandler.send("request", "chooseIfPlaceDie", "");
+    public void chooseIfPlaceDie(int number) throws IOException {
+        socketHandler.send("request", "chooseIfPlaceDie", "" + number);
 
     }
 

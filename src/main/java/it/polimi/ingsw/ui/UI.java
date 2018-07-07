@@ -128,7 +128,7 @@ public interface UI {
      * Chooses if the player wants to place the die or to put it back in the draft pool
      *
      */
-    void chooseIfPlaceDie();
+    void chooseIfPlaceDie(int number);
 
     /**
      * Let the user choose if he wants to place the die or put i back in the draft pool

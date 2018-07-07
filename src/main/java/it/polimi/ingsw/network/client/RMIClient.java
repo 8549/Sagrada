@@ -210,8 +210,8 @@ public class RMIClient implements RMIClientInterface, Serializable {
     }
 
     @Override
-    public void chooseIfPlaceDie() throws RemoteException {
-        ch.chooseIfPlaceDie();
+    public void chooseIfPlaceDie(int number) throws RemoteException {
+        ch.chooseIfPlaceDie(number);
     }
 
     @Override

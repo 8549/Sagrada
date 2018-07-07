@@ -366,8 +366,8 @@ public class ClientHandler implements Serializable {
         }
     }
 
-    public void chooseIfPlaceDie() {
-        ui.chooseIfPlaceDie();
+    public void chooseIfPlaceDie(int number) {
+        ui.chooseIfPlaceDie(number);
     }
 
     public void sendPlacementChoice(boolean choice) {

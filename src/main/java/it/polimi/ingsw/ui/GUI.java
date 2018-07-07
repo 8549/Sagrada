@@ -375,7 +375,7 @@ public class GUI extends Application implements UI {
     }
 
     @Override
-    public void chooseIfPlaceDie() {
+    public void chooseIfPlaceDie(int number) {
         Platform.runLater(() -> {
             mainController.toolChooseIfPlaceDie();
         });
