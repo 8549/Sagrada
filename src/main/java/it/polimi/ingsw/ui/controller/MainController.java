@@ -18,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -39,6 +40,7 @@ public class MainController {
     private GUI gui;
     private HashMap<Player, AnchorPane> anchorPanes;
     private HashMap<Player, WindowPatternController> controllers;
+    private HashMap<ToolCard, ImageView> cardsMap;
     int newValue;
     Die selectedFromRT;
     private boolean firstUpdate;
@@ -301,6 +303,7 @@ public class MainController {
 
         anchorPanes = new HashMap<>();
         controllers = new HashMap<>();
+        cardsMap = new HashMap<>();
         ProxyModel model = gui.getModel();
         List<Player> players = model.getPlayers();
         players.add(model.getMyself());
@@ -357,10 +360,14 @@ public class MainController {
             String pubUrl = getClass().getClassLoader().getResource(pubPath).toExternalForm();
             if (i < n) {
                 ((ImageView) fxToolCardsContainer.getChildren().get(i)).setImage(new Image(pubUrl));
+                cardsMap.put(model.getToolCards().get(i), (ImageView) fxToolCardsContainer.getChildren().get(i));
+                Tooltip.install(fxToolCardsContainer.getChildren().get(i), getTooltip(model.getToolCards().get(i)));
             } else {
                 ImageView copy = (ImageView) fxToolCardsContainer.getChildren().get(0);
                 copy.setImage(new Image(pubUrl));
                 fxToolCardsContainer.getChildren().add(copy);
+                cardsMap.put(model.getToolCards().get(i), copy);
+                Tooltip.install(copy, getTooltip(model.getToolCards().get(i)));
             }
         }
         // Init players name and tokens
@@ -371,11 +378,7 @@ public class MainController {
             label.setContentDisplay(ContentDisplay.RIGHT);
             HBox.setMargin(label, new Insets(0, 45, 0, 0));
 
-            HBox tokens = new HBox();
-            tokens.getStylesheets().add(getClass().getClassLoader().getResource("windowpattern.css").toExternalForm());
-            for (int i = 0; i < p.getTokens(); i++) {
-                tokens.getChildren().add(WindowPatternController.getToken(GUI.CHOOSER_TILE_SIZE));
-            }
+            HBox tokens = getTokensBox(p.getTokens(), GUI.CHOOSER_TILE_SIZE);
 
             label.setGraphic(tokens);
             label.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
@@ -383,6 +386,16 @@ public class MainController {
             fxPlayerNames.getChildren().add(label);
         }
         fxPlayerNames.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+    }
+
+    private HBox getTokensBox(int n, double size) {
+        HBox tokens = new HBox();
+        tokens.setSpacing(size / 10.0);
+        tokens.getStylesheets().add(getClass().getClassLoader().getResource("windowpattern.css").toExternalForm());
+        for (int i = 0; i < n; i++) {
+            tokens.getChildren().add(WindowPatternController.getToken(size));
+        }
+        return tokens;
     }
 
     public void update() {
@@ -423,8 +436,21 @@ public class MainController {
         }
 
         // Update Tool Cards token used
+        for (ToolCard t : cardsMap.keySet()) {
+            ImageView view = cardsMap.get(t);
+            Tooltip.uninstall(view, null);
+            Tooltip.install(view, getTooltip(t));
+        }
 
+    }
 
+    private Tooltip getTooltip(ToolCard toolCard) {
+        Tooltip tooltip = new Tooltip("Cost: " + toolCard.getCost());
+        tooltip.setContentDisplay(ContentDisplay.BOTTOM);
+        tooltip.setGraphicTextGap(45.0);
+        HBox tokens = getTokensBox(toolCard.getTokens(), GUI.BASE_TILE_SIZE);
+        tooltip.setGraphic(tokens);
+        return tooltip;
     }
 
     public void showMessage(String s) {
@@ -446,11 +472,7 @@ public class MainController {
             for (Node n : fxPlayerNames.getChildren()) {
                 Label l = (Label) n;
                 if (l.getText().equals(p.getName())) {
-                    HBox updatedTokens = new HBox();
-                    updatedTokens.getStylesheets().add(getClass().getClassLoader().getResource("windowpattern.css").toExternalForm());
-                    for (int i = 0; i < p.getTokens(); i++) {
-                        updatedTokens.getChildren().add(WindowPatternController.getToken(GUI.CHOOSER_TILE_SIZE));
-                    }
+                    HBox updatedTokens = getTokensBox(p.getTokens(), GUI.CHOOSER_TILE_SIZE);
                     l.setGraphic(null);
                     l.setGraphic(updatedTokens);
                 }
