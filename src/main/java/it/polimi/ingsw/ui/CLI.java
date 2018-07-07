@@ -213,6 +213,7 @@ public class CLI implements UI {
         }
         System.out.println("\nYour private objective card: " + model.getMyself().getPrivateObjectiveCard().getName());
         printWindowPattern(model.getMyself().getPlayerWindow().getWindowPattern(), model.getMyself().getPlayerWindow());
+        System.out.println("Your remaining tokens: " + printFavorTokens(model.getMyself().getTokens()));
     }
 
     private String printDie(Die d) {
