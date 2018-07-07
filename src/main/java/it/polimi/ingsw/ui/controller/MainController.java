@@ -16,6 +16,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
@@ -46,7 +47,12 @@ public class MainController {
     int firstDieColumn;
     int secondDieRow;
     int secondDieColumn;
-    int chosen;
+    int chosenDice;
+    int firstCellRow;
+    int firstCellColumn;
+    int secondCellRow;
+    int secondCellColumn;
+    int chosenCoords;
 
     @FXML
     private BorderPane main;
@@ -73,6 +79,9 @@ public class MainController {
 
     @FXML
     private HBox fxDraftPool;
+
+    @FXML
+    private VBox fxPlayerNames;
 
     @FXML
     private ImageView fxRoundTrack;
@@ -179,7 +188,7 @@ public class MainController {
         for (int i = 0; i < roundTrack.getRoundCounter(); i++) {
             HBox round = new HBox();
             round.setAlignment(Pos.CENTER);
-            Label label = new Label(String.valueOf(i));
+            Label label = new Label(String.valueOf(i + 1));
             label.getStyleClass().add("roundTrackLabel");
             round.getChildren().add(label);
             for (int j = 0; j < roundTrack.getDiceNumberAtRound(i); j++) {
@@ -193,7 +202,7 @@ public class MainController {
                             confirm.setDisable(false);
                             Node source = (Node) event.getSource();
                             int whichRound = rounds.getChildren().indexOf(source.getParent());
-                            int whichDie = round.getChildren().indexOf(source);
+                            int whichDie = round.getChildren().indexOf(source) - 1;
                             selectedFromRT = roundTrack.getDieAt(whichRound, whichDie);
                             theRound = whichRound;
                         }
@@ -313,6 +322,7 @@ public class MainController {
                 imgView.setFitWidth(GUI.BOARD_RELATIVE_WIDTH * gui.getWidth());
 
                 AnchorPane p = new AnchorPane();
+                p.getStylesheets().add(getClass().getClassLoader().getResource("windowpattern.css").toExternalForm());
                 p.getChildren().add(0, imgView);
                 AnchorPane.setTopAnchor(root, GUI.BOARD_RELATIVE_HEIGHT * imgView.getFitHeight());
                 root.layout();
@@ -353,6 +363,26 @@ public class MainController {
                 fxToolCardsContainer.getChildren().add(copy);
             }
         }
+        // Init players name and tokens
+        for (Player p : model.getPlayers()) {
+
+            Label label = new Label(p.getName());
+            label.getStyleClass().add("playerLabel");
+            label.setContentDisplay(ContentDisplay.RIGHT);
+            HBox.setMargin(label, new Insets(0, 45, 0, 0));
+
+            HBox tokens = new HBox();
+            tokens.getStylesheets().add(getClass().getClassLoader().getResource("windowpattern.css").toExternalForm());
+            for (int i = 0; i < p.getTokens(); i++) {
+                tokens.getChildren().add(WindowPatternController.getToken(GUI.CHOOSER_TILE_SIZE));
+            }
+
+            label.setGraphic(tokens);
+            label.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
+
+            fxPlayerNames.getChildren().add(label);
+        }
+        fxPlayerNames.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
     }
 
     public void update() {
@@ -413,6 +443,18 @@ public class MainController {
                 a.getChildren().get(1).getStyleClass().remove("chosen");
             }
             anchorPanes.get(p).getChildren().get(1).getStyleClass().add("chosen");
+            for (Node n : fxPlayerNames.getChildren()) {
+                Label l = (Label) n;
+                if (l.getText().equals(p.getName())) {
+                    HBox updatedTokens = new HBox();
+                    updatedTokens.getStylesheets().add(getClass().getClassLoader().getResource("windowpattern.css").toExternalForm());
+                    for (int i = 0; i < p.getTokens(); i++) {
+                        updatedTokens.getChildren().add(WindowPatternController.getToken(GUI.CHOOSER_TILE_SIZE));
+                    }
+                    l.setGraphic(null);
+                    l.setGraphic(updatedTokens);
+                }
+            }
         }
     }
 
@@ -707,46 +749,57 @@ public class MainController {
 
     public void toolChooseTwoDice() {
         showMessage("Choose the first die from your window!");
-        chosen = 0;
+        chosenDice = 0;
         // DARKEN ALL NODES
         Player myself = gui.getModel().getMyself();
         GridPane root = (GridPane) ((Pane) ((VBox) anchorPanes.get(myself).getChildren().get(1)).getChildren().get(0)).getChildren().get(0);
         for (Node n : root.getChildren()) {
             ColorAdjust darken = new ColorAdjust();
-            darken.setBrightness(0.5);
+            darken.setBrightness(-0.5);
             n.setEffect(darken);
             // SET CLICK LISTENERS ON NON-EMPTY CELLS
             if (((StackPane) n).getChildren().size() > 1) {
                 n.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
-                        chosen++;
+                        chosenDice++;
                         Node source = (Node) event.getSource();
                         // KEEP THE SELECTED COORDINATES
                         firstDieRow = GridPane.getRowIndex(source);
                         firstDieColumn = GridPane.getColumnIndex(source);
-                        for (Node n : root.getChildren()) {
-                            n.setEffect(null);
-                            n.setOnMouseClicked(null);
+                        for (Node m : root.getChildren()) {
+                            m.setEffect(null);
+                            m.setOnMouseClicked(null);
                         }
-
+                        // REPEAT
+                        chooseSecondDice(source);
                     }
                 });
             }
         }
-        // REPEAT
+    }
+
+    private void chooseSecondDice(Node source) {
+        if (chosenDice != 1) {
+            showMessage("variable chosenDice should be equal to 1, but it isn't.");
+            return;
+        }
+        Player myself = gui.getModel().getMyself();
+        GridPane root = (GridPane) ((Pane) ((VBox) anchorPanes.get(myself).getChildren().get(1)).getChildren().get(0)).getChildren().get(0);
         showMessage("Choose the second die from your window!");
         // DARKEN ALL NODES
         for (Node n : root.getChildren()) {
             ColorAdjust darken = new ColorAdjust();
-            darken.setBrightness(0.5);
             n.setEffect(darken);
+            if (n != source) {
+                darken.setBrightness(-0.5);
+            }
             // SET CLICK LISTENERS ON NON-EMPTY CELLS
             if (((StackPane) n).getChildren().size() > 1) {
                 n.setOnMouseClicked(new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
-                        chosen++;
+                        chosenDice++;
                         Node source = (Node) event.getSource();
                         // KEEP THE SELECTED COORDINATES
                         secondDieRow = GridPane.getRowIndex(source);
@@ -755,15 +808,96 @@ public class MainController {
                             n.setEffect(null);
                             n.setOnMouseClicked(null);
                         }
-
+                        if (chosenDice == 2) {
+                            gui.getClientHandler().sendTwoDice(firstDieRow, firstDieColumn, secondDieRow, secondDieColumn);
+                        } else {
+                            showMessage("Something went terribly wrong.");
+                        }
+                        chosenDice = 0;
+                        firstDieRow = -1;
+                        firstDieColumn = -1;
+                        secondDieRow = -1;
+                        firstDieColumn = -1;
                     }
                 });
             }
         }
-        if (chosen == 2) {
-            gui.getClientHandler().sendTwoDice(firstDieRow, firstDieColumn, secondDieRow, secondDieColumn);
-        } else {
-            showMessage("Something went terribly wrong.");
+    }
+
+    public void toolChooseTwoCoordinates() {
+        showMessage("Choose the first empty cell from your window!");
+        chosenCoords = 0;
+        // DARKEN ALL NODES
+        Player myself = gui.getModel().getMyself();
+        GridPane root = (GridPane) ((Pane) ((VBox) anchorPanes.get(myself).getChildren().get(1)).getChildren().get(0)).getChildren().get(0);
+        for (Node n : root.getChildren()) {
+            ColorAdjust darken = new ColorAdjust();
+            darken.setBrightness(-0.5);
+            n.setEffect(darken);
+            // SET CLICK LISTENERS ON EMPTY CELLS
+            if (((StackPane) n).getChildren().size() < 2) {
+                n.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        chosenCoords++;
+                        Node source = (Node) event.getSource();
+                        // KEEP THE SELECTED COORDINATES
+                        firstCellRow = GridPane.getRowIndex(source);
+                        firstCellColumn = GridPane.getColumnIndex(source);
+                        for (Node m : root.getChildren()) {
+                            m.setEffect(null);
+                            m.setOnMouseClicked(null);
+                        }
+                        // REPEAT
+                        chooseSecondCoord(source);
+                    }
+                });
+            }
+        }
+    }
+
+    private void chooseSecondCoord(Node source) {
+        if (chosenCoords != 1) {
+            showMessage("variable chosenCoords should be equal to 1, but it isn't.");
+            return;
+        }
+        Player myself = gui.getModel().getMyself();
+        GridPane root = (GridPane) ((Pane) ((VBox) anchorPanes.get(myself).getChildren().get(1)).getChildren().get(0)).getChildren().get(0);
+        showMessage("Choose the second empty cell from your window!");
+        // DARKEN ALL NODES
+        for (Node n : root.getChildren()) {
+            ColorAdjust darken = new ColorAdjust();
+            n.setEffect(darken);
+            if (n != source) {
+                darken.setBrightness(-0.5);
+            }
+            // SET CLICK LISTENERS ON EMPTY CELLS
+            if (((StackPane) n).getChildren().size() < 2) {
+                n.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        chosenCoords++;
+                        Node source = (Node) event.getSource();
+                        // KEEP THE SELECTED COORDINATES
+                        secondCellRow = GridPane.getRowIndex(source);
+                        secondCellColumn = GridPane.getColumnIndex(source);
+                        for (Node n : root.getChildren()) {
+                            n.setEffect(null);
+                            n.setOnMouseClicked(null);
+                        }
+                        if (chosenCoords == 2) {
+                            gui.getClientHandler().sendTwoNewCoordinates(firstDieRow, firstDieColumn, secondDieRow, secondDieColumn);
+                        } else {
+                            showMessage("Something went terribly wrong.");
+                        }
+                        chosenCoords = 0;
+                        firstCellRow = -1;
+                        firstCellColumn = -1;
+                        secondCellRow = -1;
+                        firstCellColumn = -1;
+                    }
+                });
+            }
         }
     }
 }

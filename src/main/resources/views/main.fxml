@@ -90,6 +90,8 @@
             <children>
                 <Label fx:id="fxTimer" contentDisplay="CENTER" styleClass="message" VBox.vgrow="ALWAYS"/>
                 <Region VBox.vgrow="ALWAYS"/>
+                <VBox fx:id="fxPlayerNames"/>
+                <Region layoutX="10.0" layoutY="80.0"/>
                 <ImageView id="PrivObjCard" fx:id="fxPrivateObjectiveCard" fitHeight="200.0" fitWidth="200.0"
                            pickOnBounds="true" preserveRatio="true"/>
             </children>

@@ -195,7 +195,7 @@ public class CLI implements UI {
         }
         System.out.println(String.format("It's turn %d of round %d", model.getCurrentTurn() + 1, model.getCurrentRound()));
         for (Player p : model.getPlayers()) {
-            System.out.println(p.getName());
+            System.out.println(p.getName() + " " + printFavorTokens(p.getTokens()));
             printWindowPattern(p.getPlayerWindow().getWindowPattern(), p.getPlayerWindow());
         }
         printRoundTrack();
@@ -790,7 +790,100 @@ public class CLI implements UI {
 
     @Override
     public void chooseTwoCoordinates() {
-
+        int firstDieRow = -1, firstDieColumn = -1;
+        boolean validDie = false;
+        while (!validDie) {
+            System.out.print("(First cell) Please enter the chosen cell row [1-" + WindowPattern.ROWS + "]: ");
+            boolean validRow = false;
+            while (!validRow) {
+                if (scanner.hasNextInt()) {
+                    firstDieRow = scanner.nextInt();
+                    if (isTimeUp()) {
+                        return;
+                    }
+                    if (firstDieRow > 0 && firstDieRow <= WindowPattern.ROWS) {
+                        validRow = true;
+                    } else {
+                        System.out.print("(First cell) Please choose a valid row [1-" + WindowPattern.ROWS + "]: ");
+                    }
+                } else {
+                    System.out.print("(First cell) Please choose a valid row [1-" + WindowPattern.ROWS + "]: ");
+                    scanner.next();
+                }
+            }
+            System.out.print("(First cell) Please enter the chosen cell column [1-" + WindowPattern.COLUMNS + "]: ");
+            boolean validCol = false;
+            while (!validCol) {
+                if (scanner.hasNextInt()) {
+                    firstDieColumn = scanner.nextInt();
+                    if (isTimeUp()) {
+                        return;
+                    }
+                    if (firstDieColumn > 0 && firstDieColumn <= WindowPattern.COLUMNS) {
+                        validCol = true;
+                    } else {
+                        System.out.print("(First cell) Please choose a valid column [1-" + WindowPattern.COLUMNS + "]: ");
+                    }
+                } else {
+                    System.out.print("(First cell) Please choose a valid column [1-" + WindowPattern.COLUMNS + "]: ");
+                    scanner.next();
+                }
+            }
+            if (!model.getMyself().getPlayerWindow().getCellAt(firstDieRow - 1, firstDieColumn - 1).isEmpty()) {
+                System.err.println("(First cell) There's already a die at the given coordinates!");
+            } else {
+                validDie = true;
+            }
+        }
+        if (isTimeUp()) {
+            return;
+        }
+        int secondDieRow = -1, secondDieColumn = -1;
+        validDie = false;
+        while (!validDie) {
+            System.out.print("(Second cell) Please enter the chosen cell row [1-" + WindowPattern.ROWS + "]: ");
+            boolean validRow = false;
+            while (!validRow) {
+                if (scanner.hasNextInt()) {
+                    secondDieRow = scanner.nextInt();
+                    if (isTimeUp()) {
+                        return;
+                    }
+                    if (secondDieRow > 0 && secondDieRow <= WindowPattern.ROWS) {
+                        validRow = true;
+                    } else {
+                        System.out.print("(Second cell) Please choose a valid row [1-" + WindowPattern.ROWS + "]: ");
+                    }
+                } else {
+                    System.out.print("(Second cell) Please choose a valid row [1-" + WindowPattern.ROWS + "]: ");
+                    scanner.next();
+                }
+            }
+            System.out.print("(Second cell) Please enter the chosen cell column [1-" + WindowPattern.COLUMNS + "]: ");
+            boolean validCol = false;
+            while (!validCol) {
+                if (scanner.hasNextInt()) {
+                    secondDieColumn = scanner.nextInt();
+                    if (isTimeUp()) {
+                        return;
+                    }
+                    if (secondDieColumn > 0 && secondDieColumn <= WindowPattern.COLUMNS) {
+                        validCol = true;
+                    } else {
+                        System.out.print("(Second cell) Please choose a valid column [1-" + WindowPattern.COLUMNS + "]: ");
+                    }
+                } else {
+                    System.out.print("(Second cell) Please choose a valid column [1-" + WindowPattern.COLUMNS + "]: ");
+                    scanner.next();
+                }
+            }
+            if (model.getMyself().getPlayerWindow().getCellAt(secondDieRow - 1, secondDieColumn - 1).isEmpty()) {
+                System.err.println("(Second cell) There's already a die at the given coordinates!");
+            } else {
+                validDie = true;
+            }
+        }
+        handler.sendTwoNewCoordinates(firstDieRow, firstDieColumn, secondDieRow, secondDieColumn);
     }
 
     private String printFavorTokens(int n) {

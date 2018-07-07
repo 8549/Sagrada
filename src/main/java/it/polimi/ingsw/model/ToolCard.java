@@ -124,6 +124,7 @@ public class ToolCard implements Card {
                 case "checkIfRoundTrackHasAnyDie":
                     currentEffect.perform(getBoard());
                     checkHasNextEffect();
+                    break;
                 case "checkIsDiePlaced":
                     currentEffect.perform(getTurn());
                     checkHasNextEffect();
@@ -159,6 +160,7 @@ public class ToolCard implements Card {
                     break;
                 case "chooseTwoDiceFromWindowPattern":
                     currentEffect.perform();
+                    break;
                 case "decreaseValueDie":
                     currentEffect.perform(die, decrease);
                     checkHasNextEffect();
