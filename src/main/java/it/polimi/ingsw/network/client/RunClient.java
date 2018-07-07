@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.network.client.ClientHandler;
 import it.polimi.ingsw.ui.CLI;
