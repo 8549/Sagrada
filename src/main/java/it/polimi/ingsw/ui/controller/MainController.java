@@ -88,6 +88,13 @@ public class MainController {
     @FXML
     private ImageView fxRoundTrack;
 
+    /**
+     * Helper method that creates a graphical representation of a {@link Die} and will return a {@link Node}
+     *
+     * @param d    the die to get a representation of
+     * @param size the size for the representation
+     * @return a node representing the supplied die
+     */
     public static Node drawDie(Die d, double size) {
         GridPane cont = new GridPane();
         cont.getStyleClass().add("die");
@@ -140,6 +147,12 @@ public class MainController {
         return cont;
     }
 
+    /**
+     * Helper method to get a graphic representation of a mark of a die. Returns a {@link Node}
+     *
+     * @param size the size for the mark
+     * @return a node representing a mark of a die
+     */
     public static Node getDieMark(double size) {
         Circle mark = new Circle(size);
         mark.setFill(Color.BLACK);
@@ -147,10 +160,24 @@ public class MainController {
         return mark;
     }
 
+    /**
+     * Shows the {@link RoundTrack} in a separate window in an "informative" way
+     *
+     * @param event
+     * @see #showRoundTrack(boolean)
+     */
     public void showRoundTrackWrapper(MouseEvent event) {
         showRoundTrack(false);
     }
 
+    /**
+     * Shows the {@link RoundTrack} in two different modes: an "informative" mode which means the user can only look at
+     * the dice without interacting with them, and an "interactive" mode where the user can choose a {@link Die} from it
+     * (used by some {@link ToolCard}s)
+     *
+     * @param canChooseFromRoundTrack a boolean set to true if the interactive mode is required, false if the informative
+     *                                mode is required
+     */
     private void showRoundTrack(boolean canChooseFromRoundTrack) {
         RoundTrack roundTrack = gui.getModel().getRoundTrack();
         Stage dieChooser = new Stage(StageStyle.UNDECORATED);
@@ -235,6 +262,11 @@ public class MainController {
         this.gui = gui;
     }
 
+    /**
+     * This method starts the process of using a {@link ToolCard}
+     *
+     * @param event
+     */
     @FXML
     void useToolCard(ActionEvent event) {
 
@@ -255,11 +287,21 @@ public class MainController {
         }
     }
 
+    /**
+     * Handles the user clicking the "End turn" button
+     *
+     * @param event
+     */
     @FXML
     void endTurn(ActionEvent event) {
         gui.endTurn();
     }
 
+    /**
+     * Handles the user clicking the "Place die" button
+     *
+     * @param event
+     */
     @FXML
     void placeDie(ActionEvent event) {
         for (Node n : fxDraftPool.getChildren()) {
@@ -297,6 +339,10 @@ public class MainController {
         });
     }
 
+    /**
+     * Initializes some fields in this controller and the main view elemets such as the game boards, the tool cards, the
+     * objective cards, the draft pool, the user names and tokens and so on
+     */
     public void initBoards() {
         firstUpdate = false;
         fxTimer.textProperty().bind(gui.secondsRemainingProperty().asString("%s s"));
@@ -388,6 +434,13 @@ public class MainController {
         fxPlayerNames.setPrefSize(Region.USE_COMPUTED_SIZE, Region.USE_COMPUTED_SIZE);
     }
 
+    /**
+     * Returns an {@link HBox} which is a graphic representation of an arbitrary number of favor tokens
+     *
+     * @param n    the number of favor tokens to draw
+     * @param size the size of the favor tokens
+     * @return a box containing the desired amount of tokens
+     */
     private HBox getTokensBox(int n, double size) {
         HBox tokens = new HBox();
         tokens.setSpacing(size / 10.0);
@@ -398,6 +451,11 @@ public class MainController {
         return tokens;
     }
 
+    /**
+     * Updates the current game window fetching the latest data from the {@link ProxyModel}, such as dice placed on the
+     * players' windows, the tokens placed on a tool card, the dice left in the draft pool and those in the round track
+     * and so on
+     */
     public void update() {
         if (!firstUpdate) {
             firstUpdate = true;
@@ -444,6 +502,13 @@ public class MainController {
 
     }
 
+    /**
+     * Creates and return a tooltip displaying the cost of a {@link ToolCard} and the number of favor tokens placed onto
+     * it
+     *
+     * @param toolCard the tool card where to fetch the cost and number of favor tokens from
+     * @return a tooltip with the cost and number of favor tokens on a tool card
+     */
     private Tooltip getTooltip(ToolCard toolCard) {
         Tooltip tooltip = new Tooltip("Cost: " + toolCard.getCost());
         tooltip.setContentDisplay(ContentDisplay.BOTTOM);
@@ -453,6 +518,11 @@ public class MainController {
         return tooltip;
     }
 
+    /**
+     * Shows a message into a notification area
+     *
+     * @param s the string to display
+     */
     public void showMessage(String s) {
         fxMessage.setText(s);
         fxMessage.setText(s);
@@ -463,6 +533,12 @@ public class MainController {
         fadeTransition.play();
     }
 
+    /**
+     * Updates the game boards hightlighting the current {@link Player}'s window and refreshing the quantity of tokens left for
+     * that player
+     *
+     * @param p the player
+     */
     private void updateCurrentPlayer(Player p) {
         if (p != null) {
             for (AnchorPane a : anchorPanes.values()) {
@@ -480,6 +556,9 @@ public class MainController {
         }
     }
 
+    /**
+     * Tries to place a scheme card along with its dice in the middle of a board (glass window with the top arch)
+     */
     public void repositionBoards() {
         for (AnchorPane p : anchorPanes.values()) {
             ImageView v = ((ImageView) p.getChildren().get(0));
@@ -490,6 +569,10 @@ public class MainController {
         }
     }
 
+    /**
+     * Enables or disables the buttons in the right area of the GUI
+     * @param myTurn a boolean set to true if the buttons are to be enabled, false if they have to be disabled
+     */
     public void enableActions(boolean myTurn) {
         for (Node b : fxButtonContainer.getChildren()) {
             if (myTurn) {
@@ -500,12 +583,18 @@ public class MainController {
         }
     }
 
+    /**
+     * Resize all the elements in the GUI
+     */
     public void resizeAll() {
         // Resize DraftPool
 
         // Resize PatternCard
     }
 
+    /**
+     * Reset the GUI elements to a clean state
+     */
     public void cleanUI() {
         //TODO IMPLEMENT THIS
         for (WindowPatternController c : controllers.values()) {
@@ -513,6 +602,10 @@ public class MainController {
         }
     }
 
+    /**
+     * Asks the user for a new value to set on a die. Used by {@link ToolCard}s
+     * @param color the {@link SagradaColor} of the die that will receive the new value
+     */
     public void toolSetValue(SagradaColor color) {
         newValue = 0;
         Stage valueChooser = new Stage(StageStyle.UNDECORATED);
@@ -564,6 +657,9 @@ public class MainController {
         valueChooser.showAndWait();
     }
 
+    /**
+     * Asks the user to choose a {@link Die} from the draft pool. Used by {@link ToolCard}s
+     */
     public void toolChooseDieFromDraftPool() {
         showMessage("Choose a die from the Draft Pool!");
         for (Node n : fxDraftPool.getChildren()) {
@@ -588,6 +684,9 @@ public class MainController {
         }
     }
 
+    /**
+     * Asks the user to choose a die from their window. Used by {@link ToolCard}s
+     */
     public void toolChooseDieFromWindowPattern() {
         showMessage("Choose a die from your window!");
         Player myself = gui.getModel().getMyself();
@@ -620,6 +719,9 @@ public class MainController {
         }
     }
 
+    /**
+     * Asks the user if they want to increase or decrease the value of the previously chosen die. Used by {@link ToolCard}s
+     */
     public void toolChooseIfDecrease() {
         Stage dialog = new Stage(StageStyle.UNDECORATED);
         BorderPane valueMain = new BorderPane();
@@ -660,6 +762,9 @@ public class MainController {
         dialog.showAndWait();
     }
 
+    /**
+     * Asks the user if they want to place a die on their window or on the {@link RoundTrack}. Used by {@link ToolCard}s
+     */
     public void toolChooseIfPlaceDie() {
         Stage dialog = new Stage(StageStyle.UNDECORATED);
         BorderPane valueMain = new BorderPane();
@@ -700,6 +805,9 @@ public class MainController {
         dialog.showAndWait();
     }
 
+    /**
+     * Asks the user if they want to move one or two dice. Used by {@link ToolCard}s
+     */
     public void toolChooseToMoveOneDie() {
         Stage dialog = new Stage(StageStyle.UNDECORATED);
         BorderPane valueMain = new BorderPane();
@@ -740,6 +848,9 @@ public class MainController {
         dialog.showAndWait();
     }
 
+    /**
+     * Asks the user for the destination coordinates for a die. Used by {@link ToolCard}s
+     */
     public void toolSetNewCoordinates() {
         showMessage("Choose an empty cell where to place the die!");
         Player myself = gui.getModel().getMyself();
@@ -765,10 +876,17 @@ public class MainController {
         }
     }
 
+    /**
+     * Shows the {@link RoundTrack} in an "interactive" mode. Used by {@link ToolCard}s
+     */
     public void toolChooseDieFromRoundTrack() {
         showRoundTrack(true);
     }
 
+    /**
+     * Asks the user to choose two dice from their window. This method actually let them choose the first die and will call
+     * {@link #chooseSecondDice(Node)} in order to make him choose sequentially. Used by {@link ToolCard}s
+     */
     public void toolChooseTwoDice() {
         showMessage("Choose the first die from your window!");
         chosenDice = 0;
@@ -801,6 +919,12 @@ public class MainController {
         }
     }
 
+    /**
+     * Continues what started by {@link #toolChooseTwoDice()}. This method actually asks the user for the second of the
+     * two needed dice. Used by {@link ToolCard}s
+     * @param source the previously selected {@link Node} (a dice or a cell containing a die) so that it isn't highlighted
+     *               by the visual effect
+     */
     private void chooseSecondDice(Node source) {
         if (chosenDice != 1) {
             showMessage("variable chosenDice should be equal to 1, but it isn't.");
@@ -846,6 +970,11 @@ public class MainController {
         }
     }
 
+    /**
+     * Asks the user to choose two pairs of coordinates from their window. This method actually let them choose the
+     * first pair and will call {@link #chooseSecondCoord(Node)} in order to make him choose sequentially. Used by
+     * {@link ToolCard}s
+     */
     public void toolChooseTwoCoordinates() {
         showMessage("Choose the first empty cell from your window!");
         chosenCoords = 0;

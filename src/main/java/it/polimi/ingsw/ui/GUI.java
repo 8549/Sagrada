@@ -56,6 +56,11 @@ public class GUI extends Application implements UI {
     private Timeline timer;
     private IntegerProperty secondsRemaining;
 
+    /**
+     * Get the current turn remaining seconds
+     *
+     * @return an int corresponding to the amount of seconds before the turn ends
+     */
     public int getSecondsRemaining() {
         return secondsRemaining.get();
     }
@@ -64,6 +69,12 @@ public class GUI extends Application implements UI {
         return secondsRemaining;
     }
 
+    /**
+     * Proxy method to show a message in the GUI
+     *
+     * @param s
+     * @see MainController#showMessage(String)
+     */
     private void showMessage(String s) {
         Platform.runLater(() -> mainController.showMessage(s));
     }
@@ -77,12 +88,12 @@ public class GUI extends Application implements UI {
             secondsRemaining = new SimpleIntegerProperty();
             stage = primaryStage;
             handler = new ClientHandler(this);
-            //handler = RunClient.getClientHandler();
             primaryStage.setTitle("Sagrada - Connection");
             Parent root = loader.load();
             introController = loader.getController();
             introController.setSelfStage(primaryStage);
             introController.setGui(this);
+            introController.initListeners();
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
         } catch (IOException e) {
@@ -186,13 +197,6 @@ public class GUI extends Application implements UI {
     }
 
     @Override
-    public void setProxyModel(ProxyModel model) {
-        Platform.runLater(() -> {
-            this.model = model;
-        });
-    }
-
-    @Override
     public ClientHandler getClientHandler() {
         return handler;
     }
@@ -203,12 +207,20 @@ public class GUI extends Application implements UI {
     }
 
     @Override
+    public void setModelAfterReconnecting(ProxyModel model) {
+        Platform.runLater(() -> {
+            this.model = model;
+        });
+    }
+
+    @Override
     public void initUI() {
         launch();
     }
 
     @Override
     public void startGame() {
+        // Intentionally left blank
     }
 
     @Override
@@ -322,6 +334,11 @@ public class GUI extends Application implements UI {
         });
     }
 
+    /**
+     * This method stops the current timer and resets it to the initial value supplied from server via the {@link ProxyModel}.
+     * The real timer is actually in the server, this is just a mere representation for the client and does not interfere
+     * with the game itself
+     */
     private void startTimer() {
         Platform.runLater(() -> {
             if (timer != null) {
@@ -429,26 +446,51 @@ public class GUI extends Application implements UI {
         });
     }
 
+    /**
+     * Retrieves the primary screen height
+     *
+     * @return the primary screen height, as a double
+     */
     public double getHeight() {
         return Screen.getPrimary().getVisualBounds().getHeight();
     }
 
+    /**
+     * Retrieves the primary screen width
+     *
+     * @return the primary screen width, as a double
+     */
     public double getWidth() {
         return Screen.getPrimary().getVisualBounds().getWidth();
     }
 
+    /**
+     * Method to ask the server to pass the turn: it is just a connection method between the controller and the network
+     * layer
+     */
     public void endTurn() {
         Platform.runLater(() -> {
             handler.passTurn();
         });
     }
 
+    /**
+     * Method to set the currently selected die before sending it to the network layer asking for a move
+     *
+     * @param i the index of the chosen die in the draft pool
+     */
     public void selectDie(int i) {
         Platform.runLater(() -> {
             selectedDie = model.getDraftPool().get(i);
         });
     }
 
+    /**
+     * Method to ask the server to place a die on the player's window, via the network layer
+     *
+     * @param i the row of the die's destination
+     * @param j the column of the row's destination
+     */
     public void tryDiePlacement(int i, int j) {
         Platform.runLater(() -> {
             if (selectedDie != null) {
@@ -462,6 +504,10 @@ public class GUI extends Application implements UI {
         });
     }
 
+    /**
+     * Method to save the initial size of the game window, so that we can ensure the window cannot be resized to an
+     * inferior size
+     */
     public void setInitialSize() {
         Platform.runLater(() -> {
             stage.sizeToScene();

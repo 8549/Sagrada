@@ -59,25 +59,6 @@ public class CLI implements UI {
             }
         }
 
-        boolean validPort = false;
-        System.out.print("Enter the server port: ");
-        while (!validPort) {
-            if (scanner.hasNextInt()) {
-                port = scanner.nextInt();
-                if (port > 0 && port < 0xFFFF) {
-                    validPort = true;
-                } else {
-                    System.out.print("Please choose a valid port number: ");
-                }
-            } else {
-                System.out.print("Please choose a valid port number: ");
-                scanner.next();
-            }
-        }
-
-        System.out.print("Enter your username: ");
-        username = scanner.next();
-
         boolean validConn = false;
         System.out.print("Choose a connection type (SOCKET or RMI): ");
         String c = scanner.next();
@@ -90,6 +71,27 @@ public class CLI implements UI {
                 c = scanner.next();
             }
         }
+
+        if (connType.equals(ConnectionType.SOCKET)) {
+            boolean validPort = false;
+            System.out.print("Enter the server port: ");
+            while (!validPort) {
+                if (scanner.hasNextInt()) {
+                    port = scanner.nextInt();
+                    if (port > 0 && port < 0xFFFF) {
+                        validPort = true;
+                    } else {
+                        System.out.print("Please choose a valid port number: ");
+                    }
+                } else {
+                    System.out.print("Please choose a valid port number: ");
+                    scanner.next();
+                }
+            }
+        }
+
+        System.out.print("Enter your username: ");
+        username = scanner.next();
 
         try {
             handler.handleLogin(hostName, port, username, connType);
@@ -123,7 +125,7 @@ public class CLI implements UI {
             }
         }
         try {
-            handler.setChosenPatternCard(patterns[which-1]);
+            handler.setChosenPatternCard(patterns[which - 1]);
         } catch (IOException e) {
             System.err.println("There was a connection error");
         }
@@ -159,11 +161,6 @@ public class CLI implements UI {
     }
 
     @Override
-    public void setProxyModel(ProxyModel model) {
-        this.model = model;
-    }
-
-    @Override
     public ClientHandler getClientHandler() {
         return handler;
     }
@@ -174,17 +171,22 @@ public class CLI implements UI {
     }
 
     @Override
+    public void setModelAfterReconnecting(ProxyModel model) {
+        this.model = model;
+    }
+
+    @Override
     public void initUI() {
         handler = new ClientHandler(this);
-        //handler = RunClient.getClientHandler();
         showLogin();
     }
 
     @Override
     public void startGame() {
-        model.getPlayers().removeListener(listener);
+        if (listener != null) {
+            model.getPlayers().removeListener(listener);
+        }
     }
-
 
     @Override
     public void update() {
@@ -216,11 +218,25 @@ public class CLI implements UI {
         printWindowPattern(model.getMyself().getPlayerWindow().getWindowPattern(), model.getMyself().getPlayerWindow());
     }
 
+    /**
+     * Helper method to get a CLI-suitable representation of a {@link Die}
+     *
+     * @param d the die you want to get a representation of
+     * @return a string representation of the supplied d
+     */
     private String printDie(Die d) {
         int unicodeNumber = 9856 + d.getNumber() - 1;
         return d.getColor().escapeString() + (char) unicodeNumber + SagradaColor.RESET;
     }
 
+    /**
+     * Helper method that checks if the time is up, using a variable set by the {@link ClientHandler}, and possibly
+     * flushing the CLI input buffer. This method is used by {@link CLI#update()} to interrupt itself midway, so the
+     * client doesn't go through the burden of getting all the user's input only to discard it and inform the user that
+     * he couldn't make the move
+     *
+     * @return true if the time is up, false otherwise
+     */
     private boolean isTimeUp() {
         if (timeUp) {
             flushConsole();
@@ -229,6 +245,9 @@ public class CLI implements UI {
         return false;
     }
 
+    /**
+     * Helper method to flush the console input by repeatedly consuming tokens unitl there isn't any left
+     */
     private void flushConsole() {
         while (scanner.hasNext()) {
             scanner.next();
@@ -241,6 +260,10 @@ public class CLI implements UI {
         askChoice();
     }
 
+    /**
+     * Ask the users what they want to do, it is an entrypoint for a single move (e.g. placing a die, using a tool card
+     * or ending their turn
+     */
     private void askChoice() {
         boolean validChoice = false;
         while (!validChoice) {
@@ -311,7 +334,7 @@ public class CLI implements UI {
                     }
                     try {
                         handler.handlePlacement(model.getDraftPool().get(which - 1), i - 1, j - 1);
-                    }catch (IOException e){
+                    } catch (IOException e) {
                         System.err.println("There was a connection error");
                     }
                     break;
@@ -528,6 +551,9 @@ public class CLI implements UI {
         }
     }
 
+    /**
+     * This method prints the Round Track
+     */
     private void printRoundTrack() {
         System.out.println("Round Track: ");
         for (int i = 0; i < model.getRoundTrack().getRoundCounter(); i++) {
@@ -894,6 +920,12 @@ public class CLI implements UI {
         }
     }
 
+    /**
+     * Helper method to print an arbitrary number of favor tokens
+     *
+     * @param n the number of tokens to print
+     * @return a string consisting of n chars
+     */
     private String printFavorTokens(int n) {
         StringBuilder s = new StringBuilder();
         for (int i = 0; i < n; i++) {
@@ -902,10 +934,21 @@ public class CLI implements UI {
         return s.toString();
     }
 
+    /**
+     * Helper method to print a scheme card
+     *
+     * @param p the window pattern to print
+     */
     private void printWindowPattern(WindowPattern p) {
         printWindowPattern(p, new PlayerWindow());
     }
 
+    /**
+     * Helper method to print a scheme card with possibly the dice placed by the player onto it
+     *
+     * @param p the window pattern to print
+     * @param w the player's window (it contains the dice of the player)
+     */
     private void printWindowPattern(WindowPattern p, PlayerWindow w) {
         StringBuilder b = new StringBuilder();
         int k = 0;

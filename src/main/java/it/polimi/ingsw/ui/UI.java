@@ -30,11 +30,17 @@ public interface UI {
      */
     void showLoggedInUsers();
 
-    void setProxyModel(ProxyModel model);
-
     ClientHandler getClientHandler();
 
     ProxyModel getModel();
+
+    /**
+     * This method sets the {@link ProxyModel} to the UI after launching the client from a different entrypoint, e.g.
+     * when a reconnection occurs
+     *
+     * @param model the model instance
+     */
+    void setModelAfterReconnecting(ProxyModel model);
 
     /**
      * Entrypoint for UI implementations; based on the implementation, this method could or could not return.
@@ -73,6 +79,7 @@ public interface UI {
     /**
      * This method contains the response from server if the selected tool il available
      * (checks the tokens)
+     *
      * @param isAvailable
      */
     void toolAvailable(boolean isAvailable);
@@ -85,7 +92,7 @@ public interface UI {
     void playerDisconnected(Player p);
 
     /**
-     * Game board initialization
+     * Game board initialization, entrypoint for a new match
      */
     void initBoard();
 
@@ -96,11 +103,10 @@ public interface UI {
      */
     boolean isGUI();
 
-    void wrongMove();
-
     /**
-     * The following methods are effects of toolcards
+     * Informs the user if his move succeeded or failed
      */
+    void wrongMove();
 
     /**
      * This method must let the player choose a die from his/her windowPattern
@@ -112,7 +118,6 @@ public interface UI {
      */
     void chooseDieFromDraftPool();
 
-
     /**
      * This method must let the player choose a die from the current RoundTrack
      */
@@ -120,13 +125,12 @@ public interface UI {
 
     /**
      * This method must let the player decides if he wants to increse the value of the chosen die, or decrease
-     *
      */
     void chooseIfDecrease();
 
     /**
      * Chooses if the player wants to place the die or to put it back in the draft pool
-     *
+     * @param number
      */
     void chooseIfPlaceDie(int number);
 
@@ -137,10 +141,8 @@ public interface UI {
 
     /**
      * Choose a number value to give to one die
-     *
      */
     void setValue(SagradaColor color);
-
 
     /**
      * Let user choose a new position for a die
@@ -151,6 +153,7 @@ public interface UI {
      * Let the user choose two dice to move
      */
     void chooseTwoDice();
+
     /**
      * Let the user choose two new position
      */

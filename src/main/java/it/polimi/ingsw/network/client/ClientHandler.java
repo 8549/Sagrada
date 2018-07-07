@@ -31,7 +31,6 @@ public class ClientHandler implements Serializable {
     }
 
     public void handleLogin(String hostname, int port, String username, ConnectionType connectionType) throws IOException {
-
         if (connectionType.equals(ConnectionType.SOCKET)) {
             client = new SocketClient(this);
             client.connect(hostname, port, username);
@@ -45,8 +44,13 @@ public class ClientHandler implements Serializable {
 
 
     public void loginFailed() {
-        ui.failedLogin();
-
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                ui.failedLogin();
+            }
+        };
+        perform(task);
     }
 
     public void setPlayerToProxyModel(String name) {
@@ -60,8 +64,13 @@ public class ClientHandler implements Serializable {
     }
 
     public void loggedUsers() {
-        ui.showLoggedInUsers();
-
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                ui.showLoggedInUsers();
+            }
+        };
+        perform(task);
     }
 
     public void addPlayersToProxyModel(List<Player> p) {
@@ -85,10 +94,10 @@ public class ClientHandler implements Serializable {
     }
 
     public void deletePlayerFromProxyModel(Player p) {
-        ui.playerDisconnected(p);
         Runnable task = new Runnable() {
             @Override
             public void run() {
+                ui.playerDisconnected(p);
                 proxyModel.removePlayer(p);
             }
         };
@@ -96,15 +105,20 @@ public class ClientHandler implements Serializable {
     }
 
     public void patternCardChooser(PatternCard p1, PatternCard p2) {
-        ui.showPatternCardsChooser(p1, p2);
-
-    }
-
-    public void handleGameStarted(List<Player> players, int timeout) {
-        ui.startGame();
         Runnable task = new Runnable() {
             @Override
             public void run() {
+                ui.showPatternCardsChooser(p1, p2);
+            }
+        };
+        perform(task);
+    }
+
+    public void handleGameStarted(List<Player> players, int timeout) {
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                ui.startGame();
                 proxyModel.resetPlayers(players);
                 proxyModel.setTimeout(timeout);
                 System.out.println("[DEBUG] TIMEOUT --> " + timeout);
@@ -135,7 +149,7 @@ public class ClientHandler implements Serializable {
 
                 }
                 if (finish) {
-                    System.out.println("Everybody has chosen theirs patternCards ");
+                    System.out.println("[DEBUG] Everybody has chosen theirs patternCards ");
                     ui.initBoard();
                 }
             }
@@ -319,7 +333,13 @@ public class ClientHandler implements Serializable {
     }
 
     public void chooseDieFromWindowPattern() {
-        ui.chooseDieFromWindowPattern();
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                ui.chooseDieFromWindowPattern();
+            }
+        };
+        perform(task);
     }
 
     public void sendDieFromWP(Die d, int row, int column) {
@@ -331,7 +351,7 @@ public class ClientHandler implements Serializable {
     }
 
     public void chooseDieFromDraftPool() {
-        ui.chooseDieFromDraftPool();
+        perform(() -> ui.chooseDieFromDraftPool());
     }
 
     public void sendDieFromDP(Die d) {
@@ -343,7 +363,7 @@ public class ClientHandler implements Serializable {
     }
 
     public void chooseDieFromRoundTrack() {
-        ui.chooseDieFromRoundTrack();
+        perform(() -> ui.chooseDieFromRoundTrack());
     }
 
     public void sendDieFromRT(Die d, int round) {
@@ -355,7 +375,7 @@ public class ClientHandler implements Serializable {
     }
 
     public void chooseIfDecrease() {
-        ui.chooseIfDecrease();
+        perform(() -> ui.chooseIfDecrease());
     }
 
     public void sendDecreaseChoice(boolean choice) {
@@ -367,7 +387,7 @@ public class ClientHandler implements Serializable {
     }
 
     public void chooseIfPlaceDie(int number) {
-        ui.chooseIfPlaceDie(number);
+        perform(() -> ui.chooseIfPlaceDie(number));
     }
 
     public void sendPlacementChoice(boolean choice) {
@@ -379,7 +399,7 @@ public class ClientHandler implements Serializable {
     }
 
     public void chooseToMoveOneDie() {
-        ui.chooseToMoveOneDie();
+        perform(() -> ui.chooseToMoveOneDie());
     }
 
     public void sendNumberDiceChoice(boolean choice) {
@@ -391,7 +411,7 @@ public class ClientHandler implements Serializable {
     }
 
     public void setValue(SagradaColor color) {
-        ui.setValue(color);
+        perform(() -> ui.setValue(color));
     }
 
     public void sendValue(int value) {
@@ -404,7 +424,7 @@ public class ClientHandler implements Serializable {
 
 
     public void setNewCoordinates() {
-        ui.setNewCoordinates();
+        perform(() -> ui.setNewCoordinates());
     }
 
     public void sendNewCoordinates(int row, int column) {
@@ -416,7 +436,7 @@ public class ClientHandler implements Serializable {
     }
 
     public void chooseTwoDice(){
-        ui.chooseTwoDice();
+        perform(() -> ui.chooseTwoDice());
     }
 
     public void sendTwoDice(int row1, int col1, int row2, int col2){
@@ -428,7 +448,7 @@ public class ClientHandler implements Serializable {
     }
 
     public void chooseTwoNewCoordinates(){
-        ui.chooseTwoCoordinates();
+        perform(() -> ui.chooseTwoCoordinates());
     }
 
     public void sendTwoNewCoordinates(int row1, int col1, int row2, int col2) {
@@ -440,9 +460,12 @@ public class ClientHandler implements Serializable {
     }
 
     public void nextMove() {
-        ui.nextMove();
+        perform(() -> ui.nextMove());
     }
 
+    public void toolAvailable(boolean isAvailable) {
+        perform(() -> ui.toolAvailable(isAvailable));
+    }
 
     public void updateTokens(String name, String tool, int tokens){
         Runnable task = new Runnable() {
@@ -522,21 +545,29 @@ public class ClientHandler implements Serializable {
 
     //todo: print with gui
     public void handleToolEnd(boolean response, String name){
-        ui.update();
-        if(name.equals(proxyModel.getMyself().getName())){
-            if(response){
-                System.out.println("[DEBUG] Your tool worked correctly!");
-            }else{
-                System.out.println("[DEBUG] Something went wrong with your tool");
-            }
-        }else{
-            if(response){
-                System.out.println("[DEBUG] Player " + name +"'s tool worked correctly!");
-            }else{
-                System.out.println("[DEBUG] Something went wrong with " + name + "'s your tool");
-            }
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                ui.update();
+                if (name.equals(proxyModel.getMyself().getName())) {
+                    if (response) {
+                        System.out.println("[DEBUG] Your tool worked correctly!");
+                        ui.toolEnded(response);
+                    } else {
+                        System.out.println("[DEBUG] Something went wrong with your tool");
+                        ui.toolEnded(response);
+                    }
+                } else {
+                    if (response) {
+                        System.out.println("[DEBUG] Player " + name + "'s tool worked correctly!");
+                    } else {
+                        System.out.println("[DEBUG] Something went wrong with " + name + "'s tool");
+                    }
 
-        }
+                }
+            }
+        };
+        perform(task);
     }
 
     public void handleDisconnection(){

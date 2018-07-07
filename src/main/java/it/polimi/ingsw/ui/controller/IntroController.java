@@ -3,6 +3,8 @@ package it.polimi.ingsw.ui.controller;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.network.ConnectionType;
 import it.polimi.ingsw.ui.GUI;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Orientation;
@@ -45,10 +47,15 @@ public class IntroController {
     @FXML
     private Button connectBtn;
 
+    /**
+     * This method checks and validates all the user inputs before trying to connect via the network layer
+     *
+     * @param event mouse event
+     */
     @FXML
     void handleConnect(ActionEvent event) {
         String hostName;
-        int port;
+        int port = 0;
         String username;
         ConnectionType connType;
 
@@ -64,11 +71,13 @@ public class IntroController {
             return;
         }
 
-        try {
-            port = Integer.valueOf(portField.getText());
-        } catch (NumberFormatException e) {
-            status.setText("Invalid port number");
-            return;
+        if (socketToggle.isSelected()) {
+            try {
+                port = Integer.valueOf(portField.getText());
+            } catch (NumberFormatException e) {
+                status.setText("Invalid port number");
+                return;
+            }
         }
 
         if ("".equals(nameField.getText())) {
@@ -92,6 +101,22 @@ public class IntroController {
         }
     }
 
+    /**
+     * Initializes the required listeners for this window to work
+     */
+    public void initListeners() {
+        toggleGroup.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+            @Override
+            public void changed(ObservableValue<? extends Toggle> observable, Toggle oldValue, Toggle newValue) {
+                if (newValue.equals(rmiToggle)) {
+                    portField.setDisable(true);
+                } else {
+                    portField.setDisable(false);
+                }
+            }
+        });
+    }
+
     public void setSelfStage(Stage selfStage) {
         this.selfStage = selfStage;
     }
@@ -100,11 +125,17 @@ public class IntroController {
         this.gui = gui;
     }
 
+    /**
+     * Handles a failed login
+     */
     public void failedLogin() {
         status.setText("Login failed, please retry!");
         connectBtn.setDisable(false);
     }
 
+    /**
+     * This method loads the new scene with a self-updating {@link ListView} containing all the currently logged in players
+     */
     public void showLoggedInUsers() {
         status.setText("Login successful!");
         connectBtn.setVisible(false);
