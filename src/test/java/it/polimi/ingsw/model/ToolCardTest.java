@@ -490,6 +490,7 @@ class ToolCardTest {
             features.add(effect3);
             effectIterator = features.iterator();
             everythingOk=true;
+            marco.getPlayerWindow().setWindowPattern(virtus);
         }
 
 

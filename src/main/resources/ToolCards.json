@@ -45,6 +45,7 @@
     "effects": [
       "checkIfRoundTrackHasAnyDie",
       "chooseDieFromDraftPool",
+      "chooseDieFromRoundTrack",
       "replaceDieOnRoundTrack"
     ]
   },
