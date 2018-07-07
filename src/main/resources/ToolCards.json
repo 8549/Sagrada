@@ -33,6 +33,7 @@
     "id": 4,
     "when": "always",
     "effects": [
+      "checkIfThereIsAtLeastTwoDieOnWindowPatter",
       "chooseTwoDiceFromWindowPattern",
       "moveDie"
     ]
