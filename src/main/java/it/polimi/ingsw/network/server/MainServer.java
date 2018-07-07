@@ -74,33 +74,32 @@ public class MainServer {
     }
 
 
-    public  boolean addClient(ClientObject client){
+    public  PlayerStatus addClient(ClientObject client){
         if(state.equals(ServerState.GAMESTARTED)){
             for(Player p : gm.getPlayers()){
                 try {
                     if(p.getName().equals(client.getPlayer().getName()) && p.getStatus().equals(PlayerStatus.DISCONNECTED)){
                         inGameClients.add(client);
-                        //todo: gm
-                        return true;
+                        gm.reconnectPlayer(gm.getPlayerByName(client.getPlayer().getName()));
+                        return PlayerStatus.RECONNECTED;
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-            return false;
-
+            return PlayerStatus.NOTINGAME;
 
         } else {
             if(connectedClients == null ){
                 connectedClients.add(client);
-                return true;
+                return PlayerStatus.ACTIVE;
 
             }else{
 
                 for (ClientObject clients : connectedClients){
                     try {
                         if (clients.getPlayer().getName().equals(client.getPlayer().getName())){
-                            return false;
+                            return PlayerStatus.ALREADYINGAME;
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -108,7 +107,7 @@ public class MainServer {
 
                 }
                 connectedClients.add(client);
-                return true;
+                return PlayerStatus.ACTIVE;
             }
         }
     }
@@ -327,17 +326,22 @@ public class MainServer {
 
     }
 
-    public  void setPrivateObj(Player p){
-        for (ClientObject c : inGameClients) {
-            try {
-                if (c.getPlayer().getName().equals(p.getName())) {
-                    System.out.println("SETTING private " + p.getPrivateObjectiveCard().getName() + "  to " + p.getName());
-                    c.setPrivObj(p.getPrivateObjectiveCard().getName(), getPlayersFromClients(inGameClients));
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    public  void setPublicObj(PublicObjectiveCard[] publicObj, Player p){
+        try {
+            getClientByName(p.getName()).pushPublicObj(publicObj);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
+    }
+
+    public  void setPrivateObj(Player p){
+        try {
+            getClientByName(p.getName()).setPrivObj(p.getPrivateObjectiveCard().getName(), getPlayersFromClients(inGameClients));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public  void setDraft(List<Die> draft){
@@ -379,6 +383,19 @@ public class MainServer {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+    public void pushTools(List<ToolCard> toolCards, Player p){
+        List<String> tools = new ArrayList<>();
+        for(ToolCard tool : toolCards){
+            tools.add(tool.getName());
+        }
+
+        try {
+            getClientByName(p.getName()).pushToolCards(tools);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

@@ -4,8 +4,8 @@ import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.server.ClientObject;
 import it.polimi.ingsw.network.server.MainServer;
-import jdk.net.SocketFlow;
 
+import java.io.IOException;
 import java.util.*;
 
 public class GameManager {
@@ -233,7 +233,7 @@ public class GameManager {
     public void reconnectPlayer(Player player) {
         for (Player player1 : players){
             if(player1.equals(player)) {
-                player1.setStatus(PlayerStatus.ACTIVE);
+                player1.setStatus(PlayerStatus.RECONNECTED);
                 break;
             }
         }
@@ -241,12 +241,8 @@ public class GameManager {
 
 
     public void completePlayerSetup(Player playerC, String patternCardName) {
-        Player p = null;
-        for (Player pl : players) {
-            if (pl.getName().equals(playerC.getName())) {
-                p = pl;
-            }
-        }
+        Player p = getPlayerByName(playerC.getName());
+
         WindowPattern w = null;
         for (PatternCard c : p.getChoices()) {
             if (c.getBack().getName().equals(patternCardName)) {
@@ -277,7 +273,6 @@ public class GameManager {
         }
 
         if (everybodyHasChosen && round == null) {
-            //token
             for (Player player : players) {
                 player.setInitialTokens();
 
@@ -332,6 +327,42 @@ public class GameManager {
         }
     }
 
+    public void updateModel(ClientObject c ){
+        Player p=null;
+        try {
+            p = getPlayerByName(c.getPlayer().getName());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        server.setPlayerChoice(c, p.getPlayerWindow().getWindowPattern().getName());
+
+        server.initPlayersData(new ArrayList<>(players));
+
+        server.setPublicObj(publicObjectiveCards, p);
+
+        server.setPrivateObj(p);
+
+        server.pushTools(toolCard, p);
+
+        for(Player player : players){
+            if(!player.getName().equals(p.getName())){
+                for (int i = 0; i< WindowPattern.ROWS; i++){
+                    for(int j = 0; j<WindowPattern.COLUMNS; j++){
+                        if(!player.getPlayerWindow().getCellAt(i,j).isEmpty()){
+                            try {
+                                c.updateGrid(i, j, player.getPlayerWindow().getCellAt(i,j).getDie(),p.getName());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
+
+    }
+
     public void checkTimerMove() {
         if (!timerIsRunning) {
             timerIsRunning = true;
@@ -366,6 +397,15 @@ public class GameManager {
 
     public Round getRound() {
         return round;
+    }
+
+    public Player getPlayerByName(String name){
+        for(Player p : players){
+            if (p.getName().equals(name)){
+                return p;
+            }
+        }
+        return null;
     }
 
 }

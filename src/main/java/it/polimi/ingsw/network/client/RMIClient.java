@@ -329,8 +329,18 @@ public class RMIClient implements RMIClientInterface, Serializable {
     }
 
     @Override
+    public void updateGrid(int row, int col, Die d, String name) throws RemoteException {
+        ch.handleUpdateGrid(name, row, col, d);
+    }
+
+    @Override
     public void notifyEndTool(boolean response, String name) throws RemoteException {
         ch.handleToolEnd(response, name);
+    }
+
+    @Override
+    public void reconnection() throws RemoteException {
+        ch.reconnection();
     }
 
     @Override

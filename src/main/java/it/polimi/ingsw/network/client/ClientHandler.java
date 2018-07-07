@@ -545,5 +545,17 @@ public class ClientHandler implements Serializable {
     public void handleDisconnection(){
         //todo prompt login after disconnection
     }
+
+    public void handleUpdateGrid(String name, int row, int column, Die d){
+        if(proxyModel.getMyself().getName().equals(name)){
+            proxyModel.getMyself().getPlayerWindow().addDie(d, row, column);
+        }else{
+            proxyModel.getByName(name).getPlayerWindow().addDie(d, row, column);
+        }
+    }
+
+    public void reconnection(){
+
+    }
 }
 

@@ -5,7 +5,6 @@ import it.polimi.ingsw.network.server.ClientObject;
 import it.polimi.ingsw.network.server.ServerInterface;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 import static it.polimi.ingsw.GameManager.PUBLIC_OBJ_CARDS_NUMBER;
@@ -281,8 +280,18 @@ public class SocketClientObject implements ClientObject {
 
 
     @Override
-    public void updateRoundTrack(Die d, int diePosition, int round) {
+    public void updateRoundTrack(Die d, int diePosition, int round) throws IOException{
 
         socketHandler.send("update", "updateRoundTrack", round + "/" +   d.getColor() + "/" + d.getNumber() + "/" + diePosition);
+    }
+
+    @Override
+    public void updateGrid(int row, int col, Die d, String name) throws IOException {
+        socketHandler.send("update", "updateGrid", name + "/" + row + "/" + col + "/" + d.getColor() + "/" + d.getNumber());
+    }
+
+    @Override
+    public void reconnection() throws IOException {
+        socketHandler.send("update", "reconnection","");
     }
 }

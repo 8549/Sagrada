@@ -236,6 +236,16 @@ public class RMIClientObject implements RMIClientObjectInterface {
     }
 
     @Override
+    public void updateGrid(int row, int col, Die d, String name) throws RemoteException {
+        client.updateGrid(row, col, d, name);
+    }
+
+    @Override
+    public void reconnection() throws RemoteException {
+
+    }
+
+    @Override
     public boolean ping() throws RemoteException {
         return client.ping();
     }

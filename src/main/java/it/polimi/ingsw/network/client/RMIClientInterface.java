@@ -76,9 +76,11 @@ public interface RMIClientInterface extends ClientInterface, Remote {
     public void changeTurn(Player first) throws RemoteException;
     public void updateRoundTrack(Die d, int diePosition, int round) throws RemoteException;
 
+    public void updateGrid(int row, int col, Die d, String name) throws RemoteException;
+
     public void notifyEndTool(boolean response, String name) throws RemoteException;
 
-
+    public void reconnection() throws RemoteException;
 
     public void notifyToolCardResponse(boolean response) throws RemoteException;
 

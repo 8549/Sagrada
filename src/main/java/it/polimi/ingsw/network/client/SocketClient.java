@@ -282,6 +282,15 @@ public class SocketClient implements ClientInterface {
                                     }
                         break;
 
+                    case "updateGrid": List<String> dieToAdd = socketParserClient.parseData(data);
+                                    Die die = new Die(SagradaColor.valueOf(dieToAdd.get(3)));
+                                    die.setNumber(Integer.valueOf(dieToAdd.get(4)));
+                                    ch.handleUpdateGrid(dieToAdd.get(0), Integer.valueOf(dieToAdd.get(1)), Integer.valueOf(dieToAdd.get(2)), die);
+                        break;
+
+                    case "reconnection": ch.reconnection();
+                        break;
+
                     default: break;
 
 

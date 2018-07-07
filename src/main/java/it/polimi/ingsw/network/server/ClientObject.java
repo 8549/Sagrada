@@ -79,4 +79,8 @@ public interface ClientObject {
 
     public void updateRoundTrack(Die d, int diePosition, int round) throws IOException;
 
+    public void updateGrid(int row, int col, Die d, String player ) throws IOException;
+
+    public void reconnection() throws IOException;
+
 }

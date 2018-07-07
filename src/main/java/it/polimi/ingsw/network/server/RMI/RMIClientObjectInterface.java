@@ -84,6 +84,11 @@ public interface RMIClientObjectInterface extends ClientObject, Remote {
 
     public void updateRoundTrack(Die d, int diePosition, int round) throws RemoteException;
 
+    public void updateGrid(int row, int col, Die d,String name) throws RemoteException;
+
+    public void reconnection() throws RemoteException;
+
+
     public boolean ping() throws RemoteException;
 
 
