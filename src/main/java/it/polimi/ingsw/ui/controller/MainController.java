@@ -166,8 +166,10 @@ public class MainController {
                 }
             });
         }
+        Insets spacing = new Insets(20);
 
         VBox rounds = new VBox();
+        rounds.setSpacing(spacing.getBottom() / 2.0);
         for (int i = 0; i < roundTrack.getRoundCounter(); i++) {
             HBox round = new HBox();
             round.setAlignment(Pos.CENTER);
@@ -193,11 +195,11 @@ public class MainController {
                 }
                 round.getChildren().add(e);
             }
-            round.setFillHeight(true);
+            round.setFillHeight(false);
+            round.setSpacing(spacing.getBottom());
             rounds.getChildren().add(round);
         }
-        rounds.setFillWidth(true);
-        Insets spacing = new Insets(20);
+        rounds.setFillWidth(false);
         BorderPane.setMargin(rounds, spacing);
         BorderPane.setMargin(l, spacing);
         BorderPane.setMargin(confirm, spacing);
