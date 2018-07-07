@@ -76,9 +76,8 @@ public class SocketClientObject implements ClientObject {
     public void pushOpponentsInit(List<Player> thinPlayers) {
         String data = "";
         for (Player p : thinPlayers){
-            if (!p.getName().equals(this.player.getName())) {
-                data = data + p.getName() + "/" + p.getPlayerWindow().getWindowPattern().getName() + "/" + p.getTokens();
-            }
+            data = data + p.getName() + "/" + p.getPlayerWindow().getWindowPattern().getName() + "/" + p.getTokens() + "/";
+
         }
 
         socketHandler.send("update", "opponentsInfo", data);

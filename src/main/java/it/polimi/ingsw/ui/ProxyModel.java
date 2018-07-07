@@ -115,7 +115,11 @@ public class ProxyModel  {
 
     public void resetPlayers(List<Player> l) {
         players.clear();
-        players.addAll(l);
+        for (Player p : l){
+            if(!p.getName().equals(getMyself().getName())){
+                players.add(p);
+            }
+        }
     }
 
     public ObservableList<Player> getPlayers(){

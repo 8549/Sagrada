@@ -90,7 +90,7 @@ public class MainServer {
             return PlayerStatus.NOTINGAME;
 
         } else {
-            if(connectedClients == null ){
+            if(connectedClients.size()==0 ){
                 connectedClients.add(client);
                 return PlayerStatus.ACTIVE;
 

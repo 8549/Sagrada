@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.server.socket;
 import it.polimi.ingsw.ToolCardHandler;
 import it.polimi.ingsw.model.Die;
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.PlayerStatus;
 import it.polimi.ingsw.model.SagradaColor;
 import it.polimi.ingsw.network.server.ClientObject;
 import it.polimi.ingsw.network.server.MainServer;
@@ -63,14 +64,19 @@ public class SocketServer implements ServerInterface {
             switch (header) {
                 case "login":
                     SocketClientObject client = new SocketClientObject(new Player(data), this, s);
-                    if (server.addClient(client)) {
+                    PlayerStatus result = server.addClient(client);
+                    if(result.equals(PlayerStatus.ACTIVE)){
                         s.send("response", "login", "true");
                         server.addAlreadyLoogedPlayers(client);
                         server.addLoggedPlayer(client.getPlayer());
                         s.setClient(client);
                         server.checkTimer();
-                    } else {
+
+                    }else if(result.equals(PlayerStatus.ALREADYINGAME) || result.equals(PlayerStatus.NOTINGAME)){
                         s.send("response", "login", "Login failed");
+
+                    } else if(result.equals(PlayerStatus.RECONNECTED)){
+                        client.reconnection();
                     }
                     break;
                 case "patterncard":

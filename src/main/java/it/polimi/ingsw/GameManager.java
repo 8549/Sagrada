@@ -124,7 +124,6 @@ public class GameManager {
             server.setPrivateObj(p);
             server.choosePatternCard(p.getChoices(), p);
         }
-        server.setPublicObj(publicObjectiveCards);
 
     }
 
@@ -223,16 +222,19 @@ public class GameManager {
 
     public void disconnectPlayer(Player player) {
         for (Player player1 : players){
-            if(player1.equals(player)) {
+            if(player1.getName().equals(player.getName())) {
                 player1.setStatus(PlayerStatus.DISCONNECTED);
                 break;
             }
+        }
+        if(getCurrentPlayer().getName().equals(player.getName())){
+            endCurrentTurn();
         }
     }
 
     public void reconnectPlayer(Player player) {
         for (Player player1 : players){
-            if(player1.equals(player)) {
+            if(player1.getName().equals(player.getName())) {
                 player1.setStatus(PlayerStatus.RECONNECTED);
                 break;
             }
@@ -277,7 +279,9 @@ public class GameManager {
                 player.setInitialTokens();
 
             }
+            server.setPublicObj(publicObjectiveCards);
             server.pushTools(toolCard);
+
 
             List<Player> updatedPlayer = new ArrayList<>(players);
             server.initPlayersData(updatedPlayer);
