@@ -65,8 +65,7 @@ public interface RMIClientObjectInterface extends ClientObject, Remote {
     public void notifyMoveNotAvailable() throws RemoteException;
     @Override
     public void nextMove() throws RemoteException;
-    @Override
-    public void notifyToolCardResponse(boolean response) throws RemoteException;
+
     @Override
     public void pushTokens(String name,String tool, int cost) throws RemoteException;
     @Override
@@ -87,6 +86,8 @@ public interface RMIClientObjectInterface extends ClientObject, Remote {
     public void updateGrid(int row, int col, Die d,String name) throws RemoteException;
 
     public void reconnection() throws RemoteException;
+
+    public void pushFinalScore(List<Player> players) throws RemoteException;
 
 
     public boolean ping() throws RemoteException;

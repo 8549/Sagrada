@@ -189,10 +189,6 @@ public class RMIClientObject implements RMIClientObjectInterface {
         client.nextMove();
     }
 
-    @Override
-    public void notifyToolCardResponse(boolean response) throws RemoteException {
-        client.notifyToolCardResponse(response);
-    }
 
     @Override
     public void pushTokens(String name, String tool, int cost) throws RemoteException {
@@ -242,7 +238,12 @@ public class RMIClientObject implements RMIClientObjectInterface {
 
     @Override
     public void reconnection() throws RemoteException {
+        client.reconnection();
+    }
 
+    @Override
+    public void pushFinalScore(List<Player> players) throws RemoteException {
+        client.endGame(players);
     }
 
     @Override

@@ -235,6 +235,7 @@ public class ToolCard implements Card {
             player.removeTokens(getCost());
             addTokens();
             toolCardHandler.pushNewTokens(getCost(), player, getName());
+            System.out.println("Pushed tokens of " + player.getName() + " n°: " + getCost() + " for used tool: " + getName());
             used = true;
         }
         if (getTurn().isDiePlaced() && everythingOk) {

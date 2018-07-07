@@ -93,12 +93,6 @@ public class SocketClient implements ClientInterface {
 
                     break;
 
-                case "tool": if(data.equals("true")){
-                                ch.toolAvailable(true);
-                            }else{
-                                ch.toolAvailable(false);
-                            }
-                    break;
                 default:
                             System.out.println("Wrong message!");
                             break;
@@ -289,6 +283,16 @@ public class SocketClient implements ClientInterface {
                         break;
 
                     case "reconnection": ch.reconnection();
+                        break;
+
+                    case "endGame": List<String> finallyFinished = socketParserClient.parseData(data);
+                                    List<Player> goHome = new ArrayList<>();
+                                    for (int i = 0; i<finallyFinished.size(); i = i+2){
+                                        Player player1 = new Player(finallyFinished.get(i));
+                                        player1.addPoints(Integer.valueOf(finallyFinished.get(i+1)));
+                                        goHome.add(player1);
+                                    }
+                                    ch.endGame(goHome);
                         break;
 
                     default: break;

@@ -162,14 +162,6 @@ public class SocketClientObject implements ClientObject {
 
     }
 
-    @Override
-    public void notifyToolCardResponse(boolean response) throws IOException {
-        if(response){
-            socketHandler.send("response", "tool","true");
-        }else{
-            socketHandler.send("response", "tool", "false");
-        }
-    }
 
     @Override
     public void pushTokens(String name, String tool, int cost) throws IOException {
@@ -287,6 +279,16 @@ public class SocketClientObject implements ClientObject {
     @Override
     public void updateGrid(int row, int col, Die d, String name) throws IOException {
         socketHandler.send("update", "updateGrid", name + "/" + row + "/" + col + "/" + d.getColor() + "/" + d.getNumber());
+    }
+
+    @Override
+    public void pushFinalScore(List<Player> players) throws IOException {
+        String data ="";
+        for(Player p : players){
+            data = data + p.getName() + "/" + p.getPoints() + "/";
+        }
+
+        socketHandler.send("update", "endGame", data);
     }
 
     @Override

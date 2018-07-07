@@ -517,14 +517,6 @@ public class MainServer {
         }
     }
 
-    public void notifyToolCardResponse(boolean response){
-        try {
-            getClientByName(gm.getCurrentPlayer().getName()).notifyToolCardResponse(response);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void askPlayerForNextMove() {
         try {
             getClientByName(gm.getCurrentPlayer().getName()).nextMove();
@@ -537,5 +529,12 @@ public class MainServer {
     }
 
     public void notifyScore(List<Player> playersWithPoints) {
+        for(ClientObject c : inGameClients){
+            try {
+                c.pushFinalScore(playersWithPoints);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

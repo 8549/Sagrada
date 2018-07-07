@@ -344,9 +344,10 @@ public class RMIClient implements RMIClientInterface, Serializable {
     }
 
     @Override
-    public void notifyToolCardResponse(boolean response) throws RemoteException {
-        ch.toolAvailable(response);
+    public void endGame(List<Player> players) throws RemoteException {
+        ch.endGame(players);
     }
+
 
     @Override
     public void requestTool(ToolCard tool) throws IOException {

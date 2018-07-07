@@ -82,6 +82,5 @@ public interface RMIClientInterface extends ClientInterface, Remote {
 
     public void reconnection() throws RemoteException;
 
-    public void notifyToolCardResponse(boolean response) throws RemoteException;
-
+    public void endGame(List<Player> players) throws RemoteException;
 }

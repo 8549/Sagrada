@@ -40,7 +40,6 @@ public interface ClientObject {
 
     public void nextMove() throws IOException;
 
-    public void notifyToolCardResponse(boolean response) throws IOException;
 
     public void pushTokens(String name, String tool, int cost) throws IOException;
 
@@ -80,6 +79,8 @@ public interface ClientObject {
     public void updateRoundTrack(Die d, int diePosition, int round) throws IOException;
 
     public void updateGrid(int row, int col, Die d, String player ) throws IOException;
+
+    public void pushFinalScore(List<Player> players) throws IOException;
 
     public void reconnection() throws IOException;
 

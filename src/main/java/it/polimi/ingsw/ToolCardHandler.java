@@ -279,4 +279,6 @@ public class ToolCardHandler {
     public void notifyPLayerOnlyOneDieWasMoved() {
         //notify player he was able ny to move one die, second move did not end well, but still we consider used the tool card
     }
+
+
 }

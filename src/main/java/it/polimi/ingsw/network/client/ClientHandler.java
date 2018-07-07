@@ -443,9 +443,6 @@ public class ClientHandler implements Serializable {
         ui.nextMove();
     }
 
-    public void toolAvailable(boolean isAvailable) {
-        ui.toolAvailable(isAvailable);
-    }
 
     public void updateTokens(String name, String tool, int tokens){
         Runnable task = new Runnable() {
@@ -555,6 +552,10 @@ public class ClientHandler implements Serializable {
     }
 
     public void reconnection(){
+
+    }
+
+    public void endGame(List<Player> players){
 
     }
 }
