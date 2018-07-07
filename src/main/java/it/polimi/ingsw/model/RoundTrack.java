@@ -32,6 +32,10 @@ public class RoundTrack {
     }
 
     public void addRound(List<Die> dice) {
+        if (dice.size()==0){
+            System.err.println("There are no dice to add to the round track");
+            return;
+        }
         for (int i=0; i<dice.size(); i++) {
             this.dice.get(roundCounter).add(dice.get(i));
         }
@@ -39,7 +43,7 @@ public class RoundTrack {
     }
 
     public Die replaceDie(Die die, int turn, int numberOfDie) {
-        if (turn <= roundCounter) {
+        if (turn <roundCounter) {
             Die oldDie = dice.get(turn).remove(numberOfDie);
             dice.get(turn).add(die);
             return oldDie;

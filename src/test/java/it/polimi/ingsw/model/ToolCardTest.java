@@ -20,11 +20,12 @@ class ToolCardTest {
         int id = 12;
         String when = "always";
         List<Effect> features = new ArrayList<>();
+        Effect effect13 = new CheckIfRoundTrackHasAnyDieEffect("checkIfRoundTrackHasAnyDie");
         Effect effect = new ChooseToMoveOneOrTwoDiceEffect("chooseToMoveOneOrTwoDice");
-        Effect effect1;
-        effect1 = new ChooseDieFromRoundTrackEffect("chooseDieFromRoundTrack");
+        Effect effect1 = new ChooseDieFromRoundTrackEffect("chooseDieFromRoundTrack");
         Effect effect2 = new ChooseDieFromWindowPatternEffect("chooseDieFromWindowPattern");
         Effect effect3 = new MoveDieWithSameColorAsDieFromRoundTrackEffect("moveDieWithSameColorAsDieFromRoundTrack");
+        features.add(effect13);
         features.add(effect1);
         features.add(effect2);
         features.add(effect3);

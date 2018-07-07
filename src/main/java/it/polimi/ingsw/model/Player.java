@@ -22,7 +22,7 @@ public class Player implements Serializable {
         this.privateObjectiveCardSet = false;
         this.choices = new ArrayList<>();
         status = PlayerStatus.ACTIVE;
-        points=0;
+        points = 0;
     }
 
 
@@ -43,11 +43,14 @@ public class Player implements Serializable {
 
     }
 
-    public void setStatus(PlayerStatus status){
-        this.status=status;
+    public void setStatus(PlayerStatus status) {
+        this.status = status;
     }
 
-    public PlayerStatus getStatus(){ return status; }
+    public PlayerStatus getStatus() {
+        return status;
+    }
+
     public PlayerWindow getPlayerWindow() {
         return playerWindow;
     }
@@ -64,7 +67,9 @@ public class Player implements Serializable {
         this.tokens = playerWindow.getWindowPattern().getDifficulty();
     }
 
-    public int getTokens(){ return tokens;}
+    public int getTokens() {
+        return tokens;
+    }
 
     public void removeTokens(int numOfTokens) {
         tokens = tokens - numOfTokens;
@@ -73,7 +78,8 @@ public class Player implements Serializable {
     public List<PatternCard> getChoices() {
         return this.choices;
     }
-    public void setChoices(List<PatternCard> choices){
+
+    public void setChoices(List<PatternCard> choices) {
         this.choices.addAll(choices);
     }
 
@@ -85,11 +91,13 @@ public class Player implements Serializable {
         this.chosenPatternCard = chosen;
     }
 
-    public void addPoints(int points){
-        this.points=+points;
+    public void addPoints(int points) {
+        this.points = this.points + points;
     }
 
-    public void subPoints(int points) {this.points=-points; }
+    public void subPoints(int points) {
+        this.points = this.points - points;
+    }
 
     @Override
     public String toString() {

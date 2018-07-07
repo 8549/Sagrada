@@ -121,6 +121,9 @@ public class ToolCard implements Card {
                     currentEffect.perform(getTurn());
                     checkHasNextEffect();
                     break;
+                case "checkIfRoundTrackHasAnyDie":
+                    currentEffect.perform(getBoard());
+                    checkHasNextEffect();
                 case "checkIsDiePlaced":
                     currentEffect.perform(getTurn());
                     checkHasNextEffect();

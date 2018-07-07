@@ -1,12 +1,11 @@
 package it.polimi.ingsw.model.effect;
 
-import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Die;
-import it.polimi.ingsw.model.Round;
+
 
 public class ReplaceDieOnRoundTrackEffect extends Effect {
 
-    public ReplaceDieOnRoundTrackEffect(String name){
+    public ReplaceDieOnRoundTrackEffect(String name) {
         this.name = name;
     }
 
@@ -15,9 +14,15 @@ public class ReplaceDieOnRoundTrackEffect extends Effect {
         Die die = (Die) args[0];
         int turn = (int) args[1];
         int numberOfDie = (int) args[2];
-        toolCard.getBoard().getDraftPool().add(toolCard.getBoard().getRoundTrack().replaceDie(die, turn, numberOfDie));
-        toolCard.getToolCardHandler().updateDraftPool(toolCard.getBoard().getDraftPool());
-        toolCard.getToolCardHandler().updateRoundTrack(die, numberOfDie, turn);
-        toolCard.setResponse(true);
+        Die die1 = toolCard.getBoard().getRoundTrack().replaceDie(die, turn, numberOfDie);
+        if(die1!=null) {
+            toolCard.getBoard().getDraftPool().add(die1);
+            toolCard.getBoard().getDraftPool().remove(die);
+            toolCard.getToolCardHandler().updateDraftPool(toolCard.getBoard().getDraftPool());
+            toolCard.getToolCardHandler().updateRoundTrack(die, numberOfDie, turn);
+            toolCard.setResponse(true);
+        } else{
+            toolCard.setResponse(false);
+        }
     }
 }

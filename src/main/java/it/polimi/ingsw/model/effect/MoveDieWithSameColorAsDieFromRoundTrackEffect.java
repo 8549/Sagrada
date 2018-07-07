@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.Die;
 
 public class MoveDieWithSameColorAsDieFromRoundTrackEffect extends Effect {
 
-    public MoveDieWithSameColorAsDieFromRoundTrackEffect(String name){
+    public MoveDieWithSameColorAsDieFromRoundTrackEffect(String name) {
         this.name = name;
     }
 
@@ -15,8 +15,12 @@ public class MoveDieWithSameColorAsDieFromRoundTrackEffect extends Effect {
         int turn = (int) args[1];
         int numberOfDie = (int) args[2];
         Board board = (Board) args[3];
-        if (die.getColor() == board.getRoundTrack().getDieAt(turn, numberOfDie).getColor()){
-            toolCard.processMoveWithoutConstraints(true, true, true, false);
+        if (toolCard.getBoard().getRoundTrack().getDieAt(turn, numberOfDie) == null) {
+            toolCard.setResponse(false);
+        } else {
+            if (die.getColor() == board.getRoundTrack().getDieAt(turn, numberOfDie).getColor()) {
+                toolCard.processMoveWithoutConstraints(true, true, true, false);
+            }
         }
     }
 }
