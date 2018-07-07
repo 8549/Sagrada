@@ -141,21 +141,15 @@ public class GameManager {
             player.addPoints(player.getTokens());
             player.subPoints(player.getPlayerWindow().emptyCount());
         }
-        int pointWinner = 0;
-        for (int i = 0; i < players.size(); i++) {
-            if (players.get(i).getPoints() > players.get(i + 1).getPoints()) {
-                pointWinner = players.get(i).getPoints();
-            } else {
-                pointWinner = players.get(i + 1).getPoints();
-            }
+        List<Player> playersWithPoints = new ArrayList<>();
+        playersWithPoints.addAll(players);
+        if (playersWithPoints.size() == 1) {
+            server.notifyScore(playersWithPoints);
+        } else {
+            playersWithPoints.sort((p1, p2) -> Integer.compare(p1.getPoints(), p2.getPoints()));
+            server.notifyScore(playersWithPoints);
         }
-        for (int i = 1; i < players.size(); i++) {
-            if (players.get(i).getPoints() == pointWinner) {
-                server.notifyWinner(players.get(i), players.get(i).getPoints());
-            } else {
-                server.notifyLoser(players.get(i), players.get(i).getPoints());
-            }
-        }
+
     }
 
     public Player getCurrentPlayer() {
@@ -176,20 +170,20 @@ public class GameManager {
 
     public void startCurrentTurn() {
         currentPlayer = round.getTurn().getPlayer();
-        int activePlayer=0;
-        for(Player player : players){
-            if (player.getStatus().equals(PlayerStatus.ACTIVE)){
+        int activePlayer = 0;
+        for (Player player : players) {
+            if (player.getStatus().equals(PlayerStatus.ACTIVE)) {
                 activePlayer++;
             }
         }
-        if (activePlayer>1) {
+        if (activePlayer > 1) {
             if (currentPlayer.getStatus().equals(PlayerStatus.ACTIVE)) {
                 checkTimerMove();
                 server.notifyBeginTurn(round.getTurn().getPlayer(), numberCurrentRound, getRound().getCurrentTurn());
             } else {
                 endCurrentTurn();
             }
-        }else {
+        } else {
             endGame();
         }
     }
@@ -221,20 +215,20 @@ public class GameManager {
 
 
     public void disconnectPlayer(Player player) {
-        for (Player player1 : players){
-            if(player1.getName().equals(player.getName())) {
+        for (Player player1 : players) {
+            if (player1.getName().equals(player.getName())) {
                 player1.setStatus(PlayerStatus.DISCONNECTED);
                 break;
             }
         }
-        if(getCurrentPlayer().getName().equals(player.getName())){
+        if (getCurrentPlayer().getName().equals(player.getName())) {
             endCurrentTurn();
         }
     }
 
     public void reconnectPlayer(Player player) {
-        for (Player player1 : players){
-            if(player1.getName().equals(player.getName())) {
+        for (Player player1 : players) {
+            if (player1.getName().equals(player.getName())) {
                 player1.setStatus(PlayerStatus.RECONNECTED);
                 break;
             }
@@ -331,8 +325,8 @@ public class GameManager {
         }
     }
 
-    public void updateModel(ClientObject c ){
-        Player p=null;
+    public void updateModel(ClientObject c) {
+        Player p = null;
         try {
             p = getPlayerByName(c.getPlayer().getName());
         } catch (IOException e) {
@@ -348,13 +342,13 @@ public class GameManager {
 
         server.pushTools(toolCard, p);
 
-        for(Player player : players){
-            if(!player.getName().equals(p.getName())){
-                for (int i = 0; i< WindowPattern.ROWS; i++){
-                    for(int j = 0; j<WindowPattern.COLUMNS; j++){
-                        if(!player.getPlayerWindow().getCellAt(i,j).isEmpty()){
+        for (Player player : players) {
+            if (!player.getName().equals(p.getName())) {
+                for (int i = 0; i < WindowPattern.ROWS; i++) {
+                    for (int j = 0; j < WindowPattern.COLUMNS; j++) {
+                        if (!player.getPlayerWindow().getCellAt(i, j).isEmpty()) {
                             try {
-                                c.updateGrid(i, j, player.getPlayerWindow().getCellAt(i,j).getDie(),p.getName());
+                                c.updateGrid(i, j, player.getPlayerWindow().getCellAt(i, j).getDie(), p.getName());
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -403,9 +397,9 @@ public class GameManager {
         return round;
     }
 
-    public Player getPlayerByName(String name){
-        for(Player p : players){
-            if (p.getName().equals(name)){
+    public Player getPlayerByName(String name) {
+        for (Player p : players) {
+            if (p.getName().equals(name)) {
                 return p;
             }
         }

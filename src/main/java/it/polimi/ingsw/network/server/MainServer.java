@@ -492,11 +492,6 @@ public class MainServer {
         this.toolCardHandlers.add(toolCardHandlers);
     }
 
-    public void notifyWinner(Player winner, int points) {
-    }
-
-    public void notifyLoser(Player players, int points) {
-    }
 
     public void notifyPlayerIfToolCardWorked(boolean toolCardWorked) {
         for(ClientObject c : inGameClients){
@@ -539,5 +534,8 @@ public class MainServer {
     }
 
     public void notifyPlayerToolCardAlreadyUsed() {
+    }
+
+    public void notifyScore(List<Player> playersWithPoints) {
     }
 }
