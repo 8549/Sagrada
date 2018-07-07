@@ -692,7 +692,100 @@ public class CLI implements UI {
 
     @Override
     public void chooseTwoDice() {
-
+        int firstDieRow = -1, firstDieColumn = -1;
+        boolean validDie = false;
+        while (!validDie) {
+            System.out.print("(First die) Please enter the chosen die row [1-" + WindowPattern.ROWS + "]: ");
+            boolean validRow = false;
+            while (!validRow) {
+                if (scanner.hasNextInt()) {
+                    firstDieRow = scanner.nextInt();
+                    if (isTimeUp()) {
+                        return;
+                    }
+                    if (firstDieRow > 0 && firstDieRow <= WindowPattern.ROWS) {
+                        validRow = true;
+                    } else {
+                        System.out.print("(First die) Please choose a valid row [1-" + WindowPattern.ROWS + "]: ");
+                    }
+                } else {
+                    System.out.print("(First die) Please choose a valid row [1-" + WindowPattern.ROWS + "]: ");
+                    scanner.next();
+                }
+            }
+            System.out.print("(First die) Please enter the chosen die column [1-" + WindowPattern.COLUMNS + "]: ");
+            boolean validCol = false;
+            while (!validCol) {
+                if (scanner.hasNextInt()) {
+                    firstDieColumn = scanner.nextInt();
+                    if (isTimeUp()) {
+                        return;
+                    }
+                    if (firstDieColumn > 0 && firstDieColumn <= WindowPattern.COLUMNS) {
+                        validCol = true;
+                    } else {
+                        System.out.print("(First die) Please choose a valid column [1-" + WindowPattern.COLUMNS + "]: ");
+                    }
+                } else {
+                    System.out.print("(First die) Please choose a valid column [1-" + WindowPattern.COLUMNS + "]: ");
+                    scanner.next();
+                }
+            }
+            if (model.getMyself().getPlayerWindow().getCellAt(firstDieRow - 1, firstDieColumn - 1).isEmpty()) {
+                System.err.println("(First die) There's no die at the given coordinates!");
+            } else {
+                validDie = true;
+            }
+        }
+        if (isTimeUp()) {
+            return;
+        }
+        int secondDieRow = -1, secondDieColumn = -1;
+        validDie = false;
+        while (!validDie) {
+            System.out.print("(Second die) Please enter the chosen die row [1-" + WindowPattern.ROWS + "]: ");
+            boolean validRow = false;
+            while (!validRow) {
+                if (scanner.hasNextInt()) {
+                    secondDieRow = scanner.nextInt();
+                    if (isTimeUp()) {
+                        return;
+                    }
+                    if (secondDieRow > 0 && secondDieRow <= WindowPattern.ROWS) {
+                        validRow = true;
+                    } else {
+                        System.out.print("(Second die) Please choose a valid row [1-" + WindowPattern.ROWS + "]: ");
+                    }
+                } else {
+                    System.out.print("(Second die) Please choose a valid row [1-" + WindowPattern.ROWS + "]: ");
+                    scanner.next();
+                }
+            }
+            System.out.print("(Second die) Please enter the chosen die column [1-" + WindowPattern.COLUMNS + "]: ");
+            boolean validCol = false;
+            while (!validCol) {
+                if (scanner.hasNextInt()) {
+                    secondDieColumn = scanner.nextInt();
+                    if (isTimeUp()) {
+                        return;
+                    }
+                    if (secondDieColumn > 0 && secondDieColumn <= WindowPattern.COLUMNS) {
+                        validCol = true;
+                    } else {
+                        System.out.print("(Second die) Please choose a valid column [1-" + WindowPattern.COLUMNS + "]: ");
+                    }
+                } else {
+                    System.out.print("(Second die) Please choose a valid column [1-" + WindowPattern.COLUMNS + "]: ");
+                    scanner.next();
+                }
+            }
+            if (model.getMyself().getPlayerWindow().getCellAt(secondDieRow - 1, secondDieColumn - 1).isEmpty()) {
+                System.err.println("(Second die) There's no die at the given coordinates!");
+            } else {
+                validDie = true;
+            }
+        }
+        handler.sendTwoDice(firstDieRow, firstDieColumn, secondDieRow, secondDieColumn);
     }
 
     @Override

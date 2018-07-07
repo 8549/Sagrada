@@ -431,7 +431,7 @@ public class ClientHandler implements Serializable {
         ui.chooseTwoCoordinates();
     }
 
-    public void setTwoNewCoordinates(int row1, int col1, int row2, int col2){
+    public void sendTwoNewCoordinates(int row1, int col1, int row2, int col2) {
         try {
             client.sendTwoNewCoordinates(row1, col1, row2, col2);
         } catch (IOException e) {

@@ -356,7 +356,7 @@ public class SocketClient implements ClientInterface {
     }
 
     @Override
-    public void passTurn() throws IOException {
+    public void passTurn() {
         socketHandlerClient.send("request", "passTurn","");
     }
 
@@ -422,17 +422,17 @@ public class SocketClient implements ClientInterface {
     }
 
     @Override
-    public void sendTwoDice(int row1, int col1, int row2, int col2) throws IOException {
+    public void sendTwoDice(int row1, int col1, int row2, int col2) {
         socketHandlerClient.send("response", "setTwoDice", row1 + "/" + col1 + "/" + row2 + "/" + col2 );
     }
 
     @Override
-    public void sendTwoNewCoordinates(int row1, int col1, int row2, int col2) throws IOException {
-        socketHandlerClient.send("response", "setTwoNewCoordinates", row1 + "/" + col1 + "/" + row2 + "/" + col2 );
+    public void sendTwoNewCoordinates(int row1, int col1, int row2, int col2) {
+        socketHandlerClient.send("response", "sendTwoNewCoordinates", row1 + "/" + col1 + "/" + row2 + "/" + col2);
     }
 
     @Override
-    public void requestTool(ToolCard tool) throws IOException {
+    public void requestTool(ToolCard tool) {
         socketHandlerClient.send("request","tool", tool.getName());
     }
 

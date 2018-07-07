@@ -17,6 +17,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -41,6 +42,11 @@ public class MainController {
     Die selectedFromRT;
     private boolean firstUpdate;
     private int theRound;
+    int firstDieRow;
+    int firstDieColumn;
+    int secondDieRow;
+    int secondDieColumn;
+    int chosen;
 
     @FXML
     private BorderPane main;
@@ -697,5 +703,67 @@ public class MainController {
 
     public void toolChooseDieFromRoundTrack() {
         showRoundTrack(true);
+    }
+
+    public void toolChooseTwoDice() {
+        showMessage("Choose the first die from your window!");
+        chosen = 0;
+        // DARKEN ALL NODES
+        Player myself = gui.getModel().getMyself();
+        GridPane root = (GridPane) ((Pane) ((VBox) anchorPanes.get(myself).getChildren().get(1)).getChildren().get(0)).getChildren().get(0);
+        for (Node n : root.getChildren()) {
+            ColorAdjust darken = new ColorAdjust();
+            darken.setBrightness(0.5);
+            n.setEffect(darken);
+            // SET CLICK LISTENERS ON NON-EMPTY CELLS
+            if (((StackPane) n).getChildren().size() > 1) {
+                n.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        chosen++;
+                        Node source = (Node) event.getSource();
+                        // KEEP THE SELECTED COORDINATES
+                        firstDieRow = GridPane.getRowIndex(source);
+                        firstDieColumn = GridPane.getColumnIndex(source);
+                        for (Node n : root.getChildren()) {
+                            n.setEffect(null);
+                            n.setOnMouseClicked(null);
+                        }
+
+                    }
+                });
+            }
+        }
+        // REPEAT
+        showMessage("Choose the second die from your window!");
+        // DARKEN ALL NODES
+        for (Node n : root.getChildren()) {
+            ColorAdjust darken = new ColorAdjust();
+            darken.setBrightness(0.5);
+            n.setEffect(darken);
+            // SET CLICK LISTENERS ON NON-EMPTY CELLS
+            if (((StackPane) n).getChildren().size() > 1) {
+                n.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                    @Override
+                    public void handle(MouseEvent event) {
+                        chosen++;
+                        Node source = (Node) event.getSource();
+                        // KEEP THE SELECTED COORDINATES
+                        secondDieRow = GridPane.getRowIndex(source);
+                        secondDieColumn = GridPane.getColumnIndex(source);
+                        for (Node n : root.getChildren()) {
+                            n.setEffect(null);
+                            n.setOnMouseClicked(null);
+                        }
+
+                    }
+                });
+            }
+        }
+        if (chosen == 2) {
+            gui.getClientHandler().sendTwoDice(firstDieRow, firstDieColumn, secondDieRow, secondDieColumn);
+        } else {
+            showMessage("Something went terribly wrong.");
+        }
     }
 }

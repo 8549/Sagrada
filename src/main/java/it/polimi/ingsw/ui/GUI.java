@@ -404,7 +404,9 @@ public class GUI extends Application implements UI {
 
     @Override
     public void chooseTwoDice() {
-
+        Platform.runLater(() -> {
+            mainController.toolChooseTwoDice();
+        });
     }
 
     @Override

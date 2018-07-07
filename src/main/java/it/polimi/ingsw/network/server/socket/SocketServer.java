@@ -162,7 +162,7 @@ public class SocketServer implements ServerInterface {
                                 int val4 = Integer.valueOf(twoD.get(3));
                                 t10.setTwoDiceFromWindowPattern(val1, val2, val3, val4);
                         break;
-                    case "setTwoNewCoordinates":
+                    case "sendTwoNewCoordinates":
                                 List<String> twoC = socketParserServer.parseData(data);
                                 ToolCardHandler t11 = server.getActiveToolCardHandler();
                                 int c1 = Integer.valueOf(twoC.get(0));
