@@ -1,4 +1,4 @@
-[
+/*[
   {
     "name": "Grozing Pliers",
     "id": 1,
@@ -9,7 +9,7 @@
       "increaseValueDie",
       "decreaseValueDie"
     ]
-  },
+  },*/[
   {
     "name": "Eglomise Brush",
     "id": 2,
@@ -33,10 +33,11 @@
     "id": 4,
     "when": "always",
     "effects": [
+      "checkIfThereIsAtLeastTwoDieOnWindowPatter",
       "chooseTwoDiceFromWindowPattern",
       "moveDie"
     ]
-  },
+  }]/*,
   {
     "name": "Lens Cutter",
     "id": 5,

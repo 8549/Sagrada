@@ -9,7 +9,6 @@ public class MoveValidator {
     private boolean numberConstraint;
     private boolean adjacencyConstraint;
 
-    // controlla giocatore, turno, dado da draft pool, constraint (ha 3 valori booleani) e coordinate (che siano dentro le 4x5)
 
     public MoveValidator(Turn turn, List<Die> draftPool, boolean number, boolean color, boolean adjacency) {
         this.draftPool = draftPool;
@@ -19,6 +18,23 @@ public class MoveValidator {
         adjacencyConstraint = adjacency;
     }
 
+    /**
+     * Check if the move is valid verifying:
+     * - the coordinates are within the limits
+     * - the player of the turn is the same as the one is making the move
+     * - if the die is placed on the edge of the grid if it's the first move or there is only one die on the grid (for tool card)
+     *   or if adjacencyConstraint is true if the die is nearby  another die
+     * - there are no adjacent die with the same number or color
+     * - if all constraints rules are met if colorConstraint and numberConstraint are true
+     * - if all constraints rules are met if colorConstraint is false and numberConstraint is true
+     * - if all constraints rules are met if colorConstraint is true and numberConstraint is false
+     *
+     * @param die
+     * @param row
+     * @param column
+     * @param player
+     * @return true if the move is valid, false otherwise
+     */
     public boolean validateMove(Die die, int row, int column, Player player) {
         if (row < 0 || row > WindowPattern.ROWS) {
             return false;
@@ -26,9 +42,6 @@ public class MoveValidator {
         if (column < 0 || column > WindowPattern.COLUMNS) {
             return false;
         }
-        /*if (!draftPool.contains(die)) {
-            return false;
-        }*/
 
         if (!turn.getPlayer().getName().equals(player.getName())) {
             return false;
@@ -50,7 +63,7 @@ public class MoveValidator {
             return false;
         }
 
-        if (!AdjacencyConstraint.checkEmptyCell(turn.getPlayer().getPlayerWindow().getDiceGrid(), row, column)){
+        if (!AdjacencyConstraint.checkEmptyCell(turn.getPlayer().getPlayerWindow().getDiceGrid(), row, column)) {
             return false;
         }
 

@@ -9,7 +9,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
 
-//TODO: code to reset all the parameters for the effects after the tool card has finished
 public class ToolCard implements Card {
     protected List<Effect> effects;
     protected GameManager gameManager;
@@ -123,6 +122,10 @@ public class ToolCard implements Card {
                     break;
                 case "checkIfRoundTrackHasAnyDie":
                     currentEffect.perform(getBoard());
+                    checkHasNextEffect();
+                    break;
+                case "checkIfThereIsAtLeastTwoDieOnWindowPatter":
+                    currentEffect.perform(player);
                     checkHasNextEffect();
                     break;
                 case "checkIsDiePlaced":
@@ -318,7 +321,7 @@ public class ToolCard implements Card {
     }
 
     public void completeProcessMove(int newRow, int newColumn) {
-        if (!place){
+        if (!place) {
             if (player.getPlayerWindow().dieCount() == 1) {
                 player.getPlayerWindow().setOneDie(true);
             }
@@ -371,7 +374,7 @@ public class ToolCard implements Card {
     public void completeChooseValue(int value) {
         die.setNumber(value);
         everythingOk = true;
-        placeDie=true;
+        placeDie = true;
         checkHasNextEffect();
     }
 
@@ -461,18 +464,20 @@ public class ToolCard implements Card {
 
     public void completeProcessTwoMoves(int row, int column, int secondRow, int secondColumn) {
         MoveValidator moveValidator = new MoveValidator(getTurn(), getRound().getDraftPool(), number, color, adjacency);
+        if (player.getPlayerWindow().dieCount() == 2) {
+            player.getPlayerWindow().setOneDie(true);
+        }
         if (moveValidator.validateMove(die, row, column, player)) {
+            player.getPlayerWindow().moveDie(oldRow, oldColumn, row, column);
+            player.getPlayerWindow().setOneDie(false);
             if (moveValidator.validateMove(secondDie, secondRow, secondColumn, player)) {
-                player.getPlayerWindow().moveDie(oldRow, oldColumn, row, column);
-                if (moveValidator.validateMove(secondDie, secondRow, secondColumn, player)) {
-                    player.getPlayerWindow().moveDie(oldRowSecond, oldColumnSecond, secondRow, secondColumn);
-                    toolCardHandler.notifyMoveDie(player, die, oldRow, oldColumn, row, column);
-                    toolCardHandler.notifyMoveDie(player, secondDie, oldRowSecond, oldColumnSecond, secondRow, secondColumn);
-                    everythingOk = true;
-                } else {
-                    player.getPlayerWindow().moveDie(row, column, oldRow, oldColumn);
-                    everythingOk = false;
-                }
+                player.getPlayerWindow().moveDie(oldRowSecond, oldColumnSecond, secondRow, secondColumn);
+                toolCardHandler.notifyMoveDie(player, die, oldRow, oldColumn, row, column);
+                toolCardHandler.notifyMoveDie(player, secondDie, oldRowSecond, oldColumnSecond, secondRow, secondColumn);
+                everythingOk = true;
+            } else {
+                player.getPlayerWindow().moveDie(row, column, oldRow, oldColumn);
+                everythingOk = false;
             }
         } else {
             everythingOk = false;

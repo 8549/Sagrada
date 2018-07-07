@@ -31,6 +31,9 @@ public class EffectAdapter extends TypeAdapter<Effect> {
             case "checkIfRoundTrackHasAnyDie":
                 effect = new CheckIfRoundTrackHasAnyDieEffect(name);
                 break;
+            case "checkIfThereIsAtLeastTwoDieOnWindowPatter":
+                effect = new CheckIfThereIsAtLeastTwoDieOnWindowPatterEffect(name);
+                break;
             case "checkIsDiePlaced":
                 effect = new CheckIsDiePlacedEffect(name);
                 break;
