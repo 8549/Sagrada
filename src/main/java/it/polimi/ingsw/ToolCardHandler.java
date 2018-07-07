@@ -1,6 +1,9 @@
 package it.polimi.ingsw;
 
-import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.Die;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.SagradaColor;
+import it.polimi.ingsw.model.ToolCard;
 import it.polimi.ingsw.network.server.ClientObject;
 import it.polimi.ingsw.network.server.MainServer;
 
@@ -83,6 +86,7 @@ public class ToolCardHandler {
     public void setDieFromRoundTrack(Die d, int round){
        int r= toolcard.getBoard().getRoundTrack().getDiePosition(round, d);
        toolcard.completeChooseDieRoundTrck(round, r);
+        toolcard.checkHasNextEffect();
     }
 
     public void chooseIfDecrease() {
@@ -188,7 +192,6 @@ public class ToolCardHandler {
             toolcard.completeChooseDieFromWindowPattern(row, column);
             toolcard.completeChooseTwoDieFromWindowPattern(secondRow, secondColumn);
             toolcard.completeSetOldCoordinates(row, column);
-
         }
 
     public void setTwoNewCoordinates() {

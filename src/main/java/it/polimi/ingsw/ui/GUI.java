@@ -411,7 +411,9 @@ public class GUI extends Application implements UI {
 
     @Override
     public void chooseTwoCoordinates() {
-
+        Platform.runLater(() -> {
+            mainController.toolChooseTwoCoordinates();
+        });
     }
 
     public double getHeight() {

@@ -36,6 +36,12 @@ public class WindowPatternController {
         return windowPattern;
     }
 
+    public static Circle getToken(double size) {
+        Circle c = new Circle(GUI.TOKEN_RELATIVE_SIZE * size);
+        c.getStyleClass().add("token");
+        return c;
+    }
+
     public void setWindowPattern(WindowPattern p, double size) {
         windowPattern = p;
         nameLabel.setText(p.getName());
@@ -46,9 +52,7 @@ public class WindowPatternController {
             ((StackPane) c).getChildren().add(graphic);
         }
         for (int i = 0; i < p.getDifficulty(); i++) {
-            Circle token = new Circle(GUI.TOKEN_RELATIVE_SIZE * size);
-            token.getStyleClass().add("token");
-            tokens.getChildren().add(token);
+            tokens.getChildren().add(getToken(size));
         }
     }
 
@@ -83,4 +87,5 @@ public class WindowPatternController {
     public void removeNameAndTokens() {
         main.getChildren().remove(bottom);
     }
+
 }
