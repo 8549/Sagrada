@@ -254,7 +254,9 @@ public class GUI extends Application implements UI {
 
     @Override
     public void playerDisconnected(Player p) {
-        showMessage(String.format("%s has disconnected!", p.getName()));
+        Platform.runLater(() -> {
+            showMessage(String.format("%s has disconnected!", p.getName()));
+        });
     }
 
     @Override
@@ -321,13 +323,15 @@ public class GUI extends Application implements UI {
     }
 
     private void startTimer() {
-        if (timer != null) {
-            timer.stop();
-        }
-        secondsRemaining.set(model.getTimeout());
-        timer = new Timeline(new KeyFrame(Duration.seconds(1), e -> secondsRemaining.set(getSecondsRemaining() - 1)));
-        timer.setCycleCount(model.getTimeout());
-        timer.play();
+        Platform.runLater(() -> {
+            if (timer != null) {
+                timer.stop();
+            }
+            secondsRemaining.set(model.getTimeout());
+            timer = new Timeline(new KeyFrame(Duration.seconds(1), e -> secondsRemaining.set(getSecondsRemaining() - 1)));
+            timer.setCycleCount(model.getTimeout());
+            timer.play();
+        });
     }
 
     @Override
@@ -338,9 +342,7 @@ public class GUI extends Application implements UI {
     @Override
     public void wrongMove() {
         Platform.runLater(() -> {
-            if (model.isMyTurn()) {
-                showMessage("Your move was incorrect!");
-            }
+            showMessage("Your move was incorrect!");
         });
     }
 
@@ -416,6 +418,17 @@ public class GUI extends Application implements UI {
         });
     }
 
+    @Override
+    public void toolEnded(boolean success) {
+        Platform.runLater(() -> {
+            if (success) {
+                showMessage("The tool card succeeded!");
+            } else {
+                showMessage("The tool card failed.");
+            }
+        });
+    }
+
     public double getHeight() {
         return Screen.getPrimary().getVisualBounds().getHeight();
     }
@@ -450,8 +463,10 @@ public class GUI extends Application implements UI {
     }
 
     public void setInitialSize() {
-        stage.sizeToScene();
-        initialWidth = stage.getWidth();
-        initialHeight = stage.getHeight();
+        Platform.runLater(() -> {
+            stage.sizeToScene();
+            initialWidth = stage.getWidth();
+            initialHeight = stage.getHeight();
+        });
     }
 }

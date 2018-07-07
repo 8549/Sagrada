@@ -155,4 +155,11 @@ public interface UI {
      * Let the user choose two new position
      */
     void chooseTwoCoordinates();
+
+    /**
+     * Inform the user if the Tool Card he tried to use completed its job with success or not
+     *
+     * @param success true if the Tool Card completed, false if it failed
+     */
+    void toolEnded(boolean success);
 }

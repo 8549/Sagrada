@@ -401,10 +401,8 @@ public class CLI implements UI {
 
     @Override
     public void wrongMove() {
-        if (model.isMyTurn()) {
-            System.err.println("Your move was incorrect! Please, try again");
-            askChoice();
-        }
+        System.err.println("Your move was incorrect! Please, try again");
+        askChoice();
     }
 
     @Override
@@ -887,12 +885,21 @@ public class CLI implements UI {
         handler.sendTwoNewCoordinates(firstDieRow, firstDieColumn, secondDieRow, secondDieColumn);
     }
 
-    private String printFavorTokens(int n) {
-        String s = "";
-        for (int i = 0; i < n; i++) {
-            s += FAVOR_TOKEN_CHAR;
+    @Override
+    public void toolEnded(boolean success) {
+        if (success) {
+            System.out.println("The tool card succeeded!");
+        } else {
+            System.err.println("The tool card failed!");
         }
-        return s;
+    }
+
+    private String printFavorTokens(int n) {
+        StringBuilder s = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            s.append(FAVOR_TOKEN_CHAR);
+        }
+        return s.toString();
     }
 
     private void printWindowPattern(WindowPattern p) {

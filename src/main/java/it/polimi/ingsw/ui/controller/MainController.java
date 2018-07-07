@@ -334,13 +334,13 @@ public class MainController {
             }
         }
         // Load Tool Cards and Objective Cards
-        String privPath = "images/objectivecards/private/" + model.getMyself().getPrivateObjectiveCard().getName() + ".png";
+        String privPath = "images/objectivecards/private/" + model.getMyself().getPrivateObjectiveCard().getName() + ".jpg";
         String privUrl = getClass().getClassLoader().getResource(privPath).toExternalForm();
         fxPrivateObjectiveCard.setImage(new Image(privUrl));
 
         int n = fxPublicObjectiveCardsContainer.getChildren().size();
         for (int i = 0; i < model.getPublicObjectiveCards().size(); i++) {
-            String pubPath = "images/objectivecards/public/" + model.getPublicObjectiveCards().get(i).getName() + ".png";
+            String pubPath = "images/objectivecards/public/" + model.getPublicObjectiveCards().get(i).getName() + ".jpg";
             String pubUrl = getClass().getClassLoader().getResource(pubPath).toExternalForm();
             if (i < n) {
                 ((ImageView) fxPublicObjectiveCardsContainer.getChildren().get(i)).setImage(new Image(pubUrl));
@@ -353,7 +353,7 @@ public class MainController {
 
         n = fxToolCardsContainer.getChildren().size();
         for (int i = 0; i < model.getToolCards().size(); i++) {
-            String pubPath = "images/toolcards/" + model.getToolCards().get(i).getName() + ".png";
+            String pubPath = "images/toolcards/" + model.getToolCards().get(i).getName() + ".jpg";
             String pubUrl = getClass().getClassLoader().getResource(pubPath).toExternalForm();
             if (i < n) {
                 ((ImageView) fxToolCardsContainer.getChildren().get(i)).setImage(new Image(pubUrl));
