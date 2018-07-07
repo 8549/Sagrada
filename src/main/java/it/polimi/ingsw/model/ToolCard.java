@@ -190,7 +190,7 @@ public class ToolCard implements Card {
                     currentEffect.perform();
                     break;
                 case "moveDieWithSameColorAsDieFromRoundTrack":
-                    currentEffect.perform();
+                    currentEffect.perform(die, turnForRoundTrack, numberOfDieForRoundTrack, getBoard());
                     break;
                 case "placeDie":
                     currentEffect.perform(getTurn(), placeDie);
@@ -236,11 +236,11 @@ public class ToolCard implements Card {
             addTokens();
             toolCardHandler.pushNewTokens(getCost(), player, getName());
             used = true;
-            if (getTurn().isDiePlaced()) {
-                gameManager.endCurrentTurn();
-            } else {
-                getServer().askPlayerForNextMove();
-            }
+        }
+        if (getTurn().isDiePlaced() && everythingOk) {
+            gameManager.endCurrentTurn();
+        } else {
+            getServer().askPlayerForNextMove();
         }
         clearData();
 

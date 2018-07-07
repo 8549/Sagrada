@@ -21,8 +21,6 @@ public class GameManager {
     private Player currentPlayer;
     private Board board;
     public static final int ROUNDS = 10;
-    public static final int FIRSTROUND = 1;
-    public static final int SECONDROUND = 2;
     private int numberCurrentRound;
     private Round round;
     private boolean hasMoved = false;
