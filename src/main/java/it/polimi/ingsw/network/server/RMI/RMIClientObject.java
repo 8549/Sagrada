@@ -28,7 +28,7 @@ public class RMIClientObject implements RMIClientObjectInterface {
         try {
             client.addPlayersToProxy(p);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
 
     }
@@ -39,7 +39,7 @@ public class RMIClientObject implements RMIClientObjectInterface {
         try {
             client.addPlayerToProxy(new Player(player.getName()));
         } catch (RemoteException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 
@@ -61,7 +61,7 @@ public class RMIClientObject implements RMIClientObjectInterface {
         try {
             client.initGame(playerstoSend, timeout);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
 
 
@@ -76,7 +76,7 @@ public class RMIClientObject implements RMIClientObjectInterface {
                 try {
                     client.initPatternCardChoice(patterns);
                 } catch (RemoteException e) {
-                    e.printStackTrace();
+                    e.getMessage();
                 }
             }
         }.start();
@@ -89,7 +89,7 @@ public class RMIClientObject implements RMIClientObjectInterface {
         try {
             client.patternCardResponse(name);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 
@@ -104,7 +104,7 @@ public class RMIClientObject implements RMIClientObjectInterface {
         try {
             client.updateOpponentsInfo(playerstoSend);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 
@@ -115,7 +115,7 @@ public class RMIClientObject implements RMIClientObjectInterface {
         try {
             client.setPublicObj(p);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 
@@ -124,7 +124,7 @@ public class RMIClientObject implements RMIClientObjectInterface {
         try {
             client.setPrivateObj(name);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 
@@ -135,7 +135,7 @@ public class RMIClientObject implements RMIClientObjectInterface {
         try {
             client.setDraft(draft);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 
@@ -144,7 +144,7 @@ public class RMIClientObject implements RMIClientObjectInterface {
         try {
             client.beginTurn(p.getName(), round, turn);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 
@@ -153,7 +153,7 @@ public class RMIClientObject implements RMIClientObjectInterface {
         try {
             client.moveResponse(name,response,d, row, column);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 
@@ -167,7 +167,7 @@ public class RMIClientObject implements RMIClientObjectInterface {
         try {
             client.loginResponse(response);
         } catch (RemoteException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
 
     }

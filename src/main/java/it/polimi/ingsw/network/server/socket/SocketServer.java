@@ -16,7 +16,6 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +51,7 @@ public class SocketServer implements ServerInterface {
             }
         } catch (IOException e) {
             System.err.println("[System]Socket socketServer failed " + e);
-            e.printStackTrace();
+            e.getMessage();
         } finally {
             listener.close();
             System.out.println("Socket socketServer closed");
@@ -60,7 +59,7 @@ public class SocketServer implements ServerInterface {
     }
 
     @Override
-    public boolean clientPing() throws RemoteException {
+    public boolean clientPing() {
         return false;
     }
 
@@ -219,7 +218,7 @@ public class SocketServer implements ServerInterface {
             try {
                 this.socket.setSoTimeout(200000);
             } catch (SocketException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
             log("New connection at " + socket);
             socketParser = new SocketParser();
@@ -248,7 +247,7 @@ public class SocketServer implements ServerInterface {
                 }
             } catch (IOException e) {
                 log("Error handling client");
-                e.printStackTrace();
+                e.getMessage();
             } finally {
                 try {
                     log("Connection with " + client.getPlayer().getName() + " closed");

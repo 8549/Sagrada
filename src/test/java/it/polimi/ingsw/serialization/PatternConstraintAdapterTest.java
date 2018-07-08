@@ -50,7 +50,7 @@ class PatternConstraintAdapterTest {
 
             assertEquals(expected, actual);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 

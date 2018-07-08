@@ -5,7 +5,6 @@ import it.polimi.ingsw.ui.GUI;
 import it.polimi.ingsw.ui.ProxyModel;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -381,7 +380,7 @@ public class MainController {
                 anchorPanes.put(players.get(i), p);
                 fxBoardsContainer.getChildren().add(p);
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
         // Load Tool Cards and Objective Cards
@@ -1081,7 +1080,8 @@ public class MainController {
         confirm.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                Platform.exit();
+                finalStage.hide();
+                gui.goodbye();
             }
         });
         Insets spacing = new Insets(20);

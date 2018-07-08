@@ -80,7 +80,7 @@ public class MainServer {
                 try {
                     rmiServer.start();
                 } catch (Exception e){
-                    e.printStackTrace();
+                    e.getMessage();
                 }
             }
         }.start();
@@ -96,7 +96,7 @@ public class MainServer {
                     socketServer.start();
 
                 }catch (IOException e){
-                    e.printStackTrace();
+                    e.getMessage();
                 }
             }
         }.start();
@@ -115,7 +115,7 @@ public class MainServer {
                         return PlayerStatus.RECONNECTED;
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    e.getMessage();
                 }
             }
             return PlayerStatus.NOTINGAME;
@@ -133,7 +133,7 @@ public class MainServer {
                             return PlayerStatus.ALREADYINGAME;
                         }
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        e.getMessage();
                     }
 
                 }
@@ -176,7 +176,7 @@ public class MainServer {
                             }
                         }catch (Exception e){
                             System.out.println("Exception inside timer!!!!!!!!!!!!!!!!!!!!!!!");
-                            e.printStackTrace();
+                            e.getMessage();
                         }
                     }
                 }, connectionTimeout);
@@ -217,7 +217,7 @@ public class MainServer {
                                     c.notifyPlayerDisconnection(client.getPlayer());
                                 }
                             } catch (IOException e) {
-                                e.printStackTrace();
+                                e.getMessage();
                             }
                         }
                     }
@@ -230,13 +230,13 @@ public class MainServer {
                         inGameClients.remove(client);
                         gm.disconnectPlayer(client.getPlayer());
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        e.getMessage();
                     }
                 }
             }
 
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 
@@ -254,7 +254,7 @@ public class MainServer {
             try {
                 players.add(c.getPlayer());
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
         return players;
@@ -267,7 +267,7 @@ public class MainServer {
                     c.pushLoggedPlayer(p);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
 
@@ -278,7 +278,7 @@ public class MainServer {
             try {
                 client.pushPlayers(getPlayersFromClients(connectedClients));
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
     }
@@ -290,7 +290,7 @@ public class MainServer {
             try {
                 c.notifyGameStarted(p, timeoutMove);
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
     }
@@ -302,7 +302,7 @@ public class MainServer {
             try {
                 c.notifyGameStarted(p, timeoutMove);
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
 
     }
@@ -315,7 +315,7 @@ public class MainServer {
                     break;
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
         return;
@@ -327,7 +327,7 @@ public class MainServer {
             client.pushPatternCardResponse(name);
             gm.completePlayerSetup(client.getPlayer(), name);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 
@@ -335,7 +335,7 @@ public class MainServer {
         try {
             client.pushPatternCardResponse(name);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 
@@ -349,14 +349,14 @@ public class MainServer {
 
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    e.getMessage();
                 }
             }
             System.out.println("Pushing opponents: " + thinPlayers.toString());
             try {
                 client1.pushOpponentsInit(thinPlayers);
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
 
@@ -374,14 +374,14 @@ public class MainServer {
 
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    e.getMessage();
                 }
             }
             System.out.println("Pushing opponents: " + thinPlayers.toString());
             try {
                 client1.pushOpponentsInit(thinPlayers);
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
 
     }
@@ -400,7 +400,7 @@ public class MainServer {
             try {
                 c.pushPublicObj(publicObj);
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
 
@@ -410,7 +410,7 @@ public class MainServer {
         try {
             getClientByName(p.getName()).pushPublicObj(publicObj);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
 
     }
@@ -419,7 +419,7 @@ public class MainServer {
         try {
             getClientByName(p.getName()).setPrivObj(p.getPrivateObjectiveCard().getName(), getPlayersFromClients(inGameClients));
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
 
     }
@@ -429,7 +429,7 @@ public class MainServer {
             try {
                 c.pushDraft(draft);
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
     }
@@ -440,13 +440,13 @@ public class MainServer {
                 if(!c.getPlayer().getName().equals(p.getName())) {
                 c.notifyTurn(p, round, turn);}
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
         try {
             getClientByName(p.getName()).notifyTurn(p, round, turn);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
 
     }
@@ -461,7 +461,7 @@ public class MainServer {
             try {
                 c.pushToolCards(tools);
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
     }
@@ -475,7 +475,7 @@ public class MainServer {
         try {
             getClientByName(p.getName()).pushToolCards(tools);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 
@@ -486,14 +486,14 @@ public class MainServer {
                     c.notifyMoveResponse(response, p.getName(), d, row, column);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
 
         try {
             getClientByName(p.getName()).notifyMoveResponse(response, p.getName(),d , row, column);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 
@@ -508,7 +508,7 @@ public class MainServer {
                    c.notifyEndTimeOut();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
     }
@@ -518,7 +518,7 @@ public class MainServer {
             try {
                 c.notifyEndTurn(gm.getCurrentPlayer());
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
     }
@@ -527,7 +527,7 @@ public class MainServer {
             try {
                 c.notifyEndRound(dice);
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
     }
@@ -552,7 +552,7 @@ public class MainServer {
                     return c;
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
         return null;
@@ -579,13 +579,13 @@ public class MainServer {
                 if(!c.getPlayer().getName().equals(gm.getCurrentPlayer().getName()))
                     c.notifyToolUsed(toolCardWorked, gm.getCurrentPlayer().getName());
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
         try {
             getClientByName(gm.getCurrentPlayer().getName()).notifyToolUsed(toolCardWorked, gm.getCurrentPlayer().getName());
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 
@@ -593,7 +593,7 @@ public class MainServer {
         try {
             getClientByName(gm.getCurrentPlayer().getName()).notifyMoveNotAvailable();
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 
@@ -601,7 +601,7 @@ public class MainServer {
         try {
             getClientByName(gm.getCurrentPlayer().getName()).nextMove();
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 
@@ -613,7 +613,7 @@ public class MainServer {
             try {
                 c.pushFinalScore(playersWithPoints);
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
     }
@@ -626,7 +626,7 @@ public class MainServer {
         try {
             c.notifyFinishUpdate(p.getName());
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
 
     }

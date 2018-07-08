@@ -288,7 +288,14 @@ public class SocketClient implements ClientInterface {
                                     List<Player> goHome = new ArrayList<>();
                                     for (int i = 0; i<finallyFinished.size(); i++){
                                         Player player1 = new Player(finallyFinished.get(i));
-                                        player1.addPoints(Integer.valueOf(finallyFinished.get(i+1)));
+                                        i++;
+                                        String negOrPos = finallyFinished.get(i);
+                                        i++;
+                                        int points = Integer.valueOf(finallyFinished.get(i));
+                                        if (negOrPos.equals("n")) {
+                                            points *= -1;
+                                        }
+                                        player1.addPoints(points);
                                         goHome.add(player1);
                                     }
                                     ch.endGame(goHome);

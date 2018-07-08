@@ -47,7 +47,7 @@ public class RMIServer  implements RMIServerInterface {
             System.out.println("[DEBUG] RMI server is ready");
         } catch (Exception e) {
             System.err.println("Server exception: " + e.toString());
-            e.printStackTrace();
+            e.getMessage();
         }
 
 
@@ -100,7 +100,7 @@ public class RMIServer  implements RMIServerInterface {
                     client = clients;
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
 
         }
@@ -179,7 +179,7 @@ public class RMIServer  implements RMIServerInterface {
     }
 
     @Override
-    public boolean clientPing() throws RemoteException {
+    public boolean clientPing() {
         return true;
     }
 
@@ -226,7 +226,7 @@ public class RMIServer  implements RMIServerInterface {
 
                         }
                     } catch (RemoteException e) {
-                        e.printStackTrace();
+                        e.getMessage();
                         isTimerRunning[0] = false;
                         timer1.cancel();
                         timer2.cancel();

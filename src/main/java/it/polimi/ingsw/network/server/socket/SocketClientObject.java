@@ -7,7 +7,6 @@ import it.polimi.ingsw.model.PublicObjectiveCard;
 import it.polimi.ingsw.network.server.ClientObject;
 import it.polimi.ingsw.network.server.ServerInterface;
 
-import java.io.IOException;
 import java.util.List;
 
 import static it.polimi.ingsw.GameManager.PUBLIC_OBJ_CARDS_NUMBER;
@@ -288,7 +287,8 @@ public class SocketClientObject implements ClientObject {
     public void pushFinalScore(List<Player> players) {
         String data ="";
         for(Player p : players){
-            data = data + p.getName() + "/" + p.getPoints() + "/";
+            String pointString = (p.getPoints() < 0) ? "n/" + (Math.abs(p.getPoints())) : "p/" + p.getPoints();
+            data = data + p.getName() + "/" + pointString + "/";
         }
 
         socketHandler.send("update", "endGame", data);
@@ -300,7 +300,7 @@ public class SocketClientObject implements ClientObject {
     }
 
     @Override
-    public void notifyFinishUpdate(String name) throws IOException {
+    public void notifyFinishUpdate(String name) {
         socketHandler.send("update", "finishUpdate", name);
     }
 }

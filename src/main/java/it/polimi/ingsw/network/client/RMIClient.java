@@ -23,13 +23,13 @@ public class RMIClient implements RMIClientInterface, Serializable {
     RMIServerInterface server;
     ClientHandler ch;
 
-    public RMIClient(ClientHandler ch) throws RemoteException{
+    public RMIClient(ClientHandler ch) {
         this.ch = ch;
     }
 
 
     @Override
-    public String getName() throws RemoteException {
+    public String getName() {
         return player.getName();
     }
 
@@ -48,10 +48,10 @@ public class RMIClient implements RMIClientInterface, Serializable {
 
         try {
             server = (RMIServerInterface) registry.lookup("RMIServerInterface");
-            System.out.println("[DEBUG] Client connected ");
+//            System.out.println("[DEBUG] Client connected ");
 
         } catch (NotBoundException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 
@@ -73,12 +73,12 @@ public class RMIClient implements RMIClientInterface, Serializable {
     }
 
     @Override
-    public void loginResponse(boolean response)throws RemoteException{
+    public void loginResponse(boolean response) {
         if(response){
-             System.out.println("[DEBUG] Login succesful");
+//             System.out.println("[DEBUG] Login succesful");
             ch.setPlayerToProxyModel(player.getName());
         }else{
-            System.out.println("[DEBUG] Login failed");
+//            System.out.println("[DEBUG] Login failed");
             ch.loginFailed();
         }
 
@@ -108,7 +108,7 @@ public class RMIClient implements RMIClientInterface, Serializable {
     }
 
     @Override
-    public void setPrivateObj(String name) throws RemoteException {
+    public void setPrivateObj(String name) {
         CardsDeck objDeckpriv = new CardsDeck("PrivateObjectiveCards.json", new TypeToken<List<PrivateObjectiveCard>>() {
         }.getType());
         CardsDeck blankDeck = new CardsDeck("BlankObjectiveCard.json", new TypeToken<List<PrivateObjectiveCard>>() {
@@ -124,27 +124,27 @@ public class RMIClient implements RMIClientInterface, Serializable {
     }
 
     @Override
-    public void setPublicObj(List<PublicObjectiveCard> publicObjCards) throws RemoteException {
+    public void setPublicObj(List<PublicObjectiveCard> publicObjCards) {
         ch.setPublicObjCard(publicObjCards);
     }
 
     @Override
-    public void setDraft(List<Die> draft) throws RemoteException {
+    public void setDraft(List<Die> draft) {
         ch.setDraftPool(draft);
     }
 
     @Override
-    public void beginTurn(String name, int round, int turn) throws RemoteException {
+    public void beginTurn(String name, int round, int turn) {
         ch.notifyTurnStarted(name, round, turn);
     }
 
     @Override
-    public void patternCardResponse(String name) throws RemoteException {
+    public void patternCardResponse(String name) {
         ch.initPatternCard(name);
     }
 
     @Override
-    public void initTools(List<String> names) throws RemoteException {
+    public void initTools(List<String> names) {
         List<ToolCard> tools = new ArrayList<>();
         CardsDeck toolDeck = new CardsDeck("ToolCards.json", new TypeToken<List<ToolCard>>() {
         }.getType());
@@ -155,12 +155,12 @@ public class RMIClient implements RMIClientInterface, Serializable {
     }
 
     @Override
-    public void setEndPoint(RMIServerInterface server) throws RemoteException {
+    public void setEndPoint(RMIServerInterface server) {
         this.server = server;
     }
 
     @Override
-    public void updateOpponentsInfo(List<Player> players) throws RemoteException {
+    public void updateOpponentsInfo(List<Player> players) {
         for(Player p1 : ch.getModel().getPlayers()){
             for(Player p2 : players){
                 if (p1.getName().equals(p2.getName())){
@@ -171,77 +171,77 @@ public class RMIClient implements RMIClientInterface, Serializable {
     }
 
     @Override
-    public void moveResponse(String name , boolean response, Die d, int row, int column) throws RemoteException {
+    public void moveResponse(String name, boolean response, Die d, int row, int column) {
         ch.handleMoveResponse(name, response, d, row, column);
     }
 
     @Override
-    public void moveTimeOut() throws RemoteException {
+    public void moveTimeOut() {
         ch.moveTimeIsOut();
     }
 
     @Override
-    public void endCurrentTurn(String name) throws RemoteException {
+    public void endCurrentTurn(String name) {
         ch.endTurn(name);
     }
 
     @Override
-    public void endRound(List<Die> dice) throws RemoteException {
+    public void endRound(List<Die> dice) {
         ch.endRound(dice);
     }
 
     @Override
-    public void chooseDieFromWindowPattern() throws RemoteException {
+    public void chooseDieFromWindowPattern() {
         ch.chooseDieFromWindowPattern();
     }
 
     @Override
-    public void chooseDieFromDraftPool() throws RemoteException {
+    public void chooseDieFromDraftPool() {
         ch.chooseDieFromDraftPool();
     }
 
     @Override
-    public void chooseDieFromRoundTrack() throws RemoteException {
+    public void chooseDieFromRoundTrack() {
         ch.chooseDieFromRoundTrack();
     }
 
     @Override
-    public void chooseIfDecrease() throws RemoteException {
+    public void chooseIfDecrease() {
         ch.chooseIfDecrease();
     }
 
     @Override
-    public void chooseIfPlaceDie(int number) throws RemoteException {
+    public void chooseIfPlaceDie(int number) {
         ch.chooseIfPlaceDie(number);
     }
 
     @Override
-    public void chooseToMoveOneDie() throws RemoteException {
+    public void chooseToMoveOneDie() {
         ch.chooseToMoveOneDie();
     }
 
     @Override
-    public void setValue(String color) throws RemoteException {
+    public void setValue(String color) {
         ch.setValue(SagradaColor.valueOf(color));
     }
 
     @Override
-    public void setNewCoordinates() throws RemoteException {
+    public void setNewCoordinates() {
         ch.setNewCoordinates();
     }
 
     @Override
-    public void chooseTwoDice() throws RemoteException {
+    public void chooseTwoDice() {
         ch.chooseTwoDice();
     }
 
     @Override
-    public void chooseTwoNewCoordinates() throws RemoteException {
+    public void chooseTwoNewCoordinates() {
         ch.chooseTwoNewCoordinates();
     }
 
     @Override
-    public boolean ping() throws RemoteException {
+    public boolean ping() {
         return true;
     }
 
@@ -297,58 +297,58 @@ public class RMIClient implements RMIClientInterface, Serializable {
     }
 
     @Override
-    public void nextMove() throws RemoteException {
+    public void nextMove() {
         ch.nextMove();
     }
 
     @Override
-    public void pushTokens(String name, String tool, int cost) throws RemoteException {
+    public void pushTokens(String name, String tool, int cost) {
         ch.updateTokens(name, tool, cost);
     }
 
     @Override
-    public void notifyMoveDie(Player player, Die d, int row, int column, int newRow, int newColumn) throws RemoteException {
+    public void notifyMoveDie(Player player, Die d, int row, int column, int newRow, int newColumn) {
         ch.handleMoveDie(player.getName(), d, row, column, newRow, newColumn);
     }
 
     @Override
-    public void notifyAddDie(Player player, Die d, int row, int column) throws RemoteException {
+    public void notifyAddDie(Player player, Die d, int row, int column) {
         ch.handleAddDie(player.getName(), d, row, column);
     }
 
 
     @Override
-    public void changeTurn(Player first) throws RemoteException {
+    public void changeTurn(Player first) {
         ch.handleChangeTurn(first.getName());
     }
 
     @Override
-    public void updateRoundTrack(Die d, int diePosition, int round) throws RemoteException {
+    public void updateRoundTrack(Die d, int diePosition, int round) {
         ch.handleUpdateRoundTrack(d, diePosition, round);
     }
 
     @Override
-    public void updateGrid(int row, int col, Die d, String name) throws RemoteException {
+    public void updateGrid(int row, int col, Die d, String name) {
         ch.handleUpdateGrid(name, row, col, d);
     }
 
     @Override
-    public void notifyEndTool(boolean response, String name) throws RemoteException {
+    public void notifyEndTool(boolean response, String name) {
         ch.handleToolEnd(response, name);
     }
 
     @Override
-    public void reconnection() throws RemoteException {
+    public void reconnection() {
         ch.reconnection();
     }
 
     @Override
-    public void endGame(List<Player> players) throws RemoteException {
+    public void endGame(List<Player> players) {
         ch.endGame(players);
     }
 
     @Override
-    public void finishUpdate(String name) throws RemoteException {
+    public void finishUpdate(String name) {
         ch.finishUpdate(name);
     }
 
@@ -388,7 +388,7 @@ public class RMIClient implements RMIClientInterface, Serializable {
                                 @Override
                                 public void run() {
                                     if (!isAlive[0]) {
-                                        System.out.println("[DEBUG] Client disconnected");
+//                                        System.out.println("[DEBUG] Client disconnected");
                                         this.cancel();
                                         timer1.cancel();
                                         isTimerRunning[0] = false;
@@ -402,7 +402,7 @@ public class RMIClient implements RMIClientInterface, Serializable {
 
                         }
                     }  catch (IOException e) {
-                        e.printStackTrace();
+                        e.getMessage();
                         isTimerRunning[0] = false;
                         timer1.cancel();
                         timer2.cancel();

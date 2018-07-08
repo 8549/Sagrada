@@ -41,9 +41,10 @@ public class RoundTrack {
             System.err.println("There are no dice to add to the round track");
             return;
         }
-        for (int i=0; i<dice.size(); i++) {
-            this.dice.get(roundCounter).add(dice.get(i));
-        }
+        this.dice.put(roundCounter, dice);
+        /*for (int i=0; i<dice.size(); i++) {
+            //this.dice.get(roundCounter).add(dice.get(i));
+        }*/
         roundCounter++;
     }
 

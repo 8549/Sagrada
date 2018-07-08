@@ -41,7 +41,7 @@ public class ClientHandler implements Serializable {
                 client.login();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 
@@ -128,7 +128,7 @@ public class ClientHandler implements Serializable {
                     ui.startGame();
                     proxyModel.resetPlayers(players);
                     proxyModel.setTimeout(timeout);
-                    System.out.println("[DEBUG] TIMEOUT --> " + timeout);
+//                    System.out.println("[DEBUG] TIMEOUT --> " + timeout);
                 }
             }
         };
@@ -141,7 +141,7 @@ public class ClientHandler implements Serializable {
         try {
             client.validatePatternCard(w);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
             handleDisconnection();
         }
     }
@@ -164,7 +164,7 @@ public class ClientHandler implements Serializable {
 
                 }
                 if (finish && !proxyModel.getMyself().getStatus().equals(PlayerStatus.RECONNECTED)) {
-                    System.out.println("[DEBUG] Everybody has chosen theirs patternCards ");
+//                    System.out.println("[DEBUG] Everybody has chosen theirs patternCards ");
                     ui.initBoard();
                 }
             }
@@ -213,7 +213,7 @@ public class ClientHandler implements Serializable {
                     for (Player player : proxyModel.getPlayers()) {
                         if (player.getName().equals(name)) {
                             player.setPrivateObjectiveCard(p);
-                            System.out.println("[DEBUG] Player " + player.getName() + " has private " + player.getPrivateObjectiveCard().getName());
+//                            System.out.println("[DEBUG] Player " + player.getName() + " has private " + player.getPrivateObjectiveCard().getName());
                         }
                     }
                 }
@@ -231,7 +231,7 @@ public class ClientHandler implements Serializable {
             @Override
             public void run() {
                 proxyModel.setDraftPool(draft);
-                System.out.println("[DEBUG] Draft updated" );
+//                System.out.println("[DEBUG] Draft updated" );
 
             }
         };
@@ -242,7 +242,7 @@ public class ClientHandler implements Serializable {
         try {
             client.requestPlacement(d.getNumber(), d.getColor().toString(), row, column);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
             handleDisconnection();
         }
 
@@ -259,7 +259,7 @@ public class ClientHandler implements Serializable {
                     myTurn = true;
                 } else {
                     proxyModel.setCurrentPlayer(proxyModel.getByName(name));
-                    System.out.println("[DEBUG] Now it's " + name + " turn");
+//                    System.out.println("[DEBUG] Now it's " + name + " turn");
                 }
                 proxyModel.setCurrentRound(round);
                 proxyModel.setCurrentTurn(turn);
@@ -288,10 +288,10 @@ public class ClientHandler implements Serializable {
                     }
                 }
                 if (response) {
-                    System.out.println("[DEBUG] Server response: Correct move!");
+//                    System.out.println("[DEBUG] Server response: Correct move!");
                     player.getPlayerWindow().addDie(d, row, column);
                 } else {
-                    System.out.println("[DEBUG] Server response: Wrong Move of player : " + name);
+//                    System.out.println("[DEBUG] Server response: Wrong Move of player : " + name);
                     if(proxyModel.getMyself().getName().equals(name)){
                         ui.wrongMove();
                     }
@@ -316,10 +316,10 @@ public class ClientHandler implements Serializable {
             @Override
             public void run() {
                 if (proxyModel.getMyself().equals(name)) {
-                    System.out.println("[DEBUG] Your turn is ended ");
+//                    System.out.println("[DEBUG] Your turn is ended ");
                     ui.myTurnEnded();
                 } else {
-                    System.out.println("[DEBUG] Player " + name + " has finished his/her turn");
+//                    System.out.println("[DEBUG] Player " + name + " has finished his/her turn");
                 }
             }
         };
@@ -336,7 +336,7 @@ public class ClientHandler implements Serializable {
                         try {
                             client.passTurn();
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            e.getMessage();
                         }
                     }
                 }.start();
@@ -350,7 +350,7 @@ public class ClientHandler implements Serializable {
         try {
             client.requestTool(tool);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
             handleDisconnection();
         }
     }
@@ -380,7 +380,7 @@ public class ClientHandler implements Serializable {
         try {
             client.sendDieFromWP(d, row, column);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
             handleDisconnection();
         }
     }
@@ -393,7 +393,7 @@ public class ClientHandler implements Serializable {
         try {
             client.sendDieFromDP(d);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
             handleDisconnection();
         }
     }
@@ -406,7 +406,7 @@ public class ClientHandler implements Serializable {
         try {
             client.sendDieFromRT(d, round);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
             handleDisconnection();
         }
     }
@@ -419,7 +419,7 @@ public class ClientHandler implements Serializable {
         try {
             client.sendDecreaseChoice(choice);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
             handleDisconnection();
         }
     }
@@ -432,7 +432,7 @@ public class ClientHandler implements Serializable {
         try {
             client.sendPlacementChoice(choice);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
             handleDisconnection();
         }
     }
@@ -445,7 +445,7 @@ public class ClientHandler implements Serializable {
         try {
             client.sendNumberDiceChoice(choice);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
             handleDisconnection();
         }
     }
@@ -458,7 +458,7 @@ public class ClientHandler implements Serializable {
         try {
             client.sendValue(value);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
             handleDisconnection();
         }
     }
@@ -472,7 +472,7 @@ public class ClientHandler implements Serializable {
         try {
             client.sendNewCoordinates(row, column);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
             handleDisconnection();
         }
     }
@@ -485,7 +485,7 @@ public class ClientHandler implements Serializable {
         try {
             client.sendTwoDice(row1, col1, row2, col2);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
             handleDisconnection();
         }
     }
@@ -498,7 +498,7 @@ public class ClientHandler implements Serializable {
         try {
             client.sendTwoNewCoordinates(row1, col1, row2, col2);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
             handleDisconnection();
         }
     }
@@ -538,7 +538,7 @@ public class ClientHandler implements Serializable {
             public void run() {
                 proxyModel.getByName(name).getPlayerWindow().getCellAt(row,column).removeDie();
                 proxyModel.getByName(name).getPlayerWindow().getCellAt(newRow, newColumn).setDie(d);
-                System.out.println("[DEBUG] Die Moved" );
+//                System.out.println("[DEBUG] Die Moved" );
                 ui.update();
             }
         };
@@ -552,7 +552,7 @@ public class ClientHandler implements Serializable {
             @Override
             public void run() {
                 proxyModel.getByName(name).getPlayerWindow().getCellAt(row,column).setDie(d);
-                System.out.println("[DEBUG] Die Added" );
+//                System.out.println("[DEBUG] Die Added" );
                 ui.update();
             }
         };
@@ -579,7 +579,7 @@ public class ClientHandler implements Serializable {
             @Override
             public void run() {
                 proxyModel.getRoundTrack().replaceDie(d, round, diePosition);
-                System.out.println("[DEBUG] RoundTrack updated" );
+//                System.out.println("[DEBUG] RoundTrack updated" );
                 ui.update();
             }
         };
@@ -595,17 +595,17 @@ public class ClientHandler implements Serializable {
                 ui.update();
                 if (name.equals(proxyModel.getMyself().getName())) {
                     if (response) {
-                        System.out.println("[DEBUG] Your tool worked correctly!");
+//                        System.out.println("[DEBUG] Your tool worked correctly!");
                         ui.toolEnded(response);
                     } else {
-                        System.out.println("[DEBUG] Something went wrong with your tool");
+//                        System.out.println("[DEBUG] Something went wrong with your tool");
                         ui.toolEnded(response);
                     }
                 } else {
                     if (response) {
-                        System.out.println("[DEBUG] Player " + name + "'s tool worked correctly!");
+//                        System.out.println("[DEBUG] Player " + name + "'s tool worked correctly!");
                     } else {
-                        System.out.println("[DEBUG] Something went wrong with " + name + "'s tool");
+//                        System.out.println("[DEBUG] Something went wrong with " + name + "'s tool");
                     }
 
                 }
@@ -617,7 +617,7 @@ public class ClientHandler implements Serializable {
     public void handleDisconnection(){
         //todo prompt login after disconnection
 
-        System.out.println("[DEBUG] You are disconnected! ");
+//        System.out.println("[DEBUG] You are disconnected! ");
     }
 
     public void handleUpdateGrid(String name, int row, int column, Die d){

@@ -18,7 +18,7 @@ public class CardsDeck  {
         try (JsonReader reader = new JsonReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream(file)))) {
             cardsDeck = GsonSingleton.getInstance().fromJson(reader, type);
         } catch (IOException e){
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 
@@ -55,7 +55,7 @@ public class CardsDeck  {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
         return null;
     }

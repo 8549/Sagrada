@@ -49,7 +49,7 @@ public class ToolCardHandler {
                     c.chooseDieFromWindowPattern();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
     }
@@ -67,7 +67,7 @@ public class ToolCardHandler {
                     c.chooseDieFromDraftPool();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
     }
@@ -83,7 +83,7 @@ public class ToolCardHandler {
                     c.chooseDieFromRoundTrack();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
     }
@@ -101,7 +101,7 @@ public class ToolCardHandler {
                     c.chooseIfDecrease();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
     }
@@ -118,7 +118,7 @@ public class ToolCardHandler {
                     c.chooseIfPlaceDie(numberOfPickedDie);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
     }
@@ -135,7 +135,7 @@ public class ToolCardHandler {
                     c.chooseToMoveOneDie();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
     }
@@ -152,7 +152,7 @@ public class ToolCardHandler {
                     c.setValue(colorOfPickedDie.toString());
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
     }
@@ -168,7 +168,7 @@ public class ToolCardHandler {
                     c.setNewCoordinates();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
     }
@@ -188,7 +188,7 @@ public class ToolCardHandler {
                     c.chooseTwoDice();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
 
@@ -206,7 +206,7 @@ public class ToolCardHandler {
                     c.chooseTwoNewCoordinates();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
     }
@@ -219,7 +219,7 @@ public class ToolCardHandler {
             try {
                 c.pushTokens(player.getName(), tool, cost);
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
 
         }
@@ -230,7 +230,7 @@ public class ToolCardHandler {
             try {
                 c.pushDraft(draft);
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
 
@@ -240,7 +240,7 @@ public class ToolCardHandler {
             try {
                 c.addDie(player, d, row, column);
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
     }
@@ -250,7 +250,7 @@ public class ToolCardHandler {
             try {
                 c.moveDie(player, d, row, column, newRow, newColumn);
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
     }
@@ -261,13 +261,13 @@ public class ToolCardHandler {
                     c.changeTurn(first);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
         try {
             server.getClientByName(first.getName()).changeTurn(first);
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
 
     }
@@ -276,7 +276,7 @@ public class ToolCardHandler {
             try {
                 c.updateRoundTrack(d, diePosition, round);
             } catch (IOException e) {
-                e.printStackTrace();
+                e.getMessage();
             }
         }
     }

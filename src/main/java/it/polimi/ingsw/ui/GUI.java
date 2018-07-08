@@ -563,4 +563,11 @@ public class GUI extends Application implements UI {
             initialHeight = stage.getHeight();
         });
     }
+
+    public void goodbye() {
+        Platform.runLater(() -> {
+            stage.hide();
+        });
+        //Platform.exit();
+    }
 }

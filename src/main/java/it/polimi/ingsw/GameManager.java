@@ -20,7 +20,7 @@ public class GameManager {
     private Player firstPlayer;
     private Player currentPlayer;
     private Board board;
-    public static final int ROUNDS = 10;
+    public static final int ROUNDS = 2;
     private int numberCurrentRound;
     private Round round;
     private boolean hasMoved = false;
@@ -341,7 +341,7 @@ public class GameManager {
         try {
             p = getPlayerByName(c.getPlayer().getName());
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
 
         try {
@@ -349,7 +349,7 @@ public class GameManager {
             server.gameStartedProceduresAfterReconnect(players, turnTimeout, c.getPlayer());
             server.initPlayersData(players, c.getPlayer());
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
 
         server.setPublicObj(publicObjectiveCards, p);
@@ -366,7 +366,7 @@ public class GameManager {
                             try {
                                 c.updateGrid(i, j, player.getPlayerWindow().getCellAt(i, j).getDie(), p.getName());
                             } catch (IOException e) {
-                                e.printStackTrace();
+                                e.getMessage();
                             }
                         }
 
@@ -378,7 +378,7 @@ public class GameManager {
         try {
             c.pushDraft(board.getDraftPool());
         } catch (IOException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
 
         server.notifyFinishUpdate(c, getCurrentPlayer());
