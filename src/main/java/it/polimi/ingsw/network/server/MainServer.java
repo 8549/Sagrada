@@ -8,7 +8,6 @@ import it.polimi.ingsw.network.server.RMI.RMIServerInterface;
 import it.polimi.ingsw.network.server.socket.SocketServer;
 
 import java.io.IOException;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -38,11 +37,7 @@ public class MainServer {
     public void start(String[] args){
 
         //RMI Server
-        try {
-            rmiServer = new RMIServer(connectedClients, this);
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
+        rmiServer = new RMIServer(connectedClients, this);
 
 
         new Thread(){
