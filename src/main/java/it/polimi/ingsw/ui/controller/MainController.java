@@ -693,24 +693,28 @@ public class MainController {
         GridPane root = (GridPane) ((Pane) ((VBox) anchorPanes.get(myself).getChildren().get(1)).getChildren().get(0)).getChildren().get(0);
         for (Node n : root.getChildren()) {
             if (((StackPane) n).getChildren().size() < 2) {
+                ColorAdjust darken = new ColorAdjust();
+                darken.setBrightness(-0.5);
+                n.setEffect(darken);
                 continue;
             }
-            Node dieNode = ((StackPane) n).getChildren().get(1);
+            /*Node dieNode = ((StackPane) n).getChildren().get(1);
             ScaleTransition transition = new ScaleTransition(Duration.seconds(0.3), dieNode);
             transition.setByX(0.7);
             transition.setByY(0.7);
             transition.setAutoReverse(true);
             transition.setCycleCount(2);
-            transition.play();
+            transition.play();*/
             n.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
-                    transition.stop();
+                    //transition.stop();
                     Node source = (Node) event.getSource();
                     int row = GridPane.getRowIndex(source);
                     int col = GridPane.getColumnIndex(source);
                     Die d = gui.getModel().getMyself().getPlayerWindow().getCellAt(row, col).getDie();
                     for (Node n : root.getChildren()) {
+                        n.setEffect(null);
                         n.setOnMouseClicked(null);
                     }
                     gui.getClientHandler().sendDieFromWP(d, row, col);
@@ -763,14 +767,14 @@ public class MainController {
     }
 
     /**
-     * Asks the user if they want to place a die on their window or on the {@link RoundTrack}. Used by {@link ToolCard}s
+     * Asks the user if they want to place a die on their window or back into the draft pool. Used by {@link ToolCard}s
      */
     public void toolChooseIfPlaceDie(int number) {
         Stage dialog = new Stage(StageStyle.UNDECORATED);
         BorderPane valueMain = new BorderPane();
 
         Button placeOnWindowBtn = new Button("Place it on my window");
-        Button placeOnRoundTrackBtn = new Button("Place it on the round track");
+        Button placeOnRoundTrackBtn = new Button("Place it in the draft pool");
         placeOnWindowBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -857,9 +861,12 @@ public class MainController {
         GridPane root = (GridPane) ((Pane) ((VBox) anchorPanes.get(myself).getChildren().get(1)).getChildren().get(0)).getChildren().get(0);
         for (Node n : root.getChildren()) {
             if (((StackPane) n).getChildren().size() > 1) {
+                ColorAdjust darken = new ColorAdjust();
+                darken.setBrightness(-0.5);
+                n.setEffect(darken);
                 continue;
             }
-            n.getStyleClass().add("chosen");
+            //n.getStyleClass().add("chosen");
             n.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
@@ -868,7 +875,8 @@ public class MainController {
                     int col = GridPane.getColumnIndex(source);
                     for (Node n : root.getChildren()) {
                         n.setOnMouseClicked(null);
-                        n.getStyleClass().remove("chosen");
+                        //n.getStyleClass().remove("chosen");
+                        n.setEffect(null);
                     }
                     gui.getClientHandler().sendNewCoordinates(row, col);
                 }

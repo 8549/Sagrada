@@ -540,7 +540,7 @@ public class CLI implements UI {
                 scanner.next();
             }
         }
-        System.out.print("Which die do you want? ");
+        System.out.print("Which die do you want [1-" + model.getRoundTrack().getDiceNumberAtRound(i - 1) + "]? ");
         validChoice = false;
         int j;
         while (!validChoice) {
@@ -549,7 +549,7 @@ public class CLI implements UI {
                 if (isTimeUp()) {
                     return;
                 }
-                if (j >= 0 && j <= model.getRoundTrack().getDiceNumberAtRound(i)) {
+                if (j >= 0 && j <= model.getRoundTrack().getDiceNumberAtRound(i - 1)) {
                     validChoice = true;
                     handler.sendDieFromRT(roundTrack.getDieAt(i - 1, j - 1), i - 1);
                 } else {
@@ -821,7 +821,7 @@ public class CLI implements UI {
                 validDie = true;
             }
         }
-        handler.sendTwoDice(firstDieRow, firstDieColumn, secondDieRow, secondDieColumn);
+        handler.sendTwoDice(firstDieRow - 1, firstDieColumn - 1, secondDieRow - 1, secondDieColumn - 1);
     }
 
     @Override
@@ -913,13 +913,13 @@ public class CLI implements UI {
                     scanner.next();
                 }
             }
-            if (model.getMyself().getPlayerWindow().getCellAt(secondDieRow - 1, secondDieColumn - 1).isEmpty()) {
+            if (!model.getMyself().getPlayerWindow().getCellAt(secondDieRow - 1, secondDieColumn - 1).isEmpty()) {
                 System.err.println("(Second cell) There's already a die at the given coordinates!");
             } else {
                 validDie = true;
             }
         }
-        handler.sendTwoNewCoordinates(firstDieRow, firstDieColumn, secondDieRow, secondDieColumn);
+        handler.sendTwoNewCoordinates(firstDieRow - 1, firstDieColumn - 1, secondDieRow - 1, secondDieColumn - 1);
     }
 
     @Override

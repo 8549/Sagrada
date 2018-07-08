@@ -58,6 +58,7 @@ public class GUI extends Application implements UI {
     private Timeline timer;
     private IntegerProperty secondsRemaining;
     private ConnectionBundle bundle;
+    private String toolEndedMessage;
 
     /**
      * Get the current turn remaining seconds
@@ -91,6 +92,7 @@ public class GUI extends Application implements UI {
     public void start(Stage primaryStage) {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("views/intro.fxml"));
         try {
+            toolEndedMessage = "";
             initialHeight = 0;
             initialWidth = 0;
             secondsRemaining = new SimpleIntegerProperty();
@@ -250,7 +252,13 @@ public class GUI extends Application implements UI {
     @Override
     public void nextMove() {
         Platform.runLater(() -> {
-            showMessage("You can do something else!");
+            String message = "";
+            if (!toolEndedMessage.equals("")) {
+                message += toolEndedMessage + " ";
+                toolEndedMessage = "";
+            }
+            message += "You can do something else!";
+            showMessage(message);
             update();
         });
     }
@@ -441,9 +449,9 @@ public class GUI extends Application implements UI {
     public void toolEnded(boolean success) {
         Platform.runLater(() -> {
             if (success) {
-                showMessage("The tool card succeeded!");
+                toolEndedMessage = "The tool card succeeded!";
             } else {
-                showMessage("The tool card failed.");
+                toolEndedMessage = "The tool card failed.";
             }
         });
     }
