@@ -6,6 +6,8 @@ import it.polimi.ingsw.model.SagradaColor;
 import it.polimi.ingsw.network.ConnectionBundle;
 import it.polimi.ingsw.network.client.ClientHandler;
 
+import java.util.List;
+
 public interface UI {
     /**
      * This method is called when the client couln't login; it informs the user and asks again for the login data
@@ -185,4 +187,11 @@ public interface UI {
      * @param bundle the bundle to set
      */
     void setBundle(ConnectionBundle bundle);
+
+    /**
+     * Shows the final scores of the players when the game ends
+     *
+     * @param players the list of players, ordered by their score
+     */
+    void endGame(List<Player> players);
 }

@@ -647,7 +647,7 @@ public class ClientHandler implements Serializable {
     }
 
     public void endGame(List<Player> players){
-
+        ui.endGame(players);
     }
 
     public void finishUpdate(String name){

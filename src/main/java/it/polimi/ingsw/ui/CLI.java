@@ -11,6 +11,7 @@ import javafx.collections.WeakListChangeListener;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.List;
 import java.util.Scanner;
 
 public class CLI implements UI {
@@ -946,6 +947,11 @@ public class CLI implements UI {
     @Override
     public void setBundle(ConnectionBundle bundle) {
         this.bundle = bundle;
+    }
+
+    @Override
+    public void endGame(List<Player> players) {
+
     }
 
     /**

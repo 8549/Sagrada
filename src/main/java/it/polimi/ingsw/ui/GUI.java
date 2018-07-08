@@ -32,6 +32,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.util.List;
 
 public class GUI extends Application implements UI {
     public static final double CHOOSER_TILE_SIZE = 70.0;
@@ -490,6 +491,11 @@ public class GUI extends Application implements UI {
         Platform.runLater(() -> {
             this.bundle = bundle;
         });
+    }
+
+    @Override
+    public void endGame(List<Player> players) {
+
     }
 
     /**
