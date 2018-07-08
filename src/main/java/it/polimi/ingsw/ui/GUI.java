@@ -1,7 +1,9 @@
 package it.polimi.ingsw.ui;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.network.ConnectionBundle;
 import it.polimi.ingsw.network.client.ClientHandler;
+import it.polimi.ingsw.network.client.RunClient;
 import it.polimi.ingsw.ui.controller.IntroController;
 import it.polimi.ingsw.ui.controller.MainController;
 import it.polimi.ingsw.ui.controller.WindowPatternController;
@@ -55,6 +57,7 @@ public class GUI extends Application implements UI {
     private Die selectedDie;
     private Timeline timer;
     private IntegerProperty secondsRemaining;
+    private ConnectionBundle bundle;
 
     /**
      * Get the current turn remaining seconds
@@ -80,6 +83,11 @@ public class GUI extends Application implements UI {
     }
 
     @Override
+    public void init() {
+        this.bundle = RunClient.getBundle();
+    }
+
+    @Override
     public void start(Stage primaryStage) {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("views/intro.fxml"));
         try {
@@ -94,6 +102,7 @@ public class GUI extends Application implements UI {
             introController.setSelfStage(primaryStage);
             introController.setGui(this);
             introController.initListeners();
+            introController.setBundle(bundle);
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
         } catch (IOException e) {
@@ -436,6 +445,42 @@ public class GUI extends Application implements UI {
             } else {
                 showMessage("The tool card failed.");
             }
+        });
+    }
+
+    @Override
+    public void turnChanged(Player p) {
+        Platform.runLater(() -> showMessage(p.getName() + " will play two turns in a row, but will skip the next one!"));
+    }
+
+    @Override
+    public void handleReconnection() {
+        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("views/intro.fxml"));
+        try {
+            initialHeight = 0;
+            initialWidth = 0;
+            secondsRemaining = new SimpleIntegerProperty();
+            stage.setTitle("Sagrada - Reconnection");
+            Parent root = loader.load();
+            introController = loader.getController();
+            introController.setSelfStage(stage);
+            introController.setGui(this);
+            introController.initListeners();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Couldn't load GUI");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+            Platform.exit();
+        }
+    }
+
+    @Override
+    public void setBundle(ConnectionBundle bundle) {
+        Platform.runLater(() -> {
+            this.bundle = bundle;
         });
     }
 

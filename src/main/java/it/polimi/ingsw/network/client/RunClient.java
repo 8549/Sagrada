@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.client;
 
-import it.polimi.ingsw.network.client.ClientHandler;
+import it.polimi.ingsw.network.ConnectionBundle;
+import it.polimi.ingsw.network.ConnectionType;
 import it.polimi.ingsw.ui.CLI;
 import it.polimi.ingsw.ui.GUI;
 import it.polimi.ingsw.ui.UI;
@@ -8,13 +9,39 @@ import it.polimi.ingsw.ui.UI;
 import java.util.Scanner;
 
 public class RunClient {
-    private static ClientHandler clientHandler;
+    public static final ConnectionBundle bundle = new ConnectionBundle();
 
     public static void main(String[] args) {
         String uiType = "";
         UI ui;
         boolean validChoice = false;
-        if (args.length == 0) {
+        if (args.length > 4) {
+            try {
+                int port = Integer.valueOf(args[4]);
+                bundle.setPort(port);
+            } catch (NumberFormatException e) {
+                bundle.setPort(ConnectionBundle.INT_UNSET);
+            }
+        }
+        if (args.length > 3) {
+            bundle.setUsername(args[3]);
+        }
+        if (args.length > 2) {
+            if (args[2].equalsIgnoreCase("rmi")) {
+                bundle.setConnectionType(ConnectionType.RMI);
+            } else if (args[2].equalsIgnoreCase("socket")) {
+                bundle.setConnectionType(ConnectionType.SOCKET);
+            }
+        }
+        if (args.length > 1) {
+            bundle.setServer(args[1]);
+        }
+        if (args.length > 0) {
+            uiType = args[0];
+        }
+        if (uiType.equalsIgnoreCase("cli") || uiType.equalsIgnoreCase("gui")) {
+            validChoice = true;
+        } else {
             Scanner in = new Scanner(System.in);
             System.out.print("Choose a UI mode (cli or gui): ");
             while (!validChoice) {
@@ -30,8 +57,6 @@ public class RunClient {
                     in.next();
                 }
             }
-        } else {
-            uiType = args[0];
         }
         if (uiType.equalsIgnoreCase("gui")) {
             ui = new GUI();
@@ -41,11 +66,10 @@ public class RunClient {
             System.err.println("Invalid UI choice");
             return;
         }
-        clientHandler = new ClientHandler(ui);
         ui.initUI();
     }
 
-    public static ClientHandler getClientHandler() {
-        return clientHandler;
+    public static ConnectionBundle getBundle() {
+        return bundle;
     }
 }
