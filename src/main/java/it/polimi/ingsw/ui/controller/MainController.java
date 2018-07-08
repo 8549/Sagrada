@@ -765,7 +765,7 @@ public class MainController {
     /**
      * Asks the user if they want to place a die on their window or on the {@link RoundTrack}. Used by {@link ToolCard}s
      */
-    public void toolChooseIfPlaceDie() {
+    public void toolChooseIfPlaceDie(int number) {
         Stage dialog = new Stage(StageStyle.UNDECORATED);
         BorderPane valueMain = new BorderPane();
 
@@ -790,7 +790,7 @@ public class MainController {
         values.getChildren().add(placeOnWindowBtn);
         values.getChildren().add(placeOnRoundTrackBtn);
 
-        Label l = new Label("Where do you want to place the die?");
+        Label l = new Label("Where do you want to place the die with number " + number + "?");
 
         Insets spacing = new Insets(20);
         BorderPane.setMargin(values, spacing);

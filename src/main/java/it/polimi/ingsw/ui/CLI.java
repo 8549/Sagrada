@@ -604,7 +604,7 @@ public class CLI implements UI {
     public void chooseIfPlaceDie(int number) {
         boolean validChoice = false;
         while (!validChoice) {
-            System.out.print("Do you want to Place the die or put it Back to the draft pool? Type the first letter of your choice: ");
+            System.out.print("Do you want to Place the die (with number " + number + ") or put it Back to the draft pool? Type the first letter of your choice: ");
             String s = scanner.next().toUpperCase();
             if (isTimeUp()) {
                 return;
