@@ -78,7 +78,6 @@ class BoardTest {
         players.add(giulia);
         Player andrea = new Player("andrea");
         players.add(andrea);
-        GameManager gameManager = new GameManager(null, players);
         List<ToolCard> toolCard = new ArrayList<>();
         CardsDeck toolDeck = new CardsDeck("ToolCards.json", new TypeToken<List<ToolCard>>() {
         }.getType());
@@ -100,7 +99,6 @@ class BoardTest {
         players.add(giulia);
         Player andrea = new Player("andrea");
         players.add(andrea);
-        GameManager gameManager = new GameManager(null, players);
         List<ToolCard> toolCard = new ArrayList<>();
         CardsDeck toolDeck = new CardsDeck("ToolCards.json", new TypeToken<List<ToolCard>>() {
         }.getType());
@@ -172,8 +170,6 @@ class BoardTest {
         Board board = new Board();
         board.setDiceBag();
         assertFalse(board.getDiceBag()==null);
-        Die die = board.getDiceBag().draftDie();
-        int i=board.getDiceBag().getSize();
     }
 
     @Test
