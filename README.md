@@ -50,7 +50,21 @@ ask the user to supply the needed information.
 The server JAR accepts two CLI arguments, the first being the connection timeout and the second being the turn timeout.
 One or two or none can be specified, the server will state which values it will use upon launch. The values are assumed
 in milliseconds.
+
+Example:
+
+    java -jar Sagrada-Server.jar 10000 120000
+
 ## Client usage
 The client JAR accept one CLI argument, the preferred UI mode. It has to be one of `rmi` or `gui` (case insensitive). If
 there's no argument, or a wrong value is supplied, the client asks the user (on the command line) which mode they prefer
 until a valid choice is entered.
+
+Example:
+
+    java -jar Sagrada-Client.jar gui
+
+# Quirks
+Windows' command prompt is not suitable to play this implementation of Sagrada as it does not support color modifiers.
+However is it perfectly playable using Bash on Ubuntu on Windows with a proper font (e.g. the tutor provided `DejaVu
+Sans Mono for Powerline.ttf`)
