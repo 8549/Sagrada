@@ -56,13 +56,24 @@ Example:
     java -jar Sagrada-Server.jar 10000 120000
 
 ## Client usage
-The client JAR accept one CLI argument, the preferred UI mode. It has to be one of `rmi` or `gui` (case insensitive). If
-there's no argument, or a wrong value is supplied, the client asks the user (on the command line) which mode they prefer
-until a valid choice is entered.
+The client JAR accepts five CLI positional arguments which are:
+
+    java -jar Sagrada-Client.jar [ui] [hostname] [connection] [username] [port]
+
+In order:
+
+- The preferred UI mode. It has to be one of `cli` or `gui` (case insensitive);
+- The server hostname (IP address or FQDN);
+- The connection type. It has to be one of `socket` or `rmi` (case insensitive);
+- The player's username;
+- The server port.
+
+If there's no arguments, or wrong values are supplied, the client asks the user (on the command line) the required
+information until a valid choice is entered. If the connection type is `rmi` the port argument is discarded.
 
 Example:
 
-    java -jar Sagrada-Client.jar gui
+    java -jar Sagrada-Client.jar gui localhost socket tob 3130
 
 # Quirks
 Windows' command prompt is not suitable to play this implementation of Sagrada as it does not support color modifiers.

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.ui.controller;
 
 import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.network.ConnectionBundle;
 import it.polimi.ingsw.network.ConnectionType;
 import it.polimi.ingsw.ui.GUI;
 import javafx.beans.value.ChangeListener;
@@ -12,7 +13,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -143,5 +143,26 @@ public class IntroController {
         bordPane.setCenter(listView);
         selfStage.sizeToScene();
         selfStage.centerOnScreen();
+    }
+
+    public void setBundle(ConnectionBundle bundle) {
+        if (!bundle.getServer().equals(ConnectionBundle.STRING_UNSET)) {
+            hostField.setText(bundle.getServer());
+        }
+        if (bundle.getConnectionType() != null) {
+            if (bundle.getConnectionType().equals(ConnectionType.SOCKET)) {
+                socketToggle.setSelected(true);
+            } else if (bundle.getConnectionType().equals(ConnectionType.RMI)) {
+                rmiToggle.setSelected(true);
+            }
+        }
+        if (bundle.getPort() != ConnectionBundle.INT_UNSET) {
+            if (socketToggle.isSelected()) {
+                portField.setText(String.valueOf(bundle.getPort()));
+            }
+        }
+        if (!bundle.getUsername().equals(ConnectionBundle.STRING_UNSET)) {
+            nameField.setText(bundle.getUsername());
+        }
     }
 }

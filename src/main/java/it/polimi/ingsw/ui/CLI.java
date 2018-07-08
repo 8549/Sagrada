@@ -1,13 +1,14 @@
 package it.polimi.ingsw.ui;
 
 import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.network.ConnectionBundle;
 import it.polimi.ingsw.network.ConnectionType;
 import it.polimi.ingsw.network.client.ClientHandler;
+import it.polimi.ingsw.network.client.RunClient;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ListChangeListener;
 import javafx.collections.WeakListChangeListener;
 
-import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Scanner;
@@ -31,6 +32,7 @@ public class CLI implements UI {
     private ProxyModel model;
     private ListChangeListener listener;
     private boolean timeUp;
+    private ConnectionBundle bundle;
 
 
     @Override
@@ -41,57 +43,76 @@ public class CLI implements UI {
 
     @Override
     public void showLogin() {
+        this.bundle = RunClient.getBundle();
         String hostName;
         int port = 0;
         String username;
         ConnectionType connType = ConnectionType.SOCKET;
 
-        boolean validHostName = false;
-        System.out.print("Enter the server address: ");
-        hostName = scanner.next();
-        while (!validHostName) {
-            try {
-                InetAddress.getByName(hostName);
-                validHostName = true;
-            } catch (UnknownHostException e) {
-                System.out.print("Please enter a valid and reachable server address: ");
-                hostName = scanner.next();
+        if (bundle.getServer().equals(ConnectionBundle.STRING_UNSET)) {
+            boolean validHostName = false;
+            System.out.print("Enter the server address: ");
+            hostName = scanner.next();
+            while (!validHostName) {
+                try {
+                    InetAddress.getByName(hostName);
+                    validHostName = true;
+                } catch (UnknownHostException e) {
+                    System.out.print("Please enter a valid and reachable server address: ");
+                    hostName = scanner.next();
+                }
             }
+        } else {
+            hostName = bundle.getServer();
         }
 
-        boolean validConn = false;
-        System.out.print("Choose a connection type (SOCKET or RMI): ");
-        String c = scanner.next();
-        while (!validConn) {
-            try {
-                connType = ConnectionType.valueOf(c.toUpperCase());
-                validConn = true;
-            } catch (IllegalArgumentException | NullPointerException e) {
-                System.out.print("Please choose either SOCKET or RMI: ");
-                c = scanner.next();
+        if (bundle.getConnectionType() == null) {
+            boolean validConn = false;
+            System.out.print("Choose a connection type (SOCKET or RMI): ");
+            String c = scanner.next();
+            while (!validConn) {
+                try {
+                    connType = ConnectionType.valueOf(c.toUpperCase());
+                    validConn = true;
+                } catch (IllegalArgumentException | NullPointerException e) {
+                    System.out.print("Please choose either SOCKET or RMI: ");
+                    c = scanner.next();
+                }
             }
+        } else {
+            connType = bundle.getConnectionType();
         }
 
         if (connType.equals(ConnectionType.SOCKET)) {
-            boolean validPort = false;
-            System.out.print("Enter the server port: ");
-            while (!validPort) {
-                if (scanner.hasNextInt()) {
-                    port = scanner.nextInt();
-                    if (port > 0 && port < 0xFFFF) {
-                        validPort = true;
+            if (bundle.getPort() == ConnectionBundle.INT_UNSET) {
+                boolean validPort = false;
+                System.out.print("Enter the server port: ");
+                while (!validPort) {
+                    if (scanner.hasNextInt()) {
+                        port = scanner.nextInt();
+                        if (port > 0 && port < 0xFFFF) {
+                            validPort = true;
+                        } else {
+                            System.out.print("Please choose a valid port number: ");
+                        }
                     } else {
                         System.out.print("Please choose a valid port number: ");
+                        scanner.next();
                     }
-                } else {
-                    System.out.print("Please choose a valid port number: ");
-                    scanner.next();
                 }
+            } else {
+                port = bundle.getPort();
             }
         }
 
-        System.out.print("Enter your username: ");
-        username = scanner.next();
+        if (bundle.getUsername().equals(ConnectionBundle.STRING_UNSET)) {
+            System.out.print("Enter your username: ");
+            username = scanner.next();
+        } else {
+            {
+                username = bundle.getUsername();
+            }
+        }
 
         handler.handleLogin(hostName, port, username, connType);
 
@@ -908,6 +929,23 @@ public class CLI implements UI {
         } else {
             System.err.println("The tool card failed!");
         }
+    }
+
+    @Override
+    public void turnChanged(Player p) {
+        System.out.println(p.getName() + "will play two turns in a row, but will skip the next one!");
+    }
+
+    @Override
+    public void handleReconnection() {
+        timeUp = false;
+        System.out.println("You are disconnected from the game. Please log in again.");
+        showLogin();
+    }
+
+    @Override
+    public void setBundle(ConnectionBundle bundle) {
+        this.bundle = bundle;
     }
 
     /**

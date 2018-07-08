@@ -3,6 +3,7 @@ package it.polimi.ingsw.ui;
 import it.polimi.ingsw.model.PatternCard;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.SagradaColor;
+import it.polimi.ingsw.network.ConnectionBundle;
 import it.polimi.ingsw.network.client.ClientHandler;
 
 public interface UI {
@@ -165,4 +166,23 @@ public interface UI {
      * @param success true if the Tool Card completed, false if it failed
      */
     void toolEnded(boolean success);
+
+    /**
+     * Inform the user that another player used a tool card that enabled him to play two turns in a row
+     *
+     * @param p the player the modified the turns
+     */
+    void turnChanged(Player p);
+
+    /**
+     * Prompts the user to re-login after noticing a disconnection
+     */
+    void handleReconnection();
+
+    /**
+     * Sets some properties to the UI implementation from the {@link it.polimi.ingsw.network.client.RunClient}
+     *
+     * @param bundle the bundle to set
+     */
+    void setBundle(ConnectionBundle bundle);
 }
