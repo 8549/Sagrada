@@ -16,6 +16,7 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,6 +59,11 @@ public class SocketServer implements ServerInterface {
         }
     }
 
+    @Override
+    public boolean clientPing() throws RemoteException {
+        return false;
+    }
+
 
     public synchronized String processInput(String type, String header, String data, SocketHandler s) throws IOException {
         if (type.equals("request")) {
@@ -76,7 +82,9 @@ public class SocketServer implements ServerInterface {
                         s.send("response", "login", "Login failed");
 
                     } else if(result.equals(PlayerStatus.RECONNECTED)){
+                        s.send("response", "login", "true");
                         client.reconnection();
+                        server.startUpdateModel(client);
                     }
                     break;
                 case "patterncard":

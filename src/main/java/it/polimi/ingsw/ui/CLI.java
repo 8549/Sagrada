@@ -93,11 +93,8 @@ public class CLI implements UI {
         System.out.print("Enter your username: ");
         username = scanner.next();
 
-        try {
-            handler.handleLogin(hostName, port, username, connType);
-        } catch (IOException e) {
-            System.err.println("Error in connection: " + e.getMessage());
-        }
+        handler.handleLogin(hostName, port, username, connType);
+
     }
 
     @Override
@@ -124,11 +121,8 @@ public class CLI implements UI {
                 scanner.next();
             }
         }
-        try {
-            handler.setChosenPatternCard(patterns[which - 1]);
-        } catch (IOException e) {
-            System.err.println("There was a connection error");
-        }
+        handler.setChosenPatternCard(patterns[which - 1]);
+
     }
 
     @Override
@@ -332,11 +326,7 @@ public class CLI implements UI {
                             scanner.next();
                         }
                     }
-                    try {
-                        handler.handlePlacement(model.getDraftPool().get(which - 1), i - 1, j - 1);
-                    } catch (IOException e) {
-                        System.err.println("There was a connection error");
-                    }
+                    handler.handlePlacement(model.getDraftPool().get(which - 1), i - 1, j - 1);
                     break;
                 case "E":
                     validChoice = true;

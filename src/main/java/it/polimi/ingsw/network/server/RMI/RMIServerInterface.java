@@ -105,5 +105,4 @@ public interface RMIServerInterface extends ServerInterface, Remote {
     void setTwoNewCoordinates(int row1, int col1, int row2, int col2) throws RemoteException;
 
 
-
 }

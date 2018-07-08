@@ -167,15 +167,8 @@ public class GUI extends Application implements UI {
                 public void handle(MouseEvent event) {
                     if (selected != null) {
                         confirm.setDisable(true);
-                        try {
-                            handler.setChosenPatternCard(selected);
-                        } catch (IOException e) {
-                            confirm.setDisable(false);
-                            Alert alert = new Alert(Alert.AlertType.ERROR);
-                            alert.setHeaderText("Error while sending chosen pattern card. Please try again");
-                            alert.setContentText(e.getMessage());
-                            alert.showAndWait();
-                        }
+                        handler.setChosenPatternCard(selected);
+
                     }
                 }
             });
@@ -494,12 +487,8 @@ public class GUI extends Application implements UI {
     public void tryDiePlacement(int i, int j) {
         Platform.runLater(() -> {
             if (selectedDie != null) {
-                try {
-                    handler.handlePlacement(selectedDie, i, j);
-                    selectedDie = null;
-                } catch (IOException e) {
-                    showMessage("Error while placing the die: " + e.getMessage());
-                }
+                handler.handlePlacement(selectedDie, i, j);
+                selectedDie = null;
             }
         });
     }

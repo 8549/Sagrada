@@ -82,7 +82,10 @@ public class RMIServer  implements RMIServerInterface {
             clientObject.answerLogin(false);
 
         } else if(result.equals(PlayerStatus.RECONNECTED)){
+            clientObject.answerLogin(true);
             clientObject.reconnection();
+
+            server.startUpdateModel(client);
         }
 
 
@@ -173,6 +176,11 @@ public class RMIServer  implements RMIServerInterface {
     @Override
     public void setTwoNewCoordinates(int row1, int col1, int row2, int col2) {
         server.getActiveToolCardHandler().setTwoNewCoordinatesChoice(row1, col1, row2, col2);
+    }
+
+    @Override
+    public boolean clientPing() throws RemoteException {
+        return true;
     }
 
     private class Ping implements Runnable{

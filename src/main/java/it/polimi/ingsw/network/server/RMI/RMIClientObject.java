@@ -245,6 +245,11 @@ public class RMIClientObject implements RMIClientObjectInterface {
     }
 
     @Override
+    public void notifyFinishUpdate() throws RemoteException {
+        client.finishUpdate();
+    }
+
+    @Override
     public void pushFinalScore(List<Player> players) throws RemoteException {
         client.endGame(players);
     }

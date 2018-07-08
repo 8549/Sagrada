@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.client;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.*;
 import it.polimi.ingsw.network.server.RMI.RMIServerInterface;
+import it.polimi.ingsw.network.server.ServerInterface;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -14,15 +15,13 @@ import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class RMIClient implements RMIClientInterface, Serializable {
     Player player;
     RMIServerInterface server;
     ClientHandler ch;
-    boolean ping= false;
-    Timer timer = new Timer();
-    boolean isTimeRunning= false;
 
     public RMIClient(ClientHandler ch) throws RemoteException{
         this.ch = ch;
@@ -36,6 +35,8 @@ public class RMIClient implements RMIClientInterface, Serializable {
 
     @Override
     public void login() throws RemoteException {
+        Ping ping = new Ping(server);
+        ping.run();
         server.login(player,(RMIClientInterface) UnicastRemoteObject.exportObject(this,0));
     }
 
@@ -241,8 +242,6 @@ public class RMIClient implements RMIClientInterface, Serializable {
 
     @Override
     public boolean ping() throws RemoteException {
-        ping =true;
-        //todo:handle disconnection
         return true;
     }
 
@@ -348,10 +347,71 @@ public class RMIClient implements RMIClientInterface, Serializable {
         ch.endGame(players);
     }
 
+    @Override
+    public void finishUpdate() throws RemoteException {
+        ch.finishUpdate();
+    }
+
 
     @Override
     public void requestTool(ToolCard tool) throws IOException {
         server.requestTool(getName(),tool.getName());
+    }
+
+    private class Ping implements Runnable{
+        ServerInterface server;
+
+        public Ping(ServerInterface server){
+            this.server=server;
+        }
+
+        @Override
+        public void run() {
+            final boolean[] isTimerRunning = {false};
+            final boolean[] isAlive = {false};
+            Timer timer1 = new Timer();
+            Timer timer2 = new Timer();
+
+            timer1.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    try {
+                        if(!isTimerRunning[0]) {
+                            isTimerRunning[0] = true;
+                            //System.out.println("[DEBUG] Ping Sent");
+                            isAlive[0] = server.clientPing();
+
+                        }else{
+                            isAlive[0] = false;
+                            //System.out.println("[DEBUG] Ping sent");
+                            timer2.schedule(new TimerTask() {
+                                @Override
+                                public void run() {
+                                    if (!isAlive[0]) {
+                                        System.out.println("[DEBUG] Client disconnected");
+                                        this.cancel();
+                                        timer1.cancel();
+                                        isTimerRunning[0] = false;
+                                        if(!ch.getModel().getMyself().getStatus().equals(PlayerStatus.RECONNECTED))
+                                            ch.handleDisconnection();
+
+                                    }
+                                }
+                            }, 8*1000);
+                            isAlive[0] = server.clientPing();
+
+                        }
+                    }  catch (IOException e) {
+                        e.printStackTrace();
+                        isTimerRunning[0] = false;
+                        timer1.cancel();
+                        timer2.cancel();
+                        if(!ch.getModel().getMyself().getStatus().equals(PlayerStatus.RECONNECTED))
+                            ch.handleDisconnection();
+                    }
+                }
+            }, 4 * 1000, 5 * 1000 );
+        }
     }
 
 }

@@ -93,12 +93,8 @@ public class IntroController {
         connType = (socketToggle.isSelected()) ? ConnectionType.SOCKET : ConnectionType.RMI;
         connectBtn.setDisable(true);
         status.setText("Trying login...");
-        try {
-            gui.getClientHandler().handleLogin(hostName, port, username, connType);
-        } catch (IOException e) {
-            status.setText("Connection error: " + e.getMessage());
-            connectBtn.setDisable(false);
-        }
+        gui.getClientHandler().handleLogin(hostName, port, username, connType);
+
     }
 
     /**

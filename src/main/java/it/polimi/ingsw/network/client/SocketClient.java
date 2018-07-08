@@ -71,7 +71,6 @@ public class SocketClient implements ClientInterface {
         if (type.equals("response")){
             switch(header) {
                 case "login":
-
                             if(data.equals("true")){
                                 ch.setPlayerToProxyModel(player.getName());
 
@@ -118,7 +117,6 @@ public class SocketClient implements ClientInterface {
                     case "loggedPlayers":
                                         if (data.equals("You are the first player!")){
                                             ch.loggedUsers();
-
                                         }else{
                                                 List<String> playersNames = socketParserClient.parseData(data);
                                                 List<Player> players = new ArrayList<>();
@@ -149,6 +147,7 @@ public class SocketClient implements ClientInterface {
                                         int k=0;
                                         for (int i=0; i<n.size()-1; i++){
                                             p.add(new Player(n.get(i)));
+
                                             k=i;
                                         }
                                         ch.handleGameStarted(p, Integer.valueOf(n.get(k+1)));
@@ -293,6 +292,9 @@ public class SocketClient implements ClientInterface {
                                         goHome.add(player1);
                                     }
                                     ch.endGame(goHome);
+                        break;
+
+                    case "finishUpdate": ch.finishUpdate();
                         break;
 
                     default: break;

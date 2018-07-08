@@ -101,8 +101,6 @@ public class MainServer {
             }
         }.start();
 
-
-
     }
 
 
@@ -226,6 +224,7 @@ public class MainServer {
             }else if (state.equals(ServerState.GAMESTARTED)){
                     try {
                         connectedClients.remove(client);
+                        inGameClients.remove(client);
                         gm.disconnectPlayer(client.getPlayer());
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -288,6 +287,18 @@ public class MainServer {
         }
     }
 
+    public  void gameStartedProceduresAfterReconnect(List<Player> players, int timeoutMove, Player player){
+        List<Player> p = new ArrayList<>(players);
+        inGameClients.addAll(connectedClients); //todo:check for lobby
+        ClientObject c = getClientByName(player.getName());
+            try {
+                c.notifyGameStarted(p, timeoutMove);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+    }
+
     public void choosePatternCard(List<PatternCard> patternCards, Player player){
         for(ClientObject c : inGameClients ){
             try {
@@ -305,7 +316,6 @@ public class MainServer {
 
     public  void setPlayerChoice(ClientObject client, String name){
         try {
-            while (gm==null){}
             client.pushPatternCardResponse(name);
             gm.completePlayerSetup(client.getPlayer(), name);
         } catch (IOException e) {
@@ -337,6 +347,31 @@ public class MainServer {
         }
 
     }
+
+    public  void initPlayersData(List<Player> players, Player player){
+
+        ClientObject client1 = getClientByName(player.getName());
+
+            List<Player> thinPlayers = new ArrayList<>();
+            for(Player client2 : players){
+                try {
+                    if (!client1.getPlayer().getName().equals(client2.getName())){
+                        thinPlayers.add(getOpponentVisibleFromClient(client2));
+
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            System.out.println("Pushing opponents: " + thinPlayers.toString());
+            try {
+                client1.pushOpponentsInit(thinPlayers);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+    }
+
 
     public  Player getOpponentVisibleFromClient(Player p ){
         Player player = new Player(p.getName());
@@ -567,5 +602,18 @@ public class MainServer {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void startUpdateModel(ClientObject client){
+        gm.updateModel(client);
+    }
+
+    public void notifyFinishUpdate(ClientObject c) {
+        try {
+            c.notifyFinishUpdate();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }

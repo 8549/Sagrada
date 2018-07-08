@@ -229,7 +229,7 @@ public class GameManager {
     public void reconnectPlayer(Player player) {
         for (Player player1 : players) {
             if (player1.getName().equals(player.getName())) {
-                player1.setStatus(PlayerStatus.RECONNECTED);
+                player1.setStatus(PlayerStatus.ACTIVE);
                 break;
             }
         }
@@ -332,9 +332,14 @@ public class GameManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        server.setPlayerChoice(c, p.getPlayerWindow().getWindowPattern().getName());
 
-        server.initPlayersData(new ArrayList<>(players));
+        try {
+            server.gameStartedProceduresAfterReconnect(players, turnTimeout, c.getPlayer());
+            server.setPlayerChoice(c, getPlayerByName(c.getPlayer().getName()).getPlayerWindow().getWindowPattern().getName());
+            server.initPlayersData(players, c.getPlayer());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         server.setPublicObj(publicObjectiveCards, p);
 
@@ -358,6 +363,8 @@ public class GameManager {
                 }
             }
         }
+
+        server.notifyFinishUpdate(c);
 
     }
 

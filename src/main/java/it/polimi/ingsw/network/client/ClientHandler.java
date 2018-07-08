@@ -30,15 +30,19 @@ public class ClientHandler implements Serializable {
         }
     }
 
-    public void handleLogin(String hostname, int port, String username, ConnectionType connectionType) throws IOException {
-        if (connectionType.equals(ConnectionType.SOCKET)) {
-            client = new SocketClient(this);
-            client.connect(hostname, port, username);
-            client.login();
-        } else if (connectionType.equals(ConnectionType.RMI)) {
-            client = new RMIClient(this);
-            client.connect(hostname, port, username);
-            client.login();
+    public void handleLogin(String hostname, int port, String username, ConnectionType connectionType)  {
+        try {
+            if (connectionType.equals(ConnectionType.SOCKET)) {
+                client = new SocketClient(this);
+                client.connect(hostname, port, username);
+                client.login();
+            } else if (connectionType.equals(ConnectionType.RMI)) {
+                client = new RMIClient(this);
+                client.connect(hostname, port, username);
+                client.login();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -94,10 +98,10 @@ public class ClientHandler implements Serializable {
     }
 
     public void deletePlayerFromProxyModel(Player p) {
+        ui.playerDisconnected(p);
         Runnable task = new Runnable() {
             @Override
             public void run() {
-                ui.playerDisconnected(p);
                 proxyModel.removePlayer(p);
             }
         };
@@ -118,17 +122,29 @@ public class ClientHandler implements Serializable {
         Runnable task = new Runnable() {
             @Override
             public void run() {
-                ui.startGame();
-                proxyModel.resetPlayers(players);
-                proxyModel.setTimeout(timeout);
-                System.out.println("[DEBUG] TIMEOUT --> " + timeout);
+                if(proxyModel.getMyself().getStatus().equals(PlayerStatus.RECONNECTED)){
+                    proxyModel.resetPlayers(players);
+                    ui.setModelAfterReconnecting(proxyModel);
+                }else{
+                    ui.startGame();
+                    proxyModel.resetPlayers(players);
+                    proxyModel.setTimeout(timeout);
+                    System.out.println("[DEBUG] TIMEOUT --> " + timeout);
+                }
             }
         };
         perform(task);
+
+
     }
 
-    public void setChosenPatternCard(WindowPattern w) throws IOException {
-        client.validatePatternCard(w);
+    public void setChosenPatternCard(WindowPattern w) {
+        try {
+            client.validatePatternCard(w);
+        } catch (IOException e) {
+            e.printStackTrace();
+            handleDisconnection();
+        }
     }
 
     public void initPlayer(String name, String windowPatternName) {
@@ -148,7 +164,7 @@ public class ClientHandler implements Serializable {
                     }
 
                 }
-                if (finish) {
+                if (finish && !proxyModel.getMyself().getStatus().equals(PlayerStatus.RECONNECTED)) {
                     System.out.println("[DEBUG] Everybody has chosen theirs patternCards ");
                     ui.initBoard();
                 }
@@ -224,8 +240,13 @@ public class ClientHandler implements Serializable {
         perform(task);
     }
 
-    public void handlePlacement(Die d, int row, int column) throws IOException {
-        client.requestPlacement(d.getNumber(), d.getColor().toString(), row, column);
+    public void handlePlacement(Die d, int row, int column) {
+        try {
+            client.requestPlacement(d.getNumber(), d.getColor().toString(), row, column);
+        } catch (IOException e) {
+            e.printStackTrace();
+            handleDisconnection();
+        }
 
     }
 
@@ -294,7 +315,6 @@ public class ClientHandler implements Serializable {
             @Override
             public void run() {
                 if (proxyModel.getMyself().equals(name)) {
-                    //TODO:code to stop selection if client is doing stuff and notify user the end turn
                     System.out.println("[DEBUG] Your turn is ended ");
                     ui.myTurnEnded();
                 } else {
@@ -310,6 +330,7 @@ public class ClientHandler implements Serializable {
             client.passTurn();
         } catch (IOException e) {
             e.printStackTrace();
+            handleDisconnection();
         }
     }
 
@@ -318,6 +339,7 @@ public class ClientHandler implements Serializable {
             client.requestTool(tool);
         } catch (IOException e) {
             e.printStackTrace();
+            handleDisconnection();
         }
     }
 
@@ -347,6 +369,7 @@ public class ClientHandler implements Serializable {
             client.sendDieFromWP(d, row, column);
         } catch (IOException e) {
             e.printStackTrace();
+            handleDisconnection();
         }
     }
 
@@ -359,6 +382,7 @@ public class ClientHandler implements Serializable {
             client.sendDieFromDP(d);
         } catch (IOException e) {
             e.printStackTrace();
+            handleDisconnection();
         }
     }
 
@@ -371,6 +395,7 @@ public class ClientHandler implements Serializable {
             client.sendDieFromRT(d, round);
         } catch (IOException e) {
             e.printStackTrace();
+            handleDisconnection();
         }
     }
 
@@ -383,6 +408,7 @@ public class ClientHandler implements Serializable {
             client.sendDecreaseChoice(choice);
         } catch (IOException e) {
             e.printStackTrace();
+            handleDisconnection();
         }
     }
 
@@ -395,6 +421,7 @@ public class ClientHandler implements Serializable {
             client.sendPlacementChoice(choice);
         } catch (IOException e) {
             e.printStackTrace();
+            handleDisconnection();
         }
     }
 
@@ -407,6 +434,7 @@ public class ClientHandler implements Serializable {
             client.sendNumberDiceChoice(choice);
         } catch (IOException e) {
             e.printStackTrace();
+            handleDisconnection();
         }
     }
 
@@ -419,6 +447,7 @@ public class ClientHandler implements Serializable {
             client.sendValue(value);
         } catch (IOException e) {
             e.printStackTrace();
+            handleDisconnection();
         }
     }
 
@@ -432,6 +461,7 @@ public class ClientHandler implements Serializable {
             client.sendNewCoordinates(row, column);
         } catch (IOException e) {
             e.printStackTrace();
+            handleDisconnection();
         }
     }
 
@@ -444,6 +474,7 @@ public class ClientHandler implements Serializable {
             client.sendTwoDice(row1, col1, row2, col2);
         } catch (IOException e) {
             e.printStackTrace();
+            handleDisconnection();
         }
     }
 
@@ -456,6 +487,7 @@ public class ClientHandler implements Serializable {
             client.sendTwoNewCoordinates(row1, col1, row2, col2);
         } catch (IOException e) {
             e.printStackTrace();
+            handleDisconnection();
         }
     }
 
@@ -572,21 +604,52 @@ public class ClientHandler implements Serializable {
 
     public void handleDisconnection(){
         //todo prompt login after disconnection
+
+        System.out.println("[DEBUG] You are disconnected! ");
     }
 
     public void handleUpdateGrid(String name, int row, int column, Die d){
-        if(proxyModel.getMyself().getName().equals(name)){
-            proxyModel.getMyself().getPlayerWindow().addDie(d, row, column);
-        }else{
-            proxyModel.getByName(name).getPlayerWindow().addDie(d, row, column);
-        }
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                if(proxyModel.getMyself().getName().equals(name)){
+                    proxyModel.getMyself().getPlayerWindow().addDie(d, row, column);
+                }else{
+                    proxyModel.getByName(name).getPlayerWindow().addDie(d, row, column);
+                }
+            }
+        };
+        perform(task);
+
     }
 
     public void reconnection(){
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                proxyModel.getMyself().setStatus(PlayerStatus.RECONNECTED);
 
+            }
+        };
+        perform(task);
     }
 
     public void endGame(List<Player> players){
+
+    }
+
+    public void finishUpdate(){
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                if(proxyModel.getMyself().getStatus().equals(PlayerStatus.RECONNECTED)){
+                    proxyModel.getMyself().setStatus(PlayerStatus.ACTIVE);
+                    ui.initBoard();
+                }
+
+            }
+        };
+        perform(task);
 
     }
 }
