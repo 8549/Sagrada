@@ -30,14 +30,7 @@ public class RMIServer  implements RMIServerInterface {
     }
 
     @Override
-    public void start(String[] args) {
-        //RMI SERVER
-       /* OptionParser parser = new OptionParser();
-        parser.accepts("p").withRequiredArg().ofType(Integer.class).defaultsTo(DEFAULT_RMI_PORT);
-        OptionSet set = parser.parse(args);
-
-        int port = (int) set.valueOf("p");*/
-
+    public void start() {
 
         try {
 

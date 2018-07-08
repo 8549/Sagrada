@@ -14,9 +14,14 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class MainServer {
-    public static final int DEFAULT_RMI_PORT = 1234;
     public static final int DEFAULT_SOCKET_PORT= 3130;
-    public static final int CONNECTION_TIMEOUT = 5;
+    private static final int DEFAULT_CONNECTION_TIMEOUT = 5000;
+    private int connectionTimeout;
+    private int turnTimeout;
+
+    public int getTurnTimeout() {
+        return turnTimeout;
+    }
     private RMIServerInterface rmiServer;  //TODO: check if it is really right to create the common server interface
     private ServerInterface socketServer;
     private Timer timer;
@@ -27,7 +32,6 @@ public class MainServer {
     private GameManager gm;
     private List<ToolCardHandler> toolCardHandlers = new ArrayList<>();
 
-
     /** MainServer handles the two different type of connections
      * (RMI and Socket), and unify them to communicate with GameManager
      *
@@ -35,6 +39,37 @@ public class MainServer {
      *
      */
     public void start(String[] args){
+        if (args.length > 1) {
+            try {
+                connectionTimeout = Integer.valueOf(args[0]);
+                System.out.println("[DEBUG] Connection timer set to " + connectionTimeout);
+            } catch (NumberFormatException e) {
+                System.err.println("Couldn't parse args[0] from command line, using the default connection timeout (" + DEFAULT_CONNECTION_TIMEOUT + "ms)");
+                connectionTimeout = DEFAULT_CONNECTION_TIMEOUT;
+            }
+            try {
+                turnTimeout = Integer.valueOf(args[1]);
+                System.out.println("[DEBUG] Turn timer set to " + turnTimeout);
+            } catch (NumberFormatException e) {
+                System.err.println("Couldn't parse args[1] from command line, using the default turn timer timeout (" + GameManager.DEFAULT_TURN_TIMEOUT + "ms)");
+                turnTimeout = GameManager.DEFAULT_TURN_TIMEOUT;
+            }
+        } else if (args.length > 0) {
+            try {
+                connectionTimeout = Integer.valueOf(args[0]);
+                turnTimeout = Integer.valueOf(args[0]);
+                System.out.println("[DEBUG] Both connection and turn timers set to " + connectionTimeout);
+            } catch (NumberFormatException e) {
+                System.err.print("Couldn't parse args[0] from command line, using the default connection timeout (" + DEFAULT_CONNECTION_TIMEOUT + "ms)");
+                System.err.print(" and turn timeout (" + GameManager.DEFAULT_TURN_TIMEOUT + "ms)\n");
+                connectionTimeout = DEFAULT_CONNECTION_TIMEOUT;
+                turnTimeout = GameManager.DEFAULT_TURN_TIMEOUT;
+            }
+        } else {
+            System.out.println("[DEBUG] Using default timers (connection " + DEFAULT_CONNECTION_TIMEOUT + "ms, turn " + GameManager.DEFAULT_TURN_TIMEOUT + "ms)");
+            connectionTimeout = DEFAULT_CONNECTION_TIMEOUT;
+            turnTimeout = GameManager.DEFAULT_TURN_TIMEOUT;
+        }
 
         //RMI Server
         rmiServer = new RMIServer(connectedClients, this);
@@ -43,7 +78,7 @@ public class MainServer {
         new Thread(){
             public void run(){
                 try {
-                    rmiServer.start(args);
+                    rmiServer.start();
                 } catch (Exception e){
                     e.printStackTrace();
                 }
@@ -58,7 +93,7 @@ public class MainServer {
             public void run(){
                 try {
 
-                    socketServer.start(args);
+                    socketServer.start();
 
                 }catch (IOException e){
                     e.printStackTrace();
@@ -145,7 +180,7 @@ public class MainServer {
                             e.printStackTrace();
                         }
                     }
-                }, CONNECTION_TIMEOUT*1000);
+                }, connectionTimeout);
 
                 System.out.println("Timer has started!!" );
 
@@ -243,7 +278,7 @@ public class MainServer {
 
     public  void gameStartedProcedures(List<Player> players, int timeoutMove){
         List<Player> p = new ArrayList<>(players);
-        inGameClients.addAll(connectedClients); //todo:check for lobby
+        inGameClients.addAll(connectedClients);
         for (ClientObject c : inGameClients){
             try {
                 c.notifyGameStarted(p, timeoutMove);
@@ -269,7 +304,6 @@ public class MainServer {
 
 
     public  void setPlayerChoice(ClientObject client, String name){
-        //TODO: check correct pattern card
         try {
             while (gm==null){}
             client.pushPatternCardResponse(name);

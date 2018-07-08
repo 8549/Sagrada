@@ -11,7 +11,7 @@ import java.rmi.RemoteException;
 public interface RMIServerInterface extends ServerInterface, Remote {
 
     @Override
-    void start(String[] args) throws RemoteException;
+    void start() throws RemoteException;
 
 
     void login(Player p, RMIClientInterface c ) throws RemoteException;
@@ -92,7 +92,7 @@ public interface RMIServerInterface extends ServerInterface, Remote {
      * @param col2
      * @throws RemoteException
      */
-    public void setTwoDice(int row1, int col1, int row2, int col2) throws RemoteException;
+    void setTwoDice(int row1, int col1, int row2, int col2) throws RemoteException;
 
     /**
      *Response from client of effect of Toolcard
@@ -102,7 +102,7 @@ public interface RMIServerInterface extends ServerInterface, Remote {
      * @param col2
      * @throws RemoteException
      */
-    public void setTwoNewCoordinates(int row1, int col1, int row2, int col2) throws RemoteException;
+    void setTwoNewCoordinates(int row1, int col1, int row2, int col2) throws RemoteException;
 
 
 

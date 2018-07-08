@@ -12,7 +12,7 @@ public class GameManager {
     public static final int PATTERN_CARDS_PER_PLAYER = 2;
     public static final int PUBLIC_OBJ_CARDS_NUMBER = 3;
     public static final int TOOL_CARDS_NUMBER = 3;
-    public static final int MOVE_TIMEOUT = 880;
+    public static final int DEFAULT_TURN_TIMEOUT = 5 * 60 * 1000;
     private MainServer server;
     private List<Player> players;
     private PublicObjectiveCard[] publicObjectiveCards = new PublicObjectiveCard[PUBLIC_OBJ_CARDS_NUMBER];
@@ -26,11 +26,13 @@ public class GameManager {
     private boolean hasMoved = false;
     private boolean timerIsRunning = false;
     private Timer timer;
+    private int turnTimeout;
 
 
     public GameManager(MainServer server, List<Player> players) {
         this.server = server;
         this.players = players;
+        this.turnTimeout = server.getTurnTimeout();
         System.out.println("Game is started with " + players.toString());
         board = new Board();
 
@@ -97,7 +99,7 @@ public class GameManager {
         }.getType());
 
         //confirm players
-        server.gameStartedProcedures(players, MOVE_TIMEOUT);
+        server.gameStartedProcedures(players, turnTimeout / 1000);
         board.setPlayers(players);
 
         for (Player player : players) {
@@ -372,18 +374,14 @@ public class GameManager {
                         endCurrentTurn();
                     }
                 }
-            }, MOVE_TIMEOUT * 1000);
+            }, turnTimeout);
 
 
         }
     }
 
     public boolean isToolActive() {
-        if (server.getActiveToolCardHandler() == null) {
-            return false;
-        } else {
-            return true;
-        }
+        return server.getActiveToolCardHandler() != null;
 
     }
 

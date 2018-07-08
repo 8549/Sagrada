@@ -35,7 +35,7 @@ public class SocketServer implements ServerInterface {
     }
 
     @Override
-    public void start(String[] args) throws IOException {
+    public void start() throws IOException {
         ServerSocket listener = new ServerSocket(DEFAULT_SOCKET_PORT);
         System.out.println("[DEBUG] Socket socketServer is listening on port " + DEFAULT_SOCKET_PORT);
 

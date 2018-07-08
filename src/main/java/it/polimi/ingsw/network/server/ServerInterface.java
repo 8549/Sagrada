@@ -4,6 +4,6 @@ import java.io.IOException;
 
 public interface ServerInterface {
 
-    void start(String[] args) throws IOException;
+    void start() throws IOException;
 
 }
