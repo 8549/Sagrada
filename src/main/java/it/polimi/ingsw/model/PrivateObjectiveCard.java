@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import java.awt.*;
 import java.io.Serializable;
 
 public class PrivateObjectiveCard extends ObjCard implements Serializable {

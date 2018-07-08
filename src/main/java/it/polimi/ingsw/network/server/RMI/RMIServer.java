@@ -3,7 +3,6 @@ package it.polimi.ingsw.network.server.RMI;
 import it.polimi.ingsw.model.Die;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerStatus;
-import it.polimi.ingsw.network.client.RMIClient;
 import it.polimi.ingsw.network.client.RMIClientInterface;
 import it.polimi.ingsw.network.server.ClientObject;
 import it.polimi.ingsw.network.server.MainServer;
@@ -25,13 +24,13 @@ public class RMIServer  implements RMIServerInterface {
     RMIServerInterface stub;
     List<RMIServerInterface> objs= new ArrayList<>();
 
-    public RMIServer(List<ClientObject> users, MainServer server) throws RemoteException {
+    public RMIServer(List<ClientObject> users, MainServer server) {
         this.users = users;
         this.server = server;
     }
 
     @Override
-    public void start(String[] args) throws RemoteException {
+    public void start(String[] args) {
         //RMI SERVER
        /* OptionParser parser = new OptionParser();
         parser.accepts("p").withRequiredArg().ofType(Integer.class).defaultsTo(DEFAULT_RMI_PORT);
@@ -97,7 +96,7 @@ public class RMIServer  implements RMIServerInterface {
     }
 
     @Override
-    public void patternCardValidation(String patternName, RMIClientInterface c) throws RemoteException {
+    public void patternCardValidation(String patternName, RMIClientInterface c) {
         ClientObject client=null;
         for(ClientObject clients: users){
             try {
@@ -113,17 +112,17 @@ public class RMIServer  implements RMIServerInterface {
     }
 
     @Override
-    public void validateMove(Die d, int row, int column, Player p) throws RemoteException {
+    public void validateMove(Die d, int row, int column, Player p) {
         server.handleMove(d, row, column, p);
     }
 
     @Override
-    public void passTurn(String name) throws RemoteException {
+    public void passTurn(String name) {
         server.passTurn(name);
     }
 
     @Override
-    public void requestTool(String name, String tool) throws RemoteException {
+    public void requestTool(String name, String tool) {
         server.useTool(name, tool);
     }
 
@@ -133,53 +132,53 @@ public class RMIServer  implements RMIServerInterface {
     }
 
     @Override
-    public void setDieFromWP(int row, int column) throws RemoteException {
+    public void setDieFromWP(int row, int column) {
         server.getActiveToolCardHandler().setDieFromWindowPattern(row, column);
     }
 
     @Override
-    public void setDieFromDP(Die d) throws RemoteException {
+    public void setDieFromDP(Die d) {
         server.getActiveToolCardHandler().setDieFromDraftPool(d);
     }
 
     @Override
-    public void setDieFromRT(Die d, int round) throws RemoteException {
+    public void setDieFromRT(Die d, int round) {
         server.getActiveToolCardHandler().setDieFromRoundTrack(d, round);
     }
 
     @Override
-    public void setDecrease(boolean choice) throws RemoteException {
+    public void setDecrease(boolean choice) {
         server.getActiveToolCardHandler().setDecreaseChoice(choice);
     }
 
     @Override
-    public void setPlacementChoice(boolean choice) throws RemoteException {
+    public void setPlacementChoice(boolean choice) {
         server.getActiveToolCardHandler().setIfPlace(choice);
     }
 
     @Override
-    public void setNumberDiceChoice(boolean choice) throws RemoteException {
+    public void setNumberDiceChoice(boolean choice) {
         server.getActiveToolCardHandler().setMovementChoice(choice);
     }
 
     @Override
-    public void setValue(int value) throws RemoteException {
+    public void setValue(int value) {
         server.getActiveToolCardHandler().chosenValue(value);
     }
 
 
     @Override
-    public void setNewCoordinates(int row, int column) throws RemoteException {
+    public void setNewCoordinates(int row, int column) {
         server.getActiveToolCardHandler().setNewCoordinatesChoice(row, column);
     }
 
     @Override
-    public void setTwoDice(int row1, int col1, int row2, int col2) throws RemoteException {
+    public void setTwoDice(int row1, int col1, int row2, int col2) {
         server.getActiveToolCardHandler().setTwoDiceFromWindowPattern(row1, col1, row2, col2);
     }
 
     @Override
-    public void setTwoNewCoordinates(int row1, int col1, int row2, int col2) throws RemoteException {
+    public void setTwoNewCoordinates(int row1, int col1, int row2, int col2) {
         server.getActiveToolCardHandler().setTwoNewCoordinatesChoice(row1, col1, row2, col2);
     }
 

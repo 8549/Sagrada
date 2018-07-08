@@ -1,7 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.network.server.MainServer;
-
 import java.util.ArrayList;
 import java.util.List;
 

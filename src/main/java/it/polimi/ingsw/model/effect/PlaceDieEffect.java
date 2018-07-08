@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.effect;
 
-import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.Turn;
 
 public class PlaceDieEffect extends Effect {
 

@@ -1,6 +1,9 @@
 package it.polimi.ingsw.network.server.RMI;
 
-import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.Die;
+import it.polimi.ingsw.model.PatternCard;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.PublicObjectiveCard;
 import it.polimi.ingsw.network.client.RMIClientInterface;
 import it.polimi.ingsw.network.server.ServerInterface;
 
@@ -302,7 +305,7 @@ public class RMIClientObject implements RMIClientObjectInterface {
     }
 
     @Override
-    public void notifyMoveNotAvailable() throws RemoteException {
+    public void notifyMoveNotAvailable() {
     }
 
 

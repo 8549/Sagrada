@@ -1,8 +1,5 @@
 package it.polimi.ingsw.model.effect;
 
-import it.polimi.ingsw.model.Die;
-import it.polimi.ingsw.model.Player;
-
 public class MoveDieWithoutNumberConstraintEffect extends Effect {
 
     public MoveDieWithoutNumberConstraintEffect(String name){

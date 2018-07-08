@@ -1,10 +1,12 @@
 package it.polimi.ingsw.network.server.socket;
 
-import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.Die;
+import it.polimi.ingsw.model.PatternCard;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.PublicObjectiveCard;
 import it.polimi.ingsw.network.server.ClientObject;
 import it.polimi.ingsw.network.server.ServerInterface;
 
-import java.io.IOException;
 import java.util.List;
 
 import static it.polimi.ingsw.GameManager.PUBLIC_OBJ_CARDS_NUMBER;
@@ -93,7 +95,7 @@ public class SocketClientObject implements ClientObject {
     }
 
     @Override
-    public void pushToolCards(List<String> tools) throws IOException {
+    public void pushToolCards(List<String> tools) {
         String data="";
         for(String tool : tools){
             data = data + "/" + tool;
@@ -138,17 +140,17 @@ public class SocketClientObject implements ClientObject {
     }
 
     @Override
-    public void notifyEndTimeOut() throws IOException {
+    public void notifyEndTimeOut() {
         socketHandler.send("update", "moveTimer","TimeIsOut" );
     }
 
     @Override
-    public void notifyEndTurn(Player p) throws IOException {
+    public void notifyEndTurn(Player p) {
         socketHandler.send("update", "endTurn",p.getName() );
     }
 
     @Override
-    public void notifyEndRound(List<Die> dice) throws IOException {
+    public void notifyEndRound(List<Die> dice) {
         String data = "";
         for (Die d : dice){
             data = data + d.getColor() + "/" + d.getNumber() + "/";
@@ -157,19 +159,19 @@ public class SocketClientObject implements ClientObject {
     }
 
     @Override
-    public void nextMove() throws IOException {
+    public void nextMove() {
         socketHandler.send("update", "nextMove", "");
 
     }
 
 
     @Override
-    public void pushTokens(String name, String tool, int cost) throws IOException {
+    public void pushTokens(String name, String tool, int cost) {
         socketHandler.send("update", "toolTokens", name + "/" + tool + "/" + cost);
     }
 
     @Override
-    public void notifyMoveNotAvailable() throws IOException {
+    public void notifyMoveNotAvailable() {
         socketHandler.send("update", "moveNotAvailable","");
     }
 
@@ -184,66 +186,66 @@ public class SocketClientObject implements ClientObject {
     }
 
     @Override
-    public void chooseDieFromWindowPattern() throws IOException {
+    public void chooseDieFromWindowPattern() {
         socketHandler.send("request", "chooseDieFromWindowPattern", "");
 
     }
 
     @Override
-    public void chooseDieFromDraftPool() throws IOException {
+    public void chooseDieFromDraftPool() {
         socketHandler.send("request", "chooseDieFromDraftPool", "");
 
     }
 
     @Override
-    public void chooseDieFromRoundTrack() throws IOException {
+    public void chooseDieFromRoundTrack() {
         socketHandler.send("request", "chooseDieFromRoundTrack", "");
 
     }
 
     @Override
-    public void chooseIfDecrease() throws IOException {
+    public void chooseIfDecrease() {
         socketHandler.send("request", "chooseIfDecrease", "");
 
     }
 
     @Override
-    public void chooseIfPlaceDie(int number) throws IOException {
+    public void chooseIfPlaceDie(int number) {
         socketHandler.send("request", "chooseIfPlaceDie", "" + number);
 
     }
 
     @Override
-    public void chooseToMoveOneDie() throws IOException {
+    public void chooseToMoveOneDie() {
         socketHandler.send("request", "chooseToMoveOneDie", "");
 
     }
 
     @Override
-    public void setValue(String color) throws IOException {
+    public void setValue(String color) {
         socketHandler.send("request", "setValue", color);
 
     }
 
 
     @Override
-    public void setNewCoordinates() throws IOException {
+    public void setNewCoordinates() {
         socketHandler.send("request", "setNewCoordinates", "");
 
     }
 
     @Override
-    public void chooseTwoDice() throws IOException {
+    public void chooseTwoDice() {
         socketHandler.send("request", "choooseTwoDice", "");
     }
 
     @Override
-    public void chooseTwoNewCoordinates() throws IOException {
+    public void chooseTwoNewCoordinates() {
         socketHandler.send("request", "chooseTwoNewCoordinates", "");
     }
 
     @Override
-    public void notifyToolUsed(boolean result,String name) throws IOException {
+    public void notifyToolUsed(boolean result, String name) {
         if(result){
             socketHandler.send("update", "toolEnd", "true"+ "/" + name);
         }else{
@@ -254,35 +256,35 @@ public class SocketClientObject implements ClientObject {
     }
 
     @Override
-    public void moveDie(Player player, Die d, int row, int column, int newRow, int newColumn) throws IOException {
+    public void moveDie(Player player, Die d, int row, int column, int newRow, int newColumn) {
         socketHandler.send("update", "moveDieTool", player.getName() + "/" + d.getColor() + "/" + d.getNumber() + "/" + row + "/" + column + "/" + newRow + "/" + newColumn);
      }
 
     @Override
-    public void addDie(Player player, Die d, int row, int column) throws IOException {
+    public void addDie(Player player, Die d, int row, int column) {
         socketHandler.send("update", "addDieTool", player.getName() + "/" + d.getColor() + "/" + d.getNumber() + "/" + row + "/" + column );
 
     }
 
     @Override
-    public void changeTurn(Player p) throws IOException {
+    public void changeTurn(Player p) {
         socketHandler.send("update", "changeTurn", p.getName());
     }
 
 
     @Override
-    public void updateRoundTrack(Die d, int diePosition, int round) throws IOException{
+    public void updateRoundTrack(Die d, int diePosition, int round) {
 
         socketHandler.send("update", "updateRoundTrack", round + "/" +   d.getColor() + "/" + d.getNumber() + "/" + diePosition);
     }
 
     @Override
-    public void updateGrid(int row, int col, Die d, String name) throws IOException {
+    public void updateGrid(int row, int col, Die d, String name) {
         socketHandler.send("update", "updateGrid", name + "/" + row + "/" + col + "/" + d.getColor() + "/" + d.getNumber());
     }
 
     @Override
-    public void pushFinalScore(List<Player> players) throws IOException {
+    public void pushFinalScore(List<Player> players) {
         String data ="";
         for(Player p : players){
             data = data + p.getName() + "/" + p.getPoints() + "/";
@@ -292,7 +294,7 @@ public class SocketClientObject implements ClientObject {
     }
 
     @Override
-    public void reconnection() throws IOException {
+    public void reconnection() {
         socketHandler.send("update", "reconnection","");
     }
 }

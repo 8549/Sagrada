@@ -1,6 +1,9 @@
 package it.polimi.ingsw.network.client;
 
-import it.polimi.ingsw.model.*;
+import it.polimi.ingsw.model.Die;
+import it.polimi.ingsw.model.PatternCard;
+import it.polimi.ingsw.model.Player;
+import it.polimi.ingsw.model.PublicObjectiveCard;
 import it.polimi.ingsw.network.server.RMI.RMIServerInterface;
 
 import java.rmi.Remote;
@@ -43,44 +46,67 @@ public interface RMIClientInterface extends ClientInterface, Remote {
     void endCurrentTurn(String name) throws RemoteException;
     void endRound(List<Die> dice) throws RemoteException;
 
-    public void chooseDieFromWindowPattern() throws RemoteException;
-    public void chooseDieFromDraftPool() throws RemoteException ;
-    public void chooseDieFromRoundTrack() throws RemoteException;
-    public void chooseIfDecrease() throws RemoteException;
-    public void chooseIfPlaceDie(int number) throws RemoteException;
-    public void chooseToMoveOneDie() throws RemoteException;
-    public void setValue(String color) throws RemoteException;
-    public void setNewCoordinates() throws RemoteException;
-    public void chooseTwoDice() throws RemoteException;
-    public void chooseTwoNewCoordinates() throws  RemoteException;
-    public boolean ping() throws RemoteException;
+    void chooseDieFromWindowPattern() throws RemoteException;
+
+    void chooseDieFromDraftPool() throws RemoteException;
+
+    void chooseDieFromRoundTrack() throws RemoteException;
+
+    void chooseIfDecrease() throws RemoteException;
+
+    void chooseIfPlaceDie(int number) throws RemoteException;
+
+    void chooseToMoveOneDie() throws RemoteException;
+
+    void setValue(String color) throws RemoteException;
+
+    void setNewCoordinates() throws RemoteException;
+
+    void chooseTwoDice() throws RemoteException;
+
+    void chooseTwoNewCoordinates() throws RemoteException;
+
+    boolean ping() throws RemoteException;
 
 
-    public void sendDieFromWP(Die d, int row, int column) throws RemoteException;
-    public void sendDieFromDP(Die d) throws RemoteException;
-    public void sendDieFromRT(Die d, int round) throws RemoteException;
-    public void sendDecreaseChoice(boolean choice) throws RemoteException;
-    public void sendPlacementChoice(boolean choice) throws RemoteException;
-    public void sendNumberDiceChoice(boolean choice) throws RemoteException;
-    public void sendValue(int value) throws RemoteException;
-    public void sendNewCoordinates(int row, int column) throws RemoteException;
-    public void sendTwoDice(int row1, int col1, int row2, int col2) throws RemoteException;
-    public void sendTwoNewCoordinates(int row1, int col1, int row2, int col2) throws RemoteException;
+    void sendDieFromWP(Die d, int row, int column) throws RemoteException;
+
+    void sendDieFromDP(Die d) throws RemoteException;
+
+    void sendDieFromRT(Die d, int round) throws RemoteException;
+
+    void sendDecreaseChoice(boolean choice) throws RemoteException;
+
+    void sendPlacementChoice(boolean choice) throws RemoteException;
+
+    void sendNumberDiceChoice(boolean choice) throws RemoteException;
+
+    void sendValue(int value) throws RemoteException;
+
+    void sendNewCoordinates(int row, int column) throws RemoteException;
+
+    void sendTwoDice(int row1, int col1, int row2, int col2) throws RemoteException;
+
+    void sendTwoNewCoordinates(int row1, int col1, int row2, int col2) throws RemoteException;
 
 
-    public void nextMove() throws RemoteException;
-    public void pushTokens(String name, String tool, int cost) throws RemoteException;
+    void nextMove() throws RemoteException;
 
-    public void notifyMoveDie(Player player,Die d, int row, int column, int newRow, int newColumn) throws RemoteException;
-    public void notifyAddDie(Player player, Die d, int rowm, int column) throws RemoteException;
-    public void changeTurn(Player first) throws RemoteException;
-    public void updateRoundTrack(Die d, int diePosition, int round) throws RemoteException;
+    void pushTokens(String name, String tool, int cost) throws RemoteException;
 
-    public void updateGrid(int row, int col, Die d, String name) throws RemoteException;
+    void notifyMoveDie(Player player, Die d, int row, int column, int newRow, int newColumn) throws RemoteException;
 
-    public void notifyEndTool(boolean response, String name) throws RemoteException;
+    void notifyAddDie(Player player, Die d, int rowm, int column) throws RemoteException;
 
-    public void reconnection() throws RemoteException;
+    void changeTurn(Player first) throws RemoteException;
 
-    public void endGame(List<Player> players) throws RemoteException;
+    void updateRoundTrack(Die d, int diePosition, int round) throws RemoteException;
+
+    void updateGrid(int row, int col, Die d, String name) throws RemoteException;
+
+    void notifyEndTool(boolean response, String name) throws RemoteException;
+
+    void reconnection() throws RemoteException;
+
+    void endGame(List<Player> players) throws RemoteException;
 }

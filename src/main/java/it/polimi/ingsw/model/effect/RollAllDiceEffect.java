@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.effect;
 
-import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Die;
 import it.polimi.ingsw.model.Round;
 

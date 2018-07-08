@@ -8,9 +8,11 @@ import it.polimi.ingsw.network.server.RMI.RMIServerInterface;
 import it.polimi.ingsw.network.server.socket.SocketServer;
 
 import java.io.IOException;
-import java.net.ServerSocket;
 import java.rmi.RemoteException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainServer {
     public static final int DEFAULT_RMI_PORT = 1234;

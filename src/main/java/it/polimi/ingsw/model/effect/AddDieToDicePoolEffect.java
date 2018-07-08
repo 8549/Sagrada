@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.effect;
 
-import it.polimi.ingsw.model.DiceBag;
 import it.polimi.ingsw.model.Die;
 
 public class AddDieToDicePoolEffect extends Effect {

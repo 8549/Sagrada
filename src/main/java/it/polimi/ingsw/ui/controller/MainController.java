@@ -1007,6 +1007,13 @@ public class MainController {
         }
     }
 
+    /**
+     * Continues what started by {@link #toolChooseTwoCoordinates()}. This method actually asks the user for the second
+     * pair of the two needed. Used by {@link ToolCard}s
+     *
+     * @param source the previously selected {@link Node} (a dice or a cell containing a die) so that it isn't highlighted
+     *               by the visual effect
+     */
     private void chooseSecondCoord(Node source) {
         if (chosenCoords != 1) {
             showMessage("variable chosenCoords should be equal to 1, but it isn't.");
