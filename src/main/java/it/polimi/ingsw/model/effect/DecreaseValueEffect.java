@@ -8,6 +8,10 @@ public class DecreaseValueEffect extends Effect {
         this.name = name;
     }
 
+    /**
+     * If the die is to be decreased, decrease value of the die and update the draftpool
+     * @param args die : the chosen die, decrease : if the die needs to be decreased
+     */
     @Override
     public void perform(Object... args) {
         Die die = (Die) args[0];

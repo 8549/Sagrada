@@ -8,6 +8,10 @@ public class ChangeTurnOrderEffect extends Effect {
         this.name = name;
     }
 
+    /**
+     * Changes the order of the turns, notifies the players, as sets as used the tool card of the next turn
+     * @param args round: the current round
+     */
     @Override
     public void perform(Object... args) {
         Round round = (Round) args[0];

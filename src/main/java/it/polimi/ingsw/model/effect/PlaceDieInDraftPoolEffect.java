@@ -9,6 +9,11 @@ public class PlaceDieInDraftPoolEffect extends Effect{
         this.name = name;
     }
 
+    /**
+     * Asks the tool card to place the die on the wroundtrack if placeDie if true and if it's possible
+     * otherwise asks if the tool card has another effect
+     * @param args  placeDie:if the die needs to be placed , board, die
+     */
     @Override
     public void perform(Object... args) {
         boolean placeDie = (boolean) args[0];

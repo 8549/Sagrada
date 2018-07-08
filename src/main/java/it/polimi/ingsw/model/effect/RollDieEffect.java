@@ -8,6 +8,11 @@ public class RollDieEffect extends Effect{
         this.name = name;
     }
 
+
+    /**
+     * Removes the old die from the draftpool, rolls the die, adds it to the draft pool and then update the draft pool
+     * @param args die
+     */
     @Override
     public void perform(Object... args) {
         Die die = (Die) args[0];

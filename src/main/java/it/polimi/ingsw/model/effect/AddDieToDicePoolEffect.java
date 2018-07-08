@@ -8,6 +8,10 @@ public class AddDieToDicePoolEffect extends Effect {
         this.name = name;
     }
 
+    /**
+     * It removes the chosen die from the draft pool, updates the draftpool of the players and add the given die to the dicebag
+     * @param args die: the die chosen by the player
+     */
     @Override
     public void perform(Object... args) {
         Die die = (Die) args[0];

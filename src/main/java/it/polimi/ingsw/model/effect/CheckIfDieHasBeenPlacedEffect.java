@@ -7,6 +7,10 @@ public class CheckIfDieHasBeenPlacedEffect extends Effect {
         this.name = name;
     }
 
+    /**
+     * if at the given turn the die is placed sets everythingOk to true, false otherwise
+     * @param args turn : the current turn
+     */
     @Override
     public void perform(Object... args) {
         Turn turn = (Turn) args[0];

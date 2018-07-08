@@ -8,6 +8,11 @@ public class IncreaseValueEffect extends Effect {
         this.name = name;
     }
 
+    /**
+     * if the die needs to be decreased
+     * Removes the old die from the draftpool, increase the value of the die, adds it to the draft pool and then update the draft pool
+     * @param args
+     */
     @Override
     public void perform(Object... args) {
         Die die = (Die) args[0];

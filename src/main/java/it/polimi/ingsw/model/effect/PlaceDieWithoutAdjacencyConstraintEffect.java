@@ -8,6 +8,10 @@ public class PlaceDieWithoutAdjacencyConstraintEffect extends Effect {
         this.name = name;
     }
 
+    /**
+     * Asks the tool card to place the die without adjacency ccnstraint if it's possible
+     * @param args
+     */
     @Override
     public void perform(Object... args) {
         for(Die die2 : toolCard.getBoard().getDraftPool()){

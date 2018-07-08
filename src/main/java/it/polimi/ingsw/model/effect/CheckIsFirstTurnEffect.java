@@ -8,6 +8,10 @@ public class CheckIsFirstTurnEffect extends Effect{
         this.name = name;
     }
 
+    /**
+     * If it's the first turn sets everythingOk to true, false otherwise
+     * @param args round
+     */
     @Override
     public void perform(Object... args) {
         Round round = (Round) args[0];

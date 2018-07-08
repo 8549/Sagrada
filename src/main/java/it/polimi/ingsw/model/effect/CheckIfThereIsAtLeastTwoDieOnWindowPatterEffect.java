@@ -8,6 +8,11 @@ public class CheckIfThereIsAtLeastTwoDieOnWindowPatterEffect extends Effect {
         this.name = name;
     }
 
+
+    /**
+     * If there's at least two dice on the window pattern sets everythingOk to true, false otherwise
+     * @param args
+     */
     @Override
     public void perform(Object... args) {
         Player player = (Player) args[0];

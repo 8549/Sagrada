@@ -9,6 +9,10 @@ public class MoveDieWithSameColorAsDieFromRoundTrackEffect extends Effect {
         this.name = name;
     }
 
+    /**
+     * Asks the tool card to move the die with the same color of the one chosen from the roundtrack if it's possible
+     * @param args
+     */
     @Override
     public void perform(Object... args) {
         Die die = (Die) args[0];

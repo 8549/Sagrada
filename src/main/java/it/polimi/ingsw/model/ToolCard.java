@@ -414,7 +414,7 @@ public class ToolCard implements Card {
             }
         }
         MoveValidator moveValidator = new MoveValidator(getTurn(), number, color, adjacency);
-        if (!place){
+        if (!place) {
             player.getPlayerWindow().getDiceGrid()[oldRow][oldColumn].removeDie();
         }
         if (moveValidator.validateMove(die, newRow, newColumn, player)) {
@@ -433,8 +433,8 @@ public class ToolCard implements Card {
         } else {
             everythingOk = false;
 
-            if(!place){
-                player.getPlayerWindow().addDie(die, newRow, newColumn);
+            if (!place) {
+                player.getPlayerWindow().addDie(die, oldRow, oldColumn);
             }
 
             if (place) {
@@ -451,7 +451,7 @@ public class ToolCard implements Card {
     }
 
     /**
-     * Assign to die the die of the given coordinates on the tool
+     * Assign to die the die at the given coordinates and calls the method that checks if there are any effects left
      *
      * @param oldRow
      * @param oldColumn
@@ -462,6 +462,12 @@ public class ToolCard implements Card {
         firstChoice = false;
     }
 
+    /**
+     * Assign to secondDie the die at the given coordinates and  calls the method that checks if there are any effects left
+     *
+     * @param oldRow
+     * @param oldColumn
+     */
     public void completeChooseTwoDieFromWindowPattern(int oldRow, int oldColumn) {
         secondDie = player.getPlayerWindow().getCellAt(oldRow, oldColumn).getDie();
         oldColumnSecond = oldColumn;
@@ -472,6 +478,11 @@ public class ToolCard implements Card {
         everythingOk = resultEffect;
     }
 
+
+    /**
+     * Assign to die the chosen value and  calls the method that checks if there are any effects left
+     * @param value
+     */
     public void completeChooseValue(int value) {
         die.setNumber(value);
         everythingOk = true;
@@ -479,32 +490,63 @@ public class ToolCard implements Card {
         checkHasNextEffect();
     }
 
+    /**
+     * Assign to die the die choosen from he draft pool and calls the method that checks if there are any effects left
+     * @param die
+     */
     public void completeChooseDieFromDraftPool(Die die) {
         this.die = die;
         checkHasNextEffect();
     }
 
+    /**
+     *
+     *  Assign to decrease the choice of the player who wants to increase of decrease the value of the die
+     *  and calls the method that checks if there are any effects left
+     * @param choice : true if the player wants to decrease the value, false to increase
+     */
     public void completeChoiceIfDecrease(boolean choice) {
         decrease = choice;
         checkHasNextEffect();
     }
 
+    /**
+     *  Assign to placeDie the choice of the player wants to place the die or place it in the draftpool and calls the method that checks if there are any effects left
+     * @param choice : true if the player wants to place the die, false if he wants to place it in the draftpool
+     */
     public void completeChoiceIfPlaceDie(boolean choice) {
         placeDie = choice;
         checkHasNextEffect();
     }
 
+    /**
+     *  Assign to moveDie the choice of the player who wants to move or place and calls the method that checks if there are any effects left
+     *
+     * @param choice : true if the player wants to move one die, false if the player wants tto move two
+     */
     public void completeChoiceIfMoveOneDie(boolean choice) {
         moveOneDie = choice;
         checkHasNextEffect();
     }
 
+    /**
+     * Assign to parameters the coordinates of the die the player wants to move or place and calls the method that checks if there are any effects left
+     *
+     * @param row
+     * @param column
+     */
     public void completeSetOldCoordinates(int row, int column) {
         oldColumn = column;
         oldRow = row;
         checkHasNextEffect();
     }
 
+    /**
+     * Completes the choice of the die of the roundtrack assigning to die the die at the given position
+     *
+     * @param round                    : round where the die from the roundtrack is
+     * @param numberOfDieForRoundTrack : iy's position on the round
+     */
     public void completeChooseDieRoundTrck(int round, int numberOfDieForRoundTrack) {
         turnForRoundTrack = round;
         this.numberOfDieForRoundTrack = numberOfDieForRoundTrack;
@@ -563,15 +605,28 @@ public class ToolCard implements Card {
         return die;
     }
 
+    /**
+     * Check if its possible to move both dice following the pattern and adjacency restriction
+     * if it is move both dice, otherwise notifies the tool card something went wrong
+     *
+     * @param row
+     * @param column
+     * @param secondRow
+     * @param secondColumn
+     */
     public void completeProcessTwoMoves(int row, int column, int secondRow, int secondColumn) {
         MoveValidator moveValidator = new MoveValidator(getTurn(), number, color, adjacency);
         if (player.getPlayerWindow().dieCount() == 2) {
             player.getPlayerWindow().setOneDie(true);
         }
+        player.getPlayerWindow().getDiceGrid()[oldRow][oldColumn].removeDie();
         if (moveValidator.validateMove(die, row, column, player)) {
+            player.getPlayerWindow().getDiceGrid()[oldRow][oldColumn].setDie(die);
             player.getPlayerWindow().moveDie(oldRow, oldColumn, row, column);
             player.getPlayerWindow().setOneDie(false);
+            player.getPlayerWindow().getDiceGrid()[oldRowSecond][oldColumnSecond].removeDie();
             if (moveValidator.validateMove(secondDie, secondRow, secondColumn, player)) {
+                player.getPlayerWindow().getDiceGrid()[oldRowSecond][oldColumnSecond].removeDie();
                 player.getPlayerWindow().moveDie(oldRowSecond, oldColumnSecond, secondRow, secondColumn);
                 toolCardHandler.notifyMoveDie(player, die, oldRow, oldColumn, row, column);
                 toolCardHandler.notifyMoveDie(player, secondDie, oldRowSecond, oldColumnSecond, secondRow, secondColumn);

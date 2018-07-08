@@ -7,6 +7,11 @@ import java.util.Objects;
 public abstract class Effect {
     ToolCard toolCard;
     String name;
+
+    /**
+     * According to the name of the effect and the different parameters (varargs) performs the correct effect
+     * @param args
+     */
     public abstract void perform(Object... args);
 
     public void setName(String name) {

@@ -8,6 +8,10 @@ public class ChooseDieValueEffect extends Effect {
         this.name = name;
     }
 
+    /**
+     * Ask the tool card to ask the  player to choose the value of the given die
+     * @param args die
+     */
     @Override
     public void perform(Object... args) {
         Die die = (Die) args[0];

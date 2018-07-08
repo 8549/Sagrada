@@ -7,6 +7,10 @@ public class MoveDieEffect extends Effect{
         this.name = name;
     }
 
+    /**
+     * Asks the tool card to move the dice if it's possible
+     * @param args boolean : number , color , adjacency and place
+     */
     @Override
     public void perform(Object... args) {
         toolCard.processTwoMoveWithoutConstraints(true, true, true, false);

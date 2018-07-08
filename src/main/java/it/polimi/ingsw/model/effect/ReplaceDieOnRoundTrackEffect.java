@@ -9,6 +9,11 @@ public class ReplaceDieOnRoundTrackEffect extends Effect {
         this.name = name;
     }
 
+    /**
+     * if there's a die at the given position replace it with the chosen one
+     * otherwise sets everythingOk to false
+     * @param args die, turn, number of die : the position of the die on the roundtrack
+     */
     @Override
     public void perform(Object... args) {
         Die die = (Die) args[0];

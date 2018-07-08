@@ -8,6 +8,10 @@ public class CheckIfRoundTrackHasAnyDieEffect extends Effect {
         this.name = name;
     }
 
+    /**
+     * If it's the first round sets everythingOk to false, true otherwise
+     * @param args board
+     */
     @Override
     public void perform(Object... args) {
         Board board = (Board) args[0];

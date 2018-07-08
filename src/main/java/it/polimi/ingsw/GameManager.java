@@ -38,6 +38,9 @@ public class GameManager {
 
     }
 
+    /**
+     * initialize the game
+     */
     public void init() {
         gameSetup();
         playerSetup();
@@ -132,6 +135,9 @@ public class GameManager {
     }
 
 
+    /**
+     * Calculates the score of every player , creates a list of player sorted by the score and notifies the player of the results
+     */
     public void endGame() {
         for (Player player : players) {
             player.addPoints(player.getPrivateObjectiveCard().checkObjective(player.getPlayerWindow().getDiceGrid()));
@@ -160,6 +166,10 @@ public class GameManager {
         return players;
     }
 
+
+    /**
+     * Creates a new round and  drafts die
+     */
     public void startRound() {
 
         round = new Round(players, numberCurrentRound, board);
@@ -167,6 +177,7 @@ public class GameManager {
 
         startCurrentTurn();
     }
+
 
     public void startCurrentTurn() {
         currentPlayer = round.getTurn().getPlayer();

@@ -9,6 +9,10 @@ public class RollAllDiceEffect extends Effect {
         this.name = name;
     }
 
+    /**
+     * Roll all the remaining dice on the draft pool and update the new draft pool
+     * @param args round
+     */
     @Override
     public void perform(Object... args) {
         Round round = (Round) args[0];

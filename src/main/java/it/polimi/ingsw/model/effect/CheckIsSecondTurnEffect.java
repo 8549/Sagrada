@@ -8,6 +8,10 @@ public class CheckIsSecondTurnEffect extends Effect{
         this.name = name;
     }
 
+    /**
+     * If it's the second turn sets everythingOk to true, false otherwise
+     * @param args round : current round
+     */
     @Override
     public void perform(Object... args) {
         Round round = (Round) args[0];
