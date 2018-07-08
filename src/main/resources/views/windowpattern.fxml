@@ -4,7 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.*?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" fx:id="main" styleClass="patternCardContainer"
-      xmlns="http://javafx.com/javafx/9.0.1" fx:controller="it.polimi.ingsw.ui.controller.WindowPatternController">
+      xmlns="http://javafx.com/javafx/" fx:controller="it.polimi.ingsw.ui.controller.WindowPatternController">
     <children>
         <Pane styleClass="patternCardBase">
             <children>

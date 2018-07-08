@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import java.lang.*?>
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" id="main" fx:id="main" maxHeight="-Infinity" maxWidth="-Infinity"
-            minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/9.0.1"
+            minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/"
             fx:controller="it.polimi.ingsw.ui.controller.MainController">
     <center>
         <HBox id="boards-container" fx:id="fxBoardsContainer" alignment="CENTER" spacing="10.0"
