@@ -334,8 +334,8 @@ public class GameManager {
         }
 
         try {
+            server.initPatterAfterReconnection(c, getPlayerByName(c.getPlayer().getName()).getPlayerWindow().getWindowPattern().getName());
             server.gameStartedProceduresAfterReconnect(players, turnTimeout, c.getPlayer());
-            server.setPlayerChoice(c, getPlayerByName(c.getPlayer().getName()).getPlayerWindow().getWindowPattern().getName());
             server.initPlayersData(players, c.getPlayer());
         } catch (IOException e) {
             e.printStackTrace();
@@ -345,7 +345,7 @@ public class GameManager {
 
         server.setPrivateObj(p);
 
-        server.pushTools(toolCard, p);
+        server.pushTools(board.getToolCards(), p);
 
         for (Player player : players) {
             if (!player.getName().equals(p.getName())) {
@@ -364,7 +364,13 @@ public class GameManager {
             }
         }
 
-        server.notifyFinishUpdate(c);
+        try {
+            c.pushDraft(board.getDraftPool());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        server.notifyFinishUpdate(c, getCurrentPlayer());
 
     }
 

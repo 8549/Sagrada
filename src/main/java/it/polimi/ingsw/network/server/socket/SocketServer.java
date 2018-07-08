@@ -82,6 +82,7 @@ public class SocketServer implements ServerInterface {
                         s.send("response", "login", "Login failed");
 
                     } else if(result.equals(PlayerStatus.RECONNECTED)){
+                        s.setClient(client);
                         s.send("response", "login", "true");
                         client.reconnection();
                         server.startUpdateModel(client);
@@ -251,8 +252,8 @@ public class SocketServer implements ServerInterface {
             } finally {
                 try {
                     log("Connection with " + client.getPlayer().getName() + " closed");
-                    socketServer.removeClient(client);
                     socket.close();
+                    socketServer.removeClient(client);
                 } catch (IOException e) {
                     log("Couldn't close a socket, what's going on?");
                 }

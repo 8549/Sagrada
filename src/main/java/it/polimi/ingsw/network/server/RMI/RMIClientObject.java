@@ -245,8 +245,8 @@ public class RMIClientObject implements RMIClientObjectInterface {
     }
 
     @Override
-    public void notifyFinishUpdate() throws RemoteException {
-        client.finishUpdate();
+    public void notifyFinishUpdate(String name) throws RemoteException {
+        client.finishUpdate(name);
     }
 
     @Override

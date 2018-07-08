@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.server;
 
+import com.sun.security.ntlm.Client;
 import it.polimi.ingsw.GameManager;
 import it.polimi.ingsw.ToolCardHandler;
 import it.polimi.ingsw.model.*;
@@ -109,6 +110,7 @@ public class MainServer {
             for(Player p : gm.getPlayers()){
                 try {
                     if(p.getName().equals(client.getPlayer().getName()) && p.getStatus().equals(PlayerStatus.DISCONNECTED)){
+                        connectedClients.add(client);
                         inGameClients.add(client);
                         gm.reconnectPlayer(gm.getPlayerByName(client.getPlayer().getName()));
                         return PlayerStatus.RECONNECTED;
@@ -206,22 +208,24 @@ public class MainServer {
 
 
     public void disconnect(ClientObject client){
-            if(state.equals(ServerState.WAITINGPLAYERS)){
-                if(connectedClients.size()>1) {
-                    for (ClientObject c : connectedClients) {
-                        try {
-                            if (!c.getPlayer().getName().equals(client.getPlayer().getName())) {
-                                c.notifyPlayerDisconnection(client.getPlayer());
+        try {
+            if(gm.getPlayerByName(client.getPlayer().getName()).getStatus().equals(PlayerStatus.ACTIVE)){
+                if(state.equals(ServerState.WAITINGPLAYERS)){
+                    if(connectedClients.size()>1) {
+                        for (ClientObject c : connectedClients) {
+                            try {
+                                if (!c.getPlayer().getName().equals(client.getPlayer().getName())) {
+                                    c.notifyPlayerDisconnection(client.getPlayer());
+                                }
+                            } catch (IOException e) {
+                                e.printStackTrace();
                             }
-                        } catch (IOException e) {
-                            e.printStackTrace();
                         }
                     }
-                }
-                connectedClients.remove(client);
-                checkTimer();
+                    connectedClients.remove(client);
+                    checkTimer();
 
-            }else if (state.equals(ServerState.GAMESTARTED)){
+                }else if (state.equals(ServerState.GAMESTARTED)){
                     try {
                         connectedClients.remove(client);
                         inGameClients.remove(client);
@@ -230,6 +234,11 @@ public class MainServer {
                         e.printStackTrace();
                     }
                 }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public  void initGame(List<Player> players){
@@ -321,8 +330,14 @@ public class MainServer {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
 
-
+    public void initPatterAfterReconnection(ClientObject client, String name){
+        try {
+            client.pushPatternCardResponse(name);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public  void initPlayersData(List<Player> players){
@@ -608,9 +623,9 @@ public class MainServer {
         gm.updateModel(client);
     }
 
-    public void notifyFinishUpdate(ClientObject c) {
+    public void notifyFinishUpdate(ClientObject c, Player p) {
         try {
-            c.notifyFinishUpdate();
+            c.notifyFinishUpdate(p.getName());
         } catch (IOException e) {
             e.printStackTrace();
         }

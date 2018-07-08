@@ -294,7 +294,7 @@ public class SocketClient implements ClientInterface {
                                     ch.endGame(goHome);
                         break;
 
-                    case "finishUpdate": ch.finishUpdate();
+                    case "finishUpdate": ch.finishUpdate(data);
                         break;
 
                     default: break;

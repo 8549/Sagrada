@@ -300,7 +300,7 @@ public class SocketClientObject implements ClientObject {
     }
 
     @Override
-    public void notifyFinishUpdate() throws IOException {
-        socketHandler.send("update", "finishUpdate", "");
+    public void notifyFinishUpdate(String name) throws IOException {
+        socketHandler.send("update", "finishUpdate", name);
     }
 }

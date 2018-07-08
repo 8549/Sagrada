@@ -110,5 +110,5 @@ public interface RMIClientInterface extends ClientInterface, Remote {
 
     void endGame(List<Player> players) throws RemoteException;
 
-    void finishUpdate() throws RemoteException;
+    void finishUpdate(String name) throws RemoteException;
 }

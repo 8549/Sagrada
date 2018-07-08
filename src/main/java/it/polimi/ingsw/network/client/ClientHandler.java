@@ -12,7 +12,6 @@ import java.util.List;
 
 public class ClientHandler implements Serializable {
     private ClientInterface client;
-    private boolean loginResponse;
     private UI ui;
     private ProxyModel proxyModel;
 
@@ -199,7 +198,6 @@ public class ClientHandler implements Serializable {
             @Override
             public void run() {
                 proxyModel.addToolCard(tools);
-
             }
         };
         perform(task);
@@ -269,6 +267,7 @@ public class ClientHandler implements Serializable {
                     ui.myTurnStarted();
                 }
 
+
             }
         };
         perform(task);
@@ -293,7 +292,9 @@ public class ClientHandler implements Serializable {
                     player.getPlayerWindow().addDie(d, row, column);
                 } else {
                     System.out.println("[DEBUG] Server response: Wrong Move of player : " + name);
-                    ui.wrongMove();
+                    if(proxyModel.getMyself().getName().equals(name)){
+                        ui.wrongMove();
+                    }
                 }
             }
         };
@@ -326,12 +327,23 @@ public class ClientHandler implements Serializable {
     }
 
     public void passTurn() {
-        try {
-            client.passTurn();
-        } catch (IOException e) {
-            e.printStackTrace();
-            handleDisconnection();
-        }
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                new Thread(){
+                    @Override
+                    public void run(){
+                        try {
+                            client.passTurn();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }.start();
+            }
+        };
+        perform(task);
+
     }
 
     public void useTool(ToolCard tool) {
@@ -638,12 +650,15 @@ public class ClientHandler implements Serializable {
 
     }
 
-    public void finishUpdate(){
+    public void finishUpdate(String name){
         Runnable task = new Runnable() {
             @Override
             public void run() {
                 if(proxyModel.getMyself().getStatus().equals(PlayerStatus.RECONNECTED)){
                     proxyModel.getMyself().setStatus(PlayerStatus.ACTIVE);
+                    proxyModel.setCurrentPlayer(proxyModel.getByName(name));
+                    ui.setModelAfterReconnecting(proxyModel);
+                    ui.update();
                     ui.initBoard();
                 }
 

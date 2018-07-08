@@ -90,6 +90,6 @@ public interface ClientObject {
 
     void reconnection() throws IOException;
 
-    void notifyFinishUpdate() throws IOException;
+    void notifyFinishUpdate(String name) throws IOException;
 
 }

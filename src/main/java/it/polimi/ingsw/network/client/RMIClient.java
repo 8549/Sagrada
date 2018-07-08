@@ -348,8 +348,8 @@ public class RMIClient implements RMIClientInterface, Serializable {
     }
 
     @Override
-    public void finishUpdate() throws RemoteException {
-        ch.finishUpdate();
+    public void finishUpdate(String name) throws RemoteException {
+        ch.finishUpdate(name);
     }
 
 

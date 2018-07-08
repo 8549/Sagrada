@@ -92,7 +92,7 @@ public interface RMIClientObjectInterface extends ClientObject, Remote {
 
     void reconnection() throws RemoteException;
 
-    void notifyFinishUpdate() throws RemoteException;
+    void notifyFinishUpdate(String name) throws RemoteException;
 
     void pushFinalScore(List<Player> players) throws RemoteException;
 
