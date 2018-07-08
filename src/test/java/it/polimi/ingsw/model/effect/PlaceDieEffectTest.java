@@ -126,6 +126,9 @@ class PlaceDieEffectTest {
         }
 
 
+        @Override
+        public void checkHasNextEffect(){}
+
         public void getDieFromDicePool() {
             die = getBoard().getDiceBag().draftDie();
         }
