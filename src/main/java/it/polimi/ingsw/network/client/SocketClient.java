@@ -286,7 +286,7 @@ public class SocketClient implements ClientInterface {
 
                     case "endGame": List<String> finallyFinished = socketParserClient.parseData(data);
                                     List<Player> goHome = new ArrayList<>();
-                                    for (int i = 0; i<finallyFinished.size(); i = i+2){
+                                    for (int i = 0; i<finallyFinished.size(); i++){
                                         Player player1 = new Player(finallyFinished.get(i));
                                         player1.addPoints(Integer.valueOf(finallyFinished.get(i+1)));
                                         goHome.add(player1);
