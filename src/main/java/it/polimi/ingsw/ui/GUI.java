@@ -495,7 +495,7 @@ public class GUI extends Application implements UI {
 
     @Override
     public void endGame(List<Player> players) {
-
+        mainController.endGame(players);
     }
 
     /**

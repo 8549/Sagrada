@@ -951,7 +951,11 @@ public class CLI implements UI {
 
     @Override
     public void endGame(List<Player> players) {
-
+        System.out.println("The game ended! These are the final scores:");
+        for (int i = 0; i < players.size(); i++) {
+            System.out.println(String.format("%d) %s ~ %d points", i + 1, players.get(i).getName(), players.get(i).getPoints()));
+            System.exit(0);
+        }
     }
 
     /**

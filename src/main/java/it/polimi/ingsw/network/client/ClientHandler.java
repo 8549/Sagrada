@@ -647,7 +647,13 @@ public class ClientHandler implements Serializable {
     }
 
     public void endGame(List<Player> players){
-        ui.endGame(players);
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                ui.endGame(players);
+            }
+        };
+        perform(task);
     }
 
     public void finishUpdate(String name){

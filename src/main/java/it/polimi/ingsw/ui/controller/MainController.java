@@ -5,6 +5,7 @@ import it.polimi.ingsw.ui.GUI;
 import it.polimi.ingsw.ui.ProxyModel;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -25,6 +26,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -1065,5 +1067,71 @@ public class MainController {
                 });
             }
         }
+    }
+
+    public void endGame(List<Player> players) {
+        Stage finalStage = new Stage(StageStyle.UNDECORATED);
+        BorderPane valueMain = new BorderPane();
+
+        Label l = new Label();
+        Button confirm = new Button();
+
+        l.setText("The game has ended! These are the final scores:");
+        confirm.setText("Goodbye!");
+        confirm.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                Platform.exit();
+            }
+        });
+        Insets spacing = new Insets(20);
+
+        VBox playersBox = new VBox();
+        playersBox.setSpacing(spacing.getBottom() / 2.0);
+        for (int i = 0; i < players.size(); i++) {
+            HBox playerBox = new HBox();
+            playerBox.setAlignment(Pos.CENTER);
+            playerBox.getStylesheets().add(getClass().getClassLoader().getResource("board.css").toExternalForm());
+            Label label = new Label(String.valueOf(i + 1));
+            label.getStyleClass().add("roundTrackLabel");
+            playerBox.getChildren().add(label);
+            Label name = new Label(players.get(i).getName());
+            name.getStyleClass().add("roundTrackLabel");
+            Label points = new Label(String.valueOf(players.get(i).getPoints()));
+            points.getStyleClass().add("roundTrackLabel");
+            Paint paint = Color.BLACK;
+            if (i == 0) {
+                // First place
+                paint = Color.GOLD;
+            } else if (i == 1) {
+                // Second place
+                paint = Color.SILVER;
+            } else if (i == 2) {
+                // Third place
+                paint = Color.DARKGOLDENROD;
+            }
+            name.setTextFill(paint);
+            points.setTextFill(paint);
+
+            playerBox.getChildren().add(name);
+            playerBox.getChildren().add(points);
+
+            playerBox.setFillHeight(false);
+            playerBox.setSpacing(spacing.getBottom());
+            playersBox.getChildren().add(playerBox);
+        }
+        playersBox.setFillWidth(false);
+        BorderPane.setMargin(playersBox, spacing);
+        BorderPane.setMargin(l, spacing);
+        BorderPane.setMargin(confirm, spacing);
+        valueMain.setPadding(spacing);
+        valueMain.setTop(l);
+        valueMain.setCenter(playersBox);
+        valueMain.setBottom(confirm);
+
+        finalStage.initModality(Modality.APPLICATION_MODAL);
+        finalStage.setScene(new Scene(valueMain));
+        finalStage.sizeToScene();
+        finalStage.showAndWait();
     }
 }
