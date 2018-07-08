@@ -12,6 +12,12 @@ public class ColorConstraint implements PatternConstraint {
         this.color = color;
     }
 
+    /**
+     * Check if the die abides by the color constraint
+     * @param die
+     * @param modifier
+     * @return true if the color of the die is the same as the color of the constraint, false otherwise
+     */
     @Override
     public boolean checkConstraint(Die die, CheckModifier modifier) {
         if (modifier.equals(CheckModifier.NOCOLOR)) {
@@ -20,6 +26,12 @@ public class ColorConstraint implements PatternConstraint {
             return color.equals(die.getColor());
     }
 
+    /**
+     * Get the appropriate graphic JavaFX Node for the constraint
+     *
+     * @param size
+     * @return a JavaFX Node representing the constraint
+     */
     @Override
     public Node getAsGraphic(double size) {
         Rectangle rect = new Rectangle();
@@ -34,6 +46,11 @@ public class ColorConstraint implements PatternConstraint {
         return new JsonPrimitive(color.name().toLowerCase());
     }
 
+    /**
+     * Gets a string representation of the constraint
+     *
+     * @return the representation of the color of the constraint
+     */
     @Override
     public String toCLI() {
         int unicodeNumber = 9632;

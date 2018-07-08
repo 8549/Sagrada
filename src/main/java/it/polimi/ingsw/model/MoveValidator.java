@@ -1,17 +1,14 @@
 package it.polimi.ingsw.model;
 
-import java.util.List;
 
 public class MoveValidator {
     private Turn turn;
-    private List<Die> draftPool;
     private boolean colorConstraint;
     private boolean numberConstraint;
     private boolean adjacencyConstraint;
 
 
-    public MoveValidator(Turn turn, List<Die> draftPool, boolean number, boolean color, boolean adjacency) {
-        this.draftPool = draftPool;
+    public MoveValidator(Turn turn, boolean number, boolean color, boolean adjacency) {
         this.turn = turn;
         colorConstraint = color;
         numberConstraint = number;

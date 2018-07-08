@@ -25,12 +25,18 @@ public class Die implements Serializable {
         return color;
     }
 
-
+    /**
+     * Roll die
+     */
     public void roll() {
         Random random = new Random();
         this.number = Utils.getRandom(MIN, MAX);
     }
 
+    /**
+     * Set the number of the die
+     * @param value
+     */
     public void setNumber(int value) {
         this.number = value;
     }
@@ -85,10 +91,19 @@ public class Die implements Serializable {
         return Objects.hash(number, color);
     }
 
+    /**
+     * Check if the number given is within 1 - 6
+     * @param n
+     * @return true if it's right, otherwise false
+     */
     public static boolean checkValue(int n) {
         return (n >= MIN && n <= MAX);
     }
 
+    /**
+     * Check if the number given is within 1 - 6
+     * @return true if it's right, otherwise false
+     */
     public boolean checkValue() {
         return checkValue(number);
     }

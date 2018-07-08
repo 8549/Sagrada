@@ -293,8 +293,6 @@ class ToolCardTest {
         toolCardMock.processTwoMoveWithoutConstraints(true, true, true, true);
         toolCardMock.completeProcessTwoMoves(7, 1, 5, 3);
         assertFalse(toolCardMock.everythingOk);
-
-        toolCardMock.completeChoiceIfMoveOneDie(true);
     }
 
     @Test

@@ -12,10 +12,17 @@ public class PlaceDieEffect extends Effect {
     public void perform(Object... args) {
         Turn turn = (Turn) args[0];
         boolean placeDie = (boolean) args[1];
-        if (turn.isDiePlaced()) {
-            toolCard.getToolCardHandler().notifyPlayerDieAlreadyPlaced();
-        } else if (placeDie) {
-            toolCard.processMoveWithoutConstraints(true, true, true, true);
+        if (placeDie) {
+            if (turn.isDiePlaced()) {
+                toolCard.getBoard().getDraftPool().add(toolCard.getDie());
+                toolCard.getToolCardHandler().notifyPlayerDieAlreadyPlaced();
+                toolCard.setResponse(true);
+            } else {
+                toolCard.processMoveWithoutConstraints(true, true, true, true);
+            }
+        } else {
+            toolCard.setResponse(true);
+            toolCard.checkHasNextEffect();
         }
     }
 }

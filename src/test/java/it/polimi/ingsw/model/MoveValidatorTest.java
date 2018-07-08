@@ -86,13 +86,13 @@ class MoveValidatorTest {
         marco.getPlayerWindow().setWindowPattern(virtus);
         marco.getPlayerWindow().getDiceGrid()[3][3].setDie(dice[7]);
         boolean check = patternConstraints[0][4].checkConstraint(draftPool.get(0), CheckModifier.NOCOLOR);
-        MoveValidator moveValidator1 = new MoveValidator(turnMarco, draftPool, true, false, true);
+        MoveValidator moveValidator1 = new MoveValidator(turnMarco, true, false, true);
         assertTrue(moveValidator1.validateMove(draftPool.get(0),0, 4, marco));
-        MoveValidator moveValidator = new MoveValidator(turnMarco, draftPool, true, true, true);
+        MoveValidator moveValidator = new MoveValidator(turnMarco, true, true, true);
         assertTrue(moveValidator.validateMove(draftPool.get(3), 3, 4, marco));
-        MoveValidator moveValidator2 = new MoveValidator(turnMarco, draftPool, false, true,  true);
+        MoveValidator moveValidator2 = new MoveValidator(turnMarco, false, true,  true);
         assertFalse(moveValidator2.validateMove(draftPool.get(0),0, 4, marco));
-        MoveValidator moveValidator6 = new MoveValidator(turnMarco, draftPool, true, false, true);
+        MoveValidator moveValidator6 = new MoveValidator(turnMarco, true, false, true);
         assertFalse(moveValidator6.validateMove(draftPool.get(0),6, 4, marco));
         }
 

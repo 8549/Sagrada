@@ -34,6 +34,12 @@ public interface PatternConstraint extends Serializable {
         return false;
     }
 
+    /**
+     * Checks if the die abides by the constraint
+     * @param die
+     * @param modifier
+     * @return true if it does, false otherwise
+     */
     boolean checkConstraint(Die die, CheckModifier modifier);
 
     /**

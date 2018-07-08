@@ -5,7 +5,11 @@ import java.io.Serializable;
 
 public class PublicObjectiveCard extends ObjCard implements Serializable {
 
-
+    /**
+     *According to the specific of the public objective card calculates the points obtained playing,
+     * @param grid
+     * @return the points calculated
+     */
     public int checkObjective(Cell[][] grid) {
 
         switch (where) {
