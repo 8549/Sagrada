@@ -15,6 +15,7 @@ public class PlaceDieEffect extends Effect {
         if (placeDie) {
             if (turn.isDiePlaced()) {
                 toolCard.getBoard().getDraftPool().add(toolCard.getDie());
+                toolCard.getToolCardHandler().updateDraftPool(toolCard.getBoard().getDraftPool());
                 toolCard.getToolCardHandler().notifyPlayerDieAlreadyPlaced();
                 toolCard.setResponse(true);
             } else {

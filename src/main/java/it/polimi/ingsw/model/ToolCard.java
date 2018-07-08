@@ -414,6 +414,9 @@ public class ToolCard implements Card {
             }
         }
         MoveValidator moveValidator = new MoveValidator(getTurn(), number, color, adjacency);
+        if (!place){
+            player.getPlayerWindow().getDiceGrid()[oldRow][oldColumn].removeDie();
+        }
         if (moveValidator.validateMove(die, newRow, newColumn, player)) {
             if (!adjacency || place) {
                 player.getPlayerWindow().addDie(die, newRow, newColumn);
@@ -421,6 +424,7 @@ public class ToolCard implements Card {
                 toolCardHandler.notifyAddDie(player, die, newRow, newColumn);
                 getTurn().setDiePlaced();
             } else if (!place) {
+                player.getPlayerWindow().getDiceGrid()[oldRow][oldColumn].removeDie();
                 player.getPlayerWindow().moveDie(oldRow, oldColumn, newRow, newColumn);
                 toolCardHandler.notifyMoveDie(player, die, oldRow, oldColumn, newRow, newColumn);
                 player.getPlayerWindow().setOneDie(false);
@@ -428,6 +432,10 @@ public class ToolCard implements Card {
             everythingOk = true;
         } else {
             everythingOk = false;
+
+            if(!place){
+                player.getPlayerWindow().addDie(die, newRow, newColumn);
+            }
 
             if (place) {
                 getBoard().getDraftPool().add(die);

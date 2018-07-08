@@ -11,8 +11,6 @@ public class RollDieEffect extends Effect{
     @Override
     public void perform(Object... args) {
         Die die = (Die) args[0];
-        die.roll();
-        toolCard.getToolCardHandler().setNumberOfPickedDie(die.getNumber());
 
         for(Die die2 : toolCard.getBoard().getDraftPool()){
             if (die.getColor().equals(die2.getColor()) && die.getNumber()==die2.getNumber()){
@@ -21,6 +19,8 @@ public class RollDieEffect extends Effect{
                 break;
             }
         }
+        die.roll();
+        toolCard.getToolCardHandler().setNumberOfPickedDie(die.getNumber());
         toolCard.setResponse(true);
     }
 }

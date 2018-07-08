@@ -16,6 +16,7 @@ public class PlaceDieInDraftPoolEffect extends Effect{
         Die die = (Die) args[2];
         if(!placeDie){
             board.getDraftPool().add(die);
+            toolCard.getToolCardHandler().updateDraftPool(toolCard.getBoard().getDraftPool());
         }
         toolCard.setResponse(true);
     }
