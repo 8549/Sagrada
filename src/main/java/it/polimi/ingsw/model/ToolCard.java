@@ -73,10 +73,20 @@ public class ToolCard implements Card {
         }
     }
 
+    /**
+     * Adds to the tokens the cost of the tool card
+     */
     public void addTokens() {
         tokens = tokens + getCost();
     }
 
+    /**
+     * If the player hasn't already used the tool card, starts performing the effects of the tool card
+     * otherwise notify the player that the tool card was already used
+     *
+     * @param player      that wants to use the toolcard
+     * @param gameManager
+     */
     public void useTools(Player player, GameManager gameManager) {
 
         this.player = player;
@@ -100,6 +110,9 @@ public class ToolCard implements Card {
 
     }
 
+    /**
+     * Perform the correct current effect of the tool card and whn it's done gooess to next effect
+     */
     public void performEffect() {
         for (Effect effect : effects) {
             effect.setToolCard(this);
@@ -219,6 +232,10 @@ public class ToolCard implements Card {
         }
     }
 
+    /**
+     * if the tool card has any effects left and the tool card is being used in the correct way it performs the next effect
+     * otherwise it ends the tool card
+     */
     public void checkHasNextEffect() {
         if (effectIterator.hasNext() && everythingOk) {
             performEffect();
@@ -228,6 +245,11 @@ public class ToolCard implements Card {
         }
     }
 
+    /**
+     * Notifies the player if the tool card worked
+     * if the tool card worked it removes the gost of the tool card to the tokens of the player, sets that the player used the tool card
+     * if the tool card worked and the player already did his move end turn, otherwise asks the  player for next move
+     */
     private void endToolCard() {
         getServer().notifyPlayerIfToolCardWorked(everythingOk);
         if (everythingOk) {
@@ -254,11 +276,26 @@ public class ToolCard implements Card {
 
 
     //METHODS FOR EFFECTS
+
+    /**
+     * Adds the given die to the dicebag
+     *
+     * @param die
+     * @return true if it was possible to add the die, false otherwise
+     */
     public boolean addDieToDiceBag(Die die) {
         return getBoard().getDiceBag().addDie(die);
     }
 
 
+    /**
+     * Set what need to be check for validating the move and asks the player for the coordinates where he wants to put the die
+     *
+     * @param number:   if the number constraint need to be check
+     * @param color     : if the color constraint need to be check
+     * @param adjacency : if the adjacency constraint need to be check
+     * @param place     : if the dies needs to be placed
+     */
     public void processMoveWithoutConstraints(boolean number, boolean color, boolean adjacency, boolean place) {
         this.number = number;
         this.color = color;
@@ -267,6 +304,14 @@ public class ToolCard implements Card {
         setNewCoordinates();
     }
 
+    /**
+     * Set what need to be check for validating the move and asks the player for the two coordinates where he wants to put the die
+     *
+     * @param number:   if the number constraint need to be check
+     * @param color     : if the color constraint need to be check
+     * @param adjacency : if the adjacency constraint need to be check
+     * @param place     : if the dies needs to be placed
+     */
     public void processTwoMoveWithoutConstraints(boolean number, boolean color, boolean adjacency, boolean place) {
         this.number = number;
         this.color = color;
@@ -275,59 +320,100 @@ public class ToolCard implements Card {
         setTwoNewCoordinates();
     }
 
+    /**
+     * Asks the tool card handler to set the two new coordinates
+     */
     private void setTwoNewCoordinates() {
         toolCardHandler.setTwoNewCoordinates();
     }
 
+    /**
+     * Asks the tool card handler to pick a color of the die taken from the draft pool
+     */
     public void getDieFromDicePool() {
         die = getBoard().getDiceBag().draftDie();
         toolCardHandler.setColorOfPickedDie(die.getColor());
     }
 
+    /**
+     * Asks the tool card handler to choose a die die the window pattern
+     */
     public void chooseDieFromWindowPattern() {
         toolCardHandler.chooseDieFromWindowPattern();
     }
 
+    /**
+     * Asks the tool card handler to choose two dice from the window pattern
+     */
     public void chooseTwoDieFromWindowPatter() {
         toolCardHandler.chooseTwoDieFromWindowPatter();
     }
 
+    /**
+     * Asks the tool card handler to choose a die from the draft pool
+     */
     public void chooseDieFromDraftPool() {
         toolCardHandler.chooseDieFromDraftPool();
     }
 
+    /**
+     * Asks the tool card handler to choose  a die from the round track
+     */
     public void chooseDieFromRoundTrack() {
         toolCardHandler.chooseDieFromRoundTrack();
     }
 
+    /**
+     * Asks the tool card handler to choose  if decrease or increase te value of the die previously chosen
+     */
     public void chooseIfDecrease() {
         toolCardHandler.chooseIfDecrease();
     }
 
+    /**
+     * Asks the tool card handler to choose  if place the die in the draft pool or on the window pattern
+     */
     public void chooseIfPlaceDie() {
         toolCardHandler.chooseIfPlaceDie();
     }
 
+    /**
+     * Asks the tool card handler to choose  if to move one die or two
+     */
     public void chooseToMoveOneDie() {
         //if he chooses to move just one die everythingIsOk is set to false so the tool card won't keep performing effects
         toolCardHandler.chooseToMoveOneDie();
     }
 
+    /**
+     * Asks the tool card handler to set the value die
+     */
     public void setValue() {
         toolCardHandler.setValue();
     }
 
+    /**
+     * Asks the tool card handler to set the number of the new coordinates
+     */
     public void setNewCoordinates() {
         toolCardHandler.setNewCoordinates();
     }
 
+    /**
+     * Checks if the move is valid, if it is:
+     * If the die needs to be placed, add the die to the window pattern, otherwise move the die
+     * if the move is not valid set everything ok to false to terminate the tool card
+     *
+     * @param newRow
+     * @param newColumn
+     */
     public void completeProcessMove(int newRow, int newColumn) {
         if (!place) {
             if (player.getPlayerWindow().dieCount() == 1) {
                 player.getPlayerWindow().setOneDie(true);
             }
         }
-        MoveValidator moveValidator = new MoveValidator(getTurn(), getRound().getDraftPool(), number, color, adjacency);
+        MoveValidator moveValidator = new MoveValidator(getTurn(), number, color, adjacency);
         if (moveValidator.validateMove(die, newRow, newColumn, player)) {
             if (!adjacency || place) {
                 player.getPlayerWindow().addDie(die, newRow, newColumn);
@@ -356,6 +442,12 @@ public class ToolCard implements Card {
 
     }
 
+    /**
+     * Assign to die the die of the given coordinates on the tool
+     *
+     * @param oldRow
+     * @param oldColumn
+     */
     public void completeChooseDieFromWindowPattern(int oldRow, int oldColumn) {
         die = player.getPlayerWindow().getCellAt(oldRow, oldColumn).getDie();
         everythingOk = true;
@@ -464,7 +556,7 @@ public class ToolCard implements Card {
     }
 
     public void completeProcessTwoMoves(int row, int column, int secondRow, int secondColumn) {
-        MoveValidator moveValidator = new MoveValidator(getTurn(), getRound().getDraftPool(), number, color, adjacency);
+        MoveValidator moveValidator = new MoveValidator(getTurn(), number, color, adjacency);
         if (player.getPlayerWindow().dieCount() == 2) {
             player.getPlayerWindow().setOneDie(true);
         }

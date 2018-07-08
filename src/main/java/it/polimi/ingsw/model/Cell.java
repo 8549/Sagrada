@@ -12,6 +12,10 @@ public class Cell implements Serializable {
         empty = true;
     }
 
+    /**
+     * Checks if the cell is empty
+     * @return true if it's empty, false if there's a die
+     */
     public boolean isEmpty() {
 
         return empty;

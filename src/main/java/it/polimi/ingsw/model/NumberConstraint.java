@@ -13,6 +13,12 @@ public class NumberConstraint implements PatternConstraint {
         this.number = number;
     }
 
+    /**
+     * Check if the die abides by the color constraint
+     * @param die
+     * @param modifier
+     * @return true if the number of the die is the same as the number of the constraint, false otherwise
+     */
     @Override
     public boolean checkConstraint(Die die, CheckModifier modifier) {
         if (modifier.equals(CheckModifier.NONUMBER)){
@@ -20,6 +26,12 @@ public class NumberConstraint implements PatternConstraint {
         return number == die.getNumber();
     }
 
+    /**
+     * Get the appropriate graphic JavaFX Node for the constraint
+     *
+     * @param size
+     * @return a JavaFX Node representing the constraint
+     */
     @Override
     public Node getAsGraphic(double size) {
         Image img = new Image("images/shades/" + number + "@4x.png");
@@ -37,6 +49,11 @@ public class NumberConstraint implements PatternConstraint {
         return new JsonPrimitive(number);
     }
 
+    /**
+     * Gets a string representation of the constraint
+     *
+     * @return the representation of the number of the constraint
+     */
     @Override
     public String toCLI() {
         return "" + number;

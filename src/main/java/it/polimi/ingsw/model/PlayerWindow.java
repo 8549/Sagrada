@@ -19,6 +19,10 @@ public class PlayerWindow implements Serializable {
 
     }
 
+    /**
+     * Checks if there are any die on the grid
+     * @return true if there aren't any, false otherwise
+     */
     public boolean isFirstPlacement(){
         for (int i = 0; i < WindowPattern.ROWS; i++){
             for (int j = 0; j < WindowPattern.COLUMNS; j++) {
@@ -67,10 +71,10 @@ public class PlayerWindow implements Serializable {
     /**
      * Move die from the old coordinate to the new coordinate
      *
-     * @param oldRow
-     * @param oldColumn
-     * @param newRow
-     * @param newColumn
+     * @param oldRow row where the die is
+     * @param oldColumn column where the die is
+     * @param newRow row where the die should be moved
+     * @param newColumn column where the due should be moved
      * @return True if the die was moved, otherwise false
      */
     public boolean moveDie(int oldRow, int oldColumn, int newRow, int newColumn) {
@@ -86,7 +90,10 @@ public class PlayerWindow implements Serializable {
         return windowPattern;
     }
 
-
+    /**
+     * Counts how many die there are on the grid
+     * @return the number of die that are on the grid
+     */
     public int dieCount() {
         return (int) Arrays.stream(diceGrid)
                 .flatMap(Arrays::stream)
@@ -94,7 +101,10 @@ public class PlayerWindow implements Serializable {
                 .count();
     }
 
-
+    /**
+     * Counts how many empty cells there are on the grid
+     * @return the number of empty cell
+     */
     public int emptyCount() {
         return (int) Arrays.stream(diceGrid)
                 .flatMap(Arrays::stream)
@@ -102,7 +112,6 @@ public class PlayerWindow implements Serializable {
                 .count();
 
     }
-
 
     public boolean setWindowPattern(WindowPattern windowPattern){
         if(windowPattern!=null) {

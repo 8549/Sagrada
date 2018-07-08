@@ -10,18 +10,28 @@ public abstract class ObjCard implements Card, Serializable{
     ObjectiveCardType type;
     ObjectiveCardWhere where;
     PatternConstraint[] rules;
-    boolean repeat;
     Prize prize;
     int numberOfDice;
     int numberOfTimes;
 
+    /**
+     * Counts points earned according to the public or private objective card selected
+     * @param grid
+     * @return points earned with public or private objective cards
+     */
     public abstract int checkObjective(Cell[][] grid);
 
     public String getName(){
         return this.name;
     }
 
-
+    /**
+     * Counts how many repetitions there are for every number
+     * @param num1 0 if it needs to be checked every die's repetitions, a number between 1 and 6 otherwise
+     * @param num2 0 if it needs to be checked every die's repetitions, a number between 1 and 6 otherwise
+     * @param grid
+     * @return the minimum number of repetitions between every number if num1, num2=0, otherwise between num1, num2
+     */
     public int setOfShades(int num1, int num2, Cell[][] grid) {
         int numbers[] = new int[6];
         int repetitions;
@@ -50,6 +60,11 @@ public abstract class ObjCard implements Card, Serializable{
 
     }
 
+    /**
+     *Counts the number of repetitions for every shade and returns the minor number of occurrence
+     * @param grid
+     * @return number of repetitions of the color with the minor number of occurrence
+     */
     public int setOfColors(Cell[][] grid) {
         Map<SagradaColor, Integer> colorMap = new HashMap<>();
         for (SagradaColor color : SagradaColor.values()) {
@@ -72,6 +87,11 @@ public abstract class ObjCard implements Card, Serializable{
 
     }
 
+    /**
+     * Controls if a given row is empty
+     * @param row
+     * @return true if it's empty, false otherwise
+     */
     private boolean hasEmptyCells(Cell[] row) {
         for (Cell c : row) {
             if (c.isEmpty()) {
@@ -81,6 +101,11 @@ public abstract class ObjCard implements Card, Serializable{
         return false;
     }
 
+    /**
+     * Counts how many rows have all dice with different number
+     * @param grid
+     * @return the number of rows that have all dice with different number
+     */
     public int rowNumberVariety(Cell[][] grid) {
         int repetitions = 0;
         for (Cell[] row : grid) {
@@ -96,7 +121,11 @@ public abstract class ObjCard implements Card, Serializable{
         return repetitions;
     }
 
-
+    /**
+     * Counts how many columns have all dice with different number
+     * @param grid
+     * @return the number of columns that have all dice with different number
+     */
     public int columnNumberVariety(Cell[][] grid) {
         int repetitions = 0;
         Cell[] col;
@@ -117,6 +146,11 @@ public abstract class ObjCard implements Card, Serializable{
         return repetitions;
     }
 
+    /**
+     * Counts how many rows have all dice with different color
+     * @param grid
+     * @return the number of rows that have all dice with different color
+     */
     public int rowColorVariety(Cell[][] grid) {
         int repetitions = 0;
         for (Cell[] row : grid) {
@@ -132,6 +166,11 @@ public abstract class ObjCard implements Card, Serializable{
         return repetitions;
     }
 
+    /**
+      * Counts how many columns have all dice with different color
+     * @param grid
+     * @return the number of columns that have all dice with different color
+     */
     public int columnColorVariety(Cell[][] grid) {
         int repetitions = 0;
         Cell[] col;
@@ -152,6 +191,11 @@ public abstract class ObjCard implements Card, Serializable{
         return repetitions;
     }
 
+    /**
+     * Counts how many dice are in diagonals
+     * @param grid
+     * @return the number of dice that are in diagonals
+     */
     public int diagonalsVariety(Cell[][] grid) {
         int repetitions = 0;
         boolean diagonals[][] = new boolean[WindowPattern.ROWS][WindowPattern.COLUMNS];
@@ -202,6 +246,12 @@ public abstract class ObjCard implements Card, Serializable{
         return repetitions;
     }
 
+    /**
+     *  Adds the value of every die in the grid with a given color
+     * @param grid
+     * @param color
+     * @return the sum of the values of every die in the grid with a given color
+     */
     public int sumColors(Cell[][] grid, SagradaColor color) {
         int sum = 0;
         int dice = 0;

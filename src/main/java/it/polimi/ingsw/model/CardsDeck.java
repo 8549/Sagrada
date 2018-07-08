@@ -36,6 +36,11 @@ public class CardsDeck  {
 
     }
 
+    /**
+     * It returns a WindowPattern with the same name as the one given
+     * @param name
+     * @return windowPattern with the same name as the one given
+     */
     public static WindowPattern getWindowPatternByName(String name) {
         List<? extends Card> deck;
         try (JsonReader reader = new JsonReader(new InputStreamReader(CardsDeck.class.getClassLoader().getResourceAsStream("PatternCards.json")))) {

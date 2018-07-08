@@ -292,7 +292,7 @@ public class GameManager {
             server.notifyMoveNotAvailable();
             System.out.println("[DEBUG] Die already placed, can't place another or a toolCard is in use");
         } else {
-            MoveValidator mv = new MoveValidator(round.getTurn(), round.getDraftPool(), true, true, true);
+            MoveValidator mv = new MoveValidator(round.getTurn(), true, true, true);
             boolean result = mv.validateMove(die, row, column, player);
             if (result) {
                 timer.cancel();

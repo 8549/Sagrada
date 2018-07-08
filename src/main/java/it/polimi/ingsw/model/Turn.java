@@ -40,6 +40,9 @@ public class Turn {
         return toolCardUsed = true;
     }
 
+    /**
+     * Sets the number at 2
+     */
     public void modifyTurn() {
         number = 2;
     }

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class Round {
         return turns.get(currentTurn);
     }
 
+
     public void setTurns() {
         turns = new ArrayList<>();
         for (int i = 0; i < players.size(); i++) {
@@ -44,7 +46,11 @@ public class Round {
 
     }
 
-
+    /**
+     * Adds the second turn of the given turn right after the end of the given turn
+     * removes the second turn of the given of turn from it's original place
+     * @param turn: the number of the turn which needs to be doubled
+     */
     public void doubledTurn(int turn) {
         if (turn < players.size()) {
             turns.add(turn + 1, turns.get(turn));
@@ -54,7 +60,9 @@ public class Round {
         }
     }
 
-
+    /**
+     * Adds one to current turr
+     */
     public void passCurrentTurn() {
         currentTurn++;
     }
@@ -75,6 +83,10 @@ public class Round {
         return draftPool;
     }
 
+    /**
+     * Removes the given die from the draft pool
+     * @param die the die that needs to be removed
+     */
     public void removeDieFromDraftPool(Die die){
         draftPool.remove(die);
     }
