@@ -27,6 +27,7 @@ public class GameManager {
     private boolean timerIsRunning = false;
     private Timer timer;
     private int turnTimeout;
+    private boolean gameHasEnded = false;
 
 
     public GameManager(MainServer server, List<Player> players) {
@@ -152,7 +153,7 @@ public class GameManager {
         if (playersWithPoints.size() == 1) {
             server.notifyScore(playersWithPoints);
         } else {
-            playersWithPoints.sort((p1, p2) -> Integer.compare(p1.getPoints(), p2.getPoints()));
+            playersWithPoints.sort((p1, p2) -> Integer.compare(p2.getPoints(), p1.getPoints()));
             server.notifyScore(playersWithPoints);
         }
 
@@ -195,7 +196,10 @@ public class GameManager {
                 endCurrentTurn();
             }
         } else {
-            endGame();
+            if (!gameHasEnded) {
+                gameHasEnded = true;
+                endGame();
+            }
         }
     }
 
@@ -220,7 +224,10 @@ public class GameManager {
         if (numberCurrentRound <= ROUNDS) {
             startRound();
         } else {
-            endGame();
+            if (!gameHasEnded) {
+                gameHasEnded = true;
+                endGame();
+            }
         }
     }
 

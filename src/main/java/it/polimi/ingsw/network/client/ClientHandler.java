@@ -613,9 +613,13 @@ public class ClientHandler implements Serializable {
     }
 
     public void handleDisconnection(){
-        ui.handleReconnection();
-
-        System.out.println("[DEBUG] You are disconnected! ");
+        Runnable task = new Runnable() {
+            @Override
+            public void run() {
+                ui.handleReconnection();
+            }
+        };
+        perform(task);
     }
 
     public void handleUpdateGrid(String name, int row, int column, Die d){
