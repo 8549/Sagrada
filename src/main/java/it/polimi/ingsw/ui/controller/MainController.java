@@ -96,7 +96,7 @@ public class MainController {
      * @param size the size for the representation
      * @return a node representing the supplied die
      */
-    public static Node drawDie(Die d, double size) {
+    static Node drawDie(Die d, double size) {
         GridPane cont = new GridPane();
         cont.getStyleClass().add("die");
         cont.setBackground(new Background(new BackgroundFill(d.getColor().getColor(), new CornerRadii(GUI.ROUND_CORNER_RADIUS), Insets.EMPTY)));
@@ -154,7 +154,7 @@ public class MainController {
      * @param size the size for the mark
      * @return a node representing a mark of a die
      */
-    public static Node getDieMark(double size) {
+    private static Node getDieMark(double size) {
         Circle mark = new Circle(size);
         mark.setFill(Color.BLACK);
         mark.setOpacity(0.84);
@@ -323,7 +323,7 @@ public class MainController {
             });
         }
         WindowPatternController c = controllers.get(gui.getModel().getMyself());
-        c.setClickableCells(gui.getModel().isMyTurn(), new EventHandler<MouseEvent>() {
+        c.setClickableCells(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 int i = GridPane.getRowIndex((Node) event.getSource());
@@ -599,7 +599,7 @@ public class MainController {
     public void cleanUI() {
         //TODO IMPLEMENT THIS
         for (WindowPatternController c : controllers.values()) {
-            c.setClickableCells(true, null);
+            c.setClickableCells(null);
         }
     }
 
@@ -823,14 +823,14 @@ public class MainController {
             @Override
             public void handle(MouseEvent event) {
                 dialog.hide();
-                gui.getClientHandler().sendPlacementChoice(true);
+                gui.getClientHandler().sendNumberDiceChoice(false);
             }
         });
         moveTwoBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 dialog.hide();
-                gui.getClientHandler().sendPlacementChoice(false);
+                gui.getClientHandler().sendNumberDiceChoice(true);
             }
         });
 

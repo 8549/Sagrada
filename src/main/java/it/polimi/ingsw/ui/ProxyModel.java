@@ -9,7 +9,7 @@ import javafx.collections.ObservableList;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProxyModel  {
+public class ProxyModel {
     private ObservableList<Die> draftPool = FXCollections.observableArrayList();
     private Player myself;
     private Player currentPlayer;
@@ -17,19 +17,17 @@ public class ProxyModel  {
     private IntegerProperty currentRound;
     private IntegerProperty currentTurn;
     private List<ObjCard> publicObjectiveCards = new ArrayList<>();
-
-    public List<ToolCard> getToolCards() {
-        return toolCards;
-    }
-
     private List<ToolCard> toolCards = new ArrayList<>();
     private RoundTrack roundTrack;
     private int timeout;
-
     public ProxyModel() {
         roundTrack = new RoundTrack();
         this.currentRound = new SimpleIntegerProperty(-1);
         this.currentTurn = new SimpleIntegerProperty(-1);
+    }
+
+    public List<ToolCard> getToolCards() {
+        return toolCards;
     }
 
     /**
@@ -45,8 +43,27 @@ public class ProxyModel  {
         return draftPool;
     }
 
+    /**
+     * Clears the current draft pool and sets a new one
+     *
+     * @param draftPool a list of dice
+     */
+    public void setDraftPool(List<Die> draftPool) {
+        this.draftPool.clear();
+        this.draftPool.addAll(draftPool);
+    }
+
     public Player getCurrentPlayer() {
         return currentPlayer;
+    }
+
+    /**
+     * Updates the current {@link Player}. This method is called every turn
+     *
+     * @param player the new current player
+     */
+    public void setCurrentPlayer(Player player) {
+        this.currentPlayer = player;
     }
 
     public List<ObjCard> getPublicObjectiveCards() {
@@ -62,7 +79,7 @@ public class ProxyModel  {
      *
      * @param d
      */
-    public void addDiceToRoundTrack(List<Die> d){
+    public void addDiceToRoundTrack(List<Die> d) {
         roundTrack.addRound(d);
     }
 
@@ -90,19 +107,19 @@ public class ProxyModel  {
         return currentTurn;
     }
 
-    public void setPlayer(Player p){
-        this.myself= p;
-    }
-
-    public void setTimeout(int timeout){
-        this.timeout= timeout;
+    public void setPlayer(Player p) {
+        this.myself = p;
     }
 
     public int getTimeout() {
         return timeout;
     }
 
-    public Player getMyself(){
+    public void setTimeout(int timeout) {
+        this.timeout = timeout;
+    }
+
+    public Player getMyself() {
         return myself;
     }
 
@@ -129,9 +146,9 @@ public class ProxyModel  {
      *
      * @param p the player to remove
      */
-    public void removePlayer (Player p){
-        for(Player player : players){
-            if(player.getName().equals(p.getName())){
+    public void removePlayer(Player p) {
+        for (Player player : players) {
+            if (player.getName().equals(p.getName())) {
                 players.remove(player);
                 break;
             }
@@ -146,14 +163,14 @@ public class ProxyModel  {
      */
     public void resetPlayers(List<Player> l) {
         players.clear();
-        for (Player p : l){
-            if(!p.getName().equals(getMyself().getName())){
+        for (Player p : l) {
+            if (!p.getName().equals(getMyself().getName())) {
                 players.add(p);
             }
         }
     }
 
-    public ObservableList<Player> getPlayers(){
+    public ObservableList<Player> getPlayers() {
         return this.players;
     }
 
@@ -171,7 +188,7 @@ public class ProxyModel  {
      *
      * @param publicObjectiveCards a list containing the public objective cards for this game
      */
-    public void addPubObjCards(List<PublicObjectiveCard> publicObjectiveCards){
+    public void addPubObjCards(List<PublicObjectiveCard> publicObjectiveCards) {
         this.publicObjectiveCards.addAll(publicObjectiveCards);
     }
 
@@ -180,31 +197,13 @@ public class ProxyModel  {
      *
      * @param tools a list containing the tool cards for this game
      */
-    public void addToolCard(List<ToolCard> tools){
+    public void addToolCard(List<ToolCard> tools) {
         this.toolCards.addAll(tools);
     }
 
     /**
-     * Clears the current draft pool and sets a new one
-     *
-     * @param draftPool a list of dice
-     */
-    public void setDraftPool(List<Die> draftPool){
-        this.draftPool.clear();
-        this.draftPool.addAll(draftPool);
-    }
-
-    /**
-     * Updates the current {@link Player}. This method is called every turn
-     *
-     * @param player the new current player
-     */
-    public void setCurrentPlayer(Player player){
-        this.currentPlayer= player;
-    }
-
-    /**
      * Retrieves a {@link Player} by their name
+     *
      * @param name the name of the player to find
      * @return the {@link Player} with the same name supplied if it exits, a mock player instance with the name set to
      * "PlayerNotFound"

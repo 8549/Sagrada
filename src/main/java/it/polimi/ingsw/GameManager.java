@@ -20,7 +20,7 @@ public class GameManager {
     private Player firstPlayer;
     private Player currentPlayer;
     private Board board;
-    public static final int ROUNDS = 2;
+    public static final int ROUNDS = 10;
     private int numberCurrentRound;
     private Round round;
     private boolean hasMoved = false;

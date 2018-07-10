@@ -78,13 +78,13 @@ public class WindowPatternController {
         }
     }
 
-    public void setClickableCells(boolean b, EventHandler<MouseEvent> handler) {
+    void setClickableCells(EventHandler<MouseEvent> handler) {
         for (Node stackPane : patternGrid.getChildren()) {
             stackPane.setOnMouseClicked(handler);
         }
     }
 
-    public void removeNameAndTokens() {
+    void removeNameAndTokens() {
         main.getChildren().remove(bottom);
     }
 
