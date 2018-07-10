@@ -40,6 +40,8 @@ public class GUI extends Application implements UI {
     public static final double TILE_RELATIVE_SIZE = CHOOSER_TILE_SIZE / 1920.0;
     public static final double BOARD_RELATIVE_HEIGHT = 600.0 / 1080.0;
     public static final double BOARD_RELATIVE_WIDTH = 350.0 / 1920.0;
+    public static final double PATTERN_CARD_RELATIVE_X = 28.0 / 398.0;
+    public static final double PATTERN_CARD_RELATIVE_Y = 602.0 / 904.0;
     public static final double ROUND_CORNER_RADIUS = 10.0 / CHOOSER_TILE_SIZE * BASE_TILE_SIZE;
     public static final double DIE_RELATIVE_SPACER = 5.0 / CHOOSER_TILE_SIZE;
     public static final double TOKEN_RELATIVE_SIZE = 7.0 / CHOOSER_TILE_SIZE;
@@ -329,7 +331,7 @@ public class GUI extends Application implements UI {
                             stage.setWidth(initialWidth);
                             stage.setHeight(initialHeight);
                         }
-                        mainController.resizeAll();
+                        //mainController.resizeAll();
                     }
                 };
                 stage.widthProperty().addListener(sizeListener);

@@ -375,7 +375,8 @@ public class MainController {
                 AnchorPane p = new AnchorPane();
                 p.getStylesheets().add(getClass().getClassLoader().getResource("windowpattern.css").toExternalForm());
                 p.getChildren().add(0, imgView);
-                AnchorPane.setTopAnchor(root, GUI.BOARD_RELATIVE_HEIGHT * imgView.getFitHeight());
+                AnchorPane.setTopAnchor(root, GUI.PATTERN_CARD_RELATIVE_Y * imgView.getFitHeight());
+                AnchorPane.setLeftAnchor(root, GUI.PATTERN_CARD_RELATIVE_X * imgView.getFitWidth() - 4);
                 root.layout();
                 p.getChildren().add(1, root);
                 anchorPanes.put(players.get(i), p);
@@ -562,13 +563,13 @@ public class MainController {
      * Tries to place a scheme card along with its dice in the middle of a board (glass window with the top arch)
      */
     public void repositionBoards() {
-        for (AnchorPane p : anchorPanes.values()) {
+        /*for (AnchorPane p : anchorPanes.values()) {
             ImageView v = ((ImageView) p.getChildren().get(0));
             VBox c = ((VBox) p.getChildren().get(1));
             double offset = (v.getFitWidth() - c.getWidth()) / 2.0;
             AnchorPane.setLeftAnchor(c, offset);
-            AnchorPane.setLeftAnchor(c, offset); //TODO FIX THIS
-        }
+            AnchorPane.setLeftAnchor(c, offset);
+        }*/
     }
 
     /**

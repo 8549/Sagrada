@@ -9,7 +9,7 @@
   -fx-border-color: black;
 }
 .patternCardContainer {
-  -fx-border-color: transparent;
+  -fx-border-color: black;
   -fx-border-width: 3;
   -fx-background-color: black;
 }
