@@ -579,8 +579,10 @@ public class MainController {
     public void enableActions(boolean myTurn) {
         for (Node b : fxButtonContainer.getChildren()) {
             if (myTurn) {
+                b.setCursor(Cursor.HAND);
                 b.setDisable(false);
             } else {
+                b.setCursor(Cursor.DEFAULT);
                 b.setDisable(true);
             }
         }
