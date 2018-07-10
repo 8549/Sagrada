@@ -22,7 +22,6 @@ public interface RMIServerInterface extends ServerInterface, Remote {
     void passTurn (String name) throws RemoteException;
     void requestTool(String name, String tool) throws RemoteException;
 
-    RMIServerInterface getNewStub() throws RemoteException;
 
     /**
      * Response from client of effect of Toolcard

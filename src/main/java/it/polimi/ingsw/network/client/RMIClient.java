@@ -154,10 +154,6 @@ public class RMIClient implements RMIClientInterface, Serializable {
         ch.setTools(tools);
     }
 
-    @Override
-    public void setEndPoint(RMIServerInterface server) {
-        this.server = server;
-    }
 
     @Override
     public void updateOpponentsInfo(List<Player> players) {
@@ -176,8 +172,8 @@ public class RMIClient implements RMIClientInterface, Serializable {
     }
 
     @Override
-    public void moveTimeOut() {
-        ch.moveTimeIsOut();
+    public void moveTimeOut(Player p) {
+        ch.moveTimeIsOut(p);
     }
 
     @Override
@@ -350,6 +346,11 @@ public class RMIClient implements RMIClientInterface, Serializable {
     @Override
     public void finishUpdate(String name) {
         ch.finishUpdate(name);
+    }
+
+    @Override
+    public void notifyMoveNotAvailable() throws RemoteException {
+        ch.notifyMoveNotAvailable();
     }
 
 

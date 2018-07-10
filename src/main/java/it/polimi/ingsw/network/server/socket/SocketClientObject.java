@@ -5,21 +5,17 @@ import it.polimi.ingsw.model.PatternCard;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PublicObjectiveCard;
 import it.polimi.ingsw.network.server.ClientObject;
-import it.polimi.ingsw.network.server.ServerInterface;
 
 import java.util.List;
 
 import static it.polimi.ingsw.GameManager.PUBLIC_OBJ_CARDS_NUMBER;
 
 public class SocketClientObject implements ClientObject {
-    private ServerInterface server;
     private Player player;
-    List<ClientObject> clients;
-    SocketServer.SocketHandler socketHandler;
+    SocketHandler socketHandler;
 
-    public SocketClientObject(Player player, ServerInterface server, SocketServer.SocketHandler socketHandler){
+    public SocketClientObject(Player player, SocketHandler socketHandler){
         this.player = player;
-        this.server = server;
         this.socketHandler = socketHandler;
     }
 
@@ -140,8 +136,8 @@ public class SocketClientObject implements ClientObject {
     }
 
     @Override
-    public void notifyEndTimeOut() {
-        socketHandler.send("update", "moveTimer","TimeIsOut" );
+    public void notifyEndTimeOut(Player p) {
+        socketHandler.send("update", "moveTimer",p.getName() );
     }
 
     @Override

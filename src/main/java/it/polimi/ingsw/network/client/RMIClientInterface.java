@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.Die;
 import it.polimi.ingsw.model.PatternCard;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PublicObjectiveCard;
-import it.polimi.ingsw.network.server.RMI.RMIServerInterface;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -39,10 +38,9 @@ public interface RMIClientInterface extends ClientInterface, Remote {
 
     void initTools(List<String> names) throws RemoteException;
 
-    void setEndPoint(RMIServerInterface server) throws RemoteException;
     void updateOpponentsInfo(List<Player> players) throws RemoteException;
     void moveResponse(String name, boolean response, Die d, int row, int column) throws RemoteException;
-    void moveTimeOut()throws RemoteException;
+    void moveTimeOut(Player p)throws RemoteException;
     void endCurrentTurn(String name) throws RemoteException;
     void endRound(List<Die> dice) throws RemoteException;
 
@@ -89,7 +87,6 @@ public interface RMIClientInterface extends ClientInterface, Remote {
 
     void sendTwoNewCoordinates(int row1, int col1, int row2, int col2) throws RemoteException;
 
-
     void nextMove() throws RemoteException;
 
     void pushTokens(String name, String tool, int cost) throws RemoteException;
@@ -111,4 +108,7 @@ public interface RMIClientInterface extends ClientInterface, Remote {
     void endGame(List<Player> players) throws RemoteException;
 
     void finishUpdate(String name) throws RemoteException;
+
+    void notifyMoveNotAvailable() throws RemoteException;
+
 }

@@ -1,7 +1,5 @@
 package it.polimi.ingsw.network.server.socket;
 
-
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -11,7 +9,6 @@ public class SocketParser {
     private static final int TYPE = 0;
     private static final int HEADER = 1;
     private static final int DATA = 2;
-    private static final int END = 3;
 
     public void parseInput(String input){
         if (input !=null) {

@@ -53,21 +53,12 @@ public class SocketClient implements ClientInterface {
     }
 
 
-
-    public String getGameStatus() {
-        return gameStatus.get();
-    }
-
-    public StringProperty gameStatusProperty() {
-        return gameStatus;
-    }
-
     public ObservableList<PatternCard> getPatternCards() {
         return patternCards;
     }
 
 
-    public String processInput(String type, String header, String data){
+    public void processInput(String type, String header, String data){
         if (type.equals("response")){
             switch(header) {
                 case "login":
@@ -207,7 +198,7 @@ public class SocketClient implements ClientInterface {
                         break;
 
                     case "moveTimer":
-                        ch.moveTimeIsOut();
+                        ch.moveTimeIsOut(ch.getModel().getByName(data));
                         break;
 
                     case "endTurn": ch.endTurn(data);
@@ -304,6 +295,9 @@ public class SocketClient implements ClientInterface {
                     case "finishUpdate": ch.finishUpdate(data);
                         break;
 
+                    case "moveNotAvailable": ch.notifyMoveNotAvailable();
+                        break;
+
                     default: break;
 
 
@@ -357,7 +351,6 @@ public class SocketClient implements ClientInterface {
                 }
         }
 
-        return null;
     }
 
 
@@ -366,6 +359,7 @@ public class SocketClient implements ClientInterface {
 
     }
 
+    @Override
     public void validatePatternCard(WindowPattern windowPattern) {
         socketHandlerClient.send("request","patterncard", windowPattern.getName());
 
@@ -461,14 +455,13 @@ public class SocketClient implements ClientInterface {
     private class SocketHandlerClient extends Thread {
         private BufferedReader in;
         private PrintWriter out;
-        SocketClient client;
-        Socket socket;
-        SocketParser socketParser;
+        private SocketClient client;
+        private Socket socket;
+        private SocketParser socketParser;
 
         private SocketHandlerClient(SocketClient client, Socket socket) throws IOException {
             this.client = client;
             this.socket = socket;
-            //this.socket.setSoTimeout(200000);
             socketParser = new SocketParser();
                 in = new BufferedReader(
                         new InputStreamReader(socket.getInputStream()));
@@ -486,7 +479,9 @@ public class SocketClient implements ClientInterface {
                             System.out.println("Connection with server established");
                         }else{
                             socketParser.parseInput(input);
-                            String out = processInput(socketParser.getType(), socketParser.getHeader(), socketParser.getData());
+                            processInput(socketParser.getType(), socketParser.getHeader(), socketParser.getData());
+
+
                         }
                     }
                 }

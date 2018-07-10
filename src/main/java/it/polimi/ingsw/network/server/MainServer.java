@@ -501,11 +501,11 @@ public class MainServer {
         gm.processMove(d, row, column, p);
     }
 
-    public void moveTimeOut(){
+    public void moveTimeOut(Player p){
         for(ClientObject c : inGameClients){
             try {
                 if(c.getPlayer().getName().equals(gm.getCurrentPlayer().getName())){
-                   c.notifyEndTimeOut();
+                   c.notifyEndTimeOut(p);
                 }
             } catch (IOException e) {
                 e.getMessage();

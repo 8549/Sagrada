@@ -8,6 +8,11 @@ import it.polimi.ingsw.model.PublicObjectiveCard;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * This interface contains all the methods used to send comunuication from server to clients.
+ * Since every client could be implemented in a different way, this interface let the server
+ * not to care about the implementation
+ */
 public interface ClientObject {
     void pushPlayers(List<Player> players) throws IOException;
 
@@ -35,7 +40,7 @@ public interface ClientObject {
 
     void notifyMoveResponse(boolean response, String name, Die d, int row, int column) throws IOException;
 
-    void notifyEndTimeOut() throws IOException;
+    void notifyEndTimeOut(Player p) throws IOException;
 
     void notifyEndTurn(Player p) throws IOException;
 

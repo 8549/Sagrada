@@ -394,7 +394,8 @@ public class GameManager {
                 public void run() {
                     if (!hasMoved) {
                         timerIsRunning = false;
-                        server.moveTimeOut();
+                        getCurrentPlayer().setStatus(PlayerStatus.DISCONNECTED);
+                        server.moveTimeOut(getCurrentPlayer());
                         endCurrentTurn();
                     }
                 }

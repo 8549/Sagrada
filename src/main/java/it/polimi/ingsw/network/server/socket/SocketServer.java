@@ -68,7 +68,7 @@ public class SocketServer implements ServerInterface {
         if (type.equals("request")) {
             switch (header) {
                 case "login":
-                    SocketClientObject client = new SocketClientObject(new Player(data), this, s);
+                    SocketClientObject client = new SocketClientObject(new Player(data), s);
                     PlayerStatus result = server.addClient(client);
                     if(result.equals(PlayerStatus.ACTIVE)){
                         s.send("response", "login", "true");
@@ -98,10 +98,10 @@ public class SocketServer implements ServerInterface {
                     server.handleMove(d, Integer.valueOf(c.get(2)), Integer.valueOf(c.get(3)), s.getClient().getPlayer());
                     break;
                 case "passTurn":
-                    server.passTurn(s.client.getPlayer().getName());
+                    server.passTurn(s.getClient().getPlayer().getName());
                     break;
                 case "tool":
-                    server.useTool(s.client.getPlayer().getName(), data);
+                    server.useTool(s.getClient().getPlayer().getName(), data);
                     break;
                 default:
                     System.out.println("Wrong message!");
@@ -196,92 +196,10 @@ public class SocketServer implements ServerInterface {
         return null;
     }
 
-    private void removeClient(ClientObject client) {
+    public void removeClient(ClientObject client) {
         server.disconnect(client);
     }
 
-
-    /**
-     * This thread handles socket requests
-     */
-    public class SocketHandler extends Thread {
-        private Socket socket;
-        private SocketParser socketParser;
-        private BufferedReader in;
-        private PrintWriter out;
-        private ClientObject client;
-        private SocketServer socketServer;
-
-        public SocketHandler(Socket socket, SocketServer server) {
-            this.socketServer = server;
-            this.socket = socket;
-            try {
-                this.socket.setSoTimeout(200000);
-            } catch (SocketException e) {
-                e.getMessage();
-            }
-            log("New connection at " + socket);
-            socketParser = new SocketParser();
-        }
-
-        public void run() {
-            try {
-
-                in = new BufferedReader(
-                        new InputStreamReader(socket.getInputStream()));
-                out = new PrintWriter(socket.getOutputStream(), true);
-
-                // Send a welcome message to the client.
-                out.println("Hello from socketServer");
-
-                // Get messages from the client, line by line;
-                while (true) {
-                    String input = in.readLine();
-                    if (input == null) {
-                        break;
-                    } else {
-                        System.out.println("Client message: " + input);
-                        socketParser.parseInput(input);
-                        processInput(socketParser.getType(), socketParser.getHeader(), socketParser.getData(), this);
-                    }
-                }
-            } catch (IOException e) {
-                log("Error handling client");
-                e.getMessage();
-            } finally {
-                try {
-                    log("Connection with " + client.getPlayer().getName() + " closed");
-                    socket.close();
-                    socketServer.removeClient(client);
-                } catch (IOException e) {
-                    log("Couldn't close a socket, what's going on?");
-                }
-
-            }
-        }
-
-        /**
-         * Log writes the message on socketServer's standard output
-         */
-        private void log(String message) {
-            System.out.println(message);
-        }
-
-        public synchronized boolean send(String type, String header, String s) {
-            out.println(type + "-" + header + "-" + s + "-end");
-            return true;
-        }
-
-        private synchronized ClientObject getClient() {
-            return this.client;
-        }
-
-        private synchronized void setClient(ClientObject client) {
-            this.client = client;
-        }
-
-
-    }
 
 
 }

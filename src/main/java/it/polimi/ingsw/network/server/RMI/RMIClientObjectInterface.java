@@ -40,7 +40,7 @@ public interface RMIClientObjectInterface extends ClientObject, Remote {
 
     void answerLogin(boolean response) throws RemoteException;
 
-    void notifyEndTimeOut() throws RemoteException;
+    void notifyEndTimeOut(Player p) throws RemoteException;
 
     void notifyEndTurn(Player p) throws RemoteException;
 

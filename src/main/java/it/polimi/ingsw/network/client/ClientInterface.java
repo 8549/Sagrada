@@ -39,6 +39,5 @@ public interface ClientInterface  {
 
     public void sendTwoNewCoordinates(int row1, int col1, int row2, int col2) throws IOException;
 
-
     void requestTool(ToolCard tool) throws IOException;
 }

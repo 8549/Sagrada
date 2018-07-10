@@ -5,7 +5,6 @@ import it.polimi.ingsw.model.PatternCard;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PublicObjectiveCard;
 import it.polimi.ingsw.network.client.RMIClientInterface;
-import it.polimi.ingsw.network.server.ServerInterface;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -14,7 +13,6 @@ import java.util.List;
 
 public class RMIClientObject implements RMIClientObjectInterface {
     private RMIClientInterface client;
-    private ServerInterface server;
     private Player player;
 
     public RMIClientObject(Player player, RMIClientInterface client){
@@ -173,8 +171,8 @@ public class RMIClientObject implements RMIClientObjectInterface {
     }
 
     @Override
-    public void notifyEndTimeOut() throws RemoteException {
-        client.moveTimeOut();
+    public void notifyEndTimeOut(Player p) throws RemoteException {
+        client.moveTimeOut(p);
     }
 
     @Override
@@ -311,6 +309,7 @@ public class RMIClientObject implements RMIClientObjectInterface {
 
     @Override
     public void notifyMoveNotAvailable() {
+
     }
 
 

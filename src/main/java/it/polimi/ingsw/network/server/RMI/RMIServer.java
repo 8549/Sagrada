@@ -21,7 +21,6 @@ import java.util.TimerTask;
 public class RMIServer  implements RMIServerInterface {
     List<ClientObject> users ;
     MainServer server;
-    RMIServerInterface stub;
     List<RMIServerInterface> objs= new ArrayList<>();
 
     public RMIServer(List<ClientObject> users, MainServer server) {
@@ -123,11 +122,6 @@ public class RMIServer  implements RMIServerInterface {
     }
 
     @Override
-    public RMIServerInterface getNewStub() throws RemoteException {
-        return getEndPoint();
-    }
-
-    @Override
     public void setDieFromWP(int row, int column) {
         server.getActiveToolCardHandler().setDieFromWindowPattern(row, column);
     }
@@ -184,7 +178,7 @@ public class RMIServer  implements RMIServerInterface {
     }
 
     private class Ping implements Runnable{
-        RMIClientObjectInterface client;
+        private RMIClientObjectInterface client;
 
         public Ping(RMIClientObjectInterface client){
             this.client=client;
