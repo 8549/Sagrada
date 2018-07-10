@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * This thread handles socket requests
@@ -41,14 +43,15 @@ public class SocketHandler extends Thread implements SoxketHandlerInterface {
                 // Send a welcome message to the client.
                 out.println("Hello from socketServer");
                 messageQueue.start();
-
+                Ping ping = new Ping(this);
+                ping.start();
                 // Get messages from the client, line by line;
                 while (true) {
                     String input = in.readLine();
                     if (input != null) {
                         System.out.println("Client message: " + input);
                         if(input.equals("pingResponse---end")){
-                            socketServer.clientPing();
+                            ping.setIsAlive(true);
                         }else{
                             messageQueue.add(input);
                         }
@@ -91,5 +94,63 @@ public class SocketHandler extends Thread implements SoxketHandlerInterface {
         this.client = client;
     }
 
+
+
+
+    private class Ping extends Thread{
+        boolean[] isAlive = {false};
+        Timer timer2 = new Timer();
+        final boolean[] isTimerRunning = {false};
+        SocketHandler socketHandler;
+
+        public  Ping(SocketHandler socketHandler){
+            this.socketHandler=socketHandler;
+        }
+
+        @Override
+        public void run() {
+
+            isAlive[0] =false;
+            Timer timer1 = new Timer();
+
+            timer1.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    socketHandler.send("ping","","");
+                    System.out.println("[DEBUG] Ping sent");
+                    isTimerRunning[0]= true;
+                    synchronized (timer2){
+                        if(timer2 ==null){
+                            timer2= new Timer();
+                        }
+                    }
+                    timer2.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            if (!isAlive[0]) {
+                                try {
+                                    System.out.println("[DEBUG] Client " + socketHandler.getClient().getPlayer().getName() + " disconnected");
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                isTimerRunning[0] = false;
+                                socketServer.removeClient(client);
+                                this.cancel();
+                                timer1.cancel();
+
+                            }else{
+                                isAlive[0]= false;
+                            }
+                        }
+                    }, 5*1000);
+                }
+            },  0, 20 * 1000 );
+        }
+
+        public void setIsAlive(boolean isAlive){
+            this.isAlive[0]= isAlive;
+
+        }
+    }
 
 }

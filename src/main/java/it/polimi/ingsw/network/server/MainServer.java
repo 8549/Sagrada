@@ -504,23 +504,39 @@ public class MainServer {
     public void moveTimeOut(Player p){
         for(ClientObject c : inGameClients){
             try {
-                if(c.getPlayer().getName().equals(gm.getCurrentPlayer().getName())){
-                   c.notifyEndTimeOut(p);
+                if(!c.getPlayer().getName().equals(p.getName())){
+                    c.notifyEndTimeOut(p);
                 }
             } catch (IOException e) {
                 e.getMessage();
             }
         }
+
+        try {
+            getClientByName(p.getName()).notifyEndTimeOut(p);
+        } catch (IOException e) {
+            e.getMessage();
+        }
+
     }
 
     public void notifyEndTurn(Player p){
         for(ClientObject c : inGameClients){
             try {
-                c.notifyEndTurn(gm.getCurrentPlayer());
+                if(!c.getPlayer().getName().equals(p.getName())){
+                    c.notifyEndTurn(p);
+                }
             } catch (IOException e) {
                 e.getMessage();
             }
         }
+
+        try {
+            getClientByName(p.getName()).notifyEndTurn(p);
+        } catch (IOException e) {
+            e.getMessage();
+        }
+
     }
     public void notifyEndRound( List<Die> dice){
         for(ClientObject c: inGameClients){

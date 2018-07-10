@@ -17,8 +17,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+
 
 import static it.polimi.ingsw.network.server.MainServer.DEFAULT_SOCKET_PORT;
 
@@ -28,8 +27,8 @@ public class SocketServer implements ServerInterface, SocketInterface {
     private List<ClientObject> users;
     private List<SocketHandler> socketClients = new ArrayList<>();
     private SoxketHandlerInterface socketHandler;
-    private Ping ping;
     MainServer server;
+    int ids=0;
 
     public SocketServer(List<ClientObject> users, MainServer server) {
         this.users = users;
@@ -63,8 +62,6 @@ public class SocketServer implements ServerInterface, SocketInterface {
 
     @Override
     public boolean clientPing() {
-        ping.setIsAlive(true);
-
         return true;
     }
 
@@ -73,7 +70,8 @@ public class SocketServer implements ServerInterface, SocketInterface {
         if (type.equals("request")) {
             switch (header) {
                 case "login":
-                    SocketClientObject client = new SocketClientObject(new Player(data), s);
+                    SocketClientObject client = new SocketClientObject(new Player(data), s, ids);
+                    ids = ids + 1;
                     PlayerStatus result = server.addClient(client);
                     if(result.equals(PlayerStatus.ACTIVE)){
                         s.send("response", "login", "true");
@@ -81,8 +79,6 @@ public class SocketServer implements ServerInterface, SocketInterface {
                         server.addLoggedPlayer(client.getPlayer());
                         s.setClient(client);
                         server.checkTimer();
-                        ping = new Ping(client);
-                        ping.start();
 
                     }else if(result.equals(PlayerStatus.ALREADYINGAME) || result.equals(PlayerStatus.NOTINGAME)){
                         s.send("response", "login", "Login failed");
@@ -204,59 +200,9 @@ public class SocketServer implements ServerInterface, SocketInterface {
 
     public void removeClient(ClientObject client) {
         server.disconnect(client);
+
     }
 
-    private class Ping extends Thread{
-        private SocketClientObject client;
-        boolean[] isAlive = {false};
-        Timer timer2 = new Timer();
-        final boolean[] isTimerRunning = {false};
 
-
-        public Ping(SocketClientObject client){
-            this.client=client;
-        }
-
-        @Override
-        public void run() {
-
-            isAlive[0] =false;
-            Timer timer1 = new Timer();
-
-            timer1.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    client.ping();
-                    System.out.println("[DEBUG] Ping sent");
-                    isTimerRunning[0]= true;
-                    synchronized (timer2){
-                        if(timer2 ==null){
-                            timer2= new Timer();
-                        }
-                    }
-                    timer2.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            if (!isAlive[0]) {
-                                System.out.println("[DEBUG] Client " + client.getPlayer().getName() + " disconnected");
-                                isTimerRunning[0] = false;
-                                server.disconnect(client);
-                                this.cancel();
-                                timer1.cancel();
-
-                            }else{
-                                isAlive[0]= false;
-                            }
-                        }
-                    }, 5*1000);
-                }
-            },  0, 20 * 1000 );
-        }
-
-        public void setIsAlive(boolean isAlive){
-            this.isAlive[0]= isAlive;
-
-        }
-    }
 
 }

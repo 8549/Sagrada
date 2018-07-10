@@ -13,14 +13,18 @@ import static it.polimi.ingsw.GameManager.PUBLIC_OBJ_CARDS_NUMBER;
 
 public class SocketClientObject implements ClientObject {
     private Player player;
+    int id;
     SoxketHandlerInterface socketHandler;
 
-    public SocketClientObject(Player player, SoxketHandlerInterface socketHandler){
+    public SocketClientObject(Player player, SoxketHandlerInterface socketHandler, int id){
         this.player = player;
         this.socketHandler = socketHandler;
+        this.id= id;
     }
 
-
+    public int getId(){
+            return this.id;
+    }
     @Override
     public void pushPlayers(List<Player> players) {
         String data ="";
@@ -301,7 +305,4 @@ public class SocketClientObject implements ClientObject {
         socketHandler.send("update", "finishUpdate", name);
     }
 
-    public void ping() {
-        socketHandler.send("ping","", "");
-    }
 }
