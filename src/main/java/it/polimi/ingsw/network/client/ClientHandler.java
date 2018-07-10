@@ -288,10 +288,10 @@ public class ClientHandler implements Serializable {
                     }
                 }
                 if (response) {
-//                    System.out.println("[DEBUG] Server response: Correct move!");
+                    System.out.println("[DEBUG] Server response: Correct move!");
                     player.getPlayerWindow().addDie(d, row, column);
                 } else {
-//                    System.out.println("[DEBUG] Server response: Wrong Move of player : " + name);
+                    System.out.println("[DEBUG] Server response: Wrong Move of player : " + name);
                     if(proxyModel.getMyself().getName().equals(name)){
                         ui.wrongMove();
                     }
@@ -301,7 +301,7 @@ public class ClientHandler implements Serializable {
         perform(task);
     }
 
-    public void moveTimeIsOut() {
+    public void moveTimeIsOut(Player p) {
         Runnable task = new Runnable() {
             @Override
             public void run() {
@@ -316,10 +316,10 @@ public class ClientHandler implements Serializable {
             @Override
             public void run() {
                 if (proxyModel.getMyself().equals(name)) {
-//                    System.out.println("[DEBUG] Your turn is ended ");
+                    System.out.println("[DEBUG] Your turn is ended ");
                     ui.myTurnEnded();
                 } else {
-//                    System.out.println("[DEBUG] Player " + name + " has finished his/her turn");
+                    System.out.println("[DEBUG] Player " + name + " has finished his/her turn");
                 }
             }
         };
@@ -336,7 +336,7 @@ public class ClientHandler implements Serializable {
                         try {
                             client.passTurn();
                         } catch (IOException e) {
-                            e.getMessage();
+                            e.printStackTrace();
                         }
                     }
                 }.start();
@@ -350,7 +350,7 @@ public class ClientHandler implements Serializable {
         try {
             client.requestTool(tool);
         } catch (IOException e) {
-            e.getMessage();
+            e.printStackTrace();
             handleDisconnection();
         }
     }
@@ -380,7 +380,7 @@ public class ClientHandler implements Serializable {
         try {
             client.sendDieFromWP(d, row, column);
         } catch (IOException e) {
-            e.getMessage();
+            e.printStackTrace();
             handleDisconnection();
         }
     }
@@ -565,9 +565,7 @@ public class ClientHandler implements Serializable {
         Runnable task = new Runnable() {
             @Override
             public void run() {
-                if(name.equals(proxyModel.getMyself().getName())){
-
-                }
+                ui.turnChanged(proxyModel.getByName(name));
             }
         };
         perform(task);
@@ -617,7 +615,7 @@ public class ClientHandler implements Serializable {
     public void handleDisconnection(){
         //todo prompt login after disconnection
 
-//        System.out.println("[DEBUG] You are disconnected! ");
+        System.out.println("[DEBUG] You are disconnected! ");
     }
 
     public void handleUpdateGrid(String name, int row, int column, Die d){
@@ -647,13 +645,7 @@ public class ClientHandler implements Serializable {
     }
 
     public void endGame(List<Player> players){
-        Runnable task = new Runnable() {
-            @Override
-            public void run() {
-                ui.endGame(players);
-            }
-        };
-        perform(task);
+        ui.endGame(players);
     }
 
     public void finishUpdate(String name){
@@ -673,5 +665,8 @@ public class ClientHandler implements Serializable {
         perform(task);
 
     }
+
+    public void notifyMoveNotAvailable(){}
+
 }
 
