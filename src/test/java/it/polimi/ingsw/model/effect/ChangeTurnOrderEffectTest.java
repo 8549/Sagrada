@@ -84,12 +84,12 @@ class ChangeTurnOrderEffectTest {
             features.add(effect12);
             effectIterator = features.iterator();
             everythingOk = true;
+            gameManager = new GameManagerMock(board.getPlayers());
         }
 
         public void setToolCardHandlerbis(ToolCard toolCard) {
             MainServerMock mainServerMock = new MainServerMock();
-            GameManager gm = new GameManager(board.getPlayers());
-            toolCardHandler = new ToolCardHandlerMock(player, gm, mainServerMock, toolCard);
+            toolCardHandler = new ToolCardHandlerMock(player, gameManager, mainServerMock, toolCard);
         }
 
 
@@ -120,6 +120,17 @@ class ChangeTurnOrderEffectTest {
 
         }
 
+    }
+
+    public class GameManagerMock extends GameManager{
+
+
+        public GameManagerMock(List<Player> players) {
+            super( players);
+        }
+
+        @Override
+        public void endCurrentTurn() { }
     }
 
     private class ToolCardHandlerMock extends ToolCardHandler {

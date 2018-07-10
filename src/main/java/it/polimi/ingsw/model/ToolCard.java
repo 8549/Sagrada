@@ -591,6 +591,7 @@ public class ToolCard implements Card {
         return gameManager.getBoard();
     }
 
+    public GameManager getGameManager(){ return gameManager; }
     public MainServer getServer() {
         return gameManager.getServer();
     }
