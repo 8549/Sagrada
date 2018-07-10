@@ -934,7 +934,11 @@ public class CLI implements UI {
 
     @Override
     public void turnChanged(Player p) {
-        System.out.println(p.getName() + "will play two turns in a row, but will skip the next one!");
+        if (p.equals(model.getMyself())) {
+            System.out.println("You will play two turns in a row, but will skip the next one!");
+        } else {
+            System.out.println(p.getName() + "will play two turns in a row, but will skip the next one!");
+        }
     }
 
     @Override

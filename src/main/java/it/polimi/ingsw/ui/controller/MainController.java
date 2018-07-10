@@ -278,6 +278,7 @@ public class MainController {
                     int i = fxToolCardsContainer.getChildren().indexOf(event.getSource());
                     for (Node n : fxToolCardsContainer.getChildren()) {
                         n.setCursor(Cursor.DEFAULT);
+                        enableActions(false);
                         n.setOnMouseClicked(null);
                     }
                     gui.getClientHandler().useTool(gui.getModel().getToolCards().get(i));

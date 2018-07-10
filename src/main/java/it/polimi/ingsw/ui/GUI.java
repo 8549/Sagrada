@@ -309,6 +309,7 @@ public class GUI extends Application implements UI {
                     if (model.isMyTurn()) {
                         showMessage(String.format("It's turn %d of round %d. You're playing!", model.getCurrentTurn() + 1, model.getCurrentRound()));
                     } else {
+                        mainController.enableActions(false);
                         showMessage(String.format("It's turn %d of round %d. %s is playing!", model.getCurrentTurn() + 1, model.getCurrentRound(), model.getCurrentPlayer().getName()));
                     }
                 };
@@ -449,6 +450,7 @@ public class GUI extends Application implements UI {
     @Override
     public void toolEnded(boolean success) {
         Platform.runLater(() -> {
+            mainController.enableActions(true);
             if (success) {
                 toolEndedMessage = "The tool card succeeded!";
             } else {
@@ -459,7 +461,13 @@ public class GUI extends Application implements UI {
 
     @Override
     public void turnChanged(Player p) {
-        Platform.runLater(() -> showMessage(p.getName() + " will play two turns in a row, but will skip the next one!"));
+        Platform.runLater(() -> {
+            if (p.equals(model.getMyself())) {
+                showMessage("You will play two turns in a row, but will skip the next one!");
+            } else {
+                showMessage(p.getName() + " will play two turns in a row, but will skip the next one!");
+            }
+        });
     }
 
     @Override
