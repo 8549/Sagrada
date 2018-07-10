@@ -2,22 +2,21 @@ package it.polimi.ingsw.network.client;
 
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.model.*;
-import it.polimi.ingsw.network.server.socket.SocketParser;
+import it.polimi.ingsw.network.SocketInterface;
+import it.polimi.ingsw.network.SocketParser;
+import it.polimi.ingsw.network.SoxketHandlerInterface;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class SocketClient implements ClientInterface {
+public class SocketClient implements ClientInterface, SocketInterface {
     private Player player;
     Socket socket;
     int port;
@@ -38,7 +37,7 @@ public class SocketClient implements ClientInterface {
         port = portNumber;
         // Make connection and initialize streams
         socket = new Socket(serverAddress, port);
-        socketHandlerClient = new SocketHandlerClient(this, socket);
+        socketHandlerClient = new SocketHandlerClient(this, socket, ch);
         socketHandlerClient.start();
 
     }
@@ -58,7 +57,8 @@ public class SocketClient implements ClientInterface {
     }
 
 
-    public void processInput(String type, String header, String data){
+    @Override
+    public void processInput(String type, String header, String data, SoxketHandlerInterface socketHandler) throws IOException{
         if (type.equals("response")){
             switch(header) {
                 case "login":
@@ -452,49 +452,8 @@ public class SocketClient implements ClientInterface {
         socketHandlerClient.send("request","tool", tool.getName());
     }
 
-    private class SocketHandlerClient extends Thread {
-        private BufferedReader in;
-        private PrintWriter out;
-        private SocketClient client;
-        private Socket socket;
-        private SocketParser socketParser;
-
-        private SocketHandlerClient(SocketClient client, Socket socket) throws IOException {
-            this.client = client;
-            this.socket = socket;
-            socketParser = new SocketParser();
-                in = new BufferedReader(
-                        new InputStreamReader(socket.getInputStream()));
-                out = new PrintWriter(socket.getOutputStream(), true);
-        }
-        public synchronized void run(){
-            // Get messages from the server, line by line;
-            System.out.println("client is listening");
-            try {
-
-                while (true) {
-                    String input = in.readLine();
-                    if (input != null) {
-                        if (input.equals("Hello from server")) {
-                            System.out.println("Connection with server established");
-                        }else{
-                            socketParser.parseInput(input);
-                            processInput(socketParser.getType(), socketParser.getHeader(), socketParser.getData());
 
 
-                        }
-                    }
-                }
-            }catch (IOException e){
-                System.out.println("Error while handlig client socket");
-                ch.handleDisconnection();
-            }
-        }
 
-        public boolean send(String type, String header, String s){
-            out.println(type + "-" + header + "-" + s + "-end");
-            return true;
-        }
-    }
 }
 

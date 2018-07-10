@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.Die;
 import it.polimi.ingsw.model.PatternCard;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PublicObjectiveCard;
+import it.polimi.ingsw.network.SoxketHandlerInterface;
 import it.polimi.ingsw.network.server.ClientObject;
 
 import java.util.List;
@@ -12,9 +13,9 @@ import static it.polimi.ingsw.GameManager.PUBLIC_OBJ_CARDS_NUMBER;
 
 public class SocketClientObject implements ClientObject {
     private Player player;
-    SocketHandler socketHandler;
+    SoxketHandlerInterface socketHandler;
 
-    public SocketClientObject(Player player, SocketHandler socketHandler){
+    public SocketClientObject(Player player, SoxketHandlerInterface socketHandler){
         this.player = player;
         this.socketHandler = socketHandler;
     }
@@ -298,5 +299,9 @@ public class SocketClientObject implements ClientObject {
     @Override
     public void notifyFinishUpdate(String name) {
         socketHandler.send("update", "finishUpdate", name);
+    }
+
+    public void ping() {
+        socketHandler.send("ping","", "");
     }
 }

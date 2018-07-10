@@ -61,7 +61,7 @@ public class RMIServer  implements RMIServerInterface {
 
     public void pingClient(RMIClientObjectInterface client){
        Ping ping = new Ping(client);
-       ping.run();
+       ping.start();
     }
 
     @Override
@@ -177,7 +177,7 @@ public class RMIServer  implements RMIServerInterface {
         return true;
     }
 
-    private class Ping implements Runnable{
+    private class Ping extends Thread{
         private RMIClientObjectInterface client;
 
         public Ping(RMIClientObjectInterface client){
@@ -197,17 +197,21 @@ public class RMIServer  implements RMIServerInterface {
                     try {
                         if(!isTimerRunning[0]) {
                             isTimerRunning[0] = true;
-                            //System.out.println("[DEBUG] Ping Sent");
+                            System.out.println("[DEBUG] RMI Ping Sent");
                             isAlive[0] = client.ping();
 
                         }else{
                             isAlive[0] = false;
-                            //System.out.println("[DEBUG] Ping sent");
+                            System.out.println("[DEBUG] RMI Ping sent");
                             timer2.schedule(new TimerTask() {
                                 @Override
                                 public void run() {
                                     if (!isAlive[0]) {
-                                        System.out.println("[DEBUG] Client disconnected");
+                                        try {
+                                            System.out.println("[DEBUG] Client " + client.getPlayer().getName() + " disconnected");
+                                        } catch (RemoteException e) {
+                                            e.printStackTrace();
+                                        }
                                         this.cancel();
                                         timer1.cancel();
                                         isTimerRunning[0] = false;
@@ -215,7 +219,7 @@ public class RMIServer  implements RMIServerInterface {
 
                                     }
                                 }
-                            }, 8*1000);
+                            }, 5 * 1000);
                             isAlive[0] = client.ping();
 
                         }
@@ -227,7 +231,7 @@ public class RMIServer  implements RMIServerInterface {
                         server.disconnect(client);
                     }
                 }
-            }, 4 * 1000, 5 * 1000 );
+            },  0, 20 * 1000 );
         }
     }
 

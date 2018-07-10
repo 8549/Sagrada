@@ -5,28 +5,30 @@ import it.polimi.ingsw.model.Die;
 import it.polimi.ingsw.model.Player;
 import it.polimi.ingsw.model.PlayerStatus;
 import it.polimi.ingsw.model.SagradaColor;
+import it.polimi.ingsw.network.SocketInterface;
+import it.polimi.ingsw.network.SocketParser;
+import it.polimi.ingsw.network.SoxketHandlerInterface;
+import it.polimi.ingsw.network.client.SocketClient;
 import it.polimi.ingsw.network.server.ClientObject;
 import it.polimi.ingsw.network.server.MainServer;
 import it.polimi.ingsw.network.server.ServerInterface;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static it.polimi.ingsw.network.server.MainServer.DEFAULT_SOCKET_PORT;
 
-public class SocketServer implements ServerInterface {
+public class SocketServer implements ServerInterface, SocketInterface {
 
     private SocketParser socketParserServer = new SocketParser();
     private List<ClientObject> users;
     private List<SocketHandler> socketClients = new ArrayList<>();
-
+    private SoxketHandlerInterface socketHandler;
+    private Ping ping;
     MainServer server;
 
     public SocketServer(List<ClientObject> users, MainServer server) {
@@ -46,6 +48,7 @@ public class SocketServer implements ServerInterface {
                 if (!socketClients.contains(socketHandler)) {
                     socketClients.add(socketHandler);
                 }
+                this.socketHandler = socketHandler;
                 socketHandler.start();
 
             }
@@ -60,11 +63,13 @@ public class SocketServer implements ServerInterface {
 
     @Override
     public boolean clientPing() {
-        return false;
+        ping.setIsAlive(true);
+
+        return true;
     }
 
-
-    public synchronized String processInput(String type, String header, String data, SocketHandler s) throws IOException {
+    @Override
+    public synchronized void processInput(String type, String header, String data, SoxketHandlerInterface s) throws IOException {
         if (type.equals("request")) {
             switch (header) {
                 case "login":
@@ -76,6 +81,8 @@ public class SocketServer implements ServerInterface {
                         server.addLoggedPlayer(client.getPlayer());
                         s.setClient(client);
                         server.checkTimer();
+                        ping = new Ping(client);
+                        ping.start();
 
                     }else if(result.equals(PlayerStatus.ALREADYINGAME) || result.equals(PlayerStatus.NOTINGAME)){
                         s.send("response", "login", "Login failed");
@@ -193,13 +200,63 @@ public class SocketServer implements ServerInterface {
             }
         }
 
-        return null;
     }
 
     public void removeClient(ClientObject client) {
         server.disconnect(client);
     }
 
+    private class Ping extends Thread{
+        private SocketClientObject client;
+        boolean[] isAlive = {false};
+        Timer timer2 = new Timer();
+        final boolean[] isTimerRunning = {false};
 
+
+        public Ping(SocketClientObject client){
+            this.client=client;
+        }
+
+        @Override
+        public void run() {
+
+            isAlive[0] =false;
+            Timer timer1 = new Timer();
+
+            timer1.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    client.ping();
+                    System.out.println("[DEBUG] Ping sent");
+                    isTimerRunning[0]= true;
+                    synchronized (timer2){
+                        if(timer2 ==null){
+                            timer2= new Timer();
+                        }
+                    }
+                    timer2.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            if (!isAlive[0]) {
+                                System.out.println("[DEBUG] Client " + client.getPlayer().getName() + " disconnected");
+                                isTimerRunning[0] = false;
+                                server.disconnect(client);
+                                this.cancel();
+                                timer1.cancel();
+
+                            }else{
+                                isAlive[0]= false;
+                            }
+                        }
+                    }, 5*1000);
+                }
+            },  0, 20 * 1000 );
+        }
+
+        public void setIsAlive(boolean isAlive){
+            this.isAlive[0]= isAlive;
+
+        }
+    }
 
 }

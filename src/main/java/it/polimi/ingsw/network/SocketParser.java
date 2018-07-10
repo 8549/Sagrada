@@ -1,4 +1,4 @@
-package it.polimi.ingsw.network.server.socket;
+package it.polimi.ingsw.network;
 
 import java.util.ArrayList;
 import java.util.List;
