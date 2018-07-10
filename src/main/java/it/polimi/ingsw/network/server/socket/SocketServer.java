@@ -70,8 +70,7 @@ public class SocketServer implements ServerInterface, SocketInterface {
         if (type.equals("request")) {
             switch (header) {
                 case "login":
-                    SocketClientObject client = new SocketClientObject(new Player(data), s, ids);
-                    ids = ids + 1;
+                    SocketClientObject client = new SocketClientObject(new Player(data), s);
                     PlayerStatus result = server.addClient(client);
                     if(result.equals(PlayerStatus.ACTIVE)){
                         s.send("response", "login", "true");

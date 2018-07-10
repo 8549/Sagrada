@@ -24,6 +24,7 @@ public class SocketHandler extends Thread implements SoxketHandlerInterface {
     private ClientObject client;
     private SocketServer socketServer;
     MessageQueue messageQueue;
+    Ping ping;
 
     public SocketHandler(Socket socket, SocketServer server) {
         this.socketServer = server;
@@ -43,7 +44,7 @@ public class SocketHandler extends Thread implements SoxketHandlerInterface {
                 // Send a welcome message to the client.
                 out.println("Hello from socketServer");
                 messageQueue.start();
-                Ping ping = new Ping(this);
+                ping = new Ping(this);
                 ping.start();
                 // Get messages from the client, line by line;
                 while (true) {
@@ -59,9 +60,10 @@ public class SocketHandler extends Thread implements SoxketHandlerInterface {
                 }
         } catch (IOException e) {
             log("Error handling client");
-            e.printStackTrace();
+            e.getMessage();
             try {
                 log("Connection with " + client.getPlayer().getName() + " closed");
+                ping.interrupt();
                 socket.close();
                 socketServer.removeClient(client);
             } catch (IOException e1) {
@@ -93,8 +95,6 @@ public class SocketHandler extends Thread implements SoxketHandlerInterface {
     public synchronized void setClient(ClientObject client) {
         this.client = client;
     }
-
-
 
 
     private class Ping extends Thread{
@@ -135,8 +135,8 @@ public class SocketHandler extends Thread implements SoxketHandlerInterface {
                                 }
                                 isTimerRunning[0] = false;
                                 socketServer.removeClient(client);
-                                this.cancel();
                                 timer1.cancel();
+                                timer2.cancel();
 
                             }else{
                                 isAlive[0]= false;

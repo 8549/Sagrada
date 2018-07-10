@@ -7,9 +7,7 @@ import it.polimi.ingsw.model.PublicObjectiveCard;
 import it.polimi.ingsw.network.client.RMIClientInterface;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class RMIClientObject implements RMIClientObjectInterface {
     private RMIClientInterface client;
@@ -311,6 +309,5 @@ public class RMIClientObject implements RMIClientObjectInterface {
     public void notifyMoveNotAvailable() {
 
     }
-
 
 }

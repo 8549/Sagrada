@@ -237,12 +237,6 @@ public class GameManager {
             if (player1.getName().equals(player.getName())) {
                 player1.setStatus(PlayerStatus.DISCONNECTED);
                 System.out.println("[DEBUG] Player " + player.getName() + "disconnected");
-            }else{
-                try {
-                    server.getClientByName(player.getName()).notifyPlayerDisconnection(player);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
             }
         }
         if (getCurrentPlayer().getName().equals(player.getName())) {
