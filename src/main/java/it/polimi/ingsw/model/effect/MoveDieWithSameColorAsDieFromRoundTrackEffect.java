@@ -24,6 +24,8 @@ public class MoveDieWithSameColorAsDieFromRoundTrackEffect extends Effect {
         } else {
             if (die.getColor() == board.getRoundTrack().getDieAt(turn, numberOfDie).getColor()) {
                 toolCard.processMoveWithoutConstraints(true, true, true, false);
+            } else {
+                toolCard.setResponse(false);
             }
         }
     }
