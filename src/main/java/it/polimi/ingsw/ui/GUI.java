@@ -135,6 +135,7 @@ public class GUI extends Application implements UI {
     public void showPatternCardsChooser(PatternCard one, PatternCard two) {
         Platform.runLater(() -> {
             stage.setTitle("Sagrada - Please choose your pattern card");
+            stage.setResizable(false);
             Button confirm = new Button("Confirm");
             confirm.setDisable(true);
             VBox main = new VBox();
@@ -288,6 +289,7 @@ public class GUI extends Application implements UI {
     public void initBoard() {
         Platform.runLater(() -> {
             stage.setTitle("Sagrada");
+            stage.setResizable(true);
             FXMLLoader boardLoader = new FXMLLoader(getClass().getClassLoader().getResource("views/main.fxml"));
             try {
                 Parent root = boardLoader.load();
@@ -362,6 +364,13 @@ public class GUI extends Application implements UI {
             timer = new Timeline(new KeyFrame(Duration.seconds(1), e -> secondsRemaining.set(getSecondsRemaining() - 1)));
             timer.setCycleCount(model.getTimeout());
             timer.play();
+        });
+    }
+
+    private void endTimer() {
+        Platform.runLater(() -> {
+            timer.stop();
+            secondsRemaining.set(0);
         });
     }
 
@@ -505,7 +514,7 @@ public class GUI extends Application implements UI {
 
     @Override
     public void endGame(List<Player> players) {
-        mainController.endGame(players);
+        Platform.runLater(() -> mainController.endGame(players));
     }
 
     /**

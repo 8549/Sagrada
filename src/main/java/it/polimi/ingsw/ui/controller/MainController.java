@@ -5,6 +5,7 @@ import it.polimi.ingsw.ui.GUI;
 import it.polimi.ingsw.ui.ProxyModel;
 import javafx.animation.FadeTransition;
 import javafx.animation.ScaleTransition;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -1085,7 +1086,7 @@ public class MainController {
             @Override
             public void handle(MouseEvent event) {
                 finalStage.hide();
-                gui.goodbye();
+                Platform.exit();
             }
         });
         Insets spacing = new Insets(20);
