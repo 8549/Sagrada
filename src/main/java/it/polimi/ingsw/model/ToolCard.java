@@ -160,7 +160,7 @@ public class ToolCard implements Card {
                     currentEffect.perform();
                     break;
                 case "chooseDieFromWindowPattern":
-                    currentEffect.perform(firstChoice, placeDie);
+                    currentEffect.perform();
                     break;
                 case "chooseDieValue":
                     currentEffect.perform(die);
@@ -424,13 +424,11 @@ public class ToolCard implements Card {
                 toolCardHandler.notifyAddDie(player, die, newRow, newColumn);
                 getTurn().setDiePlaced();
             } else if (!place) {
-                player.getPlayerWindow().getDiceGrid()[oldRow][oldColumn].removeDie();
                 player.getPlayerWindow().moveDie(oldRow, oldColumn, newRow, newColumn);
                 toolCardHandler.notifyMoveDie(player, die, oldRow, oldColumn, newRow, newColumn);
                 player.getPlayerWindow().setOneDie(false);
             }
             everythingOk = true;
-            firstChoice = false;
         } else {
             everythingOk = false;
 
@@ -447,7 +445,7 @@ public class ToolCard implements Card {
             }
 
 
-            if (!firstChoice && !moveOneDie) {
+            if (!firstChoice) {
                 everythingOk = true;
                 toolCardHandler.notifyPLayerOnlyOneDieWasMoved();
             }
@@ -536,6 +534,7 @@ public class ToolCard implements Card {
             everythingOk = true;
             endToolCard();
         }else {
+            firstChoice=false;
             checkHasNextEffect();
         }
 
