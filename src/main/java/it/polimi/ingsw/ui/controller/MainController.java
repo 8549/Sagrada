@@ -823,14 +823,14 @@ public class MainController {
             @Override
             public void handle(MouseEvent event) {
                 dialog.hide();
-                gui.getClientHandler().sendNumberDiceChoice(false);
+                gui.getClientHandler().sendNumberDiceChoice(true);
             }
         });
         moveTwoBtn.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
                 dialog.hide();
-                gui.getClientHandler().sendNumberDiceChoice(true);
+                gui.getClientHandler().sendNumberDiceChoice(false);
             }
         });
 

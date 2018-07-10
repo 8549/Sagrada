@@ -128,7 +128,6 @@ public class ToolCardHandler {
     }
 
     public void chooseToMoveOneDie() {
-        //if he chooses to move just one die everythingIsOk is set to false so the tool card won't keep performing effects
         for(ClientObject c : server.getInGameClients()){
             try {
                 if(c.getPlayer().getName().equals(player.getName())){

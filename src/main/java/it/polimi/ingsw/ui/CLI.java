@@ -639,9 +639,9 @@ public class CLI implements UI {
                 if (i == 1 || i == 2) {
                     validChoice = true;
                     if (i == 2) {
-                        handler.sendNumberDiceChoice(true);
-                    } else {
                         handler.sendNumberDiceChoice(false);
+                    } else {
+                        handler.sendNumberDiceChoice(true);
                     }
                 } else {
                     System.out.print("Please enter a valid choice. Do you want to move 1 or 2 dice? ");

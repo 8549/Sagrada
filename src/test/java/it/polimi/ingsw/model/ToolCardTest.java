@@ -500,6 +500,9 @@ class ToolCardTest {
 
 
         @Override
+        public void endToolCard(){}
+
+        @Override
         public Round getRound() {
             return round;
         }

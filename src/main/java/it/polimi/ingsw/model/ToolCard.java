@@ -250,7 +250,7 @@ public class ToolCard implements Card {
      * if the tool card worked it removes the gost of the tool card to the tokens of the player, sets that the player used the tool card
      * if the tool card worked and the player already did his move end turn, otherwise asks the  player for next move
      */
-    private void endToolCard() {
+    public void endToolCard() {
         getServer().notifyPlayerIfToolCardWorked(everythingOk);
         if (everythingOk) {
             getTurn().setToolCardUsed();
@@ -430,6 +430,7 @@ public class ToolCard implements Card {
                 player.getPlayerWindow().setOneDie(false);
             }
             everythingOk = true;
+            firstChoice = false;
         } else {
             everythingOk = false;
 
@@ -440,11 +441,17 @@ public class ToolCard implements Card {
             if (place) {
                 getBoard().getDraftPool().add(die);
                 toolCardHandler.updateDraftPool(getBoard().getDraftPool());
+                if (adjacency){
+                    everythingOk= true;
+                }
             }
+
+
             if (!firstChoice && !moveOneDie) {
                 everythingOk = true;
                 toolCardHandler.notifyPLayerOnlyOneDieWasMoved();
             }
+
         }
         checkHasNextEffect();
 
@@ -459,7 +466,6 @@ public class ToolCard implements Card {
     public void completeChooseDieFromWindowPattern(int oldRow, int oldColumn) {
         die = player.getPlayerWindow().getCellAt(oldRow, oldColumn).getDie();
         everythingOk = true;
-        firstChoice = false;
     }
 
     /**
@@ -526,7 +532,13 @@ public class ToolCard implements Card {
      */
     public void completeChoiceIfMoveOneDie(boolean choice) {
         moveOneDie = choice;
-        checkHasNextEffect();
+        if (!moveOneDie){
+            everythingOk = true;
+            endToolCard();
+        }else {
+            checkHasNextEffect();
+        }
+
     }
 
     /**

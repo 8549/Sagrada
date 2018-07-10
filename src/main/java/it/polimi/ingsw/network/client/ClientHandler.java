@@ -613,7 +613,7 @@ public class ClientHandler implements Serializable {
     }
 
     public void handleDisconnection(){
-        //todo prompt login after disconnection
+        ui.handleReconnection();
 
         System.out.println("[DEBUG] You are disconnected! ");
     }
