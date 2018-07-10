@@ -101,6 +101,9 @@ class MoveDieWithSameColorAsDieFromRoundTrackEffectTest {
         }
 
         @Override
+        public void checkHasNextEffect() {}
+
+        @Override
         public void chooseDieFromDraftPool() {
         }
 

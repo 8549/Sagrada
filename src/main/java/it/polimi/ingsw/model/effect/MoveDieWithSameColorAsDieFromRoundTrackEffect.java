@@ -26,6 +26,7 @@ public class MoveDieWithSameColorAsDieFromRoundTrackEffect extends Effect {
                 toolCard.processMoveWithoutConstraints(true, true, true, false);
             } else {
                 toolCard.setResponse(false);
+                toolCard.checkHasNextEffect();
             }
         }
     }
