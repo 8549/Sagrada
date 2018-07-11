@@ -585,7 +585,6 @@ public class ClientHandler implements Serializable {
 
     }
 
-    //todo: print with gui
     public void handleToolEnd(boolean response, String name){
         Runnable task = new Runnable() {
             @Override

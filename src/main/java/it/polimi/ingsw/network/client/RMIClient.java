@@ -36,7 +36,7 @@ public class RMIClient implements RMIClientInterface, Serializable {
     @Override
     public void login() throws RemoteException {
         Ping ping = new Ping(server);
-        ping.run();
+        ping.start();
         server.login(player,(RMIClientInterface) UnicastRemoteObject.exportObject(this,0));
     }
 
@@ -359,7 +359,7 @@ public class RMIClient implements RMIClientInterface, Serializable {
         server.requestTool(getName(),tool.getName());
     }
 
-    private class Ping implements Runnable{
+    private class Ping extends Thread{
         ServerInterface server;
 
         public Ping(ServerInterface server){
@@ -390,9 +390,9 @@ public class RMIClient implements RMIClientInterface, Serializable {
                                 public void run() {
                                     if (!isAlive[0]) {
 //                                        System.out.println("[DEBUG] Client disconnected");
-                                        this.cancel();
                                         timer1.cancel();
                                         isTimerRunning[0] = false;
+                                        timer2.cancel();
                                         if(!ch.getModel().getMyself().getStatus().equals(PlayerStatus.RECONNECTED))
                                             ch.handleDisconnection();
 

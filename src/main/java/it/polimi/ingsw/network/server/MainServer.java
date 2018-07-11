@@ -226,8 +226,8 @@ public class MainServer {
 
                 }else if (state.equals(ServerState.GAMESTARTED)){
                     try {
-                        connectedClients.remove(client);
-                        inGameClients.remove(client);
+                        connectedClients.remove(getClientByName(client.getPlayer().getName()));
+                        inGameClients.remove(getClientByName(client.getPlayer().getName()));
                         gm.disconnectPlayer(client.getPlayer());
                     } catch (IOException e) {
                         e.getMessage();
@@ -437,7 +437,7 @@ public class MainServer {
     public  void notifyBeginTurn(Player p, int round, int turn){
         for (ClientObject c : inGameClients){
             try {
-                if(!c.getPlayer().getName().equals(p.getName())) {
+                if(!c.getPlayer().getName().equals(p.getName()) && gm.getPlayerByName(c.getPlayer().getName()).getStatus().equals(PlayerStatus.ACTIVE) ) {
                 c.notifyTurn(p, round, turn);}
             } catch (IOException e) {
                 e.getMessage();
@@ -482,7 +482,7 @@ public class MainServer {
     public  void notifyPlacementResponse(boolean response, Player p, Die d, int row, int column){
         for(ClientObject c : inGameClients){
             try {
-                if(!c.getPlayer().getName().equals(p.getName())){
+                if(!c.getPlayer().getName().equals(p.getName()) && gm.getPlayerByName(c.getPlayer().getName()).getStatus().equals(PlayerStatus.ACTIVE) ){
                     c.notifyMoveResponse(response, p.getName(), d, row, column);
                 }
             } catch (IOException e) {
@@ -491,7 +491,10 @@ public class MainServer {
         }
 
         try {
-            getClientByName(p.getName()).notifyMoveResponse(response, p.getName(),d , row, column);
+            if(gm.getPlayerByName(p.getName()).getStatus().equals(PlayerStatus.ACTIVE) ){
+                getClientByName(p.getName()).notifyMoveResponse(response, p.getName(),d , row, column);
+
+            }
         } catch (IOException e) {
             e.getMessage();
         }
@@ -513,7 +516,9 @@ public class MainServer {
         }
 
         try {
-            getClientByName(p.getName()).notifyEndTimeOut(p);
+            if(p.getStatus().equals(PlayerStatus.ACTIVE)) {
+                getClientByName(p.getName()).notifyEndTimeOut(p);
+            }
         } catch (IOException e) {
             e.getMessage();
         }
@@ -532,7 +537,9 @@ public class MainServer {
         }
 
         try {
-            getClientByName(p.getName()).notifyEndTurn(p);
+            if(p.getStatus().equals(PlayerStatus.ACTIVE)){
+                getClientByName(p.getName()).notifyEndTurn(p);
+            }
         } catch (IOException e) {
             e.getMessage();
         }

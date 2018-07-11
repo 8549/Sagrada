@@ -366,20 +366,19 @@ public class GameManager {
         server.pushTools(board.getToolCards(), p);
 
         for (Player player : players) {
-            if (!player.getName().equals(p.getName())) {
-                for (int i = 0; i < WindowPattern.ROWS; i++) {
-                    for (int j = 0; j < WindowPattern.COLUMNS; j++) {
-                        if (!player.getPlayerWindow().getCellAt(i, j).isEmpty()) {
-                            try {
-                                c.updateGrid(i, j, player.getPlayerWindow().getCellAt(i, j).getDie(), p.getName());
-                            } catch (IOException e) {
-                                e.getMessage();
-                            }
+            for (int i = 0; i < WindowPattern.ROWS; i++) {
+                for (int j = 0; j < WindowPattern.COLUMNS; j++) {
+                    if (!player.getPlayerWindow().getCellAt(i, j).isEmpty()) {
+                        try {
+                            c.updateGrid(i, j, player.getPlayerWindow().getCellAt(i, j).getDie(), player.getName());
+                        } catch (IOException e) {
+                            e.getMessage();
                         }
-
                     }
+
                 }
             }
+
         }
 
         try {
