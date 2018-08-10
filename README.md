@@ -9,6 +9,9 @@ Team members:
 - Filippo Maria Benati (focus on UI)
 - Nicolò Brunello (focus on network layer)
 
+# Screenshot
+![Screenshot of the GUI client](/Deliverables/screenshot.PNG)
+
 # Implemented requisites
 We aim at the 30 mark so we implemented full rules + CLI + GUI + RMI + Socket + 1 F.A.
 We chose to implement the Dynamic Scheme Cards F.A.
